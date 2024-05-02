@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 18:08:30 by ohassani          #+#    #+#             */
-/*   Updated: 2024/05/01 18:29:55 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/05/02 13:38:27 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ char	*ft_strrchr(const char *s, int c);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_toupper(int c);
-int     ft_strcmp(char *s1, char *s2);
+int     ft_strcmp(const char *s1,const char *s2);
 
 #endif

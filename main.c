@@ -14,12 +14,12 @@ int main(int ac, char **av, char **env)
             printf("Failed the allocation\n");
             break;
         }
-    if(ft_strcmp (str, "env") == 0)
-    {
-        print_environment(data);
-    }
+        if (ft_strcmp(str, "env") == 0)
+        {
+             print_environment(data);
+        }
     ft_cd(str, &data);
-    ft_pwd(str);
+    // ft_pwd(str);
     // free(str);
     }
 }

@@ -1,4 +1,5 @@
 #include "minishell.h"
+
 t_data *find_node(t_data *data, char *key)
 {
     t_data *current = data;
@@ -47,27 +48,37 @@ void updatethepwd(t_data **data, char *path, char *oldpath)
 void ft_cd(char *str, t_data **data)
 {
     t_data *current = *data;
-    char cur[PATH_MAX];
-    char *dir;
-    dir = NULL;
-    while(current != NULL)
+    // char cur[PATH_MAX];
+    // char *dir;
+    // dir = NULL;
+    // while(current != NULL)
+    // {
+    //     if(ft_strcmp(current->key, "HOME") == 0)
+    //     {
+    //         dir = current->value;
+    //         break;
+    //     }
+    //     current= current->next;
+    // }
+    //     char *path = str + 3;
+    //     char *oldpath = getcwd(cur, sizeof(cur));
+    // if(ft_strcmp(str , "cd") == 0)
+    //     chdir(dir);
+    // else 
+    //     chdir(path);
+    // t_data *oldpath1 = find_node((*data), "OLDPWD");
+    // if(oldpath1 == NULL)
+    //     add_node(data, "OLDPWD", oldpath);
+    // else
+    //     updatethepwd(data, path, oldpath);
+    char **split = ft_split(str, ' ');
+
+    if (split[1] == NULL)
     {
-        if(ft_strcmp(current->key, "HOME") == 0)
-        {
-            dir = current->value;
-            break;
-        }
-        current= current->next;
+        chdir(current->value);
     }
-        char *path = str +3;
-        char *oldpath = getcwd(cur, sizeof(cur));
-    if(ft_strcmp(str , "cd") == 0)
-        chdir(dir);
-    else 
-        chdir(path);
-    t_data *oldpath1 = find_node((*data), "OLDPWD");
-    if(oldpath1 == NULL)
-        add_node(data, "OLDPWD", oldpath);
     else
-        updatethepwd(data, path, oldpath);
+    {
+
+    }
 }

@@ -41,7 +41,7 @@ void print_environment(t_data *data)
     t_data *current = data;
     while(current != NULL)
     {
-        printf("%s=%s\n", current->key, current->value);
+       printf("%s=%s\n", current->key, current->value);
         current = current->next;
     }
 }
