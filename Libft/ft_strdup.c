@@ -6,7 +6,7 @@
 /*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 19:47:38 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/02 11:35:44 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/02 17:42:17 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int ft_no_st_len(const char *str)
 	size = 0;
 	while (str[i])
 	{
-		if (str[i] != 32 && str[i] != 9)
+		if ((str[i] != 32 && str[i] != 9) || ft_isalpha(s[i+1]) == 1)
 			size++;
 		i++;
 	}
@@ -44,7 +44,7 @@ char	*ft_strdup(const char *s)
 		return (NULL);
 	while (i < len)
 	{
-		if (s[k] != 32 && s[k] != 9)
+		if ((s[k] != 32 && s[k] != 9) || ft_isalpha(s[k+1]) == 1)
 		{
 			ptr[i] = s[k];
 			i++;
@@ -52,5 +52,6 @@ char	*ft_strdup(const char *s)
 		k++;
 	}
 	ptr[i] = '\0';
+	free(s);
 	return (ptr);
 }

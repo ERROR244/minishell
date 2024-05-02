@@ -2,11 +2,12 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -w -ggdb3 -fsanitize=address -lreadline #-Werror -v
+CFLAGS = -Wall -Wextra -w -ggdb3 -lreadline -fsanitize=address #-Werror -v
 
 SRCS = minishell.c Libft/ft_split.c Libft/ft_putstr_fd.c\
 		Libft/ft_strjoin.c Libft/ft_strdup.c Libft/ft_strlen.c\
 		Libft/ft_putchar_fd.c Libft/ft_strnstr.c Libft/ft_strncmp.c\
+		Libft/ft_isalpha.c\
 
 OBJ = $(SRCS:.c=.o)
 

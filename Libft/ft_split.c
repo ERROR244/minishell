@@ -6,7 +6,7 @@
 /*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/02 11:49:05 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/02 17:26:29 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ char	**ft_split(char const *s)
 
 	if (s == NULL)
 		return (NULL);
-	s = ft_strdup(s);
 	word_count = count_words(s);
 	ptr = malloc((word_count + 1) * sizeof(char *));
 	if (ptr == NULL)
@@ -120,19 +119,18 @@ char	**ft_split(char const *s)
 		return (NULL);
 	}
 	ptr = split(s, 0, ptr, 1);
-	free((char *)s);
 	return (ptr);
 }
 
-// void free_split_array(char **split_array)
-// {
-//     char **ptr = split_array;
-//     while (*ptr) {
-//         free(*ptr);
-//         ptr++;
-//     }
-//     free(split_array);
-// }
+void free_split_array(char **split_array)
+{
+    char **ptr = split_array;
+    while (*ptr) {
+        free(*ptr);
+        ptr++;
+    }
+    free(split_array);
+}
 
 // int main(int ac, char **av)
 // {
