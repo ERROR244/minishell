@@ -3,18 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 11:39:24 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/04/28 11:47:54 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/02 10:39:58 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include <stdint.h>
 # include <unistd.h>
+# include <stdarg.h>
 # include <stdlib.h>
+# include <stdio.h>
+# include <fcntl.h>
 
 typedef struct s_list
 {
@@ -22,6 +26,20 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
+int		print_ch(char c);
+int		print_str(char *str);
+int		print_i_d(long long i);
+int		print_u(unsigned int i);
+int		print_x(unsigned int n, char c);
+int		print_p(void *ptr);
+int		ft_printf(const char *str, ...);
+char	*get_next_line(int fd);
+char	*my_line(char *line, char *buf);
+int		check(char *buf);
 int		ft_atoi(const char *nptr);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
@@ -48,12 +66,11 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char const *s);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strjoin3(char const *s1, char c, char const *s2);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlen(const char *s);

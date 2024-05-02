@@ -6,33 +6,19 @@
 /*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/01 14:02:19 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/02 10:34:08 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char **findpaths(t_data *data)
-{
-	
-}
-
-char *findpath(t_data *data)
-{
-	char **paths;
-
-	paths = findpaths(data);
-	
-}
-
 void parsing(t_data *data)
 {
+	char **cmds;
 	int i = 0;
+
 	printf("%s \n", data->line);
-	while (data->line[i])
-	{
-		
-	}
+	cmds = ft_split(data->line, );
 }
 
 int main(int ac, char **av, char **env)
