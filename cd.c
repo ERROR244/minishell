@@ -32,15 +32,15 @@ void add_node(t_data **head, char  *key, char *value) {
     }
 }
 
-void updatethepwd(t_data **data, char *path, char *oldpath)
+void updatethepwd(t_data **data, char *path)
 {
     t_data *current = *data;
     while(current != NULL)
     {
         if(strcmp(current->key, "PWD") == 0)
             current->value = ft_strdup(path);
-        if(strcmp(current->key, "OLDPWD") == 0)
-            current->value = ft_strdup(oldpath);
+        // if(strcmp(current->key, "OLDPWD") == 0)
+        //     current->value = ft_strdup(oldpath);
         break;  
         current = current->next;
     }
@@ -48,37 +48,29 @@ void updatethepwd(t_data **data, char *path, char *oldpath)
 void ft_cd(char *str, t_data **data)
 {
     t_data *current = *data;
-    // char cur[PATH_MAX];
-    // char *dir;
-    // dir = NULL;
-    // while(current != NULL)
-    // {
-    //     if(ft_strcmp(current->key, "HOME") == 0)
-    //     {
-    //         dir = current->value;
-    //         break;
-    //     }
-    //     current= current->next;
-    // }
-    //     char *path = str + 3;
-    //     char *oldpath = getcwd(cur, sizeof(cur));
-    // if(ft_strcmp(str , "cd") == 0)
-    //     chdir(dir);
-    // else 
-    //     chdir(path);
-    // t_data *oldpath1 = find_node((*data), "OLDPWD");
-    // if(oldpath1 == NULL)
-    //     add_node(data, "OLDPWD", oldpath);
-    // else
-    //     updatethepwd(data, path, oldpath);
-    char **split = ft_split(str, ' ');
-
-    if (split[1] == NULL)
+    char cur[PATH_MAX];
+    char *dir;
+    dir = NULL;
+    while(current != NULL)
     {
-        chdir(current->value);
+        if(ft_strcmp(current->key, "HOME") == 0)
+        {
+            dir = current->value;
+            break;
+        }
+        current= current->next;
+    }
+    
+    char **split = ft_split(str, ' ');
+    if(split == NULL)
+         return ;
+    else if (split[1] == NULL)
+    {
+        chdir("dir");
     }
     else
     {
-
+        chdir(split[1]);
     }
+    updatethepwd(data, split[1]);
 }

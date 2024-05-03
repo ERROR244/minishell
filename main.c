@@ -9,17 +9,18 @@ int main(int ac, char **av, char **env)
     while (1)
     {
         char *str = readline("./minishell ");
+
         if (!str) 
         {
             printf("Failed the allocation\n");
             break;
         }
-        if (ft_strcmp(str, "env") == 0)
-        {
-             print_environment(data);
-        }
-    ft_cd(str, &data);
-    // ft_pwd(str);
+    if (ft_strcmp(str, "pwd") == 0)
+        ft_pwd(str);
+    if (ft_strcmp(str, "cd") == 0)
+        ft_cd(str, &data);
+    if (ft_strcmp(str, "env") == 0)
+        print_environment(data);
     // free(str);
     }
 }

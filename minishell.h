@@ -22,7 +22,13 @@ typedef struct env
 {
     char **env;
     struct env *next;
+
 }t_env;
+
+// typedef struct s_data
+// {
+//     char    **env;
+// }   t_data;
 
 void    copy_the_envi(char **env, t_data **data);
 void    print_environment(t_data *data);

@@ -6,93 +6,105 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 14:51:20 by ohassani          #+#    #+#             */
-/*   Updated: 2024/04/30 13:01:38 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/05/03 14:12:12 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	**ft_free2(char **fr)
+static int	count_words(char  *s, char c)
 {
+	int	count;
+	int	in_word;
+
+	count = 0;
+	in_word = 0;
+	while (s && *s)
+	{
+		if (*s == c)
+			in_word = 0;
+		else
+		{
+			if (in_word == 0 && *s != c)
+			{
+				count++;
+				in_word = 1;
+			}
+		}
+		s++;
+	}
+	return (count);
+}
+
+static char	*ndup( char *s, size_t n)
+{
+	char	*dup;
 	size_t	i;
 
-	i = 0;
-	while (fr[i])
+	if (!s)
+		return (NULL);
+	dup = (char *)malloc((n + 1) * sizeof(char));
+	if (dup != NULL)
 	{
-		free(fr[i]);
-		i++;
-	}
-	free (fr);
-	return (0);
-}
-
-static char	*small_alloc(char const *str, int *index, char separator)
-{
-	char	*ptr;
-	int		len;
-	int		pos;
-	int		k;
-
-	len = 0;
-	while (str[*index] == separator && str[*index])
-		(*index)++;
-	pos = *index;
-	while (str[*index] != separator && str[*index])
-		(*index)++;
-	len = *index - pos;
-	ptr = malloc(sizeof(char) * (len + 1));
-	if (!ptr)
-		return (*ft_free2(&ptr));
-	k = 0;
-	while (k < len)
-	{
-		ptr[k] = str[pos];
-		k++;
-		pos++;
-	}
-	ptr[k] = '\0';
-	return (ptr);
-}
-
-static int	count_words(char const *str, char c)
-{
-	size_t	wo;
-	size_t	i;
-
-	wo = 0;
-	i = 0;
-	while (str[i])
-	{
-		while (str[i] == c)
+		i = 0;
+		while (i < n)
+		{
+			dup[i] = s[i];
 			i++;
-		if (str[i])
-			wo++;
-		while (str[i] && str[i] != c)
-			i++;
+		}
+		dup[n] = '\0';
 	}
-	return (wo);
+	return (dup);
 }
 
-char	**ft_split(char const *s, char c)
+static void	ft_free(char **ptr, int i)
 {
-	char	**ptr;
-	int		i;
-	int		count;
-	int		j;
+	int	j;
 
 	j = 0;
+	while (j < i)
+		free(ptr[j++]);
+	free(ptr);
+}
+
+static char	**split(char *s, char c, int i, char **ptr)
+{
+	 char	*start;
+
+	while (*s)
+	{
+		if (*s != c)
+		{
+			start = s;
+			while (*s && *s != c)
+				s++;
+			ptr[i] = ndup(start, s - start);
+			if (ptr[i] == NULL)
+			{
+				ft_free(ptr, i);
+				return (NULL);
+			}
+			i++;
+		}
+		else
+			s++;
+	}
+	ptr[i] = NULL;
+	return (ptr);
+}
+
+char	**ft_split(char *s, char c)
+{
+	char	**ptr;
+	int		word_count;
+
 	if (s == NULL)
 		return (NULL);
-	count = count_words(s, c);
-	ptr = (char **)malloc(sizeof(char *) * (count + 1));
-	if (!ptr)
-		return (NULL);
-	ptr[count] = NULL;
-	i = 0;
-	while (j < count)
+	word_count = count_words(s, c);
+	ptr = malloc((word_count + 1) * sizeof(char *));
+	if (ptr == NULL)
 	{
-		ptr[j] = small_alloc(s, &i, c);
-		j++;
+		return (NULL);
 	}
-	return (ptr);
+	return (split(s, c, 0, ptr));
 }

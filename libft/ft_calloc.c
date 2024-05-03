@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 21:29:58 by ohassani          #+#    #+#             */
-/*   Updated: 2023/11/12 14:37:53 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:22:12 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*ptr;
 
-	if (size != 0 && nmemb > SIZE_MAX / size)
+	if (size != 0)
 		return (NULL);
 	ptr = malloc(nmemb * size);
 	if (!ptr)

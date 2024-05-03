@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 21:31:32 by ohassani          #+#    #+#             */
-/*   Updated: 2023/11/10 21:10:01 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:22:37 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,3 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	}
 	return (NULL);
 }
-#include <string.h>
-#include <stdio.h>
- int main ()
- {
-	 // printf("%s" , ft_strnstr(NULL,"sdjfgh", 1));
-   printf("%s", strnstr(NULL, "ksdajhgj", 1));
- }
