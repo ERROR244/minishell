@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/03 18:50:05 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/03 20:00:32 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,27 @@ char *rm_spaces(char *str)
 	return (ptr);
 }
 
+void get_list(char **cmd, int size, t_cmds **lst)
+{
+	t_cmds *node;
+	t_cmds *curr;
+	int i;
+	
+	i = 1;
+	*lst = lstnew(cmd[0], *lst);
+	while (i < size)
+	{
+		node = lstnew(cmd[i], *lst);
+		curr = lstlast(*lst);
+		curr->next = node;
+		i++;
+	}
+}
+
 
 void parsing(t_data *data)
 {
+    t_cmds *lst;
 	char **cmds;
 	int i;
 
@@ -62,9 +80,17 @@ void parsing(t_data *data)
 	while (cmds[++i])
 		cmds[i] = rm_spaces(cmds[i]);
 
-    
+    get_list(cmds, i, &lst);
 
-	for (int i = 0; cmds[i]; i++)
-		printf("%s\n", cmds[i]);
+	t_cmds *curr = lst;
+	while (curr)
+	{
+		if (curr->cmd == NULL)
+			printf("cmds->cmd == NULL");
+		else
+			printf("%s \n", curr->cmd);
+		curr = curr->next;
+	}
+	lstclear(&lst);
 	free_array(cmds);
 }
