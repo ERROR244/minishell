@@ -6,7 +6,7 @@
 /*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/02 17:28:45 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/02 19:00:56 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,34 @@ void free_array(char **array)
     free(array);
 }
 
+char *rm_spaces(char *str)
+{
+	int i;
+	int k;
+	int l;
+	char *ptr;
+
+	i = 0;
+	l = 0;
+	k = 0;
+	while (str[i] && (str[i] == ' ' || str[i] == '	'))
+		i++;
+	l = i;
+    k = i;
+	while (str[i++])
+        l++;
+    i--;
+    while (--i != 0 && (str[i] == ' ' || str[i] == '	'))
+        l--;
+	ptr = malloc(sizeof(char) * (l - k + 1));
+    i = 0;
+	while (k < l)
+		ptr[i++] = str[k++];
+	ptr[i] = '\0';
+	free(str);
+	return (ptr);
+}
+
 
 void parsing(t_data *data)
 {
@@ -30,8 +58,14 @@ void parsing(t_data *data)
 	int i;
 
 	i = 0;
-	data->line = ft_strdup(data->line);
 	cmds = ft_split(data->line);
+	while (cmds[i])
+	{
+		cmds[i] = rm_spaces(cmds[i]);
+		i++;
+	}
+
+
 
 	for (int i = 0; cmds[i]; i++)
 		printf("%s\n", cmds[i]);
