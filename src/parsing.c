@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/03 20:00:32 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/03 20:08:22 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,10 @@ void get_list(char **cmd, int size, t_cmds **lst)
 	}
 }
 
+void    init_tokens(t_cmds *cmds, int size)
+{
+	
+}
 
 void parsing(t_data *data)
 {
@@ -81,7 +85,7 @@ void parsing(t_data *data)
 		cmds[i] = rm_spaces(cmds[i]);
 
     get_list(cmds, i, &lst);
-
+	init_tokens(lst, i);
 	t_cmds *curr = lst;
 	while (curr)
 	{
