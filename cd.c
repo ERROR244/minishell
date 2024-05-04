@@ -32,45 +32,53 @@ void add_node(t_data **head, char  *key, char *value) {
     }
 }
 
-void updatethepwd(t_data **data, char *path)
-{
-    t_data *current = *data;
-    while(current != NULL)
-    {
-        if(strcmp(current->key, "PWD") == 0)
-            current->value = ft_strdup(path);
-        // if(strcmp(current->key, "OLDPWD") == 0)
-        //     current->value = ft_strdup(oldpath);
-        break;  
-        current = current->next;
-    }
-}
+// void updatethepwd(t_data *data, char *path)
+// {
+//     t_data *current = data;
+//     while(current != NULL)
+//     {
+//         if(strcmp(current->key, "PWD") == 0)
+//         {
+//             printf("HERE\n");
+//             current->value = ft_strjoin(current->value, path);
+//         }
+//         // printf("%s -> %s \n", path, current->value);
+//         // if(strcmp(current->key, "OLDPWD") == 0)
+//         //     current->value = ft_strdup(oldpath);
+//         break;  
+//         current = current->next;
+//     }
+// }
+
 void ft_cd(char *str, t_data **data)
 {
     t_data *current = *data;
     char cur[PATH_MAX];
     char *dir;
     dir = NULL;
-    while(current != NULL)
-    {
-        if(ft_strcmp(current->key, "HOME") == 0)
-        {
-            dir = current->value;
-            break;
-        }
-        current= current->next;
-    }
     
     char **split = ft_split(str, ' ');
     if(split == NULL)
          return ;
     else if (split[1] == NULL)
     {
-        chdir("dir");
+        while(current != NULL)
+        {
+            if(ft_strcmp(current->key, "HOME") == 0)
+            {
+                dir = current->value;
+                break;
+            }
+            current= current->next;
+        }
+        chdir(dir);
     }
     else
     {
+        if(split[2] != NULL)
+            return ;
+        dir = ft_strjoin(current->value, split[1]);
         chdir(split[1]);
     }
-    updatethepwd(data, split[1]);
+    // updatethepwd(*data, split[1]);
 }

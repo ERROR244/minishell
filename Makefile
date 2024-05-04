@@ -1,14 +1,14 @@
 NAME = minishell
 
 SRCS = main.c env.c cd.c pwd.c
-SRCSLIBFT =  libft/ft_atoi.c libft/ft_itoa.c libft/ft_putchar_fd.c libft/ft_putendl_fd.c libft/ft_putnbr_fd.c libft/ft_putstr_fd.c libft/ft_split.c libft/ft_strlen.c  libft/ft_strncmp.c libft/ft_isdigit.c
+SRCSLIBFT =  libft/ft_strjoin.c libft/ft_atoi.c libft/ft_itoa.c libft/ft_putchar_fd.c libft/ft_putendl_fd.c libft/ft_putnbr_fd.c libft/ft_putstr_fd.c libft/ft_split.c libft/ft_strlen.c  libft/ft_strncmp.c libft/ft_isdigit.c
 OBJ = $(SRCS:.c=.o)
 OBJLIBFT = $(SRCSLIBFT:.c=.o)
 
 AR = ar rcs
 CC = cc
-CFLAGS = -l readline -ggdb3 -fsanitize=address
-RM = rm -f
+CFLAGS = -lreadline -w -ggdb3 #-fsanitize=address
+RM = rm -rf
 LIBFT = libft/libft.a
 all: $(NAME)
 

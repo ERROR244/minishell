@@ -2,15 +2,15 @@
 #define MINI_SHELL_H
 
 #include "./libft/libft.h"
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#ifndef PATH_MAX
-#define PATH_MAX 4096
-#endif
+#include <limits.h>
+// #ifndef PATH_MAX
+// #define PATH_MAX 4096
+// #endif
 typedef struct data
 {
     char *key;
