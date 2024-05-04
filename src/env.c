@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 16:15:36 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/04 16:42:45 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/04 16:57:02 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void put_our_env(t_env **env, char *key, char *value)
 {
+    t_env *tmp;
     t_env *newnode = (t_env *)malloc(sizeof(t_env));
 
     newnode->key = ft_strdup(key);
@@ -26,7 +27,7 @@ void put_our_env(t_env **env, char *key, char *value)
     }
     else
     {
-        t_env *tmp = *env;
+        tmp = *env;
         while(tmp->next != NULL)
         {
             tmp = tmp->next;
