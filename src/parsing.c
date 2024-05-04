@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/04 09:59:08 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/04 11:51:42 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,12 @@ void    init_tokens(t_cmds *cmds)
 			cmds->token = Output;
 		else if (size == 1 && cmds->cmd[0] == '|')
 			cmds->token = Pipe;
-		else if (size == 2 && cmds->cmd[0] == '<')
+		else if (size == 2 && cmds->cmd[0] == '>' && cmds->cmd[1] == '>')
+			cmds->token = Append;
+		else if (size == 2 && cmds->cmd[0] == '<' && cmds->cmd[1] == '<')
+			cmds->token = HereDoc;
+		else
+			cmds->token = Cmd;
 		cmds = cmds->next;
 	}
 }
@@ -98,15 +103,18 @@ void parsing(t_data *data)
 		cmds[i] = rm_spaces(cmds[i]);
 
     get_list(cmds, i, &lst);
-	// init_tokens(lst);
+	init_tokens(lst);
 
-	
+	const char* tokens[] = {"Cmd", "File",
+							"Input", "Output",
+							"Append", "HereDoc",
+							"Pipe"};
 	while (lst)
 	{
 		if (lst->cmd == NULL)
 			printf("cmds->cmd == NULL");
 		else
-			printf("%s \n", lst->cmd);
+			printf("%s----%s \n", lst->cmd, tokens[lst->token]);
 		if (!lst->next)
 			break;
 		lst = lst->next;
@@ -118,10 +126,10 @@ void parsing(t_data *data)
 	
 	while (lst)
     {
-        if (lst->cmd == NULL)
-            printf("cmds->cmd == NULL");
-        else
-            printf("%s \n", lst->cmd);
+        // if (lst->cmd == NULL)
+        //     printf("cmds->cmd == NULL");
+        // else
+        //     printf("%s \n", lst->cmd);
 		if (!lst->prev)
 			break;
         lst = lst->prev;
