@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/04 13:02:01 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/04 14:17:36 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,6 @@
 # include <sys/wait.h>
 # include <time.h>
 # include <unistd.h>
-
-
-// append Append
-// outFile
-// infile
-// HereDoc
-
 
 typedef enum s_token
 {
