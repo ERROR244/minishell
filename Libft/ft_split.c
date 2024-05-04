@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/02 17:26:29 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/04 10:23:25 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	count_words(char const *s)
 	{
 		if (*s == '|' || *s == '<' || *s == '>')
 		{
-			if (*(s + 1) == '<' || *(s + 1) == '>')
+			if ((*s == '<' && *(s + 1) == '<') || (*s == '>' && *(s + 1) == '>'))
 				s++;
 			in_word = 0;
 			count++;
@@ -122,15 +122,15 @@ char	**ft_split(char const *s)
 	return (ptr);
 }
 
-void free_split_array(char **split_array)
-{
-    char **ptr = split_array;
-    while (*ptr) {
-        free(*ptr);
-        ptr++;
-    }
-    free(split_array);
-}
+// void free_split_array(char **split_array)
+// {
+//     char **ptr = split_array;
+//     while (*ptr) {
+//         free(*ptr);
+//         ptr++;
+//     }
+//     free(split_array);
+// }
 
 // int main(int ac, char **av)
 // {

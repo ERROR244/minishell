@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/03 20:08:22 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/04 09:59:08 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,22 @@ void get_list(char **cmd, int size, t_cmds **lst)
 	}
 }
 
-void    init_tokens(t_cmds *cmds, int size)
+void    init_tokens(t_cmds *cmds)
 {
+	int size;
 	
+	while (cmds)
+	{
+		size = ft_strlen(cmds->cmd);
+		if (size == 1 && cmds->cmd[0] == '<')
+			cmds->token = Input;
+		else if (size == 1 && cmds->cmd[0] == '>')
+			cmds->token = Output;
+		else if (size == 1 && cmds->cmd[0] == '|')
+			cmds->token = Pipe;
+		else if (size == 2 && cmds->cmd[0] == '<')
+		cmds = cmds->next;
+	}
 }
 
 void parsing(t_data *data)
@@ -85,16 +98,35 @@ void parsing(t_data *data)
 		cmds[i] = rm_spaces(cmds[i]);
 
     get_list(cmds, i, &lst);
-	init_tokens(lst, i);
-	t_cmds *curr = lst;
-	while (curr)
+	// init_tokens(lst);
+
+	
+	while (lst)
 	{
-		if (curr->cmd == NULL)
+		if (lst->cmd == NULL)
 			printf("cmds->cmd == NULL");
 		else
-			printf("%s \n", curr->cmd);
-		curr = curr->next;
+			printf("%s \n", lst->cmd);
+		if (!lst->next)
+			break;
+		lst = lst->next;
 	}
+
+	
+	printf("\n");
+
+	
+	while (lst)
+    {
+        if (lst->cmd == NULL)
+            printf("cmds->cmd == NULL");
+        else
+            printf("%s \n", lst->cmd);
+		if (!lst->prev)
+			break;
+        lst = lst->prev;
+    }
+
 	lstclear(&lst);
 	free_array(cmds);
 }

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/03 20:08:10 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/04 09:55:51 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ typedef enum s_token
 {
     Cmd,
     File,
-    Input,
-    Output,
-    Append,
-    HereDoc,
-    Pipe
+    Input,		// '<'
+    Output,		// '>'
+    Append,		// '>>'
+    HereDoc,	// '<<'
+    Pipe		// '|'
 }   t_token;
 
 typedef struct s_data
@@ -46,6 +46,7 @@ typedef struct s_data
 typedef struct s_cmds
 {
     char *cmd;
+    t_token token;
     struct s_cmds *next;
     struct s_cmds *prev;
 }   t_cmds;
@@ -62,7 +63,7 @@ int		lstsize(t_cmds *lst);
 void	free_array(char **array);
 char	*rm_spaces(char *str);
 void    get_list(char **cmd, int size, t_cmds **lst);
-void    init_tokens(t_cmds *cmds, int size);
+void    init_tokens(t_cmds *cmds);
 void	parsing(t_data *data);
 
 
