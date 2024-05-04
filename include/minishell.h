@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/04 09:55:51 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/04 13:02:01 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,26 @@
 # include <time.h>
 # include <unistd.h>
 
+
+// append Append
+// outFile
+// infile
+// HereDoc
+
+
 typedef enum s_token
 {
     Cmd,
-    File,
+    AppendFile,
+    HereDocDel,
+    Infile,
+    OutFile,
     Input,		// '<'
     Output,		// '>'
     Append,		// '>>'
     HereDoc,	// '<<'
-    Pipe		// '|'
+    Pipe,		// '|'
+    Non
 }   t_token;
 
 typedef struct s_data

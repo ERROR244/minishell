@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 11:09:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/03 20:00:40 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/04 13:13:41 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_cmds	*lstnew(char *cmd, t_cmds *lst)
 	if (n_node == NULL)
 		return (NULL);
 	n_node->cmd = cmd;
+	n_node->token = Non;
 	n_node->next = NULL;
 	if (lst == NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/04 11:51:42 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/04 13:14:36 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,48 @@ void    init_tokens(t_cmds *cmds)
 	{
 		size = ft_strlen(cmds->cmd);
 		if (size == 1 && cmds->cmd[0] == '<')
+		{
+			if (cmds->prev && cmds->prev->token == Non)
+				cmds->prev->token = Cmd;
+			if (cmds->next && cmds->next->token == Non)
+				cmds->next->token = Infile;
 			cmds->token = Input;
+			cmds = cmds->next;
+		}
 		else if (size == 1 && cmds->cmd[0] == '>')
+		{
+			if (cmds->prev && cmds->prev->token == Non)
+				cmds->prev->token = Cmd;
+			if (cmds->next && cmds->next->token == Non)
+				cmds->next->token = OutFile;
 			cmds->token = Output;
+			cmds = cmds->next;
+		}
 		else if (size == 1 && cmds->cmd[0] == '|')
+		{
+			if (cmds->prev && cmds->prev->token == Non)
+				cmds->prev->token = Cmd;
+			if (cmds->next && cmds->next->token == Non)
+				cmds->next->token = Cmd;
 			cmds->token = Pipe;
+		}
 		else if (size == 2 && cmds->cmd[0] == '>' && cmds->cmd[1] == '>')
+		{
+			if (cmds->prev && cmds->prev->token == Non)
+				cmds->prev->token = Cmd;
+			if (cmds->next && cmds->next->token == Non)
+				cmds->next->token = AppendFile;
 			cmds->token = Append;
+		}
 		else if (size == 2 && cmds->cmd[0] == '<' && cmds->cmd[1] == '<')
+		{
+			if (cmds->prev && cmds->prev->token == Non)
+				cmds->prev->token = Cmd;
+			if (cmds->next && cmds->next->token == Non)
+				cmds->next->token = HereDocDel;
 			cmds->token = HereDoc;
-		else
+		}
+		else if (!cmds->prev && !cmds->next)
 			cmds->token = Cmd;
 		cmds = cmds->next;
 	}
@@ -105,16 +137,21 @@ void parsing(t_data *data)
     get_list(cmds, i, &lst);
 	init_tokens(lst);
 
-	const char* tokens[] = {"Cmd", "File",
-							"Input", "Output",
-							"Append", "HereDoc",
-							"Pipe"};
+	char str[100][100] = { "Cmd", "AppendFile",
+							"HereDocDel", "Infile",
+							"OutFile", "Input",
+							"Output", "Append",
+							"HereDoc", "Pipe",
+							"Non" };
 	while (lst)
 	{
 		if (lst->cmd == NULL)
 			printf("cmds->cmd == NULL");
 		else
-			printf("%s----%s \n", lst->cmd, tokens[lst->token]);
+		{
+			// printf("%d \n", lst->token);
+			printf("%s---->%s \n", lst->cmd, str[lst->token]);
+		}
 		if (!lst->next)
 			break;
 		lst = lst->next;
