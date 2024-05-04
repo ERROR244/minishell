@@ -26,7 +26,6 @@ int main(int ac, char **av, char **env)
 		if (data.line == NULL)
 			break;
 		parsing(&data);
-		// executing();						to do
 		free(data.line);
     }
 	printf("\n");

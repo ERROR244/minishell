@@ -39,11 +39,6 @@ typedef enum s_token
     Non
 }   t_token;
 
-typedef struct s_data
-{
-    char *line;
-}   t_data;
-
 typedef struct s_cmds
 {
     char *cmd;
@@ -52,6 +47,12 @@ typedef struct s_cmds
     struct s_cmds *next;
     struct s_cmds *prev;
 }   t_cmds;
+
+typedef struct s_data
+{
+    char *line;
+	t_cmds *cmds;
+}   t_data;
 
 // lst
 void	lstadd_back(t_cmds **lst, t_cmds *new);
@@ -67,7 +68,8 @@ char	*rm_spaces(char *str);
 void    get_list(char **cmd, int size, t_cmds **lst);
 void    init_tokens(t_cmds *cmds);
 void	parsing(t_data *data);
-
+char	*get_cmd(char *cmd);
+char	*get_flags(char *cmd);
 
 
 #endif

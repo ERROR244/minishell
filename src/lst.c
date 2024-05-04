@@ -92,8 +92,6 @@ void	lstclear(t_cmds **lst)
 	while (curr1->next != NULL)
 	{
 		curr2 = curr1->next;
-		free(curr1->cmd);
-		free(curr1->flags);
 		free(curr1);
 		curr1 = curr2;
 	}

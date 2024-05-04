@@ -2,12 +2,13 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -ggdb3 -lreadline -g3 -fsanitize=address -Wno-unused-command-line-argument #-Werror -v
+CFLAGS = -Wall -Wextra -ggdb3 -lreadline -g3 -fsanitize=address #-Werror -v
 
-SRCS = 	src/minishell.c src/parsing.c Libft/ft_split.c Libft/ft_putstr_fd.c\
-		src/lst.c Libft/ft_strjoin.c Libft/ft_strdup.c Libft/ft_strlen.c\
+SRCS = 	src/minishell.c Libft/ft_split.c Libft/ft_putstr_fd.c\
+		src/lst.c Libft/ft_strjoin.c Libft/ft_strdup.c\
 		Libft/ft_putchar_fd.c Libft/ft_strnstr.c Libft/ft_strncmp.c\
-		Libft/ft_isalpha.c Libft/ft_split_msh.c\
+		Libft/ft_isalpha.c src/parsing.c Libft/ft_split_msh.c\
+		src/parsing_utils.c Libft/ft_strlen.c\
 
 OBJ = $(SRCS:.c=.o)
 
