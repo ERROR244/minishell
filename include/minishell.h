@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/04 14:17:36 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/04 18:05:41 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,12 @@ typedef enum s_token
 typedef struct s_data
 {
     char *line;
-    char **env;
-    char *ptr;
-    char *str;
 }   t_data;
 
 typedef struct s_cmds
 {
     char *cmd;
+    char *flags;
     t_token token;
     struct s_cmds *next;
     struct s_cmds *prev;

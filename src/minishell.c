@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/04 15:22:54 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/04 17:53:59 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ int main(int ac, char **av, char **env)
 
 	if (ac != 1)
 		return (1);
-	data.env = env;
-    while (env != NULL)
+	(void)av;
+	(void)env;
+    while (1)
     {
 		data.line = readline("minishell$ ");
 		if (data.line == NULL)

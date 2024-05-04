@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/04 13:14:36 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/04 18:58:32 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ char *rm_spaces(char *str)
         l++;
     i--;
     while (--i != 0 && (str[i] == ' ' || str[i] == '	'))
+	{
         l--;
+	}
 	ptr = malloc(sizeof(char) * (l - k + 1));
     i = 0;
 	while (k < l)
@@ -130,48 +132,40 @@ void parsing(t_data *data)
 	int i;
 
 	i = -1;
-	cmds = ft_split(data->line);
+	cmds = ft_split_msh(data->line);
+	lst = NULL;
 	while (cmds[++i])
 		cmds[i] = rm_spaces(cmds[i]);
 
     get_list(cmds, i, &lst);
 	init_tokens(lst);
 
-	char str[100][100] = { "Cmd", "AppendFile",
-							"HereDocDel", "Infile",
-							"OutFile", "Input",
-							"Output", "Append",
-							"HereDoc", "Pipe",
-							"Non" };
-	while (lst)
-	{
-		if (lst->cmd == NULL)
-			printf("cmds->cmd == NULL");
-		else
-		{
-			// printf("%d \n", lst->token);
-			printf("%s---->%s \n", lst->cmd, str[lst->token]);
-		}
-		if (!lst->next)
-			break;
-		lst = lst->next;
-	}
+	// char str[100][100] = { "Cmd", "AppendFile",
+	// 						"HereDocDel", "Infile",
+	// 						"OutFile", "Input",
+	// 						"Output", "Append",
+	// 						"HereDoc", "Pipe",
+	// 						"Non" };
+	// while (lst)
+	// {
+	// 	if (lst->cmd == NULL)
+	// 		printf("cmds->cmd == NULL");
+	// 	else
+	// 	{
+	// 		// printf("%d \n", lst->token);
+	// 		printf("cmd: %s flags: %s -> %s \n", lst->cmd, lst->flags, str[lst->token]);
+	// 	}
+	// 	if (!lst->next)
+	// 		break;
+	// 	lst = lst->next;
+	// }
 
-	
-	printf("\n");
-
-	
-	while (lst)
-    {
-        // if (lst->cmd == NULL)
-        //     printf("cmds->cmd == NULL");
-        // else
-        //     printf("%s \n", lst->cmd);
-		if (!lst->prev)
-			break;
-        lst = lst->prev;
-    }
-
+	// while (lst)
+    // {
+	// 	if (!lst->prev)
+	// 		break;
+    //     lst = lst->prev;
+    // }
 	lstclear(&lst);
 	free_array(cmds);
 }
