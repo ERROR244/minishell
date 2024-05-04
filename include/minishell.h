@@ -1,0 +1,88 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
+/*   Updated: 2024/05/04 16:43:03 by ksohail-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MINISHELL_H
+# define MINISHELL_H
+
+# include "../Libft/libft.h"
+# include <errno.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/wait.h>
+# include <time.h>
+# include <unistd.h>
+# include <limits.h>
+
+typedef enum s_token
+{
+    Cmd,
+    AppendFile,
+    HereDocDel,
+    Infile,
+    OutFile,
+    Input,		// '<'
+    Output,		// '>'
+    Append,		// '>>'
+    HereDoc,	// '<<'
+    Pipe,		// '|'
+    Non
+}   t_token;
+
+typedef struct s_env
+{
+    char *key;
+    char  *value;
+    struct  data *next;
+}   t_env;
+
+typedef struct s_cmds
+{
+    char *cmd;
+    t_token token;
+    struct s_cmds *next;
+    struct s_cmds *prev;
+}   t_cmds;
+
+typedef struct s_data
+{
+    char *line;
+    t_cmds *lst;
+    t_env *env;
+}   t_data;
+
+// lst
+void	lstadd_back(t_cmds **lst, t_cmds *new);
+void	lstadd_front(t_cmds **lst, t_cmds *new);
+t_cmds	*lstlast(t_cmds *lst);
+void	lstclear(t_cmds **lst);
+t_cmds	*lstnew(char *cmd, t_cmds *stack);
+int		lstsize(t_cmds *lst);
+
+// parsing
+void	free_array(char **array);
+char	*rm_spaces(char *str);
+void    get_list(char **cmd, int size, t_cmds **lst);
+void    init_tokens(t_cmds *cmds);
+void	parsing(t_data *data);
+
+// executing
+void executing(t_data *data);
+void ft_cd(char *str, t_data **data);
+void print_environment(t_data *data);
+void copy_the_envi(char **env , t_env *listenv);
+void ft_pwd(char *str);
+
+
+#endif

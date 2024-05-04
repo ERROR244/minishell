@@ -1,35 +1,40 @@
 NAME = minishell
 
-SRCS = main.c env.c cd.c pwd.c
-SRCSLIBFT =  libft/ft_strjoin.c libft/ft_atoi.c libft/ft_itoa.c libft/ft_putchar_fd.c libft/ft_putendl_fd.c libft/ft_putnbr_fd.c libft/ft_putstr_fd.c libft/ft_split.c libft/ft_strlen.c  libft/ft_strncmp.c libft/ft_isdigit.c
-OBJ = $(SRCS:.c=.o)
-OBJLIBFT = $(SRCSLIBFT:.c=.o)
-
-AR = ar rcs
 CC = cc
-CFLAGS = -lreadline -w -ggdb3 #-fsanitize=address
-RM = rm -rf
-LIBFT = libft/libft.a
-all: $(NAME)
 
+CFLAGS = -Wall -w -Wextra -ggdb3 -lreadline -g3 -fsanitize=address #-Werror -v
 
-$(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT)
+SRCS = 	src/cd.c src/env.c src/executing.c src/pwd.c src/minishell.c src/parsing.c Libft/ft_split.c Libft/ft_putstr_fd.c\
+		Libft/ft_strjoin.c Libft/ft_strdup.c Libft/ft_strlen.c\
+		Libft/ft_putchar_fd.c Libft/ft_strnstr.c Libft/ft_strncmp.c\
+		Libft/ft_split_msh.c Libft/ft_isalpha.c\
+
+OBJ = $(SRCS:.c=.o)
+
+AR  = ar rcs
+
+RM = rm -rf 
+
+all : $(NAME)
+
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -o minishell 
+
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS)  -c $< -o $@
 
-$(LIBFT): $(OBJLIBFT)
-	make -C libft
+install:
+	make
+	cp ./minishell /user/local/bin/minishell
 
-clean:
-	$(RM) $(OBJ)
-	make clean -C libft
+clean : 
+		@$(RM) $(OBJ)
 
-fclean: clean
-	$(RM) $(NAME)
-	make fclean -C libft
+fclean :
+		@$(RM) $(OBJ) $(NAME)
 
-re: fclean all
+rminstall:
+	rm -rf /user/local/bin/minishell
 
-.PHONY: all clean fclean re
+re : fclean all
