@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/05 06:52:52 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/05 22:01:20 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,11 @@ int get_list(char **cmd, int size, t_cmds **lst)
 	t_cmds *node;
 	t_cmds *curr;
 	int i;
-	
+
 	i = 1;
 	*lst = lstnew(cmd[0], *lst);
 	while (i < size)
 	{
-		if (i + 2 < size && cmd[i][0] == '|' && cmd[i + 1][0] == '|' && cmd[i + 2][0] == '|')
-		{
-			if (i + 4 < size && cmd[i + 3][0] == '|')
-            	ft_putstr_fd("minishel: syntax error near unexpected token `||'\n", 2);
-			else
-            	ft_putstr_fd("minishel: syntax error near unexpected token `|'\n", 2);
-			return (1);
-		}
 		node = lstnew(cmd[i], *lst);
 		curr = lstlast(*lst);
 		curr->next = node;
