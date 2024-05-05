@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/05 06:52:41 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/05 22:36:56 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void parsing(t_data *data)
     t_cmds *lst;
     t_cmds *cur;
 	char **cmds;
+	int ret;
 	int flag;
 	int i;
 
@@ -63,7 +64,13 @@ void parsing(t_data *data)
 	init_tokens(lst, 0);
 	data->lst = lst;
 	data->cmds = cmds;
-	if (errors_managment(data, flag) == 0)
+	ret = errors_managment(data, flag);
+	if (ret == 11)
+	{
+		printf("11\n\n");
+		ret = 0;
+	}
+	if (ret == 0)
 	{
 		// init_the_tree(lst);
 		char str[100][100] = { "Cmd", "AppendFile",

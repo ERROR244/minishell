@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/05 22:01:20 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/05 22:17:43 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int get_list(char **cmd, int size, t_cmds **lst)
 	t_cmds *node;
 	t_cmds *curr;
 	int i;
-
+	
 	i = 1;
 	*lst = lstnew(cmd[0], *lst);
 	while (i < size)
