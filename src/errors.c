@@ -6,11 +6,34 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/05 22:34:44 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/05 22:52:41 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	ft_put2str_fd(char *s1, char *s2, int fd)
+{
+	if (fd >= 0 && s1 && s2)
+	{
+		while (*s1)
+		{
+			ft_putchar_fd(*s1, fd);
+			s1++;
+		}
+        while (*s2)
+		{
+			ft_putchar_fd(*s2, fd);
+			s2++;
+		}
+	}
+}
+
+int  errormsg(char *str)
+{
+    ft_put2str_fd("minishel: syntax error near unexpected ", str, 2);
+    return (1);
+}
 
 int check_file(char *str)
 {
@@ -27,47 +50,32 @@ int check_file(char *str)
 int check_if_NULL(char *str)
 {
     if (!str)
-    {
-        ft_putstr_fd("minishel: syntax error near unexpected token `newline'\n", 2);
-        return (1);
-    }
+        return (errormsg("token `newline'\n"));
     return (0);
 }
-
-// ls | ls      ->good
-// ls || ls     ->cmds == ls
-// ls ||| ls    ->SError '|'
-// ls |||| ls   ->SError '||'
 
 int check_for_pipe(t_cmds *cmds)
 {
     if (!cmds->prev)
     {
         if (cmds->next && cmds->next->token == Pipe)
-            ft_putstr_fd("minishel: syntax error near unexpected token `||'\n", 2);
-        else
-            ft_putstr_fd("minishel: syntax error near unexpected token `|'\n", 2);
-        return (1);
+            return (errormsg("token `||'\n"));
+        return (errormsg("token `|'\n"));
     }
     if (cmds->prev && cmds->prev->token != Pipe)
     {
-        if (cmds->next && cmds->next->token != Pipe)
-            return (0);
-        else if (cmds->next && cmds->next->token == Pipe)
+        if (cmds->next && cmds->next->token == Pipe)
         {
             if (cmds->next->next && cmds->next->next->token == Pipe)
             {
                 if (cmds->next->next->next && cmds->next->next->next->token == Pipe)
-                {
-                    ft_putstr_fd("minishel: syntax error near unexpected token `||'\n", 2);
-                    return (1);
-                }
-                ft_putstr_fd("minishel: syntax error near unexpected token `|'\n", 2);
-                return (1);
+                    return (errormsg("token `||'\n"));
+                return (errormsg("token `|'\n"));
             }
             else
                 return (11);
         }
+        return (0);
     }
     return (0);
 }
