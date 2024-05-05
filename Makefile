@@ -9,6 +9,9 @@ SRCS = 	src/minishell.c Libft/ft_split.c Libft/ft_putstr_fd.c\
 		Libft/ft_putchar_fd.c Libft/ft_strnstr.c Libft/ft_strncmp.c\
 		Libft/ft_isalpha.c src/parsing.c Libft/ft_split_msh.c\
 		src/parsing_utils.c Libft/ft_strlen.c\
+		src/errors.c\
+
+
 
 OBJ = $(SRCS:.c=.o)
 
