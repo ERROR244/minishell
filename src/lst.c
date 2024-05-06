@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 11:09:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/04 18:53:09 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/06 18:13:45 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char *get_cmd(char *cmd)
 
 	i = 0;
 	k = 0;
-	while (cmd[i] && cmd[i] != ' ')
+	while (cmd && cmd[i] && cmd[i] != ' ')
 		i++;
 	tmp = malloc(sizeof(char) * (i + 1));
 	while (k < i)
@@ -42,9 +42,9 @@ char *get_flags(char *cmd)
 	i = 0;
 	k = 0;
     size = ft_strlen(cmd);
-	while (cmd[i] && cmd[i] != ' ')
+	while (cmd && cmd[i] && cmd[i] != ' ')
 		i++;
-	while (cmd[i] && cmd[i] == ' ')
+	while (cmd && cmd[i] && cmd[i] == ' ')
 		i++;
     if (i == size)
 	{

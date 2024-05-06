@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/05 22:36:56 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/06 18:13:43 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,12 @@ void parsing(t_data *data)
 	cmds = ft_split_msh(data->line);
 	lst = NULL;
 	while (cmds[++i])
-		cmds[i] = rm_spaces(cmds[i]);
-
+	{
+		if (cmdcheck(cmds[i]) == 0)
+			cmds[i] = rm_spaces(cmds[i]);
+	}
+	// for (int i = 0; cmds[i]; i++)
+	// 	printf(":%s:\n", cmds[i]);
     flag = get_list(cmds, i, &lst);
 	init_tokens(lst, 0);
 	data->lst = lst;

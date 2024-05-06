@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/05 22:17:43 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/06 18:14:29 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int cmdcheck(char *str)
+{
+	int i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 int get_list(char **cmd, int size, t_cmds **lst)
 {
@@ -18,13 +34,18 @@ int get_list(char **cmd, int size, t_cmds **lst)
 	t_cmds *curr;
 	int i;
 	
-	i = 1;
-	*lst = lstnew(cmd[0], *lst);
+	i = 0;
+	// while (cmdcheck(cmd[i]) == 0)
+	// 	i++;
+	*lst = lstnew(cmd[i++], *lst);
 	while (i < size)
 	{
-		node = lstnew(cmd[i], *lst);
-		curr = lstlast(*lst);
-		curr->next = node;
+		if (cmdcheck(cmd[i]) == 0)
+		{
+			node = lstnew(cmd[i], *lst);
+			curr = lstlast(*lst);
+			curr->next = node;
+		}
 		i++;
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/05 20:27:33 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/06 18:13:58 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,14 @@ typedef struct s_data
 }   t_data;
 
 // lst
-void	lstadd_back(t_cmds **lst, t_cmds *new);
-void	lstadd_front(t_cmds **lst, t_cmds *new);
 t_cmds	*lstlast(t_cmds *lst);
 void	lstclear(t_cmds **lst);
 t_cmds	*lstnew(char *cmd, t_cmds *stack);
-int		lstsize(t_cmds *lst);
 
 // parsing
 void	free_array(char **array);
 char	*rm_spaces(char *str);
-int    get_list(char **cmd, int size, t_cmds **lst);
+int     get_list(char **cmd, int size, t_cmds **lst);
 void    init_tokens(t_cmds *cmds, int size);
 void	parsing(t_data *data);
 char	*get_cmd(char *cmd);
@@ -79,6 +76,7 @@ int		errors_managment(t_data *data, int flag);
 int		check_file(char *str);
 int		check_if_NULL(char *str);
 int		check_for_pipe(t_cmds *cmds);
+int     cmdcheck(char *str);
 
 
 #endif
