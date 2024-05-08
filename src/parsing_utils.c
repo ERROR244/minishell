@@ -6,7 +6,7 @@
 /*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/06 18:14:29 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/08 14:50:47 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int get_list(char **cmd, int size, t_cmds **lst)
 	int i;
 	
 	i = 0;
-	// while (cmdcheck(cmd[i]) == 0)
-	// 	i++;
+	while (cmdcheck(cmd[i]) == 1)
+		i++;
 	*lst = lstnew(cmd[i++], *lst);
 	while (i < size)
 	{

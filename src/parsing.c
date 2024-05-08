@@ -6,7 +6,7 @@
 /*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/06 18:13:43 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/08 14:54:46 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int errors_managment(t_data *data, int i)
 			i = check_if_NULL(curr->cmd);
 		else if (curr->token == Pipe)
 			i = check_for_pipe(curr);
+		else if (curr->token == Output || curr->token == Input)
+			i = check_for_in_out_put(curr);				// to do
 		curr = curr->next;
 	}
 	return (i);
@@ -69,41 +71,42 @@ void parsing(t_data *data)
 	data->lst = lst;
 	data->cmds = cmds;
 	ret = errors_managment(data, flag);
-	if (ret == 11)
-	{
-		printf("11\n\n");
-		ret = 0;
-	}
-	if (ret == 0)
-	{
-		// init_the_tree(lst);
-		char str[100][100] = { "Cmd", "AppendFile",
-								"HereDocDel", "Infile",
-								"OutFile", "Input",
-								"Output", "Append",
-								"HereDoc", "Pipe",
-								"Non" };
-		while (lst)
-		{
-			if (lst->cmd == NULL)
-				printf("cmds->cmd == NULL");
-			else
-				printf("%s---->%s \n", lst->cmd, str[lst->token]);
-			if (!lst->next)
-				break;
-			lst = lst->next;
-		}
+	// if (ret == 11)
+	// {
+	// 	printf("11\n\n");
+	// 	ret = 0;
+	// }
+	// if (ret == 0)
+	// {
+	// 	// init_the_tree(lst);
+	// 	char str[100][100] = { "Cmd", "AppendFile",
+	// 							"HereDocDel", "Infile",
+	// 							"OutFile", "Input",
+	// 							"Output", "Append",
+	// 							"HereDoc", "Pipe",
+	// 							"Non" };
+	// 	while (lst)
+	// 	{
+	// 		if (lst->cmd == NULL)
+	// 			printf("cmds->cmd == NULL");
+	// 		else
+	// 			printf("%s---->%s \n", lst->cmd, str[lst->token]);
+	// 		if (!lst->next)
+	// 			break;
+	// 		lst = lst->next;
+	// 	}
 		
-		printf("\n");
+	// 	printf("\n");
 		
-		while (lst)
-		{
-			if (!lst->prev)
-				break;
-			lst = lst->prev;
-		}
-		// executing(data);	// exe
-	}
+	// 	while (lst)
+	// 	{
+	// 		if (!lst->prev)
+	// 			break;
+	// 		lst = lst->prev;
+	// 	}
+	// 	// executing(data);	// exe
+	// }
+	ret++;
 	cur = lst;		// free
 	while (cur)
 	{
