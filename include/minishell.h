@@ -6,7 +6,7 @@
 /*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/11 23:55:55 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/12 00:44:00 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,21 @@ typedef enum s_token
     Non
 }   t_token;
 
+typedef struct s_data t_data;
+
 typedef struct s_cmds
 {
     char *cmd;
     char *flags;
+	
     t_token token;
-    struct s_cmds *next;
+    t_data *data;
+	
+	struct s_cmds *next;
     struct s_cmds *prev;
 }   t_cmds;
 
-typedef struct s_data
+struct s_data
 {
     char *line;
     char *infile;
@@ -57,7 +62,7 @@ typedef struct s_data
     char *Appfile;
 	char **cmds;
 	t_cmds *lst;
-}   t_data;
+};
 
 // lst
 t_cmds	*lstlast(t_cmds *lst);
@@ -67,7 +72,7 @@ t_cmds	*lstnew(char *cmd, t_cmds *stack);
 // parsing
 void	free_array(char **array);
 char	*rm_spaces(char *str);
-int     get_list(char **cmd, int size, t_cmds **lst);
+int     get_list(char **cmd, int size, t_cmds **lst, t_data *data);
 void    init_tokens(t_cmds *cmds, int size);
 void	parsing(t_data *data);
 char	*get_cmd(char *cmd);

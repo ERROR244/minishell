@@ -6,7 +6,7 @@
 /*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/12 00:41:26 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/12 00:46:37 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void parsing(t_data *data)
 	// 	printf(":%s:\n", cmds[i]);
     
 	
-	flag = get_list(cmds, i, &lst);
+	flag = get_list(cmds, i, &lst, data);
 	init_tokens(lst, 0);
 	data->lst = lst;
 	data->cmds = cmds;

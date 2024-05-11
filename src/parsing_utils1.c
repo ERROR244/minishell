@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   parsing_utils1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/08 14:50:47 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/12 00:44:25 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int cmdcheck(char *str)
 	return (1);
 }
 
-int get_list(char **cmd, int size, t_cmds **lst)
+int get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 {
 	t_cmds *node;
 	t_cmds *curr;
@@ -38,11 +38,13 @@ int get_list(char **cmd, int size, t_cmds **lst)
 	while (cmdcheck(cmd[i]) == 1)
 		i++;
 	*lst = lstnew(cmd[i++], *lst);
+	(*lst)->data = data;
 	while (i < size)
 	{
 		if (cmdcheck(cmd[i]) == 0)
 		{
 			node = lstnew(cmd[i], *lst);
+			node->data = data;
 			curr = lstlast(*lst);
 			curr->next = node;
 		}
