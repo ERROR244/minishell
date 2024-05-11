@@ -6,7 +6,7 @@
 /*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/06 18:13:58 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/11 23:55:55 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int		check_file(char *str);
 int		check_if_NULL(char *str);
 int		check_for_pipe(t_cmds *cmds);
 int     cmdcheck(char *str);
+int		errormsg(char *str);
 
 
 #endif

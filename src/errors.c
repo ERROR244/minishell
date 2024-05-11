@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/05 22:52:41 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/11 23:46:44 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_put2str_fd(char *s1, char *s2, int fd)
 
 int  errormsg(char *str)
 {
-    ft_put2str_fd("minishel: syntax error near unexpected ", str, 2);
+    ft_put2str_fd("minishel: syntax error near unexpected token", str, 2);
     return (1);
 }
 
@@ -50,7 +50,7 @@ int check_file(char *str)
 int check_if_NULL(char *str)
 {
     if (!str)
-        return (errormsg("token `newline'\n"));
+        return (errormsg(" `newline'\n"));
     return (0);
 }
 
@@ -59,8 +59,8 @@ int check_for_pipe(t_cmds *cmds)
     if (!cmds->prev)
     {
         if (cmds->next && cmds->next->token == Pipe)
-            return (errormsg("token `||'\n"));
-        return (errormsg("token `|'\n"));
+            return (errormsg(" `||'\n"));
+        return (errormsg(" `|'\n"));
     }
     if (cmds->prev && cmds->prev->token != Pipe)
     {
@@ -69,8 +69,8 @@ int check_for_pipe(t_cmds *cmds)
             if (cmds->next->next && cmds->next->next->token == Pipe)
             {
                 if (cmds->next->next->next && cmds->next->next->next->token == Pipe)
-                    return (errormsg("token `||'\n"));
-                return (errormsg("token `|'\n"));
+                    return (errormsg(" `||'\n"));
+                return (errormsg(" `|'\n"));
             }
             else
                 return (11);
