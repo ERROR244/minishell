@@ -6,7 +6,7 @@
 /*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/12 00:02:26 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/12 00:41:26 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,22 @@ int check_for_in_out_put(t_cmds *cmds)
 	return (0);
 }
 
+int check_for_Append_heredoc(t_cmds *cmds)
+{
+	
+	if (cmds->token == Append)
+	{
+		if (!cmds->next)
+			return (errormsg(" 'newline'\n"));
+	}
+	else if (cmds->token == HereDoc)
+	{
+		if (!cmds->next)
+			return (errormsg(" 'newline'\n"));
+	}
+	return (0);
+}
+
 int errors_managment(t_data *data, int i)
 {
 	t_cmds *curr;
@@ -46,8 +62,6 @@ int errors_managment(t_data *data, int i)
 	curr = data->lst;
 	while (curr && i == 0)
 	{
-		// if (curr->token == AppendFile)
-		// 	i = check_file(curr->cmd);
 		if (curr->token == HereDocDel)
 			i = check_if_NULL(curr->cmd);
 		else if (curr->token == Infile)
@@ -59,7 +73,7 @@ int errors_managment(t_data *data, int i)
 		else if (curr->token == Output || curr->token == Input)
 			i = check_for_in_out_put(curr);
 		else if (curr->token == Append || curr->token == HereDoc)
-			i = check_for_file_access(curr);		//	to do
+			i = check_for_Append_heredoc(curr);
 		curr = curr->next;
 	}
 	return (i);
