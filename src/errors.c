@@ -6,7 +6,7 @@
 /*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/11 23:46:44 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/12 01:05:14 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,23 @@ int  errormsg(char *str)
     return (1);
 }
 
-int check_file(char *str)
+int check_file(t_cmds *cmds)
 {
-    if (access(str, F_OK) != 0)
+    if (access(cmds->cmd, F_OK) != 0)
     {
         ft_putstr_fd("minishel: ", 2);
-        ft_putstr_fd(str, 2);
+        ft_putstr_fd(cmds->cmd, 2);
         ft_putstr_fd(": No such file or directory\n", 2);
         return (1);
     }
+    else if (access(cmds->cmd, R_OK) != 0)
+    {
+        ft_putstr_fd("minishel: ", 2);
+        ft_putstr_fd(cmds->cmd, 2);
+        ft_putstr_fd(": Permission denied\n", 2);
+        return (1);
+    }
+    cmds->data->outfile = open(cmds->cmd, O_RDONLY, 0666);
     return (0);
 }
 

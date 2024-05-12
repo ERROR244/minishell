@@ -6,7 +6,7 @@
 /*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/12 00:44:00 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/12 01:22:51 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ typedef struct s_cmds
 
 struct s_data
 {
-    char *line;
-    char *infile;
-    char *outfile;
-    char *HRDel;
-    char *Appfile;
-	char **cmds;
+	char 	**cmds;
+    char 	*line;
+    char 	*HRDel;
+    int		infile;
+    int		outfile;
+    int		Appfile;
 	t_cmds *lst;
 };
 
@@ -78,11 +78,11 @@ void	parsing(t_data *data);
 char	*get_cmd(char *cmd);
 char	*get_flags(char *cmd);
 int		errors_managment(t_data *data, int flag);
-int		check_file(char *str);
+int		check_file(t_cmds *cmds);
 int		check_if_NULL(char *str);
 int		check_for_pipe(t_cmds *cmds);
 int     cmdcheck(char *str);
 int		errormsg(char *str);
-
+void	close_used_files(t_data *data);
 
 #endif
