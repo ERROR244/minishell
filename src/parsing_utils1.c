@@ -6,7 +6,7 @@
 /*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/12 00:44:25 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/13 16:26:17 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,19 @@ int get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 	int i;
 	
 	i = 0;
-	while (cmdcheck(cmd[i]) == 1)
-		i++;
+	// while (cmdcheck(cmd[i]) == 1)
+	// 	i++;
 	*lst = lstnew(cmd[i++], *lst);
 	(*lst)->data = data;
 	while (i < size)
 	{
-		if (cmdcheck(cmd[i]) == 0)
-		{
+		// if (cmdcheck(cmd[i]) == 0)
+		// {
 			node = lstnew(cmd[i], *lst);
 			node->data = data;
 			curr = lstlast(*lst);
 			curr->next = node;
-		}
+		// }
 		i++;
 	}
 	return (0);
@@ -132,6 +132,9 @@ static void token2(t_cmds *cmds, int i)
 
 void    init_tokens(t_cmds *cmds, int size)
 {
+	t_cmds *lst;
+		
+	lst = cmds;
 	while (cmds)
 	{
 		size = ft_strlen(cmds->cmd);
@@ -151,9 +154,30 @@ void    init_tokens(t_cmds *cmds, int size)
 			token2(cmds, 1);
 		else if (size == 2 && cmds->cmd[0] == '<' && cmds->cmd[1] == '<')
 			token2(cmds, 2);
-		else if (!cmds->prev && !cmds->next)
+		else   // if (!cmds->prev && !cmds->next)	//	why did i add this?
 			cmds->token = Cmd;
-		if (cmds)
-			cmds = cmds->next;
+		cmds = cmds->next;
 	}
+	non_token(lst);
+}
+
+void	non_token(t_cmds *lst)
+{
+	while (lst)
+	{
+		if (is_spaces(lst->cmd) == 0)
+			lst->token = Non;
+		lst = lst->next;
+	}
+}
+
+int is_spaces(char *str)
+{
+	while (*str)
+	{
+		if (*str != ' ')
+			return (1);
+		str++;
+	}
+	return (0);
 }

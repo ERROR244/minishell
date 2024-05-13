@@ -6,7 +6,7 @@
 /*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/12 01:19:19 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/13 16:38:27 by error01          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,44 +115,45 @@ void parsing(t_data *data)
 	init_tokens(lst, 0);
 	data->lst = lst;
 	data->cmds = cmds;
-	ret = errors_managment(data, flag);
+	// ret = errors_managment(data, flag);
 
-	
-	// if (ret == 11)
-	// {
-	// 	printf("11\n\n");
-	// 	ret = 0;
-	// }
-	// if (ret == 0)
-	// {
-	// 	// init_the_tree(lst);
-	// 	char str[100][100] = { "Cmd", "AppendFile",
-	// 							"HereDocDel", "Infile",
-	// 							"OutFile", "Input",
-	// 							"Output", "Append",
-	// 							"HereDoc", "Pipe",
-	// 							"Non" };
-	// 	while (lst)
-	// 	{
-	// 		if (lst->cmd == NULL)
-	// 			printf("cmds->cmd == NULL");
-	// 		else
-	// 			printf("%s---->%s \n", lst->cmd, str[lst->token]);
-	// 		if (!lst->next)
-	// 			break;
-	// 		lst = lst->next;
-	// 	}
+	ret = 1;
+	flag++;
+	if (0)
+	{
+		printf("11\n\n");
+		ret = 0;
+	}
+	if (1)
+	{
+		// init_the_tree(lst);
+		char str[100][100] = { "Cmd", "AppendFile",
+								"HereDocDel", "Infile",
+								"OutFile", "Input",
+								"Output", "Append",
+								"HereDoc", "Pipe",
+								"Non" };
+		while (lst)
+		{
+			if (lst->cmd == NULL)
+				printf("cmds->cmd == NULL");
+			else
+				printf("%s---->%s \n", lst->cmd, str[lst->token]);
+			if (!lst->next)
+				break;
+			lst = lst->next;
+		}
 		
-	// 	printf("\n");
+		printf("\n");
 		
-	// 	while (lst)
-	// 	{
-	// 		if (!lst->prev)
-	// 			break;
-	// 		lst = lst->prev;
-	// 	}
-	// 	// executing(data);	// exe
-	// }
+		while (lst)
+		{
+			if (!lst->prev)
+				break;
+			lst = lst->prev;
+		}
+		// executing(data);	// exe
+	}
 	
 
 	// close(data->infile);
