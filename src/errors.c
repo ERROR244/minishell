@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/17 09:02:30 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/17 16:27:03 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ int check_if_NULL(char *str)
 
 int check_for_pipe(t_cmds *cmds)
 {
-    if (!cmds->prev)
+    if (!cmds->prev || cmds->prev->token == Non)
     {
         if (cmds->next && cmds->next->token == Pipe)
             return (errormsg(" `||'\n"));
         return (errormsg(" `|'\n"));
     }
-    if (cmds->prev && cmds->prev->token != Pipe)
+    else if (cmds->prev && cmds->prev->token != Pipe)
     {
         if (cmds->next && cmds->next->token == Pipe)
         {
@@ -80,10 +80,13 @@ int check_for_pipe(t_cmds *cmds)
                     return (errormsg(" `||'\n"));
                 return (errormsg(" `|'\n"));
             }
-            // else
-            //     return (11);
         }
-        return (0);
     }
+    // else if (cmds->prev && cmds->prev->token == Non)
+    // {
+    //     if (cmds->next && cmds->next->token == Pipe)
+    //         return (errormsg(" `||'\n"));
+    //     return (errormsg(" `|'\n"));
+    // }
     return (0);
 }

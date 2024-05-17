@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/17 15:24:39 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/17 15:29:46 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,8 @@ static void token2(t_cmds *cmds, int i)
 	}
 }
 
-void    init_tokens(t_cmds *cmds, int size)
+void    init_tokens(t_cmds *cmds, int size, t_cmds *lst)
 {
-	t_cmds *lst;
-		
-	lst = cmds;
 	while (cmds)
 	{
 		size = ft_strlen(cmds->cmd);
