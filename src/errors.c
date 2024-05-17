@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/17 16:27:03 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/17 16:53:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ void	ft_put2str_fd(char *s1, char *s2, int fd)
 int  errormsg(char *str)
 {
     ft_put2str_fd("minishel: syntax error near unexpected token", str, 2);
+    return (1);
+}
+
+int  errormsg_v1(char *str)
+{
+    ft_putstr_fd("minishel: syntax error near unexpected token '", 2);
+    ft_putstr_fd(str, 2);
+    ft_putstr_fd("'\n", 2);
     return (1);
 }
 

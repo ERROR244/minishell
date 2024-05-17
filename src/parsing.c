@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/17 16:29:07 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/17 16:54:57 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,15 @@ int check_for_in_out_put(t_cmds *cmds)
 	{
 		if (!cmds->next || (cmds->next->token == Non && !cmds->next->next))
 			return (errormsg(" 'newline'\n"));
+		else if (cmds->prev && cmds->prev->token == Non)
+			return (errormsg_v1(cmds->cmd));
 	}
 	else if (cmds->token == Output)
 	{
 		if (!cmds->next || (cmds->next->token == Non && !cmds->next->next))
 			return (errormsg(" 'newline'\n"));
+		else if (cmds->prev && cmds->prev->token == Non)
+			return (errormsg_v1(cmds->cmd));
 	}
 	return (0);
 }
@@ -46,11 +50,15 @@ int check_for_Append_heredoc(t_cmds *cmds)
 	{
 		if (!cmds->next || (cmds->next->token == Non && !cmds->next->next))
 			return (errormsg(" 'newline'\n"));
+		else if (cmds->prev && cmds->prev->token == Non)
+			return (errormsg_v1(cmds->cmd));
 	}
 	else if (cmds->token == HereDoc)
 	{
 		if (!cmds->next || (cmds->next->token == Non && !cmds->next->next))
 			return (errormsg(" 'newline'\n"));
+		else if (cmds->prev && cmds->prev->token == Non)
+			return (errormsg_v1(cmds->cmd));
 	}
 	return (0);
 }
@@ -203,7 +211,7 @@ void parsing(t_data *data)
 	data->cmds = cmds;
 	ret = errors_managment(data, 0);
 
-	if (ret != 0 || 1)
+	if (ret != 0)
 	{
 		// root = init_the_tree(lst, i);
 		

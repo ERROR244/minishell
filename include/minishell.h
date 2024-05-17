@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/17 15:30:48 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/17 16:53:03 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int		check_if_NULL(char *str);
 int		check_for_pipe(t_cmds *cmds);
 int     cmdcheck(char *str);
 int		errormsg(char *str);
+int		errormsg_v1(char *str);
 void	close_used_files(t_data *data);
 int     is_spaces(char *str);
 void	non_token(t_cmds *lst);
