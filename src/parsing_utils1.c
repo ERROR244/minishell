@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/13 16:26:17 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/17 10:18:50 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,23 @@ int cmdcheck(char *str)
 	return (1);
 }
 
-int get_list(char **cmd, int size, t_cmds **lst, t_data *data)
+void get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 {
 	t_cmds *node;
 	t_cmds *curr;
 	int i;
 	
 	i = 0;
-	// while (cmdcheck(cmd[i]) == 1)
-	// 	i++;
 	*lst = lstnew(cmd[i++], *lst);
 	(*lst)->data = data;
 	while (i < size)
 	{
-		// if (cmdcheck(cmd[i]) == 0)
-		// {
-			node = lstnew(cmd[i], *lst);
-			node->data = data;
-			curr = lstlast(*lst);
-			curr->next = node;
-		// }
+		node = lstnew(cmd[i], *lst);
+		node->data = data;
+		curr = lstlast(*lst);
+		curr->next = node;
 		i++;
 	}
-	return (0);
 }
 
 char *rm_spaces(char *str)

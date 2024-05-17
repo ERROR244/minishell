@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/13 16:38:27 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/17 10:24:57 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,62 @@ int errors_managment(t_data *data, int i)
 	return (i);
 }
 
+char *get_line(char *str, int i)
+{
+	char *ptr;
+	int j;
+	
+	j = 0;
+	ptr = malloc(sizeof(char) * (i + 1));
+	j = 0;
+	while (j < i)
+	{
+		ptr[j] = str[j];
+		j++;
+	}
+	ptr[j] = '\0';
+	free(str);
+	return (ptr);
+}
+
+char *check_line(char *str)
+{
+	char *ptr;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (str[i] == '|')
+		i++;
+	while (str[i])
+	{
+		while (str[i] == '|')
+		{
+			i++;
+			j++;
+		}
+		if (j == 2 || !str[i])
+			break ;
+		j = 0;
+		i++;
+	}
+	if (j != 2)
+		return (str);
+	ptr = get_line(str, i - j);
+	return (ptr);
+}
+
 void parsing(t_data *data)
 {
     t_cmds *lst;
     t_cmds *cur;
 	char **cmds;
 	int ret;
-	int flag;
 	int i;
 
 	i = -1;
+	data->line = check_line(data->line);
 	cmds = ft_split_msh(data->line);
 	lst = NULL;
 	while (cmds[++i])
@@ -111,20 +157,18 @@ void parsing(t_data *data)
 	// 	printf(":%s:\n", cmds[i]);
     
 	
-	flag = get_list(cmds, i, &lst, data);
+	get_list(cmds, i, &lst, data);
 	init_tokens(lst, 0);
 	data->lst = lst;
 	data->cmds = cmds;
-	// ret = errors_managment(data, flag);
+	ret = errors_managment(data, 0);
 
-	ret = 1;
-	flag++;
-	if (0)
+	if (ret == 11)
 	{
 		printf("11\n\n");
 		ret = 0;
 	}
-	if (1)
+	if (ret == 0)
 	{
 		// init_the_tree(lst);
 		char str[100][100] = { "Cmd", "AppendFile",
@@ -155,14 +199,9 @@ void parsing(t_data *data)
 		// executing(data);	// exe
 	}
 	
-
-	// close(data->infile);
-	// close(data->outfile);
-	// close(data->Appfile);
-	
 	close_used_files(data);
-	
-	ret++;
+
+
 	cur = lst;		// free
 	
 	

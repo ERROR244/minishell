@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/13 16:20:36 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/17 10:19:38 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_cmds	*lstnew(char *cmd, t_cmds *stack);
 // parsing
 void	free_array(char **array);
 char	*rm_spaces(char *str);
-int     get_list(char **cmd, int size, t_cmds **lst, t_data *data);
+void     get_list(char **cmd, int size, t_cmds **lst, t_data *data);
 void    init_tokens(t_cmds *cmds, int size);
 void	parsing(t_data *data);
 char	*get_cmd(char *cmd);
