@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/17 10:19:38 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/17 15:05:39 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,14 @@ typedef struct s_cmds
 	
     t_token token;
     t_data *data;
-	
+
+    // Double linked list
 	struct s_cmds *next;
     struct s_cmds *prev;
+
+	// BST
+    struct s_cmds *left;
+    struct s_cmds *right;
 }   t_cmds;
 
 struct s_data
@@ -68,6 +73,7 @@ struct s_data
 t_cmds	*lstlast(t_cmds *lst);
 void	lstclear(t_cmds **lst);
 t_cmds	*lstnew(char *cmd, t_cmds *stack);
+int		lstsize(t_cmds *lst);
 
 // parsing
 void	free_array(char **array);

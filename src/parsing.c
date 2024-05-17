@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/17 10:24:57 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/17 15:06:20 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,26 @@ char *check_line(char *str)
 	return (ptr);
 }
 
+t_cmds	*init_the_tree(t_cmds *cmds)
+{
+	t_cmds *root;
+	t_cmds *tmp;
+	
+	tmp = cmds;
+
+	root = cmds->next;
+	root->left = cmds;
+	root->right = cmds->next->next;
+	
+	
+	return (root);
+}
+
 void parsing(t_data *data)
 {
     t_cmds *lst;
     t_cmds *cur;
+    t_cmds *root;
 	char **cmds;
 	int ret;
 	int i;
@@ -170,33 +186,36 @@ void parsing(t_data *data)
 	}
 	if (ret == 0)
 	{
-		// init_the_tree(lst);
-		char str[100][100] = { "Cmd", "AppendFile",
-								"HereDocDel", "Infile",
-								"OutFile", "Input",
-								"Output", "Append",
-								"HereDoc", "Pipe",
-								"Non" };
-		while (lst)
-		{
-			if (lst->cmd == NULL)
-				printf("cmds->cmd == NULL");
-			else
-				printf("%s---->%s \n", lst->cmd, str[lst->token]);
-			if (!lst->next)
-				break;
-			lst = lst->next;
-		}
+		root = init_the_tree(lst);
 		
-		printf("\n");
+		// char str[100][100] = { "Cmd", "AppendFile",
+		// 						"HereDocDel", "Infile",
+		// 						"OutFile", "Input",
+		// 						"Output", "Append",
+		// 						"HereDoc", "Pipe",
+		// 						"Non" };
+		// while (lst)
+		// {
+		// 	if (lst->cmd == NULL)
+		// 		printf("cmds->cmd == NULL");
+		// 	else
+		// 		printf("%s---->%s \n", lst->cmd, str[lst->token]);
+		// 	if (!lst->next)
+		// 		break;
+		// 	lst = lst->next;
+		// }
 		
-		while (lst)
-		{
-			if (!lst->prev)
-				break;
-			lst = lst->prev;
-		}
-		// executing(data);	// exe
+		// printf("\n");
+		
+		// while (lst)
+		// {
+		// 	if (!lst->prev)
+		// 		break;
+		// 	lst = lst->prev;
+		// }
+
+		// exe
+		// executing(root);
 	}
 	
 	close_used_files(data);

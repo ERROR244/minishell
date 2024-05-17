@@ -8,7 +8,7 @@ SRCS = 	src/minishell.c Libft/ft_split.c Libft/ft_putstr_fd.c\
 		src/lst.c Libft/ft_strjoin.c Libft/ft_strdup.c\
 		Libft/ft_putchar_fd.c Libft/ft_strnstr.c Libft/ft_strncmp.c\
 		Libft/ft_isalpha.c src/parsing.c Libft/ft_split_msh.c\
-		src/parsing_utils1.c Libft/ft_strlen.c\
+		src/parsing_utils1.c Libft/ft_strlen.c Libft/ft_lstsize_bonus.c\
 		src/parsing_utils2.c src/errors.c\
 
 

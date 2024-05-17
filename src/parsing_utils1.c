@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/17 10:18:50 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/17 15:24:39 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,8 @@ void    init_tokens(t_cmds *cmds, int size)
 			token2(cmds, 2);
 		else   // if (!cmds->prev && !cmds->next)	//	why did i add this?
 			cmds->token = Cmd;
-		cmds = cmds->next;
+		if (cmds)
+			cmds = cmds->next;
 	}
 	non_token(lst);
 }
