@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/17 16:53:03 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/18 12:23:12 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef enum s_token
     HereDocDel,
     Infile,
     OutFile,
+    Operation,
+    NonOperation,
     Input,		// '<'
     Output,		// '>'
     Append,		// '>>'
@@ -47,6 +49,7 @@ typedef struct s_cmds
     char *flags;
 	
     t_token token;
+    t_token operation;
     t_data *data;
 
     // Double linked list

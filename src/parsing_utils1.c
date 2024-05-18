@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/17 15:29:46 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/18 12:33:12 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void    init_tokens(t_cmds *cmds, int size, t_cmds *lst)
 			token2(cmds, 1);
 		else if (size == 2 && cmds->cmd[0] == '<' && cmds->cmd[1] == '<')
 			token2(cmds, 2);
-		else   // if (!cmds->prev && !cmds->next)	//	why did i add this?
+		else if (!cmds->prev && !cmds->next)	//	why did i add this?->don't ever change anything agin, don't you dare!
 			cmds->token = Cmd;
 		if (cmds)
 			cmds = cmds->next;
@@ -159,6 +159,14 @@ void	non_token(t_cmds *lst)
 	{
 		if (is_spaces(lst->cmd) == 0)
 			lst->token = Non;
+		if (lst->token == Input ||
+				lst->token == Output ||
+				lst->token == Append ||
+				lst->token == HereDoc ||
+				lst->token == Pipe)
+			lst->operation = Operation;
+		else
+			lst->operation = NonOperation;
 		lst = lst->next;
 	}
 }

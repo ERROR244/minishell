@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/17 16:54:57 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/18 14:50:08 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,36 +154,75 @@ char *check_line(char *str)
 	return (ptr);
 }
 
-// t_cmds	*init_the_tree(t_cmds *cmds, int size)
-// {
-// 	t_cmds *root;
-// 	t_cmds *tmp;
+void	this_is_op(t_cmds *op)
+{
+	printf("root-> %s \n", op->cmd);
+	if (op->prev)
+	{
+		op->left = op->prev;
+		printf("left-> %s \n", op->left->cmd);
+	}
+	else
+		op->left = NULL;
+	if (op->next)
+	{
+		op->right = op->next;
+		printf("right-> %s \n", op->right->cmd);
+	}
+	else
+		op->right = NULL;
+}
+
+void	this_is_nonop(t_cmds *cmd)
+{
+	cmd->left = NULL;
+	if (cmd->next)
+	{
+		cmd->right = cmd->next;
+		printf("cmd-> %s <->", cmd->cmd);
+		printf(" rightofcmd-> %s \n", cmd->right->cmd);
+	}
+	else
+		cmd->right = NULL;
+}
+
+t_cmds	*init_the_tree(t_cmds *cmds, int size)
+{
+	t_cmds *root;
 	
-// 	if (size == 1)
-// 	{
-// 		cmds->left = NULL;
-// 		cmds->right = NULL;
-// 		return (cmds);
-// 	}
-// 	else if (size == 2)
-// 	{
-// 		root = cmds->next;
-// 		cmds->left = cmds;
-// 		cmds->right = NULL;
-// 		return (root);
-// 	}
-// 	else
-// 	{
-// 		root = cmds->next;
-// 		cmds->left = cmds;
-// 		cmds->right = cmds->next->next;
-// 		return (root);
-// 	}
-// }
+	if (size == 1)
+	{
+		cmds->left = NULL;
+		cmds->right = NULL;
+		return (cmds);
+	}
+	else
+	{
+		cmds = cmds->next;
+		root = cmds;
+		while (cmds)
+		{
+			if (cmds->operation == Operation)
+				this_is_op(cmds);
+			else if (cmds->operation == NonOperation)
+				this_is_nonop(cmds);
+			cmds = cmds->next;
+		}
+	}
+	return (root);
+}
+
+void preortree(t_cmds* root) {
+    if (!root)
+        return;
+    printf("%s \n", root->cmd);
+    preortree(root->left);
+    preortree(root->right);
+}
 
 void parsing(t_data *data)
 {
-    // t_cmds *root;
+    t_cmds *root;
     t_cmds *lst;
     t_cmds *cur;
 	char **cmds;
@@ -210,25 +249,30 @@ void parsing(t_data *data)
 	data->lst = lst;
 	data->cmds = cmds;
 	ret = errors_managment(data, 0);
-
+	
+	root = init_the_tree(lst, i);
+	
 	if (ret != 0)
 	{
-		// root = init_the_tree(lst, i);
-		
-		// preOrder(root);
 
-		char str[100][100] = { "Cmd", "AppendFile",
+		char Gstr[100][100] = { "Cmd", "AppendFile",
 								"HereDocDel", "Infile",
-								"OutFile", "Input",
+								"OutFile", "Operation",
+								"NonOperation", "Input",
 								"Output", "Append",
 								"HereDoc", "Pipe",
 								"Non" };
+
+		// preOrder(root);
 		while (lst)
 		{
 			if (lst->cmd == NULL)
 				printf("cmds->cmd == NULL");
 			else
-				printf("%s---->%s \n", lst->cmd, str[lst->token]);
+			{
+				printf("%s---->%s \n", lst->cmd, Gstr[lst->token]);
+				printf("%s---->%s \n", lst->cmd, Gstr[lst->operation]);
+			}
 			if (!lst->next)
 				break;
 			lst = lst->next;
@@ -246,6 +290,9 @@ void parsing(t_data *data)
 		// exe
 		// executing(root);
 	}
+	// else
+	// 	preortree(root);
+	
 	
 	close_used_files(data);
 
