@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/18 12:23:12 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/18 21:06:28 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,18 @@ typedef struct s_cmds
     t_token operation;
     t_data *data;
 
-    // Double linked list
 	struct s_cmds *next;
     struct s_cmds *prev;
-
-	// BST
-    struct s_cmds *left;
-    struct s_cmds *right;
 }   t_cmds;
+
+typedef struct s_tree
+{
+    char *cmd;
+    char *flags;
+
+    struct s_tree *left;
+    struct s_tree *right;
+}   t_tree;
 
 struct s_data
 {

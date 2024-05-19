@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/18 14:50:08 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/19 11:46:13 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,75 +154,43 @@ char *check_line(char *str)
 	return (ptr);
 }
 
-void	this_is_op(t_cmds *op)
+t_tree* create_tree_node(char *value1, char *value2)
 {
-	printf("root-> %s \n", op->cmd);
-	if (op->prev)
-	{
-		op->left = op->prev;
-		printf("left-> %s \n", op->left->cmd);
-	}
-	else
-		op->left = NULL;
-	if (op->next)
-	{
-		op->right = op->next;
-		printf("right-> %s \n", op->right->cmd);
-	}
-	else
-		op->right = NULL;
-}
-
-void	this_is_nonop(t_cmds *cmd)
-{
-	cmd->left = NULL;
-	if (cmd->next)
-	{
-		cmd->right = cmd->next;
-		printf("cmd-> %s <->", cmd->cmd);
-		printf(" rightofcmd-> %s \n", cmd->right->cmd);
-	}
-	else
-		cmd->right = NULL;
-}
-
-t_cmds	*init_the_tree(t_cmds *cmds, int size)
-{
-	t_cmds *root;
+    t_tree *node = (t_tree *)malloc(sizeof(struct s_tree));
 	
-	if (size == 1)
-	{
-		cmds->left = NULL;
-		cmds->right = NULL;
-		return (cmds);
-	}
-	else
-	{
-		cmds = cmds->next;
-		root = cmds;
-		while (cmds)
-		{
-			if (cmds->operation == Operation)
-				this_is_op(cmds);
-			else if (cmds->operation == NonOperation)
-				this_is_nonop(cmds);
-			cmds = cmds->next;
-		}
-	}
+    node->cmd = value1;
+    node->flags = value2;
+    node->left = NULL;
+	node->right = NULL;
+    return (node);
+}
+
+t_tree	*init_the_tree(t_cmds *cmds, int size)
+{
+	t_tree *root;
+	
+	root = NULL;
+
+	(void)root;
+	(void)cmds;
+	(void)size;
+
+	// to do
+	
 	return (root);
 }
 
-void preortree(t_cmds* root) {
-    if (!root)
-        return;
-    printf("%s \n", root->cmd);
-    preortree(root->left);
-    preortree(root->right);
+void printTree(t_tree *root) {
+    if (root != NULL) {
+        printTree(root->left);
+        printf("%s \n", root->cmd);
+        printTree(root->right);
+    }
 }
 
 void parsing(t_data *data)
 {
-    t_cmds *root;
+    // t_tree *root;
     t_cmds *lst;
     t_cmds *cur;
 	char **cmds;
@@ -250,7 +218,7 @@ void parsing(t_data *data)
 	data->cmds = cmds;
 	ret = errors_managment(data, 0);
 	
-	root = init_the_tree(lst, i);
+	// root = init_the_tree(lst, i);
 	
 	if (ret != 0)
 	{
@@ -291,7 +259,7 @@ void parsing(t_data *data)
 		// executing(root);
 	}
 	// else
-	// 	preortree(root);
+	// 	printTree(root);
 	
 	
 	close_used_files(data);
