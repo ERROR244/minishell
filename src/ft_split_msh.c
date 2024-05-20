@@ -6,12 +6,11 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/04 17:46:30 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/20 16:55:12 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdlib.h>
+#include "../include/minishell.h"
 
 static int	count_words(char const *s)
 {
@@ -75,9 +74,38 @@ static void	ft_free(char **ptr, int i)
 	free(ptr);
 }
 
+int	inside(char const *s)
+{
+	char c;
+	int i;
+
+	i = 0;
+	while (*s)
+	{
+		if (*s == 39 || *s == 34)
+		{
+			c = *s;
+			while (++s && *s)
+			{
+				if (*s == '|' || *s == '<' || *s == '>')
+				{
+					if ((*s == '<' && *(s + 1) == '<') || (*s == '>' && *(s + 1) == '>'))
+						s++;
+					i++;
+				}
+				if (*s == c)
+					break ;
+			}
+		}
+		s++;
+	}
+	return (i);
+}
+
 static char	**split(char const *s, int i, char **ptr, int k)
 {
 	const char	*start;
+	char flag;
 
 	while (*s)
 	{
@@ -95,7 +123,6 @@ static char	**split(char const *s, int i, char **ptr, int k)
 			if ((*s == '<' && *(s + 1) == '<') || (*s == '>' && *(s + 1) == '>'))
 				k++;
 			ptr[i] = ndup(s, k);
-			if (ptr[i] == NULL)
 			ft_free(ptr, i);
 			s += k;
 		}
@@ -103,7 +130,7 @@ static char	**split(char const *s, int i, char **ptr, int k)
 	}
 	ptr[i] = NULL;
 	return (ptr);
-} //	nor
+}
 
 char	**ft_split_msh(char const *s)
 {
@@ -136,7 +163,7 @@ char	**ft_split_msh(char const *s)
 // {
 //     const char *test_string = av[1];
 
-//     char **result = ft_split(test_string);
+//     char **result = ft_split_msh(test_string);
 
 //     if (result)
 // 	{

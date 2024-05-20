@@ -6,44 +6,39 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/20 13:29:14 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/20 16:09:06 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*check_quotation(char *str)
+int	check_quotation(char *str)
 {
-	char *ptr;
+	char c;
 	int i;
 
-	i = 0;
+	i = -1;
 	if (!str)
-		return (NULL);
-	while (str[i])
+		return (-1);
+	while (str[++i])
 	{
-		if (str[i] == 39)
+		if (str[i] == 39 || str[i] == 34)
 		{
-			i++;
-			while (str[i])
+			c = str[i];
+			while (str[++i])
 			{
-				if (str[i] == 39)
+				if (str[i] == c)
 					break ;
-				i++;
 			}
 		}
 		if (str[i] == '\0')
 		{
         	errormsg(" 'newline'");
 			free(str);
-			return (NULL);
+			return (-1);
 		}
-		i++;
 	}
-	// free(str);
-	// return (ptr);
-	(void)ptr;
-	return (str);
+	return (0);
 }
 
 int main(int ac, char **av, char **env)
@@ -57,12 +52,10 @@ int main(int ac, char **av, char **env)
     while (1)
     {
 		data.line = readline("minishell$ ");
-		data.line = check_quotation(data.line);
-		if (data.line == NULL)
+		if (check_quotation(data.line) == -1 || data.line == NULL)
 			break;
 		add_history(data.line);
-		printf("%s \n", data.line);
-		// parsing(&data);
+		parsing(&data);
 		free(data.line);
     }
 	printf("\n");

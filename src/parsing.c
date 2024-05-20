@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/20 12:54:57 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/20 16:28:15 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,10 @@ int parsing(t_data *data)
 	while (tmp2)							// 
 	{										// 
 		tmp1 = tmp2->cmd;					// 
-		printf("|\n");						// 
+		printf(":\n");						// 
 		for (int i = 0; tmp1[i]; i++)		// 
 			printf("%s \n", tmp1[i]);		// 
-		printf("|\n");						// 
+		// printf(":\n");						// 
 		tmp2 = tmp2->next;					// 
 	}										// 
 	//
