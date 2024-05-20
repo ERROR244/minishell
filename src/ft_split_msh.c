@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/20 18:33:56 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/20 18:52:12 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,15 @@ const char	*inword(char const *s, char const *start)
 	char c1;
 	char c2;
 	int size = s - start;
-	int i = 0;
-	int one = 0;
-	int two = 0;
+	int i;
+	int one;
+	int two;
 
 
 
+	one = 0;
+	two = 0;
+	i = 0;
 	while (i <= size)
 	{
 		if (start[i] == 39)
@@ -156,12 +159,12 @@ const char	*inword(char const *s, char const *start)
 
 	
 	
-	if (one != 0 && one % 2 != 0)
+	if (one != 0 && one == 2)
 	{
 		while (*s && (*s != c1))
 			s++;
 	}
-	else if (two != 0 && two % 2 != 0)
+	else if (two != 0 && two == 2)
 	{
 		while (*s && (*s != c2))
 			s++;
@@ -169,22 +172,29 @@ const char	*inword(char const *s, char const *start)
 	return (s);
 }
 
+char const	*get_position(char const *s, char const	*start_tmp)
+{
+	while (*s && (*s != '|' && *s != '<' && *s != '>'))
+		s++;
+	s = inword(s, start_tmp);
+	while (*s && (*s != '|' && *s != '<' && *s != '>'))
+		s++;
+	return (s);
+}
+
 static char	**split(char const *s, int i, char **ptr, int k)
 {
-	const char	*start;
-	const char	*start_tmp = s;
+	char const	*start;
+	char const	*start_tmp;
 	
+	start_tmp = s;
 	while (*s)
 	{
 		k = 1;
 		if ((*s != '|' && *s != '<' && *s != '>'))
 		{
 			start = s;
-			while (*s && (*s != '|' && *s != '<' && *s != '>'))
-				s++;
-			s = inword(s, start_tmp);
-			while (*s && (*s != '|' && *s != '<' && *s != '>'))
-				s++;
+			s = get_position(s, start_tmp);
 			ptr[i] = ndup(start, s - start);
 			ft_free(ptr, i);
 		}
