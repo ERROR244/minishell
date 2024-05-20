@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/20 16:55:12 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/20 18:33:56 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,17 +102,87 @@ int	inside(char const *s)
 	return (i);
 }
 
+const char	*inword(char const *s, char const *start)
+{
+	char c1;
+	char c2;
+	int size = s - start;
+	int i = 0;
+	int one = 0;
+	int two = 0;
+
+
+
+	while (i <= size)
+	{
+		if (start[i] == 39)
+		{
+			c1 = start[i];
+			one++;
+			while (++i <= size)
+			{
+				if (start[i] == c1)
+				{
+					one++;
+					break;
+				}
+			}
+			if (one == 2)
+				one = 0;
+		}
+		i++;
+	}
+
+	i = 0;
+	while (i <= size)
+	{
+		if (start[i] == 34)
+		{
+			c2 = start[i];
+			two++;
+			while (++i <= size)
+			{
+				if (start[i] == c2)
+				{
+					two++;
+					break;
+				}
+			}
+			if (two == 2)
+				two = 0;
+		}
+		i++;
+	}
+
+	
+	
+	if (one != 0 && one % 2 != 0)
+	{
+		while (*s && (*s != c1))
+			s++;
+	}
+	else if (two != 0 && two % 2 != 0)
+	{
+		while (*s && (*s != c2))
+			s++;
+	}
+	return (s);
+}
+
 static char	**split(char const *s, int i, char **ptr, int k)
 {
 	const char	*start;
-	char flag;
-
+	const char	*start_tmp = s;
+	
 	while (*s)
 	{
 		k = 1;
-		if (*s != '|' && *s != '<' && *s != '>')
+		if ((*s != '|' && *s != '<' && *s != '>'))
 		{
 			start = s;
+			while (*s && (*s != '|' && *s != '<' && *s != '>'))
+				s++;
+			s = inword(s, start_tmp);
 			while (*s && (*s != '|' && *s != '<' && *s != '>'))
 				s++;
 			ptr[i] = ndup(start, s - start);
@@ -139,7 +209,7 @@ char	**ft_split_msh(char const *s)
 
 	if (s == NULL)
 		return (NULL);
-	word_count = count_words(s);
+	word_count = count_words(s);// - inside(s);
 	ptr = malloc((word_count + 1) * sizeof(char *));
 	if (ptr == NULL)
 	{
