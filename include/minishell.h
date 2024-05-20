@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/20 12:34:03 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/20 13:08:33 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	free_array(char **array);
 char	*rm_spaces(char *str);
 void     get_list(char **cmd, int size, t_cmds **lst, t_data *data);
 void    init_tokens(t_cmds *cmds, int size, t_cmds *lst);
-int	parsing(t_data *data);
+int     parsing(t_data *data);
 char	*get_cmd(char *cmd);
 char	*get_flags(char *cmd);
 int		errors_managment(t_data *data, int flag);
@@ -106,7 +106,7 @@ void	non_token(t_cmds *lst);
 int     check_for_in_out_put(t_cmds *cmds);
 int     check_for_Append_heredoc(t_cmds *cmds);
 int     check_access(t_cmds *curr);
-
+int     errormsg(char *str);
 
 
 // executing

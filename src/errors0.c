@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/20 12:14:02 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/20 13:16:25 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int check_for_pipe(t_cmds *cmds)
                 return (errormsg(" `|'\n"));
             }
         }
+        else if (!cmds->next || (cmds->next && cmds->next->token == Non))
+            return (errormsg(" 'newline'\n"));
     }
     return (0);
 }

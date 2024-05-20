@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/20 12:07:00 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/20 13:15:50 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,9 @@ void	non_token(t_cmds *lst)
 {
 	while (lst)
 	{
-		if (is_spaces(lst->cmd[0]) == 0)
+		if (!lst->cmd[0])
+			lst->token = Non;
+		else if (is_spaces(lst->cmd[0]) == 0)
 			lst->token = Non;
 		if (lst->token == Input ||
 				lst->token == Output ||
