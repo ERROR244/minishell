@@ -1,34 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/20 11:51:54 by ksohail-         ###   ########.fr       */
+/*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
+/*   Updated: 2024/05/20 11:20:41 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int main(int ac, char **av, char **env)
+int executing(t_data *data)
 {
-    t_data data;
-
-	if (ac != 1)
-		return (1);
-	(void)av;
-	data.env = env;
-    while (1)
-    {
-		data.line = readline("minishell$ ");
-		if (data.line == NULL)
-			break;
-		add_history(data.line);
-		parsing(&data);
-		free(data.line);
-    }
-	printf("\n");
+    (void)data;
     return (0);
 }

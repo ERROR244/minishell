@@ -6,74 +6,11 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/18 12:33:12 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/20 11:23:45 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-int cmdcheck(char *str)
-{
-	int i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-	{
-		if (str[i] != ' ')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-void get_list(char **cmd, int size, t_cmds **lst, t_data *data)
-{
-	t_cmds *node;
-	t_cmds *curr;
-	int i;
-	
-	i = 0;
-	*lst = lstnew(cmd[i++], *lst);
-	(*lst)->data = data;
-	while (i < size)
-	{
-		node = lstnew(cmd[i], *lst);
-		node->data = data;
-		curr = lstlast(*lst);
-		curr->next = node;
-		i++;
-	}
-}
-
-char *rm_spaces(char *str)
-{
-	int i;
-	int k;
-	int l;
-	char *ptr;
-
-	i = 0;
-	while (str[i] && (str[i] == ' ' || str[i] == '	'))
-		i++;
-	l = i;
-    k = i;
-	while (str[i++])
-        l++;
-    i--;
-    while (--i != 0 && (str[i] == ' ' || str[i] == '	'))
-	{
-        l--;
-	}
-	ptr = malloc(sizeof(char) * (l - k + 1));
-    i = 0;
-	while (k < l)
-		ptr[i++] = str[k++];
-	ptr[i] = '\0';
-	free(str);
-	return (ptr);
-}
 
 static void token1(t_cmds *cmds, char c)
 {
@@ -145,7 +82,7 @@ void    init_tokens(t_cmds *cmds, int size, t_cmds *lst)
 			token2(cmds, 1);
 		else if (size == 2 && cmds->cmd[0] == '<' && cmds->cmd[1] == '<')
 			token2(cmds, 2);
-		else if (!cmds->prev && !cmds->next)	//	why did i add this?->don't ever change anything agin, don't you dare!
+		else if (!cmds->prev && !cmds->next)
 			cmds->token = Cmd;
 		if (cmds)
 			cmds = cmds->next;

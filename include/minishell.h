@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/18 21:06:28 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/20 11:50:14 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_tree
 
 struct s_data
 {
+    char    **env;
 	char 	**cmds;
     char 	*line;
     char 	*HRDel;
@@ -87,7 +88,7 @@ void	free_array(char **array);
 char	*rm_spaces(char *str);
 void     get_list(char **cmd, int size, t_cmds **lst, t_data *data);
 void    init_tokens(t_cmds *cmds, int size, t_cmds *lst);
-void	parsing(t_data *data);
+int	parsing(t_data *data);
 char	*get_cmd(char *cmd);
 char	*get_flags(char *cmd);
 int		errors_managment(t_data *data, int flag);
@@ -100,6 +101,13 @@ int		errormsg_v1(char *str);
 void	close_used_files(t_data *data);
 int     is_spaces(char *str);
 void	non_token(t_cmds *lst);
+int     check_for_in_out_put(t_cmds *cmds);
+int     check_for_Append_heredoc(t_cmds *cmds);
+int     check_access(t_cmds *curr);
 
+
+
+// executing
+int     executing(t_data *data);
 
 #endif

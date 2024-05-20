@@ -1,39 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   errors0.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/17 16:53:31 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/20 11:23:59 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	ft_put2str_fd(char *s1, char *s2, int fd)
-{
-	if (fd >= 0 && s1 && s2)
-	{
-		while (*s1)
-		{
-			ft_putchar_fd(*s1, fd);
-			s1++;
-		}
-        while (*s2)
-		{
-			ft_putchar_fd(*s2, fd);
-			s2++;
-		}
-	}
-}
-
-int  errormsg(char *str)
-{
-    ft_put2str_fd("minishel: syntax error near unexpected token", str, 2);
-    return (1);
-}
 
 int  errormsg_v1(char *str)
 {
@@ -90,11 +67,33 @@ int check_for_pipe(t_cmds *cmds)
             }
         }
     }
-    // else if (cmds->prev && cmds->prev->token == Non)
-    // {
-    //     if (cmds->next && cmds->next->token == Pipe)
-    //         return (errormsg(" `||'\n"));
-    //     return (errormsg(" `|'\n"));
-    // }
     return (0);
+}
+
+char *rm_spaces(char *str)
+{
+	int i;
+	int k;
+	int l;
+	char *ptr;
+
+	i = 0;
+	while (str[i] && (str[i] == ' ' || str[i] == '	'))
+		i++;
+	l = i;
+    k = i;
+	while (str[i++])
+        l++;
+    i--;
+    while (--i != 0 && (str[i] == ' ' || str[i] == '	'))
+	{
+        l--;
+	}
+	ptr = malloc(sizeof(char) * (l - k + 1));
+    i = 0;
+	while (k < l)
+		ptr[i++] = str[k++];
+	ptr[i] = '\0';
+	free(str);
+	return (ptr);
 }
