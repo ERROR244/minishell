@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 11:09:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/18 20:54:44 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:06:22 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,7 @@ t_cmds	*lstnew(char *cmd, t_cmds *lst)
 	n_node = (t_cmds *)malloc(sizeof(struct s_cmds));
 	if (n_node == NULL)
 		return (NULL);
-	n_node->cmd = get_cmd(cmd);
-	n_node->flags = get_flags(cmd);
+	n_node->cmd = ft_split(cmd, ' ');
 	n_node->token = Non;
 	n_node->next = NULL;
 	if (lst == NULL)

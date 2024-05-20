@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/20 12:01:17 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:30:06 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,10 @@ void ft_clear(t_data *data)
     t_cmds *cur;
 
 	close_used_files(data);
-	cur = data->lst;		// free
+	cur = data->lst;
 	while (cur)
 	{
-		free(cur->cmd);
-		free(cur->flags);
+		free_array(cur->cmd);
 		cur = cur->next;
 	}
 	lstclear(&data->lst);
@@ -94,6 +93,7 @@ int parsing(t_data *data)
 	int i;
 
 	i = -1;
+	ret = 0;
 	lst = NULL;
 	data->line = check_line(data->line);
 	cmds = ft_split_msh(data->line);
@@ -103,9 +103,20 @@ int parsing(t_data *data)
 			cmds[i] = rm_spaces(cmds[i]);
 	}
 	get_list(cmds, i, &lst, data);
-	init_tokens(lst, 0, lst);
+	char **tmp1;
+    t_cmds *tmp2 = lst;
+	while (tmp2)
+	{
+		tmp1 = tmp2->cmd;
+		printf("|\n");
+		for (int i = 0; tmp1[i]; i++)
+			printf("%s \n", tmp1[i]);
+		printf("|\n");
+		tmp2 = tmp2->next;		
+	}
 	data->lst = lst;
 	data->cmds = cmds;
+	init_tokens(lst, 0, lst);
 	ret = errors_managment(data, 0);
 	if (ret == 0)
 		ret = executing(data);		// exe

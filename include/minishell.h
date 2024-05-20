@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/20 11:50:14 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:34:03 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@
 # include <sys/wait.h>
 # include <time.h>
 # include <unistd.h>
+
+
+
+typedef struct s_data t_data;
+
+
 
 typedef enum s_token
 {
@@ -41,12 +47,11 @@ typedef enum s_token
     Non
 }   t_token;
 
-typedef struct s_data t_data;
+
 
 typedef struct s_cmds
 {
-    char *cmd;
-    char *flags;
+    char **cmd;
 	
     t_token token;
     t_token operation;
@@ -56,14 +61,7 @@ typedef struct s_cmds
     struct s_cmds *prev;
 }   t_cmds;
 
-typedef struct s_tree
-{
-    char *cmd;
-    char *flags;
 
-    struct s_tree *left;
-    struct s_tree *right;
-}   t_tree;
 
 struct s_data
 {
@@ -77,11 +75,15 @@ struct s_data
 	t_cmds *lst;
 };
 
+
+
 // lst
 t_cmds	*lstlast(t_cmds *lst);
 void	lstclear(t_cmds **lst);
 t_cmds	*lstnew(char *cmd, t_cmds *stack);
 int		lstsize(t_cmds *lst);
+
+
 
 // parsing
 void	free_array(char **array);

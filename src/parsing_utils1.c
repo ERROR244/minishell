@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/20 11:23:45 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:07:00 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,22 @@ void    init_tokens(t_cmds *cmds, int size, t_cmds *lst)
 {
 	while (cmds)
 	{
-		size = ft_strlen(cmds->cmd);
-		if (size == 1 && cmds->cmd[0] == '<')
+		size = ft_strlen(cmds->cmd[0]);
+		if (size == 1 && cmds->cmd[0][0] == '<')
 		{
 			token1(cmds, '<');
 			cmds = cmds->next;
 		}
-		else if (size == 1 && cmds->cmd[0] == '>')
+		else if (size == 1 && cmds->cmd[0][0] == '>')
 		{
 			token1(cmds, '>');
 			cmds = cmds->next;
 		}
-		else if (size == 1 && cmds->cmd[0] == '|')
+		else if (size == 1 && cmds->cmd[0][0] == '|')
 			token1(cmds, '|');
-		else if (size == 2 && cmds->cmd[0] == '>' && cmds->cmd[1] == '>')
+		else if (size == 2 && cmds->cmd[0][0] == '>' && cmds->cmd[0][1] == '>')
 			token2(cmds, 1);
-		else if (size == 2 && cmds->cmd[0] == '<' && cmds->cmd[1] == '<')
+		else if (size == 2 && cmds->cmd[0][0] == '<' && cmds->cmd[0][1] == '<')
 			token2(cmds, 2);
 		else if (!cmds->prev && !cmds->next)
 			cmds->token = Cmd;
@@ -94,7 +94,7 @@ void	non_token(t_cmds *lst)
 {
 	while (lst)
 	{
-		if (is_spaces(lst->cmd) == 0)
+		if (is_spaces(lst->cmd[0]) == 0)
 			lst->token = Non;
 		if (lst->token == Input ||
 				lst->token == Output ||
