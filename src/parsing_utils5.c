@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/21 15:28:05 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:34:48 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	remove_quotes(t_cmds *lst)
 				lst->cmd[i] = get_string(lst->cmd[i], 0, 0, get_size(lst->cmd[i]));
 			i++;
 		}
-		// if (ft_strcmp("echo", lst->cmd[0]))
+		if (ft_strcmp("echo", lst->cmd[0]) == 0)
+			printf("here is one\n");
 		lst = lst->next;
 	}
 }
