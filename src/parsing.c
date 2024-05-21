@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/20 16:28:15 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:39:13 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void ft_clear(t_data *data)
 {
     t_cmds *cur;
 
-	close_used_files(data);
+	// close_used_files(data);
 	cur = data->lst;
 	while (cur)
 	{
@@ -96,6 +96,14 @@ int parsing(t_data *data)
 	lst = NULL;
 	data->line = check_line(data->line);
 	cmds = ft_split_msh(data->line);
+
+	
+	//
+	for (int i = 0; cmds[i]; i++)
+		printf("cmds[%d]->%s-\n", i, cmds[i]);
+	//
+
+	
 	while (cmds[++i])
 	{
 		if (cmdcheck(cmds[i]) == 0)

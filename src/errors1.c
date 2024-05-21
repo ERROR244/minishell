@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/20 11:23:13 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:07:04 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,23 +69,4 @@ int cmdcheck(char *str)
 		i++;
 	}
 	return (1);
-}
-
-void get_list(char **cmd, int size, t_cmds **lst, t_data *data)
-{
-	t_cmds *node;
-	t_cmds *curr;
-	int i;
-	
-	i = 0;
-	*lst = lstnew(cmd[i++], *lst);
-	(*lst)->data = data;
-	while (i < size)
-	{
-		node = lstnew(cmd[i], *lst);
-		node->data = data;
-		curr = lstlast(*lst);
-		curr->next = node;
-		i++;
-	}
 }

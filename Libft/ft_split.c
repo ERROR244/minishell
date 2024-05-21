@@ -6,13 +6,15 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 17:39:39 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/04 17:45:49 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:36:24 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	count_words(char const *s, char c)
+#include "../include/minishell.h"
+
+static int	count(char const *s, char c)
 {
 	int	count;
 	int	in_word;
@@ -36,27 +38,6 @@ static int	count_words(char const *s, char c)
 	return (count);
 }
 
-static char	*ndup(const char *s, size_t n)
-{
-	char	*dup;
-	size_t	i;
-
-	if (!s)
-		return (NULL);
-	dup = (char *)malloc((n + 1) * sizeof(char));
-	if (dup != NULL)
-	{
-		i = 0;
-		while (i < n)
-		{
-			dup[i] = s[i];
-			i++;
-		}
-		dup[n] = '\0';
-	}
-	return (dup);
-}
-
 static void	ft_free(char **ptr, int i)
 {
 	int	j;
@@ -65,6 +46,22 @@ static void	ft_free(char **ptr, int i)
 	while (j < i)
 		free(ptr[j++]);
 	free(ptr);
+}
+
+char const	*get_index(char const *s, char c)
+{
+	char tmp;
+
+	while (*s && ((*s != c)))
+	{
+		if (*s == 39 || *s == 34)
+		{
+			tmp = *s;
+			while (++s && *s != tmp) {}
+		}
+		s++;
+	}
+	return (s);
 }
 
 static char	**split(char const *s, char c, int i, char **ptr)
@@ -76,8 +73,7 @@ static char	**split(char const *s, char c, int i, char **ptr)
 		if (*s != c)
 		{
 			start = s;
-			while (*s && *s != c)
-				s++;
+			s = get_index(s, c);
 			ptr[i] = ndup(start, s - start);
 			if (ptr[i] == NULL)
 			{
@@ -100,7 +96,7 @@ char	**ft_split(char const *s, char c)
 
 	if (s == NULL)
 		return (NULL);
-	word_count = count_words(s, c);
+	word_count = count(s, c);
 	ptr = malloc((word_count + 1) * sizeof(char *));
 	if (ptr == NULL)
 	{

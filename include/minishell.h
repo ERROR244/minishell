@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/20 13:08:33 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:19:22 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,38 +78,41 @@ struct s_data
 
 
 // lst
-t_cmds	*lstlast(t_cmds *lst);
-void	lstclear(t_cmds **lst);
-t_cmds	*lstnew(char *cmd, t_cmds *stack);
-int		lstsize(t_cmds *lst);
+t_cmds	    *lstlast(t_cmds *lst);
+void	    lstclear(t_cmds **lst);
+t_cmds	    *lstnew(char *cmd, t_cmds *stack);
+int		    lstsize(t_cmds *lst);
 
 
 
 // parsing
-void	free_array(char **array);
-char	*rm_spaces(char *str);
-void     get_list(char **cmd, int size, t_cmds **lst, t_data *data);
-void    init_tokens(t_cmds *cmds, int size, t_cmds *lst);
-int     parsing(t_data *data);
-char	*get_cmd(char *cmd);
-char	*get_flags(char *cmd);
-int		errors_managment(t_data *data, int flag);
-int		check_file(t_cmds *cmds);
-int		check_if_NULL(char *str);
-int		check_for_pipe(t_cmds *cmds);
-int     cmdcheck(char *str);
-int		errormsg(char *str);
-int		errormsg_v1(char *str);
-void	close_used_files(t_data *data);
-int     is_spaces(char *str);
-void	non_token(t_cmds *lst);
-int     check_for_in_out_put(t_cmds *cmds);
-int     check_for_Append_heredoc(t_cmds *cmds);
-int     check_access(t_cmds *curr);
-int     errormsg(char *str);
-
+void	    free_array(char **array);
+char	    *rm_spaces(char *str);
+void         get_list(char **cmd, int size, t_cmds **lst, t_data *data);
+void        init_tokens(t_cmds *cmds, int size, t_cmds *lst);
+int         parsing(t_data *data);
+char	    *get_cmd(char *cmd);
+char	    *get_flags(char *cmd);
+int		    errors_managment(t_data *data, int flag);
+int		    check_file(t_cmds *cmds);
+int		    check_if_NULL(char *str);
+int		    check_for_pipe(t_cmds *cmds);
+int         cmdcheck(char *str);
+int		    errormsg(char *str);
+int		    errormsg_v1(char *str);
+void	    close_used_files(t_data *data);
+int         is_spaces(char *str);
+void	    non_token(t_cmds *lst);
+int         check_for_in_out_put(t_cmds *cmds);
+int         check_for_Append_heredoc(t_cmds *cmds);
+int         check_access(t_cmds *curr);
+int         errormsg(char *str);
+int         check_quotation(char *str);
+int     	count_words(char const *s);
+char	    *ndup(const char *s, size_t n);
+char const	*get_position(char const *s);
 
 // executing
-int     executing(t_data *data);
+int          executing(t_data *data);
 
 #endif
