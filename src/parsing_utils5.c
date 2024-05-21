@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/21 12:55:19 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:28:05 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@ size_t get_size(char *str)
 		if (str[i] == 39 || str[i] == 34)
 		{
 			tmp = str[i];
-			while (str[++i] != tmp)
-			{
-				
-			}
+			i++;
+			while (str[i] != tmp)
+				i++;
 			k += 2;
 		}
 		i++;
@@ -36,27 +35,28 @@ size_t get_size(char *str)
 	return (i - k);
 }
 
-static char	*get_string(char *str, size_t i, size_t k)
+static char	*get_string(char *str, size_t i, size_t k, size_t size)
 {
 	char	*ptr;
-	char	tmp;
-	size_t	size;
 
-	if (!str)
-		return NULL;
-	size = get_size(str);
 	if (size == ft_strlen(str))
 		return (str);
 	ptr = malloc(sizeof(char) * (size + 1));
 	while (k < size)
 	{
-		if (str[i] == 39 || str[i] == 34)
+		while (str[i] == 39 || str[i] == 34)
 		{
-			tmp = str[i++];
-			while (str[i] != tmp)
-				ptr[k++] = str[i++];
+			i++;
+			while (str[i] != 39 && str[i] != 34)
+			{
+				ptr[k] = str[i];
+				k++;
+				i++;
+			}
 			i++;
 		}
+		if (k == size)
+			break ;
 		ptr[k++] = str[i++];
 	}
 	ptr[k] = '\0';
@@ -68,14 +68,16 @@ void	remove_quotes(t_cmds *lst)
 {
 	int i;
 
-	i = 0;
 	while (lst)
 	{
+		i = 0;
 		while (lst->cmd[i])
 		{
-			lst->cmd[i] = get_string(lst->cmd[i], 0, 0);
+			if (lst->cmd[i] != NULL)
+				lst->cmd[i] = get_string(lst->cmd[i], 0, 0, get_size(lst->cmd[i]));
 			i++;
 		}
+		// if (ft_strcmp("echo", lst->cmd[0]))
 		lst = lst->next;
 	}
 }

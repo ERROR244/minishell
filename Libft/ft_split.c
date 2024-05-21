@@ -6,12 +6,11 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 17:39:39 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/21 11:36:24 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:30:41 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
 #include "../include/minishell.h"
 
 static int	count(char const *s, char c)
