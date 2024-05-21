@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/21 11:39:13 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/21 12:56:07 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,10 @@ int parsing(t_data *data)
 	cmds = ft_split_msh(data->line);
 
 	
-	//
-	for (int i = 0; cmds[i]; i++)
-		printf("cmds[%d]->%s-\n", i, cmds[i]);
-	//
+	// //
+	// for (int i = 0; cmds[i]; i++)
+	// 	printf("cmds[%d]-> %s-\n", i, cmds[i]);
+	// //
 
 	
 	while (cmds[++i])
@@ -110,20 +110,21 @@ int parsing(t_data *data)
 			cmds[i] = rm_spaces(cmds[i]);
 	}
 	get_list(cmds, i, &lst, data);
-
-	//
-	char **tmp1;							//
-    t_cmds *tmp2 = lst;						//
-	while (tmp2)							// 
-	{										// 
-		tmp1 = tmp2->cmd;					// 
-		printf(":\n");						// 
-		for (int i = 0; tmp1[i]; i++)		// 
-			printf("%s \n", tmp1[i]);		// 
-		// printf(":\n");						// 
-		tmp2 = tmp2->next;					// 
-	}										// 
-	//
+	remove_quotes(lst);
+	
+	// //
+	// char **tmp1;							//
+    // t_cmds *tmp2 = lst;						//
+	// while (tmp2)							// 
+	// {										// 
+	// 	tmp1 = tmp2->cmd;					// 
+	// 	printf(":\n");						// 
+	// 	for (int i = 0; tmp1[i]; i++)		// 
+	// 		printf("%s\n", tmp1[i]);		// 
+	// 	// printf(":\n");					// 
+	// 	tmp2 = tmp2->next;					// 
+	// }										// 
+	// //
 	
 	data->lst = lst;
 	data->cmds = cmds;

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 11:09:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/21 11:26:03 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:48:42 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,31 +28,6 @@ char *get_cmd(char *cmd)
 		tmp[k] = cmd[k];
         k++;
     }
-	tmp[k] = '\0';
-	return (tmp);
-}
-
-char *get_flags(char *cmd)
-{
-	char *tmp;
-	int i;
-	int k;
-    int size;
-
-	i = 0;
-	k = 0;
-    size = ft_strlen(cmd);
-	while (cmd && cmd[i] && cmd[i] != ' ')
-		i++;
-	while (cmd && cmd[i] && cmd[i] == ' ')
-		i++;
-    if (i == size)
-	{
-        return (NULL);
-	}
-	tmp = malloc(sizeof(char) * (size - i + 1));
-	while (cmd[i])
-		tmp[k++] = cmd[i++];
 	tmp[k] = '\0';
 	return (tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/21 11:19:22 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/21 12:13:08 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void         get_list(char **cmd, int size, t_cmds **lst, t_data *data);
 void        init_tokens(t_cmds *cmds, int size, t_cmds *lst);
 int         parsing(t_data *data);
 char	    *get_cmd(char *cmd);
-char	    *get_flags(char *cmd);
 int		    errors_managment(t_data *data, int flag);
 int		    check_file(t_cmds *cmds);
 int		    check_if_NULL(char *str);
@@ -110,7 +109,10 @@ int         errormsg(char *str);
 int         check_quotation(char *str);
 int     	count_words(char const *s);
 char	    *ndup(const char *s, size_t n);
+void        remove_quotes(t_cmds *lst);
 char const	*get_position(char const *s);
+
+
 
 // executing
 int          executing(t_data *data);

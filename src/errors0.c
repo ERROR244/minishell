@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/21 11:08:01 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:54:54 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,32 @@ int check_for_pipe(t_cmds *cmds)
             return (errormsg(" 'newline'\n"));
     }
     return (0);
+}
+
+int	check_quotation(char *str)
+{
+	char c;
+	int i;
+
+	i = -1;
+	if (!str)
+		return (-1);
+	while (str[++i])
+	{
+		if (str[i] == 39 || str[i] == 34)
+		{
+			c = str[i];
+			while (str[++i])
+			{
+				if (str[i] == c)
+					break ;
+			}
+		}
+		if (str[i] == '\0')
+		{
+        	errormsg(" 'newline'\n");
+			return (-1);
+		}
+	}
+	return (0);
 }

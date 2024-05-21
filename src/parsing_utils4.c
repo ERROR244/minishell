@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/21 11:34:02 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:55:56 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,34 +57,6 @@ char *rm_spaces(char *str)
 	ptr[i] = '\0';
 	free(str);
 	return (ptr);
-}
-
-int	check_quotation(char *str)
-{
-	char c;
-	int i;
-
-	i = -1;
-	if (!str)
-		return (-1);
-	while (str[++i])
-	{
-		if (str[i] == 39 || str[i] == 34)
-		{
-			c = str[i];
-			while (str[++i])
-			{
-				if (str[i] == c)
-					break ;
-			}
-		}
-		if (str[i] == '\0')
-		{
-        	errormsg(" 'newline'\n");
-			return (-1);
-		}
-	}
-	return (0);
 }
 
 int	count_words(char const *s)
