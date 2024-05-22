@@ -11,7 +11,7 @@ SRCS = 	src/minishell.c Libft/ft_split.c Libft/ft_putstr_fd.c\
 		src/parsing_utils1.c Libft/ft_strlen.c Libft/ft_lstsize_bonus.c\
 		src/parsing_utils2.c src/errors0.c src/parsing_utils4.c\
 		src/executing.c src/errors1.c src/parsing_utils5.c\
-		Libft/ft_strcmp.c src/parsing_utils6.c\
+		Libft/ft_strcmp.c src/parsing_utils6.c src/parsing_utils7.c\
 
 
 OBJ = $(SRCS:.c=.o)

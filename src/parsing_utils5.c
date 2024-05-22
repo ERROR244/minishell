@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/22 16:27:45 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/22 19:01:30 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ int how_many_dollar_in(char *str)
 void	expand_variable(t_cmds *cmds)
 {
 	char	**var;
+	// char	**spleted_line;
+	char	*line;
 	int		i;
 	int		j;
 	int		k;
@@ -129,6 +131,7 @@ void	expand_variable(t_cmds *cmds)
 					j++;
 				}
 				var[k] = NULL;
+				// spleted_line = ft_split_str();
 				for (int t = 0; var[t]; t++)
 					printf("HERE is N = %d -> %s \n", t, var[t]);
 				free_array(var);

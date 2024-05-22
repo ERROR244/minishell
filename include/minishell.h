@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/22 15:57:29 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/22 18:51:15 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,9 @@ char	    *ndup(const char *s, size_t n);
 void        remove_quotes(t_cmds *lst);
 int         dollar_is_in(char *str);
 char        *grep_variable_name(char *line);
+char        **ft_split_str(char *s1);
 char const	*get_position(char const *s);
+
 
 // executing
 int          executing(t_data *data);
