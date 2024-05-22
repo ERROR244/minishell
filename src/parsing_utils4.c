@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/21 11:55:56 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:43:39 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ void get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 	int i;
 	
 	i = 0;
+	if (cmd[0] == NULL)
+	{
+		*lst = lstnew("\n", *lst);
+		return ;
+	}
 	*lst = lstnew(cmd[i++], *lst);
 	(*lst)->data = data;
 	while (i < size)
@@ -66,6 +71,8 @@ int	count_words(char const *s)
 
 	count = 0;
 	in_word = 0;
+	if (s[0] == '\0')
+		return (1);
 	while (s && *s)
 	{
 		if (*s == '|' || *s == '<' || *s == '>')

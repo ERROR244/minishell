@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/21 15:34:48 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:27:45 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,83 @@ static char	*get_string(char *str, size_t i, size_t k, size_t size)
 	return (ptr);
 }
 
+char	*is_the_variable_in(char **env, char *str)
+{
+	int		i;
+	char	*ptr;
+
+	i = 0;
+	ptr = NULL;
+	if (str == NULL)
+		return (NULL);
+	while (env[i])
+	{
+		ptr = ft_strnstr(env[i], str, ft_strlen(str));
+		if (ptr != NULL)
+			return (ptr);
+		i++;
+	}
+	return (NULL);
+}
+
+int how_many_dollar_in(char *str)
+{
+	int i;
+	int k;
+	
+	i = 0;
+	k = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			k++;
+			i++;
+		}
+		i++;
+	}
+	return (k + 1);
+}
+
+void	expand_variable(t_cmds *cmds)
+{
+	char	**var;
+	int		i;
+	int		j;
+	int		k;
+
+	while (cmds)
+	{
+		i = 1;
+		while (cmds->cmd[i])
+		{
+			if (dollar_is_in(cmds->cmd[i]))
+			{
+				var = malloc(sizeof(char *) * how_many_dollar_in(cmds->cmd[i]));
+				k = 0;
+				j = 0;
+				while (cmds->cmd[i][j])
+				{
+					if (cmds->cmd[i][j] == '$')
+					{
+						var[k] = grep_variable_name(cmds->cmd[i] + j);
+						k++;
+					}
+					j++;
+				}
+				var[k] = NULL;
+				for (int t = 0; var[t]; t++)
+					printf("HERE is N = %d -> %s \n", t, var[t]);
+				free_array(var);
+			}
+			i++;
+		}
+		cmds = cmds->next;
+	}
+	
+}
+
+
 void	remove_quotes(t_cmds *lst)
 {
 	int i;
@@ -78,7 +155,7 @@ void	remove_quotes(t_cmds *lst)
 			i++;
 		}
 		if (ft_strcmp("echo", lst->cmd[0]) == 0)
-			printf("here is one\n");
+			expand_variable(lst);
 		lst = lst->next;
 	}
 }
