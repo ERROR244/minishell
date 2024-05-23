@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/23 12:56:51 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:47:35 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ size_t get_size(char *str)
 static char	*get_string(char *str, size_t i, size_t k, size_t size)
 {
 	char	*ptr;
+	char	tmp;
 
 	if (size == ft_strlen(str))
 		return (str);
@@ -46,12 +47,10 @@ static char	*get_string(char *str, size_t i, size_t k, size_t size)
 	{
 		while (str[i] == 39 || str[i] == 34)
 		{
-			i++;
-			while (str[i] != 39 && str[i] != 34)
+			tmp = str[i++];
+			while (str[i] != tmp)
 			{
-				ptr[k] = str[i];
-				k++;
-				i++;
+				ptr[k++] = str[i++];
 			}
 			i++;
 		}
@@ -134,27 +133,35 @@ int how_many_dollar_in(char *str)
 // line6	var6
 						// line6 = line6+var6
 
-			// echo 'he $khalil are you $20 years old?'
-			
+						
 char	*get_final_line(char **lines, char **vars)
 {
 	char	*line;
 	char	*tmp;
 	int		i = 0;
+	int		j = 0;
 
 	// line = ft_strjoin(lines[0], vars[0]);
 	line = NULL;
 	
-	while (lines[i] && vars[i])
+	while (lines[i] || vars[j])
 	{
-		if (lines[i] && i % 2 == 0)
+		if (lines[i])
+		{
 			tmp = ft_strjoin(line, lines[i]);
-		else if (vars[i] && i % 2 == 0)
-			tmp = ft_strjoin(line, vars[i]);
-		if (line != NULL)
-			free(line);
-		i++;
-		line = tmp;
+			if (!line)
+				free(line);
+			line = tmp;
+			i++;
+		}
+		if (vars[j])
+		{
+			tmp = ft_strjoin(line, vars[j]);
+			if (!line)
+				free(line);
+			line = tmp;
+			j++;
+		}
 	}
 
 
@@ -198,7 +205,7 @@ void	expand_variable(t_cmds *cmds)
 				
 				free(cmds->cmd[i]);
 				cmds->cmd[i] = line;
-				printf("%s\n<->\n%s \n", cmds->cmd[i], line);
+				printf("%s \n", cmds->cmd[i]);
 				// for (int t = 0; var[t]; t++)
 				// 	printf("HERE is N = %d -> %s \n", t, var[t]);
 				free_array(var);
