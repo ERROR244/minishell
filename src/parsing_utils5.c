@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/22 19:01:30 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:56:51 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,25 @@ static char	*get_string(char *str, size_t i, size_t k, size_t size)
 	return (ptr);
 }
 
+void	remove_quotes(t_cmds *lst)
+{
+	int i;
+
+	while (lst)
+	{
+		i = 0;
+		while (lst->cmd[i])
+		{
+			if (lst->cmd[i] != NULL)
+				lst->cmd[i] = get_string(lst->cmd[i], 0, 0, get_size(lst->cmd[i]));
+			i++;
+		}
+		if (ft_strcmp("echo", lst->cmd[0]) == 0)
+			expand_variable(lst);
+		lst = lst->next;
+	}
+}
+
 char	*is_the_variable_in(char **env, char *str)
 {
 	int		i;
@@ -102,10 +121,51 @@ int how_many_dollar_in(char *str)
 	return (k + 1);
 }
 
+// line1	var1
+						// line2 = line1+var1+line2
+// line2	var2
+						// line3 = line2+var2+line3
+// line3	var3
+						// line4 = line3+var3+line4				//	algo.
+// line4	var4
+						// line5 = line4+var4+line5
+// line5	var5
+						// line6 = line5+var5+line6
+// line6	var6
+						// line6 = line6+var6
+
+			// echo 'he $khalil are you $20 years old?'
+			
+char	*get_final_line(char **lines, char **vars)
+{
+	char	*line;
+	char	*tmp;
+	int		i = 0;
+
+	// line = ft_strjoin(lines[0], vars[0]);
+	line = NULL;
+	
+	while (lines[i] && vars[i])
+	{
+		if (lines[i] && i % 2 == 0)
+			tmp = ft_strjoin(line, lines[i]);
+		else if (vars[i] && i % 2 == 0)
+			tmp = ft_strjoin(line, vars[i]);
+		if (line != NULL)
+			free(line);
+		i++;
+		line = tmp;
+	}
+
+
+	
+	return (line);
+}
+
 void	expand_variable(t_cmds *cmds)
 {
 	char	**var;
-	// char	**spleted_line;
+	char	**spleted_line;
 	char	*line;
 	int		i;
 	int		j;
@@ -131,34 +191,24 @@ void	expand_variable(t_cmds *cmds)
 					j++;
 				}
 				var[k] = NULL;
-				// spleted_line = ft_split_str();
-				for (int t = 0; var[t]; t++)
-					printf("HERE is N = %d -> %s \n", t, var[t]);
+				spleted_line = ft_split_str(cmds->cmd[i]);
+
+				
+				line = get_final_line(spleted_line, var);		//	working on
+				
+				free(cmds->cmd[i]);
+				cmds->cmd[i] = line;
+				printf("%s\n<->\n%s \n", cmds->cmd[i], line);
+				// for (int t = 0; var[t]; t++)
+				// 	printf("HERE is N = %d -> %s \n", t, var[t]);
 				free_array(var);
+				free_array(spleted_line);
 			}
+			else
+				free(cmds->cmd[i]);
 			i++;
 		}
 		cmds = cmds->next;
 	}
 	
-}
-
-
-void	remove_quotes(t_cmds *lst)
-{
-	int i;
-
-	while (lst)
-	{
-		i = 0;
-		while (lst->cmd[i])
-		{
-			if (lst->cmd[i] != NULL)
-				lst->cmd[i] = get_string(lst->cmd[i], 0, 0, get_size(lst->cmd[i]));
-			i++;
-		}
-		if (ft_strcmp("echo", lst->cmd[0]) == 0)
-			expand_variable(lst);
-		lst = lst->next;
-	}
 }

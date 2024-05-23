@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/22 19:52:15 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:07:53 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,14 @@ static int	count(char *s1)
 	in_word = 0;
 	while (s1 && *s1)
 	{
-		if (*s1 == '$')
+		if (*s1 == '$' && (s1[1] != ' ' && s1[1] != '\n' && s1[1] != ':' && s1[1] != '$'))
         {
             s1++;
-            if (*s1 == ' ' || *s1 == '\n' || *s1 == ':' || *s1 == '$')
-            {
-                count++;
-            }
-            else if (*s1 != '$')
+			if (*s1 != '$')
             {
                 while (*s1 && (*s1 != ' ' && *s1 != '\n' && *s1 != ':' && *s1 != '$'))
 			    {
+					// printf("----->:$%c:\n", *s1);
                     s1++;
                 }
 			    in_word = 0;
@@ -40,10 +37,18 @@ static int	count(char *s1)
 		else if (in_word == 0)
 		{
 		    count++;
-            while (*s1 && *s1 != '$')
+			// printf(":");
+            while (*s1 && (*s1 != '$' || (s1[1] == ' ' || s1[1] == '\n' || s1[1] == ':' || s1[1] == '$') || !s1[1]))
 		    {
+				// printf("%c", *s1);
+				if (s1[0] == '$' && s1[1] == '$')
+				{
+					s1++;
+					// printf("%c", *s1);
+				}
                 s1++;
             }
+			// printf(":\n");
 		    in_word = 1;
 		}
         else
@@ -86,19 +91,23 @@ static void	ft_free(char **ptr, int i)
 static char	**split(char *s1, int i, char **ptr)
 {
 	char	*start;
-    int         size;
 
 	while (*s1)
 	{
-		if (*s1 != '$')
+		if (*s1 != '$' || (s1[1] == ' ' || s1[1] == '\n' || s1[1] == ':' || s1[1] == '$'))
 		{
-			start = s1++;
+
+			// printf("+++++>:%c:\n", s1[1]);
+			start = s1;
             while (*s1)
             {
-                s1++;
-                if (*s1 == '$')
-                    break ;
+                if (*s1 == '$' && (s1[1] == '$' || s1[1] == ':' || s1[1] == ' '))
+                    s1++;
+				else if (*s1 == '$')
+					break ;
+				s1++;
             }
+			// printf("+++++>:%c:\n", *s1);
 			ptr[i] = dup_size(start, s1 - start);
 			if (ptr[i] == NULL)
 			{
@@ -111,7 +120,11 @@ static char	**split(char *s1, int i, char **ptr)
         {
             s1++;
             while (*s1 && (*s1 != ' ' && *s1 != '\n' && *s1 != ':' && *s1 != '$'))
+			{
+				
+				// printf("----->:$%c:\n", *s1);
                 s1++;
+			}
         }
 	}
 	ptr[i] = NULL;
@@ -126,8 +139,8 @@ char	**ft_split_str(char *s1)
 	if (s1 == NULL)
 		return (NULL);
 	word_count = count(s1);
-    printf("%d \n", word_count);
-    return (NULL);
+    // printf("%d \n", word_count);
+    // return (NULL);
 	ptr = malloc((word_count + 1) * sizeof(char *));
 	if (ptr == NULL)
 	{
@@ -137,33 +150,33 @@ char	**ft_split_str(char *s1)
 }
 
 
-void free_split_array(char **split_array)
-{
-    char **ptr = split_array;
-    while (*ptr) {
-        free(*ptr);
-        ptr++;
-    }
-    free(split_array);
-}
+// void free_split_array(char **split_array)
+// {
+//     char **ptr = split_array;
+//     while (*ptr) {
+//         free(*ptr);
+//         ptr++;
+//     }
+//     free(split_array);
+// }
 
-int main(int ac, char **av)
-{
-    char **result = ft_split_str(av[1]);
+// int main(int ac, char **av)
+// {
+//     char **result = ft_split_str(av[1]);
 
-    if (result)
-	{
-        for (int i = 0; result[i]; i++)
-		{
-            printf(":%s:\n", result[i]);
-        }
+//     if (result)
+// 	{
+//         for (int i = 0; result[i]; i++)
+// 		{
+//             printf(":%s:\n", result[i]);
+//         }
 
-        free_split_array(result);
-    }
-	else
-	{
-        printf("Error: ft_split returned NULL\n");
-    }
+//         free_split_array(result);
+//     }
+// 	else
+// 	{
+//         printf("Error: ft_split returned NULL\n");
+//     }
 
-    return 0;
-}
+//     return 0;
+// }
