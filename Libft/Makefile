@@ -6,7 +6,7 @@
 #    By: error01 <error01@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/01 14:29:42 by ksohail-          #+#    #+#              #
-#    Updated: 2024/03/11 17:45:14 by error01          ###   ########.fr        #
+#    Updated: 2024/05/23 14:53:01 by ksohail-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,22 +73,12 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): run_script $(OBJ)
-	@printf "\033[0;32m\nCompilation completed :-)\033[0m\n"
-	@printf "\033[0;32mBuilding MyLib"
-	@for i in 1 2 3; do \
-        sleep 0.5; \
-        printf "."; \
-    done
-	@printf "\n"
+$(NAME):	$(OBJ)
 	@ar rcs $(NAME) $(OBJ)
 
 %.o:	%.c
 	$(CC) $(CFLAGS) -c $^ -o $@
-	
-run_script:
-	@./script.sh
-	
+
 clean:
 	@rm -f $(OBJ)
 fclean: clean

@@ -12,7 +12,7 @@ SRCS = 	src/minishell.c Libft/ft_split.c Libft/ft_putstr_fd.c\
 		src/parsing_utils2.c src/errors0.c src/parsing_utils4.c\
 		src/executing.c src/errors1.c src/parsing_utils5.c\
 		Libft/ft_strcmp.c src/parsing_utils6.c src/parsing_utils7.c\
-
+		Libft/ft_isdigit.c Libft/ft_isalnum.c
 
 OBJ = $(SRCS:.c=.o)
 
