@@ -6,7 +6,7 @@
 #    By: error01 <error01@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/01 14:29:42 by ksohail-          #+#    #+#              #
-#    Updated: 2024/05/23 14:53:01 by ksohail-         ###   ########.fr        #
+#    Updated: 2024/05/24 17:16:53 by ksohail-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,15 +53,6 @@ SRC = ft_lstadd_back_bonus.c\
 				ft_striteri.c\
 				ft_strmapi.c\
 				ft_substr.c\
-				get_next_line.c\
-				get_next_line_utils.c\
-				ft_printf.c\
-				print_ch.c\
-				print_i_d.c\
-				print_p.c\
-				print_str.c\
-				print_u.c\
-				print_x.c
 
 CC = cc
 
