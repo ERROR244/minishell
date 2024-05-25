@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/25 11:13:02 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/25 11:33:51 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ char	*get_content(char **env, char *str)
 		size =  ft_strlen(str);
 		ptr = ft_strnstr(env[i], str, size);
 		if (ptr != NULL)
-			return (ptr + size + 1);
+			return (ft_strdup(ptr + size + 1));
 		i++;
 	}
 	return (NULL);
@@ -158,7 +158,6 @@ char	*get_content(char **env, char *str)
 char	*get_final_line(char **lines, char **vars, char	**env)
 {
 	char	*line;
-	char	*tmp;
 	int		i = 0;
 	int		j = 0;
 
@@ -167,14 +166,13 @@ char	*get_final_line(char **lines, char **vars, char	**env)
 	{
 		if (lines[i])
 		{
-			tmp = ft_strjoin(line, lines[i]);
-			line = tmp;
+			line = ft_strjoin(line, lines[i]);
 			i++;
 		}
 		if (vars[j])
 		{
-			tmp = ft_strjoin(line, get_content(env, vars[j]));
-			line = tmp;
+			line = ft_strjoin(line, get_content(env, vars[j]));
+			free(vars[j]);
 			j++;
 		}
 	}
@@ -211,6 +209,8 @@ void	expand_variable(t_cmds *cmds)
 
 				for(int i = 0; spleted_line[i]; i++)
 					printf(":%s: \n", spleted_line[i]);
+				for(int i = 0; var[i]; i++)
+					printf(":%s: \n", var[i]);
 					
 				line = get_final_line(spleted_line, var, cmds->data->env);		//	working on
 				
@@ -218,8 +218,10 @@ void	expand_variable(t_cmds *cmds)
 				cmds->cmd[i] = line;
 				// free(cmds->cmd[i]);
 				// printf("%s \n", cmds->cmd[i]);
-				free_array(var);
-				free_array(spleted_line);
+				// free_array(var);
+				// free_array(spleted_line);
+				free(var);
+				free(spleted_line);
 			}
 			// else
 				// free(cmds->cmd[i]);			//	why i add this??

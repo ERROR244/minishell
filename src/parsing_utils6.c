@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:47:27 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/24 17:14:31 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/25 11:35:36 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*grep_variable_name(char *line)
 	if (!line)
 		return (NULL);
 	j = ++i;
-	while (line[i] && line[i] != '\n' && line[i] != ' ' && line[i] != ':' && line[i] != '$')
+	while (line[i] && ft_isalnum(line[i]) == 1)
 		i++;
 	k = i - j;
 	str = malloc(sizeof(char) * (k + 1));
