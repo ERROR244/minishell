@@ -6,49 +6,11 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/25 09:55:24 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/25 16:55:35 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static int	count(char *s1)
-{
-	int	count;
-	int	in_word;
-
-	count = 0;
-	in_word = 0;
-	while (s1 && *s1)
-	{
-		if (*s1 == '$' && ft_isalpha(s1[1]) == 1)
-        {
-            s1++;
-			if (*s1 != '$')
-            {
-                while (*s1 && ft_isalpha(s1[0]) == 1)
-			    {
-                    s1++;
-                }
-			    in_word = 0;
-            }
-        }
-		else if (in_word == 0)
-		{
-		    count++;
-            while (*s1 && (*s1 != '$' || (ft_isalnum(s1[0]) == 1) || !s1[1]))
-		    {
-				if (s1[0] == '$' && s1[1] == '$')
-					s1++;
-                s1++;
-            }
-		    in_word = 1;
-		}
-        else
-    		s1++;
-	}
-	return (count);
-}
 
 static char	*dup_size(char *s, size_t n)
 {
@@ -125,9 +87,7 @@ char	**ft_split_str(char *s1)
 
 	if (s1 == NULL)
 		return (NULL);
-	word_count = count(s1);
-    // printf("%d \n", word_count);
-    // return (NULL);
+	word_count = count_vars(s1);
 	ptr = malloc((word_count + 1) * sizeof(char *));
 	if (ptr == NULL)
 	{

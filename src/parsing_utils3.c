@@ -6,13 +6,13 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/25 11:36:41 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/25 16:30:09 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	ft_free(char **ptr, int i)
+void	ft_free(char **ptr, int i)
 {
 	int	j;
 

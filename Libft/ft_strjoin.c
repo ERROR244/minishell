@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:54:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/25 11:30:51 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/25 16:24:24 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (s1 == NULL && s2 != NULL)
 	{
 		ptr = ft_strdup((char *)s2);
-		free(s2);
+		free((char *) s2);
 		return (ptr);
 	}
 	if (s2 == NULL && s1 != NULL)
 	{
 		ptr = ft_strdup((char *)s1);
-		free(s1);
+		free((char *) s1);
 		return (ptr);
 	}
 	if (s1 == NULL && s2 == NULL)
@@ -45,7 +45,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while (s2[j])
 		ptr[i++] = s2[j++];
 	ptr[i] = '\0';
-	free(s1);
-	free(s2);
+	free((char *) s1);
+	free((char *) s2);
 	return (ptr);
 }

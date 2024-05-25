@@ -6,11 +6,39 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/25 11:36:39 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/25 16:58:09 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	expand_variable(t_cmds *cmds)
+{
+	char	**var;
+	char	**spleted_line;
+	char	*line;
+	int		i;
+
+	while (cmds)
+	{
+		i = 1;
+		while (cmds->cmd[i])
+		{
+			if (dollar_is_in(cmds->cmd[i]))
+			{
+				var = get_vars(cmds->cmd[i]);
+				spleted_line = ft_split_str(cmds->cmd[i]);
+				line = get_final_line(spleted_line, var, cmds->data->env, cmds->cmd[i]);
+				free(cmds->cmd[i]);
+				cmds->cmd[i] = line;
+				free(var);
+				free(spleted_line);
+			}
+			i++;
+		}
+		cmds = cmds->next;
+	}
+}
 
 void get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 {

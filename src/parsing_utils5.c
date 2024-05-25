@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/25 11:33:51 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/25 17:00:29 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,20 +120,6 @@ int how_many_dollar_in(char *str)
 	return (k + 1);
 }
 
-// line1	var1
-						// line2 = line1+var1+line2
-// line2	var2
-						// line3 = line2+var2+line3
-// line3	var3
-						// line4 = line3+var3+line4				//	algo.
-// line4	var4
-						// line5 = line4+var4+line5
-// line5	var5
-						// line6 = line5+var5+line6
-// line6	var6
-						// line6 = line6+var6
-
-
 char	*get_content(char **env, char *str)
 {
 	int		i;
@@ -155,28 +141,48 @@ char	*get_content(char **env, char *str)
 	return (NULL);
 }
 
-char	*get_final_line(char **lines, char **vars, char	**env)
+char	*get_final_line(char **lines, char **vars, char	**env, char *cmd)
 {
 	char	*line;
 	int		i = 0;
 	int		j = 0;
 
 	line = NULL;
+	if (cmd[0] == '$')
+	{
+		line = ft_strjoin(line, get_content(env, vars[j]));
+		free(vars[j++]);
+	}
 	while (lines[i] || vars[j])
 	{
 		if (lines[i])
-		{
-			line = ft_strjoin(line, lines[i]);
-			i++;
-		}
+			line = ft_strjoin(line, lines[i++]);
 		if (vars[j])
 		{
 			line = ft_strjoin(line, get_content(env, vars[j]));
-			free(vars[j]);
-			j++;
+			free(vars[j++]);
 		}
 	}
 	return (line);
+}
+
+char	**get_vars(char *cmd)
+{
+	char	**var;
+	int		k;
+	int		j;
+
+	var = malloc(sizeof(char *) * how_many_dollar_in(cmd));
+	k = 0;
+	j = 0;
+	while (cmd[j])
+	{
+		if (cmd[j] == '$')
+			var[k++] = grep_variable_name(cmd + j);
+		j++;
+	}
+	var[k] = NULL;
+	return (var);
 }
 
 void	expand_variable(t_cmds *cmds)
@@ -185,8 +191,6 @@ void	expand_variable(t_cmds *cmds)
 	char	**spleted_line;
 	char	*line;
 	int		i;
-	int		j;
-	int		k;
 
 	while (cmds)
 	{
@@ -195,31 +199,11 @@ void	expand_variable(t_cmds *cmds)
 		{
 			if (dollar_is_in(cmds->cmd[i]))
 			{
-				var = malloc(sizeof(char *) * how_many_dollar_in(cmds->cmd[i]));
-				k = 0;
-				j = 0;
-				while (cmds->cmd[i][j])
-				{
-					if (cmds->cmd[i][j] == '$')
-						var[k++] = grep_variable_name(cmds->cmd[i] + j);
-					j++;
-				}
-				var[k] = NULL;
+				var = get_vars(cmds->cmd[i]);
 				spleted_line = ft_split_str(cmds->cmd[i]);
-
-				for(int i = 0; spleted_line[i]; i++)
-					printf(":%s: \n", spleted_line[i]);
-				for(int i = 0; var[i]; i++)
-					printf(":%s: \n", var[i]);
-					
-				line = get_final_line(spleted_line, var, cmds->data->env);		//	working on
-				
+				line = get_final_line(spleted_line, var, cmds->data->env, cmds->cmd[i]);
 				free(cmds->cmd[i]);
 				cmds->cmd[i] = line;
-				// free(cmds->cmd[i]);
-				// printf("%s \n", cmds->cmd[i]);
-				// free_array(var);
-				// free_array(spleted_line);
 				free(var);
 				free(spleted_line);
 			}
@@ -229,5 +213,4 @@ void	expand_variable(t_cmds *cmds)
 		}
 		cmds = cmds->next;
 	}
-	
 }
