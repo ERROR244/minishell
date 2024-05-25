@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/24 17:14:27 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/25 11:13:02 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,39 +133,51 @@ int how_many_dollar_in(char *str)
 // line6	var6
 						// line6 = line6+var6
 
-						
-char	*get_final_line(char **lines, char **vars)
+
+char	*get_content(char **env, char *str)
+{
+	int		i;
+	int		size;
+	char	*ptr;
+
+	i = 0;
+	ptr = NULL;
+	if (str == NULL)
+		return (NULL);
+	while (env[i])
+	{
+		size =  ft_strlen(str);
+		ptr = ft_strnstr(env[i], str, size);
+		if (ptr != NULL)
+			return (ptr + size + 1);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*get_final_line(char **lines, char **vars, char	**env)
 {
 	char	*line;
 	char	*tmp;
 	int		i = 0;
 	int		j = 0;
 
-	// line = ft_strjoin(lines[0], vars[0]);
 	line = NULL;
-	
 	while (lines[i] || vars[j])
 	{
 		if (lines[i])
 		{
 			tmp = ft_strjoin(line, lines[i]);
-			if (!line)
-				free(line);
 			line = tmp;
 			i++;
 		}
 		if (vars[j])
 		{
-			tmp = ft_strjoin(line, vars[j]);
-			if (!line)
-				free(line);
+			tmp = ft_strjoin(line, get_content(env, vars[j]));
 			line = tmp;
 			j++;
 		}
 	}
-
-
-	
 	return (line);
 }
 
@@ -191,28 +203,26 @@ void	expand_variable(t_cmds *cmds)
 				while (cmds->cmd[i][j])
 				{
 					if (cmds->cmd[i][j] == '$')
-					{
-						var[k] = grep_variable_name(cmds->cmd[i] + j);
-						k++;
-					}
+						var[k++] = grep_variable_name(cmds->cmd[i] + j);
 					j++;
 				}
 				var[k] = NULL;
 				spleted_line = ft_split_str(cmds->cmd[i]);
 
-				
-				line = get_final_line(spleted_line, var);		//	working on
+				for(int i = 0; spleted_line[i]; i++)
+					printf(":%s: \n", spleted_line[i]);
+					
+				line = get_final_line(spleted_line, var, cmds->data->env);		//	working on
 				
 				free(cmds->cmd[i]);
 				cmds->cmd[i] = line;
-				printf("%s \n", cmds->cmd[i]);
-				// for (int t = 0; var[t]; t++)
-				// 	printf("HERE is N = %d -> %s \n", t, var[t]);
+				// free(cmds->cmd[i]);
+				// printf("%s \n", cmds->cmd[i]);
 				free_array(var);
 				free_array(spleted_line);
 			}
-			else
-				free(cmds->cmd[i]);
+			// else
+				// free(cmds->cmd[i]);			//	why i add this??
 			i++;
 		}
 		cmds = cmds->next;

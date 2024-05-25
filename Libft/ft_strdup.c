@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: error01 <error01@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 19:47:38 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/02 17:46:21 by error01          ###   ########.fr       */
+/*   Updated: 2024/05/25 11:19:15 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-int ft_no_st_len(const char *str)
-{
-	int i;
-	int size;
-
-	i = 0;
-	size = 0;
-	while (str[i])
-	{
-		if (str[i] != 32 && str[i] != 9)
-			size++;
-		i++;
-	}
-	return (size);
-}
-
 
 char	*ft_strdup(const char *s)
 {
@@ -36,7 +19,7 @@ char	*ft_strdup(const char *s)
 	int		k;
 	int		len;
 
-	len = ft_no_st_len(s);
+	len = ft_strlen(s);
 	i = 0;
 	k = 0;
 	ptr = (char *)malloc((len + 1) * sizeof(char));
@@ -44,13 +27,11 @@ char	*ft_strdup(const char *s)
 		return (NULL);
 	while (i < len)
 	{
-		if (s[k] != 32 && s[k] != 9)
-		{
-			ptr[i] = s[k];
-			i++;
-		}
+		ptr[i] = s[k];
+		i++;
 		k++;
 	}
 	ptr[i] = '\0';
+	// free((char *)s);
 	return (ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/24 17:14:23 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/25 09:55:24 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,34 +136,33 @@ char	**ft_split_str(char *s1)
 	return (split(s1, 0, ptr));
 }
 
+// void free_split_array(char **split_array)
+// {
+//     char **ptr = split_array;
+//     while (*ptr) {
+//         free(*ptr);
+//         ptr++;
+//     }
+//     free(split_array);
+// }
 
-void free_split_array(char **split_array)
-{
-    char **ptr = split_array;
-    while (*ptr) {
-        free(*ptr);
-        ptr++;
-    }
-    free(split_array);
-}
+// int main(int ac, char **av)
+// {
+//     char **result = ft_split_str(av[1]);
 
-int main(int ac, char **av)
-{
-    char **result = ft_split_str(av[1]);
+//     if (result)
+// 	{
+//         for (int i = 0; result[i]; i++)
+// 		{
+//             printf(":%s:\n", result[i]);
+//         }
 
-    if (result)
-	{
-        for (int i = 0; result[i]; i++)
-		{
-            printf(":%s:\n", result[i]);
-        }
+//         free_split_array(result);
+//     }
+// 	else
+// 	{
+//         printf("Error: ft_split returned NULL\n");
+//     }
 
-        free_split_array(result);
-    }
-	else
-	{
-        printf("Error: ft_split returned NULL\n");
-    }
-
-    return 0;
-}
+//     return 0;
+// }
