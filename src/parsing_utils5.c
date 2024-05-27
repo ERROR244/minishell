@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/27 11:03:39 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/27 11:54:09 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,26 +63,6 @@ static char	*get_string(char *str, size_t i, size_t k, size_t size)
 	return (ptr);
 }
 
-
-char	*is_the_variable_in(char **env, char *str)
-{
-	int		i;
-	char	*ptr;
-
-	i = 0;
-	ptr = NULL;
-	if (str == NULL)
-		return (NULL);
-	while (env[i])
-	{
-		ptr = ft_strnstr(env[i], str, ft_strlen(str));
-		if (ptr != NULL)
-			return (ptr);
-		i++;
-	}
-	return (NULL);
-}
-
 int how_many_dollar_in(char *str)
 {
 	int i;
@@ -136,10 +116,15 @@ char	*get_content(char **env, char *str)
 		size =  ft_strlen(str);
 		ptr = ft_strnstr(env[i], str, size);
 		if (ptr != NULL)
-			return (ft_strdup(ptr + size + 1));
+		{
+			if (*(ptr + size) == '=')
+				return (ft_strdup(ptr + size + 1));
+			else
+				return (ft_strdup(""));
+		}
 		i++;
 	}
-	return (NULL);
+	return (ft_strdup(""));
 }
 
 char	*get_final_line(char **lines, char **vars, char *cmd)
@@ -252,7 +237,8 @@ void	expand_variable(t_cmds *cmds)
 
 	while (cmds)
 	{
-		i = 1;
+		i = 0;
+		// printf("HERE\n");
 		while (cmds->cmd[i])
 		{
 			if (dollar_is_in(cmds->cmd[i]))
@@ -303,8 +289,8 @@ void	remove_quotes(t_cmds *lst)
 				lst->cmd[i] = get_string(lst->cmd[i], 0, 0, get_size(lst->cmd[i]));
 			i++;
 		}
-		if (ft_strcmp("echo", lst->cmd[0]) == 0)
-			expand_variable(lst);
+		// if (ft_strcmp("echo", lst->cmd[0]) == 0)
+		expand_variable(lst);
 		lst = lst->next;
 	}
 }
