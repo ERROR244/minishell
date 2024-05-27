@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/24 17:14:59 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/27 21:48:36 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 int  errormsg_v1(char *str)
 {
     ft_putstr_fd("minishel: syntax error near unexpected token '", 2);
+    ft_putstr_fd(str, 2);
+    ft_putstr_fd("'\n", 2);
+    return (1);
+}
+
+int  errormsg_v2(char *str)
+{
+    ft_putstr_fd("minishel: syntax error near unexpected token '", 2);
+    ft_putstr_fd(str, 2);
     ft_putstr_fd(str, 2);
     ft_putstr_fd("'\n", 2);
     return (1);
@@ -59,14 +68,16 @@ int check_for_pipe(t_cmds *cmds)
     {
         if (cmds->next && cmds->next->token == Pipe)
         {
-            if (cmds->next->next && cmds->next->next->token == Pipe)
+            if (cmds->next->token == Pipe)
+                    return (errormsg(" `||'\n"));
+            else if (cmds->next->next && cmds->next->next->token == Pipe)
             {
                 if (cmds->next->next->next && cmds->next->next->next->token == Pipe)
                     return (errormsg(" `||'\n"));
                 return (errormsg(" `|'\n"));
             }
         }
-        else if (!cmds->next || (cmds->next && cmds->next->token == Non))
+        else if (!cmds->next || (cmds->next && cmds->next->token == Non && cmds->next->next && cmds->next->next->operation == NonOperation))
             return (errormsg(" 'newline'\n"));
     }
     return (0);

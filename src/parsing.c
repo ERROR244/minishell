@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/27 15:36:08 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/27 21:56:14 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,30 +110,31 @@ int parsing(t_data *data)
 	}
 	get_list(cmds, i, &lst, data);
 	remove_quotes(lst);
+	init_tokens(lst, 0, lst);
+
 	
-	//
-	// char **tmp1;							//
-    // t_cmds *tmp2 = lst;						//
-	// while (tmp2)							//
-	// {										//
-	// 	tmp1 = tmp2->cmd;					//
-	// 	for (int i = 0; tmp1[i]; i++)		//
-	// 	{									//
-	// 		if (data->line[0] != '\0')		//
-	// 			printf("%s ", tmp1[i]);		//
-	// 	} 									//
-	// 	printf("\n");						//
-	// 	tmp2 = tmp2->next;					//
-	// }										//
+	// //
+	char **tmp1;							//
+    t_cmds *tmp2 = lst;						//
+	while (tmp2)							//
+	{										//
+		tmp1 = tmp2->cmd;					//
+		for (int i = 0; tmp1[i]; i++)		//
+		{									//
+			if (data->line[0] != '\0')		//
+				printf("%s ", tmp1[i]);		//
+		} 									//
+		printf("\n");						//
+		tmp2 = tmp2->next;					//
+	}										//
 	//
 	
 	data->lst = lst;
 	data->cmds = cmds;
-	init_tokens(lst, 0, lst);
 	ret = errors_managment(data, 0);
 	// if (ret == 0)
 		// ret = executing(data);		// exe
-	executing(data);					// exe_tmp
+	// executing(data);					// exe_tmp
 	ft_clear(data);
 	return (ret);
 }

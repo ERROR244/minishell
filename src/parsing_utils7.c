@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/27 11:04:33 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/27 20:50:19 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	**split(char *s1, int i, char **ptr)
 {
 	char	*start;
 
-	while (*s1)
+	while (s1 && *s1)
 	{
 		if (*s1 != '$' || ft_isalnum(s1[1]) == 0)
 		{
@@ -59,6 +59,8 @@ static char	**split(char *s1, int i, char **ptr)
                     s1++;
 				else if (*s1 == '$')
 					break ;
+				if (!*s1)
+					break;
 				s1++;
             }
 			ptr[i] = dup_size(start, s1 - start);

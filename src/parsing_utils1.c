@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/25 11:36:43 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/27 21:23:23 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static void token1(t_cmds *cmds, char c)
 			cmds->next->token = OutFile;
 		cmds->token = Output;
 	}
-
 	else if (c == '|')
 	{
 		if (cmds->prev && cmds->prev->token == Non)
@@ -67,15 +66,9 @@ void    init_tokens(t_cmds *cmds, int size, t_cmds *lst)
 	{
 		size = ft_strlen(cmds->cmd[0]);
 		if (size == 1 && cmds->cmd[0][0] == '<')
-		{
 			token1(cmds, '<');
-			cmds = cmds->next;
-		}
 		else if (size == 1 && cmds->cmd[0][0] == '>')
-		{
 			token1(cmds, '>');
-			cmds = cmds->next;
-		}
 		else if (size == 1 && cmds->cmd[0][0] == '|')
 			token1(cmds, '|');
 		else if (size == 2 && cmds->cmd[0][0] == '>' && cmds->cmd[0][1] == '>')
