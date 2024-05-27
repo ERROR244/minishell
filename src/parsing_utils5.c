@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/27 10:53:40 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/27 11:03:39 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,16 +160,19 @@ char	*get_final_line(char **lines, char **vars, char *cmd)
 	line = malloc(sizeof(char) * (size + 1));
 	
 	i = 0;
-	j = 0;
 	k = 0;
 	l = 0;
 	size = 0;
-	if (cmd[0] == '$')
+	while (cmd[k++] == '$')
 	{
+		while (cmd[k] && ft_isalpha(cmd[k]))
+			k++;
+		j = 0;
 		while (vars[i][j])
 			line[size++] = vars[i][j++];
 		i++;
 	}
+	k = 0;
 	while (lines[k] || vars[i])
 	{
 		if (lines[k])
