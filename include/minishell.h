@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/27 10:41:58 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:34:35 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,23 @@
 # define MINISHELL_H
 
 # include "../Libft/libft.h"
+# include <time.h>
 # include <errno.h>
-# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
-# include <time.h>
-# include <unistd.h>
-
+# include <signal.h>
+# include <dirent.h>
+# include <limits.h>
 
 
 typedef struct s_data t_data;
+extern char **myenv;
 
 
 
@@ -123,6 +127,15 @@ char const	*get_position(char const *s);
 
 
 // executing
-int          executing(t_data *data);
+void        executing(t_data *data);
+void        copieenv(char **env);
+void        my_cd(char **com);
+
+// tools
+void        exiterror(void);
+
+
+
+
 
 #endif

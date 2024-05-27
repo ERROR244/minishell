@@ -6,11 +6,13 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/25 11:36:46 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:34:47 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+char **myenv = NULL;
 
 int main(int ac, char **av, char **env)
 {
@@ -18,8 +20,10 @@ int main(int ac, char **av, char **env)
 
 	if (ac != 1)
 		return (1);
+		
+	copieenv(env);
 	(void)av;
-	data.env = env;
+	// data.env = env;
     while (1)
     {
 		data.line = readline("minishell$ ");
