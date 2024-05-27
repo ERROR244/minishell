@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/25 17:00:29 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/27 10:53:40 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,6 @@ static char	*get_string(char *str, size_t i, size_t k, size_t size)
 	return (ptr);
 }
 
-void	remove_quotes(t_cmds *lst)
-{
-	int i;
-
-	while (lst)
-	{
-		i = 0;
-		while (lst->cmd[i])
-		{
-			if (lst->cmd[i] != NULL)
-				lst->cmd[i] = get_string(lst->cmd[i], 0, 0, get_size(lst->cmd[i]));
-			i++;
-		}
-		if (ft_strcmp("echo", lst->cmd[0]) == 0)
-			expand_variable(lst);
-		lst = lst->next;
-	}
-}
 
 char	*is_the_variable_in(char **env, char *str)
 {
@@ -120,6 +102,25 @@ int how_many_dollar_in(char *str)
 	return (k + 1);
 }
 
+char	**get_vars(char *cmd)
+{
+	char	**var;
+	int		k;
+	int		j;
+
+	var = malloc(sizeof(char *) * how_many_dollar_in(cmd));
+	k = 0;
+	j = 0;
+	while (cmd[j])
+	{
+		if (cmd[j] == '$')
+			var[k++] = grep_variable_name(cmd + j);
+		j++;
+	}
+	var[k] = NULL;
+	return (var);
+}
+
 char	*get_content(char **env, char *str)
 {
 	int		i;
@@ -141,48 +142,102 @@ char	*get_content(char **env, char *str)
 	return (NULL);
 }
 
-char	*get_final_line(char **lines, char **vars, char	**env, char *cmd)
+char	*get_final_line(char **lines, char **vars, char *cmd)
 {
 	char	*line;
 	int		i = 0;
 	int		j = 0;
-
-	line = NULL;
+	int		k = 0;
+	int		l = 0;
+	int		size = 0;
+	
+	i = 0;
+	while (vars[i])
+		size += ft_strlen(vars[i++]);
+	i = 0;
+	while (lines[i])
+		size += ft_strlen(lines[i++]);
+	line = malloc(sizeof(char) * (size + 1));
+	
+	i = 0;
+	j = 0;
+	k = 0;
+	l = 0;
+	size = 0;
 	if (cmd[0] == '$')
 	{
-		line = ft_strjoin(line, get_content(env, vars[j]));
-		free(vars[j++]);
+		while (vars[i][j])
+			line[size++] = vars[i][j++];
+		i++;
 	}
-	while (lines[i] || vars[j])
+	while (lines[k] || vars[i])
 	{
-		if (lines[i])
-			line = ft_strjoin(line, lines[i++]);
-		if (vars[j])
+		if (lines[k])
 		{
-			line = ft_strjoin(line, get_content(env, vars[j]));
-			free(vars[j++]);
+			l = 0;
+			while (lines[k][l])
+				line[size++] = lines[k][l++];
+			k++;
+		}
+		if (vars[i])
+		{
+			j = 0;
+			while (vars[i][j])
+			{
+				line[size++] = vars[i][j++];
+			}
+			i++;
 		}
 	}
+	line[size] = '\0';
+	// printf(":%s:\n", line);
 	return (line);
 }
 
-char	**get_vars(char *cmd)
+char	**get_vars_content(char **var, char **env)
 {
-	char	**var;
-	int		k;
-	int		j;
+	char **vars;
+	int i;
 
-	var = malloc(sizeof(char *) * how_many_dollar_in(cmd));
-	k = 0;
-	j = 0;
-	while (cmd[j])
+	i = 0;
+	while (var[i])
+		i++;
+	vars = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (var[i])
 	{
-		if (cmd[j] == '$')
-			var[k++] = grep_variable_name(cmd + j);
-		j++;
+		vars[i] = get_content(env, var[i]);
+		i++;
 	}
-	var[k] = NULL;
-	return (var);
+	vars[i] = NULL;
+	free_array(var);
+	return (vars);
+}
+
+char	*join_vars(char **vars)
+{
+	char	*line;
+	int i;
+	int j;
+	int size;
+
+	i = 0;
+	size = 0;
+	j = 0;
+	while (vars[i])
+		size += ft_strlen(vars[i++]);
+	line = malloc(sizeof(char) * (size + 1));
+	i = 0;
+	size = 0;
+	while (vars[i])
+	{
+		j = 0;
+		while (vars[i][j])
+			line[size++] = vars[i][j++];
+		i++;
+	}
+	line[size] = '\0';
+	return (line);
 }
 
 void	expand_variable(t_cmds *cmds)
@@ -200,17 +255,53 @@ void	expand_variable(t_cmds *cmds)
 			if (dollar_is_in(cmds->cmd[i]))
 			{
 				var = get_vars(cmds->cmd[i]);
+				var = get_vars_content(var, cmds->data->env);
 				spleted_line = ft_split_str(cmds->cmd[i]);
-				line = get_final_line(spleted_line, var, cmds->data->env, cmds->cmd[i]);
-				free(cmds->cmd[i]);
-				cmds->cmd[i] = line;
-				free(var);
-				free(spleted_line);
+				if (spleted_line == NULL)
+				{
+					free(cmds->cmd[i]);
+					cmds->cmd[i] = join_vars(var);
+				}
+				else
+				{
+					line = get_final_line(spleted_line, var, cmds->cmd[i]);
+					free(cmds->cmd[i]);
+					cmds->cmd[i] = line;
+					// for (int i = 0; spleted_line[i]; i++)
+					// 	printf (":%s:\n", spleted_line[i]);
+					// printf("\n");
+					// for (int i = 0; var[i]; i++)
+					// 	printf (":%s:\n", var[i]);
+					// printf("\n");
+					// free(var);
+					// free(spleted_line);
+					free_array(spleted_line);
+				}
+				free_array(var);
 			}
 			// else
 				// free(cmds->cmd[i]);			//	why i add this??
 			i++;
 		}
 		cmds = cmds->next;
+	}
+}
+
+void	remove_quotes(t_cmds *lst)
+{
+	int i;
+
+	while (lst)
+	{
+		i = 0;
+		while (lst->cmd[i])
+		{
+			if (lst->cmd[i] != NULL)
+				lst->cmd[i] = get_string(lst->cmd[i], 0, 0, get_size(lst->cmd[i]));
+			i++;
+		}
+		if (ft_strcmp("echo", lst->cmd[0]) == 0)
+			expand_variable(lst);
+		lst = lst->next;
 	}
 }

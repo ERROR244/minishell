@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/25 16:51:20 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/27 10:41:58 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ char        *grep_variable_name(char *line);
 char        **ft_split_str(char *s1);
 void    	expand_variable(t_cmds *cmds);
 char        **get_vars(char *cmd);
-char        *get_final_line(char **lines, char **vars, char	**env, char *cmd);
+char        *get_final_line(char **lines, char **vars, char *cmd);
 int         dollar_is_in(char *str);
 int         count_vars(char *s1);
 // void        ft_free(char **ptr, int i);
