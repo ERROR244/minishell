@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/27 21:30:49 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/28 11:28:21 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../Libft/libft.h"
+# include <stdbool.h>
 # include <time.h>
 # include <errno.h>
 # include <readline/readline.h>
@@ -123,6 +124,7 @@ char        **get_vars(char *cmd);
 char        *get_final_line(char **lines, char **vars, char *cmd);
 int         dollar_is_in(char *str);
 int         count_vars(char *s1);
+bool        check_ex(char *str, int size);
 // void        ft_free(char **ptr, int i);
 char const	*get_position(char const *s);
 

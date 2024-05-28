@@ -6,11 +6,31 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/27 20:43:28 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/28 11:43:46 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+bool	check_ex(char *str, int size)
+{
+	int i;
+	int flag;
+
+	flag = 0;
+	i = 0;
+	if (size == 0)
+		return (true);
+	while (str[i] && i < size)
+	{
+		if (str[i] == 34)
+			flag++;
+		i++;
+	}
+	if (flag % 2 == 0)
+		return (true);
+	return (false);
+}
 
 size_t get_size(char *str)
 {
@@ -72,13 +92,20 @@ int how_many_dollar_in(char *str)
 	k = 0;
 	while (str[i])
 	{
-		if (str[i] == '$')
+		if (str[i] == 39 && check_ex(str, i) == true)
+		{
+			i++;
+			while (str[i] != 39)
+				i++;
+		}
+		else if (str[i] == '$')
 		{
 			k++;
 			i++;
 		}
-		else
-			i++;
+		// else if (str[i] == 39)
+		// 	i++;
+		i++;
 	}
 	return (k + 1);
 }
@@ -94,6 +121,12 @@ char	**get_vars(char *cmd)
 	j = 0;
 	while (cmd[j])
 	{
+		if (cmd[j] == 39 && check_ex(cmd, j) == true)
+		{
+			j++;
+			while (cmd[j] && cmd[j] != 39)
+				j++;
+		}
 		if (cmd[j] == '$')
 			var[k++] = grep_variable_name(cmd + j);
 		j++;
@@ -257,14 +290,6 @@ void	expand_variable(t_cmds *cmds)
 					line = get_final_line(spleted_line, var, cmds->cmd[i]);
 					free(cmds->cmd[i]);
 					cmds->cmd[i] = line;
-					// for (int i = 0; spleted_line[i]; i++)
-					// 	printf (":%s:\n", spleted_line[i]);
-					// printf("\n");
-					// for (int i = 0; var[i]; i++)
-					// 	printf (":%s:\n", var[i]);
-					// printf("\n");
-					// free(var);
-					// free(spleted_line);
 					free_array(spleted_line);
 				}
 				free_array(var);
@@ -284,14 +309,13 @@ void	remove_quotes(t_cmds *lst)
 	while (lst)
 	{
 		i = 0;
+		expand_variable(lst);
 		while (lst->cmd[i])
 		{
 			if (lst->cmd[i] != NULL)
 				lst->cmd[i] = get_string(lst->cmd[i], 0, 0, get_size(lst->cmd[i]));
 			i++;
 		}
-		// if (ft_strcmp("echo", lst->cmd[0]) == 0)
-		expand_variable(lst);
 		lst = lst->next;
 	}
 }

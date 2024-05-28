@@ -6,11 +6,12 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/27 20:50:19 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/05/28 13:06:06 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+bool	check_ex(char *str, int size);
 
 static char	*dup_size(char *s, size_t n)
 {
@@ -43,9 +44,30 @@ static void	ft_free(char **ptr, int i)
 	free(ptr);
 }
 
+bool	check_next(char *str)
+{
+	int i;
+	int flag;
+
+	i = 0;
+	flag = 0;
+	while (str[i])
+	{
+		if (str[i] == 34)
+			flag++;
+		i++;
+	}
+	// printf("%d", flag);
+	if (flag % 2 == 0)
+		return (true);
+	return (false);
+}
+
 static char	**split(char *s1, int i, char **ptr)
 {
 	char	*start;
+	// char	*tmp = s1;
+	bool	flag;
 
 	while (s1 && *s1)
 	{
@@ -55,7 +77,24 @@ static char	**split(char *s1, int i, char **ptr)
 			start = s1;
             while (*s1)
             {
-				if (*s1 == '$' && ft_isalnum(s1[1]) == 0)
+				flag = check_next(s1);
+				// printf("<>%c<>%d<>\n", *s1, flag);
+				if (*s1 == 39 && flag == true)
+				{
+					s1++;
+					while (*s1 != 39)
+					{
+						// printf("------>%c \n", *s1);
+						s1++;
+					}
+				}
+				else if (flag == false && s1[1] == '$')
+				{
+					// printf("------>%c \n", *s1);
+					s1++;
+				}
+				// printf("------>%c \n", *s1);
+				if ((*s1 == '$' && ft_isalnum(s1[1]) == 0) || *s1 == 39)
                     s1++;
 				else if (*s1 == '$')
 					break ;
@@ -110,9 +149,12 @@ char	**ft_split_str(char *s1)
 //     free(split_array);
 // }
 
+// #include "../include/minishell.h"
+
 // int main(int ac, char **av)
 // {
-//     char **result = ft_split_str(av[1]);
+//     char **result = ft_split_str("echo '$PWD'   The current user is $USER. to your home directory: \" '$HOME'\".");
+//     // char **result = ft_split_str(av[1]);
 
 //     if (result)
 // 	{
@@ -129,4 +171,25 @@ char	**ft_split_str(char *s1)
 //     }
 
 //     return 0;
+// }
+
+
+// bool	check_ex(char *str, int size)
+// {
+// 	int i;
+// 	int flag;
+
+// 	i = 0;
+// 	if (size == 0)
+// 		return (true);
+// 	flag = 0;
+// 	while (str[i] && i <= size)
+// 	{
+// 		if (str[i] == 34)
+// 			flag++;
+// 		i++;
+// 	}
+// 	if (flag % 2 == 0)
+// 		return (true);
+// 	return (false);
 // }
