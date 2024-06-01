@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/01 13:38:31 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/01 14:55:47 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,14 @@ void ft_clear(t_data *data)
 	free_array(data->cmds);
 }
 
+char Gstr[100][100] = { "Cmd", "AppendFile",						//
+							"HereDocDel", "Infile",					//
+							"OutFile", "Operation",					//
+							"NonOperation", "Input",				//
+							"Output", "Append",						//
+							"HereDoc", "Pipe", 						//
+							"Non" };		   						//
+
 int parsing(t_data *data)
 {
     t_cmds *lst;
@@ -107,13 +115,6 @@ int parsing(t_data *data)
 	init_tokens(lst, 0, lst);
 
 	//
-	char Gstr[100][100] = { "Cmd", "AppendFile",						//
-								"HereDocDel", "Infile",					//
-								"OutFile", "Operation",					//
-								"NonOperation", "Input",				//
-								"Output", "Append",						//
-								"HereDoc", "Pipe", 						//
-								"Non" };		   						//
 	char **tmp1;								   						//
     t_cmds *tmp2 = lst;							   						//
 	while (tmp2)								   						//
@@ -151,7 +152,15 @@ t_command	*command_new(t_command *lst)
 	n_node = (t_command *)malloc(sizeof(struct s_command));
 	if (n_node == NULL)
 		return (NULL);
-	n_node->str = "Hello, World!";
+	n_node->append = NULL;
+	n_node->appendfile = NULL;
+	n_node->cmd = NULL;
+	n_node->heredoc = NULL;
+	n_node->heredocdel = NULL;
+	n_node->infile = NULL;
+	n_node->input = NULL;
+	n_node->outfile = NULL;
+	n_node->output = NULL;
 	n_node->next = NULL;
 	if (lst == NULL)
 	{
@@ -189,75 +198,83 @@ t_command	*get_command(t_cmds *lst)
 t_command	*get_commands(t_cmds *lst)
 {
 	t_command	*command;
+	t_command	*tmp;
 
 	command = get_command(lst);
+	tmp = command;
+	while (command && lst)
+	{
+		while (lst && lst->token != Pipe)
+		{
+			if (lst->token == Cmd)
+			{
+				command->cmd = lst->cmd;
+			}
+			else if (lst->token == Input)
+			{
+				command->input = lst;
+			}
+			else if (lst->token == Infile)
+			{
+				command->infile = lst;
+			}
+			else if (lst->token == Output)
+			{
+				command->output = lst;
+			}
+			else if (lst->token == OutFile)
+			{
+				command->outfile = lst;
+			}
+			else if (lst->token == Append)
+			{
+				command->append = lst;
+			}
+			else if (lst->token == AppendFile)
+			{
+				command->appendfile = lst;
+			}
+			else if (lst->token == HereDoc)
+			{
+				command->heredoc = lst;
+			}
+			else if (lst->token == HereDocDel)
+			{
+				command->heredocdel = lst;
+			}
+			lst = lst->next;
+		}
+		if (lst)
+			lst = lst->next;
+		command = command->next;
+	}
 
-
-
-	//
-	while (command)								   						//
-	{											   						//
-		printf(":%s:\n", command->str);			   						//
-		if (!command->next)												//
-			break ;														//
-		command = command->next;										//
-	}																	//
-	printf("\n:%s;\n\n", "hello there");																	//
-	while (command)								   						//
-	{											   						//
-		printf(":%s:\n", command->str);			   						//
-		if (!command->prev)												//
-			break ;														//
-		command = command->prev;										//
-	}																	//
-	//
 
 
 	
-	// while (lst)
-	// {
-	// 	while (lst->token != Pipe)
-	// 	{
-	// 		if (lst->token == Cmd)
-	// 		{
-	// 			command->cmd = lst->cmd;
-	// 		}
-	// 		else if (lst->token == Input)
-	// 		{
-	// 			command->input = lst;
-	// 		}
-	// 		else if (lst->token == Infile)
-	// 		{
-	// 			command->infile = lst;
-	// 		}
-	// 		else if (lst->token == Output)
-	// 		{
-	// 			command->output = lst;
-	// 		}
-	// 		else if (lst->token == OutFile)
-	// 		{
-	// 			command->outfile = lst;
-	// 		}
-	// 		else if (lst->token == Append)
-	// 		{
-	// 			command->append = lst;
-	// 		}
-	// 		else if (lst->token == AppendFile)
-	// 		{
-	// 			command->appendfile = lst;
-	// 		}
-	// 		else if (lst->token == HereDoc)
-	// 		{
-	// 			command->heredoc = lst;
-	// 		}
-	// 		else if (lst->token == HereDocDel)
-	// 		{
-	// 			command->heredocdel = lst;
-	// 		}
-	// 		lst = lst->next;
-	// 	}
-	// 	command = command->next;
-	// }
-	
+	command = tmp;
+	while (tmp)
+	{
+		if (tmp->cmd)
+			printf(":%s:", tmp->cmd[0]);
+		if (tmp->input)
+			printf(":%s:", tmp->input->cmd[0]);
+		if (tmp->output)
+			printf(":%s:", tmp->output->cmd[0]);
+		if (tmp->append)
+			printf(":%s:", tmp->append->cmd[0]);
+		if (tmp->heredoc)
+			printf(":%s:", tmp->heredoc->cmd[0]);
+		if (tmp->infile)
+			printf(":%s:", tmp->infile->cmd[0]);
+		if (tmp->outfile)
+			printf(":%s:", tmp->outfile->cmd[0]);
+		if (tmp->appendfile)
+			printf(":%s:", tmp->appendfile->cmd[0]);
+		if (tmp->heredocdel)
+			printf(":%s:", tmp->heredocdel->cmd[0]);
+		printf("\n");
+		tmp = tmp->next;
+	}
 	return (command);
 }

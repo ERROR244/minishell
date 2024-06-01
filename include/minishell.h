@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/01 13:23:13 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/01 14:54:27 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_cmds
 typedef struct s_command
 {
     char **cmd;
-    char *str;
 	
     t_cmds  *input;
     t_cmds  *output;
