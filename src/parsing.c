@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/01 14:55:47 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:25:41 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,11 @@ int parsing(t_data *data)
 		commands = get_commands(lst);
 		// ret = executing(data);		// exe
 		// executing(data);					// exe_tmp
+		ft_clear(data);
+		commands_clear(&commands);
 	}
-	ft_clear(data);
+	else
+		ft_clear(data);
 	return (ret);
 }
 
@@ -152,15 +155,11 @@ t_command	*command_new(t_command *lst)
 	n_node = (t_command *)malloc(sizeof(struct s_command));
 	if (n_node == NULL)
 		return (NULL);
-	n_node->append = NULL;
 	n_node->appendfile = NULL;
 	n_node->cmd = NULL;
-	n_node->heredoc = NULL;
 	n_node->heredocdel = NULL;
 	n_node->infile = NULL;
-	n_node->input = NULL;
 	n_node->outfile = NULL;
-	n_node->output = NULL;
 	n_node->next = NULL;
 	if (lst == NULL)
 	{
@@ -207,41 +206,15 @@ t_command	*get_commands(t_cmds *lst)
 		while (lst && lst->token != Pipe)
 		{
 			if (lst->token == Cmd)
-			{
 				command->cmd = lst->cmd;
-			}
-			else if (lst->token == Input)
-			{
-				command->input = lst;
-			}
 			else if (lst->token == Infile)
-			{
 				command->infile = lst;
-			}
-			else if (lst->token == Output)
-			{
-				command->output = lst;
-			}
 			else if (lst->token == OutFile)
-			{
 				command->outfile = lst;
-			}
-			else if (lst->token == Append)
-			{
-				command->append = lst;
-			}
 			else if (lst->token == AppendFile)
-			{
 				command->appendfile = lst;
-			}
-			else if (lst->token == HereDoc)
-			{
-				command->heredoc = lst;
-			}
 			else if (lst->token == HereDocDel)
-			{
 				command->heredocdel = lst;
-			}
 			lst = lst->next;
 		}
 		if (lst)
@@ -257,14 +230,6 @@ t_command	*get_commands(t_cmds *lst)
 	{
 		if (tmp->cmd)
 			printf(":%s:", tmp->cmd[0]);
-		if (tmp->input)
-			printf(":%s:", tmp->input->cmd[0]);
-		if (tmp->output)
-			printf(":%s:", tmp->output->cmd[0]);
-		if (tmp->append)
-			printf(":%s:", tmp->append->cmd[0]);
-		if (tmp->heredoc)
-			printf(":%s:", tmp->heredoc->cmd[0]);
 		if (tmp->infile)
 			printf(":%s:", tmp->infile->cmd[0]);
 		if (tmp->outfile)

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/01 14:54:27 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:13:54 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,7 @@ typedef struct s_cmds
 typedef struct s_command
 {
     char **cmd;
-	
-    t_cmds  *input;
-    t_cmds  *output;
-    t_cmds  *append;
-    t_cmds  *heredoc;
+
     t_cmds  *infile;
     t_cmds  *outfile;
     t_cmds  *appendfile;
@@ -145,6 +141,7 @@ bool        check_ex(char *str, int size);
 t_command	*command_last(t_command *lst);
 t_command	*get_command(t_cmds *lst);
 t_command	*get_commands(t_cmds *lst);
+void	    commands_clear(t_command **lst);
 // void        ft_free(char **ptr, int i);
 char const	*get_position(char const *s);
 
