@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/28 11:28:21 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/01 13:23:13 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,24 @@ typedef struct s_cmds
 	struct s_cmds *next;
     struct s_cmds *prev;
 }   t_cmds;
+
+typedef struct s_command
+{
+    char **cmd;
+    char *str;
+	
+    t_cmds  *input;
+    t_cmds  *output;
+    t_cmds  *append;
+    t_cmds  *heredoc;
+    t_cmds  *infile;
+    t_cmds  *outfile;
+    t_cmds  *appendfile;
+    t_cmds  *heredocdel;
+
+	struct s_command *next;
+    struct s_command *prev;
+}   t_command;
 
 
 
@@ -125,6 +143,9 @@ char        *get_final_line(char **lines, char **vars, char *cmd);
 int         dollar_is_in(char *str);
 int         count_vars(char *s1);
 bool        check_ex(char *str, int size);
+t_command	*command_last(t_command *lst);
+t_command	*get_command(t_cmds *lst);
+t_command	*get_commands(t_cmds *lst);
 // void        ft_free(char **ptr, int i);
 char const	*get_position(char const *s);
 

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 11:09:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/24 17:15:02 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/01 13:22:07 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,17 @@ void	lstclear(t_cmds **lst)
 }
 
 t_cmds	*lstlast(t_cmds *lst)
+{
+	if (lst == NULL)
+		return (lst);
+	while (lst->next)
+	{
+		lst = lst->next;
+	}
+	return (lst);
+}
+
+t_command	*command_last(t_command *lst)
 {
 	if (lst == NULL)
 		return (lst);
