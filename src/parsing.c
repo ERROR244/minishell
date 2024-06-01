@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/01 10:42:54 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/01 12:19:11 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int parsing(t_data *data)
 			if (data->line[0] != '\0')		//
 				printf(":%s:", tmp1[i]);	//
 		} 									//
-		printf("%s:\n", Gstr[tmp2->token]);	//
+		printf("%s:%s:\n", Gstr[tmp2->token], Gstr[tmp2->operation]);	//
 		tmp2 = tmp2->next;					//
 	}										//
 	//

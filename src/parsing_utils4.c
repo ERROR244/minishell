@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/01 10:45:09 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/01 12:14:56 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,26 @@ char	**get_file_name(char *str)
 	return (ptr);
 }
 
+int	is_space_in(char *str)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (*str)
+	{
+		if (*str != 32 && *str != 9)
+			i++;
+		if (*str == 32 || *str == 9)
+			j++;
+		str++;
+	}
+	if (i == 0 || j == 0)
+		return (1);
+	return (0);
+}
+
 void get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 {
 	t_cmds *node;
@@ -56,7 +76,7 @@ void get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 	(*lst)->data = data;
 	while (i < size)
 	{
-		if (cmd[i - 1][0] == '<')
+		if (cmd[i - 1][0] == '<' && is_space_in(cmd[i]) == 0)
 		{
 			ptr = get_file_name(cmd[i]);
 			node = lstnew(ptr[0], *lst);
