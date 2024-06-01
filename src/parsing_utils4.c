@@ -6,16 +6,44 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/27 09:41:46 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/01 10:45:09 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+char	**get_file_name(char *str)
+{
+	char	**ptr;
+	int		size;
+	int		i;
+
+	size = 0;
+	i = 0;
+	ptr = malloc(sizeof(char *) * (3));
+	while (str[size] && str[size] != 32 && str[size] != 9)
+		size++;
+	ptr[0] = malloc(sizeof(char) * (size + 1));
+	ft_strlcpy(ptr[0], str, size + 1);
+	if (!str[size])
+	{
+		ptr[1] = NULL;
+		return (ptr);
+	}
+	i = 0; 
+	while (str[i])
+		i++;
+	ptr[1] = malloc(sizeof(char) * (i - size + 1));
+	ft_strlcpy(ptr[1], str + size, ft_strlen(str + size) + 1);
+	ptr[2] = NULL;
+	return (ptr);
+}
+
 void get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 {
 	t_cmds *node;
 	t_cmds *curr;
+	char **ptr;
 	int i;
 	
 	i = 0;
@@ -28,6 +56,23 @@ void get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 	(*lst)->data = data;
 	while (i < size)
 	{
+		if (cmd[i - 1][0] == '<')
+		{
+			ptr = get_file_name(cmd[i]);
+			node = lstnew(ptr[0], *lst);
+			node->data = data;
+			curr = lstlast(*lst);
+			curr->next = node;
+			if (ptr[1])
+			{
+				node->data = data;
+				node = lstnew(ptr[1], *lst);
+				curr = lstlast(*lst);
+				curr->next = node;
+			}
+			i++;
+			free_array(ptr);
+		}
 		node = lstnew(cmd[i], *lst);
 		node->data = data;
 		curr = lstlast(*lst);

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/27 21:56:14 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/01 10:42:54 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,14 @@ int parsing(t_data *data)
 	remove_quotes(lst);
 	init_tokens(lst, 0, lst);
 
+	char Gstr[100][100] = { "Cmd", "AppendFile",
+								"HereDocDel", "Infile",
+								"OutFile", "Operation",
+								"NonOperation", "Input",
+								"Output", "Append",
+								"HereDoc", "Pipe",
+								"Non" };
 	
-	// //
 	char **tmp1;							//
     t_cmds *tmp2 = lst;						//
 	while (tmp2)							//
@@ -122,9 +128,9 @@ int parsing(t_data *data)
 		for (int i = 0; tmp1[i]; i++)		//
 		{									//
 			if (data->line[0] != '\0')		//
-				printf("%s ", tmp1[i]);		//
+				printf(":%s:", tmp1[i]);	//
 		} 									//
-		printf("\n");						//
+		printf("%s:\n", Gstr[tmp2->token]);	//
 		tmp2 = tmp2->next;					//
 	}										//
 	//
