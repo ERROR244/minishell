@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 22:57:21 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 23:12:46 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,15 @@ void hand_theredirectionin(t_command *lst)
 {
     int out = dup(STDOUT_FILENO);
     int in = dup(STDIN_FILENO);
-    int filein;
-    int fileout;
+    int filein = -1;
+    int fileout = -1;
     
     // printf("%s\n", lst->cmd[0]);
     while (lst)
     {
         if(lst->infile != NULL)
         {
+            printf(":%s:\n", lst->infile->cmd[0]);
             filein = open(lst->infile->cmd[0], O_RDONLY);
 
             if(filein == -1)
@@ -133,8 +134,20 @@ void hand_theredirectionin(t_command *lst)
         lst = lst->prev;
     }
     execute_command(lst->cmd);
-    dup2(out, fileout);
-    dup2(in, filein);
+    if (filein != -1)
+    {
+        dup2(in, STDIN_FILENO);
+        close(filein);
+    }
+    else
+        close(in);
+    if (fileout != -1) 
+    {
+        dup2(out, STDOUT_FILENO);
+        close(fileout);
+    }
+    else
+        close(out); 
 }
 
 
