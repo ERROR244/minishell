@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 22:15:24 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/06/02 22:57:21 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void execute_command(char **com)
         ft_putstr_fd("command '' not found\n", 2);
         return ;
     }
-        return ;
     char *path = get_my_path(com);
     if(path == NULL)
     {
@@ -94,34 +93,34 @@ void ft_pipe(t_cmds *lst)
 
 void hand_theredirectionin(t_command *lst)
 {
-    int cpy = dup(STDOUT_FILENO);
-    int cpy1 = dup(STDIN_FILENO);
-    int fd;
-    int fd2;
+    int out = dup(STDOUT_FILENO);
+    int in = dup(STDIN_FILENO);
+    int filein;
+    int fileout;
     
     // printf("%s\n", lst->cmd[0]);
     while (lst)
     {
         if(lst->infile != NULL)
         {
-            fd = open(lst->infile->cmd[0], O_RDONLY);
+            filein = open(lst->infile->cmd[0], O_RDONLY);
 
-            if(fd == -1)
+            if(filein == -1)
                 perror("fail the file\n");
             
-            // dup2(STDIN_FILENO, fd);
-            dup2(fd, STDIN_FILENO);
+            // dup2(STDIN_FILENO, filein);
+            dup2(filein, STDIN_FILENO);
 
         }
         if(lst->outfile != NULL)
         {
-            fd2 = open(lst->outfile->cmd[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+            fileout = open(lst->outfile->cmd[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 
-            if(fd2 == -1)
+            if(fileout == -1)
                 perror("fail the file\n");
             
-            // dup2(STDOUT_FILENO, fd2);
-            dup2(fd2, STDOUT_FILENO);
+            // dup2(STDOUT_FILENO, fileout);
+            dup2(fileout, STDOUT_FILENO);
         }
         if (!lst->next)
             break ;
@@ -134,10 +133,8 @@ void hand_theredirectionin(t_command *lst)
         lst = lst->prev;
     }
     execute_command(lst->cmd);
-    dup2(fd, cpy1);
-    dup2(fd2, cpy);
-    close(fd);
-    close(fd2);
+    dup2(out, fileout);
+    dup2(in, filein);
 }
 
 
