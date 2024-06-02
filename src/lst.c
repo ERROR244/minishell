@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 11:09:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 13:24:38 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 16:38:10 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,24 @@ t_cmds	*lstnew(char *cmd, t_cmds *lst)
 	return (n_node);
 }
 
+void	slist_clear(t_slist **lst)
+{
+	t_slist	*curr1;
+	t_slist	*curr2;
+
+	if (lst == NULL || *lst == NULL)
+		return ;
+	curr1 = *lst;
+	while (curr1->next != NULL)
+	{
+		curr2 = curr1->next;
+		free(curr1);
+		curr1 = curr2;
+	}
+	free(curr1);
+	*lst = NULL;
+}
+
 void	commands_clear(t_command **lst)
 {
 	t_command	*curr1;
@@ -66,9 +84,19 @@ void	commands_clear(t_command **lst)
 	while (curr1->next != NULL)
 	{
 		curr2 = curr1->next;
+		slist_clear(&curr1->appendfile);
+		slist_clear(&curr1->heredocdel);
+		slist_clear(&curr1->infile);
+		slist_clear(&curr1->outfile);
+		free_array(curr1->cmd);
 		free(curr1);
 		curr1 = curr2;
 	}
+	slist_clear(&curr1->appendfile);
+	slist_clear(&curr1->heredocdel);
+	slist_clear(&curr1->infile);
+	slist_clear(&curr1->outfile);
+	free_array(curr1->cmd);
 	free(curr1);
 	*lst = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/01 15:27:13 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 16:29:49 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ bool	check_next(char *str)
 			flag++;
 		i++;
 	}
-	// printf("%d", flag);
 	if (flag % 2 == 0)
 		return (true);
 	return (false);
@@ -77,22 +76,18 @@ static char	**split(char *s1, int i, char **ptr)
             while (*s1)
             {
 				flag = check_next(s1);
-				// printf("<>%c<>%d<>\n", *s1, flag);
 				if (*s1 == 39 && flag == true)
 				{
 					s1++;
 					while (*s1 != 39)
 					{
-						// printf("------>%c \n", *s1);
 						s1++;
 					}
 				}
 				else if (flag == false && s1[1] == '$')
 				{
-					// printf("------>%c \n", *s1);
 					s1++;
 				}
-				// printf("------>%c \n", *s1);
 				if ((*s1 == '$' && ft_isalnum(s1[1]) == 0) || *s1 == 39)
                     s1++;
 				else if (*s1 == '$')

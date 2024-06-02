@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 13:29:49 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 16:33:23 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,6 @@ struct s_data
     char    **env;
 	char 	**cmds;
     char 	*line;
-    char 	*HRDel;
-    int		infile;
-    int		outfile;
-    int		Appfile;
 	t_cmds *lst;
 };
 
@@ -153,11 +149,14 @@ char const	*get_position(char const *s);
 
 t_slist     *nodes_last(t_slist *lst);
 t_command	*command_last(t_command *lst);
+t_command	*command_new(t_command *lst);
 t_command	*get_command(t_cmds *lst);
 t_command	*get_commands(t_cmds *lst);
 void	    commands_clear(t_command **lst);
 
-
+// tmp
+void	print_array(char **str);
+void	printlist(void *tmp);
 
 
 

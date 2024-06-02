@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/01 15:31:11 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 16:16:57 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int check_file(t_cmds *cmds)
         ft_putstr_fd(": Permission denied\n", 2);
         return (1);
     }
-    // cmds->data->outfile = open(cmds->cmd[0], O_RDONLY, 0666);
     return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/27 21:49:32 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 16:27:51 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ int errors_managment(t_data *data, int i)
 			i = check_for_in_out_put(curr);
 		else if (curr->token == Append || curr->token == HereDoc)
 			i = check_for_Append_heredoc(curr);
-		else
-			i = check_access(curr);
 		curr = curr->next;
 	}
 	return (i);
