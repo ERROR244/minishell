@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:19 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 16:32:21 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 17:33:52 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ char	**array_copy(char **str)
 		i++;
 	ptr = malloc(sizeof(char *) * (i + 1));
 	i = 0;
+
 	while (str[i])
 	{
 		ptr[i] = ft_strdup(str[i]);
@@ -85,7 +86,7 @@ t_command	*get_commands(t_cmds *lst)
     	heredocdel = NULL;
 		while (lst && lst->token != Pipe)
 		{
-			if (lst->token == Cmd)
+			if (lst->token == Cmd || (lst->token == Non && lst->cmd[0][0] == '\0'))
 				command->cmd = array_copy(lst->cmd);
 			else if (lst->token == Infile)
 			{

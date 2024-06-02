@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:31:09 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 16:33:07 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 17:37:12 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 void	print_array(char **str)
 {
 	printf(":");
+	printf("%s", *str);
+	str++;
 	while (str && *str)
 	{
-		printf("%s-", *str);
+		printf(" <-> %s", *str);
 		str++;
 	}
 	printf(":");
