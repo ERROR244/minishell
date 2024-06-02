@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 16:33:23 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:05:40 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,11 @@ typedef struct s_command
 
 struct s_data
 {
-    char    **env;
-	char 	**cmds;
-    char 	*line;
-	t_cmds *lst;
+    char        **env;
+	char 	    **cmds;
+    char 	    *line;
+	t_cmds      *lst;
+    t_command   *list;
 };
 
 

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:19 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 18:00:21 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:07:40 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,33 +152,33 @@ t_command	*get_commands(t_cmds *lst)
 	
 	command = tmp;
 	
-	while (tmp)
-	{
-		printf("---\n");
-		if (tmp->cmd)
-			print_array(tmp->cmd);
-		if (tmp->infile)
-		{
-			printf("\ninfile->          ");
-			printlist(tmp->infile);
-		}
-		if (tmp->outfile)
-		{
-			printf("\noutfile->         ");
-			printlist(tmp->outfile);
-		}
-		if (tmp->appendfile)
-		{
-			printf("\nappendfile->      ");
-			printlist(tmp->appendfile);
-		}
-		if (tmp->heredocdel)
-		{
-			printf("\nheredocdel->      ");
-			printlist(tmp->heredocdel);
-		}
-		printf("\n---\n");
-		tmp = tmp->next;
-	}
+	// while (tmp)
+	// {
+	// 	printf("---\n");
+	// 	if (tmp->cmd)
+	// 		print_array(tmp->cmd);
+	// 	if (tmp->infile)
+	// 	{
+	// 		printf("\ninfile->          ");
+	// 		printlist(tmp->infile);
+	// 	}
+	// 	if (tmp->outfile)
+	// 	{
+	// 		printf("\noutfile->         ");
+	// 		printlist(tmp->outfile);
+	// 	}
+	// 	if (tmp->appendfile)
+	// 	{
+	// 		printf("\nappendfile->      ");
+	// 		printlist(tmp->appendfile);
+	// 	}
+	// 	if (tmp->heredocdel)
+	// 	{
+	// 		printf("\nheredocdel->      ");
+	// 		printlist(tmp->heredocdel);
+	// 	}
+	// 	printf("\n---\n");
+	// 	tmp = tmp->next;
+	// }
 	return (command);
 }

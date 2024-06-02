@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/27 17:44:23 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:06:46 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -438,27 +438,31 @@ void execute_command(char **com)
 
 void executing(t_data *data)
 {
-    if(data->lst->cmd[0] == NULL)
+
+    t_command *list;
+
+    list = data->list;
+    if(list->cmd[0] == NULL)
         return ;
-    else if(ft_strcmp(data->lst->cmd[0], "cd") == 0)   
-        my_cd(data->lst->cmd);
-    else if(ft_strcmp(data->lst->cmd[0], "pwd") == 0)
+    else if(ft_strcmp(list->cmd[0], "cd") == 0)   
+        my_cd(list->cmd);
+    else if(ft_strcmp(list->cmd[0], "pwd") == 0)
         mypwd();
-    else if(ft_strcmp(data->lst->cmd[0], "env") == 0 && data->lst->cmd[1] == NULL)
+    else if(ft_strcmp(list->cmd[0], "env") == 0 && list->cmd[1] == NULL)
         printmyenv();
-    else if(ft_strcmp(data->lst->cmd[0], "export") == 0)
-        export(data->lst->cmd);
-    else if(ft_strcmp(data->lst->cmd[0], "unset") == 0)
-        unset_env(data->lst->cmd);
-    else if(ft_strcmp(data->lst->cmd[0], "exit") == 0)
-        exit_myminishell(data->lst->cmd);
-    // else if(ft_strcmp(data->lst->cmd[0], "echo") == 0)
+    else if(ft_strcmp(list->cmd[0], "export") == 0)
+        export(list->cmd);
+    else if(ft_strcmp(list->cmd[0], "unset") == 0)
+        unset_env(list->cmd);
+    else if(ft_strcmp(list->cmd[0], "exit") == 0)
+        exit_myminishell(list->cmd);
+    // else if(ft_strcmp(list->cmd[0], "echo") == 0)
     // {
-    //     if(data->lst->cmd[1] != NULL && ft_strcmp(data->lst->cmd[1], "-n") == 0)
-    //         ft_echo_n(data->lst->cmd);
+    //     if(list->cmd[1] != NULL && ft_strcmp(list->cmd[1], "-n") == 0)
+    //         ft_echo_n(list->cmd);
     //     else
-    //         ft_echo(data->lst->cmd);
+    //         ft_echo(list->cmd);
     // }
     else
-        execute_command(data->lst->cmd);
+        execute_command(list->cmd);
 }
