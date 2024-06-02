@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 11:09:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/01 15:13:10 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 13:24:38 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,17 @@ t_cmds	*lstlast(t_cmds *lst)
 }
 
 t_command	*command_last(t_command *lst)
+{
+	if (lst == NULL)
+		return (lst);
+	while (lst->next)
+	{
+		lst = lst->next;
+	}
+	return (lst);
+}
+
+t_slist	*nodes_last(t_slist *lst)
 {
 	if (lst == NULL)
 		return (lst);

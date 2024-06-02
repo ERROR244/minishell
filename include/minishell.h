@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/01 15:13:54 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 13:29:49 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,24 @@ typedef struct s_cmds
     struct s_cmds *prev;
 }   t_cmds;
 
+typedef struct s_slist
+{
+    char **cmd;
+	
+    t_token token;
+
+	struct s_slist *next;
+    struct s_slist *prev;
+}   t_slist;
+
 typedef struct s_command
 {
     char **cmd;
 
-    t_cmds  *infile;
-    t_cmds  *outfile;
-    t_cmds  *appendfile;
-    t_cmds  *heredocdel;
+    t_slist  *infile;
+    t_slist  *outfile;
+    t_slist  *appendfile;
+    t_slist  *heredocdel;
 
 	struct s_command *next;
     struct s_command *prev;
@@ -138,12 +148,18 @@ char        *get_final_line(char **lines, char **vars, char *cmd);
 int         dollar_is_in(char *str);
 int         count_vars(char *s1);
 bool        check_ex(char *str, int size);
+// void        ft_free(char **ptr, int i);
+char const	*get_position(char const *s);
+
+t_slist     *nodes_last(t_slist *lst);
 t_command	*command_last(t_command *lst);
 t_command	*get_command(t_cmds *lst);
 t_command	*get_commands(t_cmds *lst);
 void	    commands_clear(t_command **lst);
-// void        ft_free(char **ptr, int i);
-char const	*get_position(char const *s);
+
+
+
+
 
 
 // executing

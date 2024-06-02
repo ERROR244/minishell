@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/28 11:43:46 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:56:43 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,6 @@ char	*get_final_line(char **lines, char **vars, char *cmd)
 		}
 	}
 	line[size] = '\0';
-	// printf(":%s:\n", line);
 	return (line);
 }
 
@@ -272,7 +271,6 @@ void	expand_variable(t_cmds *cmds)
 	while (cmds)
 	{
 		i = 0;
-		// printf("HERE\n");
 		while (cmds->cmd[i])
 		{
 			if (dollar_is_in(cmds->cmd[i]))
@@ -294,8 +292,6 @@ void	expand_variable(t_cmds *cmds)
 				}
 				free_array(var);
 			}
-			// else
-				// free(cmds->cmd[i]);			//	why i add this??
 			i++;
 		}
 		cmds = cmds->next;

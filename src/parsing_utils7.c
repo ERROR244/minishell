@@ -6,12 +6,11 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/28 13:06:06 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:27:13 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-bool	check_ex(char *str, int size);
 
 static char	*dup_size(char *s, size_t n)
 {

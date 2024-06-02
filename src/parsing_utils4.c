@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/01 12:14:56 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:36:34 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,9 @@ void get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 				curr = lstlast(*lst);
 				curr->next = node;
 			}
-			i++;
 			free_array(ptr);
+			if (++i == size)
+				return ;
 		}
 		node = lstnew(cmd[i], *lst);
 		node->data = data;
