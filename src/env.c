@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:53 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 18:43:54 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 21:18:35 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void exiterror(void)
 {
     free_array(myenv);
     write(1, "\n", 1);
-    exit(1);
+    return ;
 }
 
 void  copieenv(char **env)

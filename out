@@ -1,0 +1,57 @@
+minishell$ NAME = minishell
+minishell$ 
+minishell$ CC = cc
+minishell$ 
+minishell$ CFLAGS = -Wall -Wextra -Werror -ggdb3 -g3 -fsanitize=address #-w  #-v
+minishell$ 
+minishell$ SRCS = src/minishell.c Libft/ft_split.c Libft/ft_putstr_fd.c\
+minishell$ 
+.git/      .vscode/   Libft/     Makefile   README.md  include/   minishell  out        src/       
+minishell$ src/lst.c Libft/ft_strjoin.c Libft/ft_strdup.c\
+minishell$ 
+.git/      .vscode/   Libft/     Makefile   README.md  include/   minishell  out        src/       
+minishell$ Libft/ft_putchar_fd.c Libft/ft_strnstr.c Libft/ft_strncmp.c\
+minishell$ 
+.git/      .vscode/   Libft/     Makefile   README.md  include/   minishell  out        src/       
+minishell$ Libft/ft_isalpha.c src/parsing.c src/parsing_utils3.c\
+minishell$ 
+.git/      .vscode/   Libft/     Makefile   README.md  include/   minishell  out        src/       
+minishell$ src/parsing_utils1.c Libft/ft_strlen.c Libft/ft_lstsize_bonus.c\
+minishell$ 
+.git/      .vscode/   Libft/     Makefile   README.md  include/   minishell  out        src/       
+minishell$ src/parsing_utils2.c src/errors0.c src/parsing_utils4.c\
+minishell$ 
+.git/      .vscode/   Libft/     Makefile   README.md  include/   minishell  out        src/       
+minishell$ src/executing.c src/errors1.c src/parsing_utils5.c\
+minishell$ 
+.git/      .vscode/   Libft/     Makefile   README.md  include/   minishell  out        src/       
+minishell$ Libft/ft_strcmp.c src/parsing_utils6.c src/parsing_utils7.c\
+minishell$ 
+.git/      .vscode/   Libft/     Makefile   README.md  include/   minishell  out        src/       
+minishell$ Libft/ft_isdigit.c Libft/ft_isalnum.c src/parsing_utils8.c\
+minishell$ 
+.git/      .vscode/   Libft/     Makefile   README.md  include/   minishell  out        src/       
+minishell$ Libft/ft_strchr.c Libft/ft_strlcpy.c src/tmp.c\
+minishell$ 
+.git/      .vscode/   Libft/     Makefile   README.md  include/   minishell  out        src/       
+minishell$ src/env.c src/export.c src/unset_exit.c src/cd.c src/pwd.c\
+minishell$ 
+.git/      .vscode/   Libft/     Makefile   README.md  include/   minishell  out        src/       
+minishell$ src/echo.c\
+minishell$ 
+minishell$ 
+minishell$ 
+minishell$ OBJ = $(SRCS:.c=.o)
+minishell$ 
+minishell$ AR  = ar rcs
+minishell$ 
+minishell$ RM = rm -rf 
+minishell$ 
+minishell$ all : $(NAME)
+minishell$ 
+minishell$ $(NAME): $(OBJ)
+minishell$ $(CC) $(CFLAGS) -lreadline  $(OBJ) -o minishell 
+minishell$ 
+minishell$ 
+minishell$ %.o: %.c
+minishell$ $(CC) $(CFLAGS)  -c $< -o $@

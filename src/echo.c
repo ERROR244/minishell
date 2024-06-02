@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:36:48 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 18:37:08 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 21:55:00 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,21 @@ void ft_echo(char **com, bool flag)
 {
     int i = 0;
     
-    if(com == NULL || com[1] == NULL)
-        ft_putchar_fd('\n', 1);
-    else
+    if (com[0][0] == '-' && com[0][1] == 'n')
+        flag = false;
+    while (com[0][0] == '-')
     {
-        while (com[0][0] == '-')
-        {
-            if (check_n_flag(com[0] + 1) == true)
-                com++;
-            else
-                break ;
-        }
-        while(com[i])
-        {
-            ft_putstr_fd(com[i++], 1);
-            ft_putchar_fd(' ', 1);
-        }
-        if (flag == true)
-            printf("\n");
+        if (check_n_flag(com[0] + 1) == true)
+            com++;
+        else
+            break ;
     }
+    while(com[i])
+    {
+        ft_putstr_fd(com[i], 1);
+        ft_putchar_fd(' ', 1);
+        i++; 
+    }
+    if (flag == true)
+        printf("\n");
 }
