@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 18:05:40 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:46:20 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,11 +166,34 @@ void	printlist(void *tmp);
 void        executing(t_data *data);
 void        copieenv(char **env);
 void        my_cd(char **com);
+void ft_echo(char **com, bool flag);
+
+
+
 
 // tools
 void        exiterror(void);
+bool    check_n_flag(char *str);
 
-
+void unset_env(char **com);
+void exit_myminishell(char **com);
+char	*join(char const *s1, char const *s2);
+char *get_my_path(char **com);
+void printmyexport();
+void export(char **com);
+int lenofmyenv(char **env);
+void exiterror(void);
+void  copieenv(char **env);
+void ft_putendle(char *str, int fd);
+void printmyenv();
+int findmyindex(char *va);
+void set_myenv(char *key, char *value);
+void change_mydir(char *path);
+char *findmyvar(char *va);
+int morethan2arg(char **com);
+void my_cd(char **com);
+void mypwd(void);
+void ft_putendexp(char *str, int fd);
 
 
 
