@@ -6,11 +6,13 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:53 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/03 17:40:41 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/03 18:30:49 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+t_env *env_list = NULL;
 
 int lenofmyenv(char **env)
 {
@@ -46,6 +48,55 @@ void    creat_myenv()
     myenv[3] = NULL;
 }
 
+t_env	*env_last(t_env *lst)
+{
+	if (lst == NULL)
+		return (lst);
+	while (lst->next)
+	{
+		lst = lst->next;
+	}
+	return (lst);
+}
+
+t_env	*env_new(t_env *lst, char *str)
+{
+	t_env	*n_node;
+	t_env	*last_node;
+
+	n_node = (t_env *)malloc(sizeof(struct s_env));
+	if (n_node == NULL)
+		return (NULL);
+	n_node->var_name = str;
+	n_node->next = NULL;
+	if (lst == NULL)
+	{
+		n_node->prev = NULL;
+	}
+	else
+	{
+		last_node = env_last(lst);
+		n_node->prev = last_node;
+	}
+	return (n_node);
+}
+
+void    creat_env_list(char **env)
+{
+    t_env   *node;
+    t_env   *curr;
+    int i;
+
+    i = 0;
+    env_list = env_new(env_list, env[i++]);
+    while (env[i])
+    {
+        node = env_new(env_list, env[i++]);
+		curr = env_last(env_list);
+		curr->next = node;
+    }
+}
+
 void  copieenv(char **env)
 {
     if (!env[0])
@@ -69,7 +120,7 @@ void  copieenv(char **env)
         i++;
     }
     myenv[i] = NULL;
-    
+    creat_env_list(myenv);
 }
 
 void ft_putendle(char *str, int fd)
@@ -91,4 +142,5 @@ void printmyenv()
 		ft_putendle(myenv[i], 1);
         i++;
     }
+    // printlistenv(env_list);
 }

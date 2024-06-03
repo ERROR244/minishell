@@ -11,7 +11,8 @@
         "string.h": "c",
         "errno.h": "c",
         "signal.h": "c",
-        "libft.h": "c"
+        "libft.h": "c",
+        "dirent.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

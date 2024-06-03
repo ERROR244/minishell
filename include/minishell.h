@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/03 17:45:00 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/03 18:07:51 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,20 @@
 
 
 typedef struct s_data t_data;
+// typedef struct s_env t_env;
+
 extern char **myenv;
 
 
-struct s_myenv
+typedef struct s_env
 {
     char    *var_name;
 
-	struct s_myenv *next;
-    struct s_myenv *prev;
-}   t_myenv;
+	struct s_env *next;
+    struct s_env *prev;
+}   t_env;
 
+extern  t_env *env_list;        // creating env var as a list
 
 typedef enum s_token
 {
@@ -166,7 +169,7 @@ void	    commands_clear(t_command **lst);
 // tmp
 void	print_array(char **str);
 void	printlist(void *tmp);
-
+void	printlistenv(void *tmp);
 
 
 
