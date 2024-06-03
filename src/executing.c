@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/03 14:11:35 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/03 14:42:14 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ void execute_command(char **com)
 
     if (com[0][0] == '\0')
     {
-        ft_putstr_fd("command '' not found\n", 2);
+        ft_putstr_fd("minishell: command '' not found\n", 2);
         return ;
     }
     char *path = get_my_path(com);
     if(path == NULL)
     {
+        ft_putstr_fd("minishell: \n", 2);
         ft_putstr_fd(com[0], 2);
         ft_putstr_fd(": command not found\n", 2);
         return ;
@@ -114,14 +115,17 @@ int get_files_num(t_slist *list)
 void	ft_close(int *fd)
 {
 	int i = 0;
-	
-	while (fd[i] != -11)
+
+	while (fd && fd[i] != -11)
 	{
-		if (fd[i] = -1)
+		if (fd[i] == -1)
 			break;
 		close(fd[i]);
+		printf("---------------->%d \n", fd[i]);
 		i++;
 	}
+	if (fd)
+		free(fd);
 }
 
 int *ft_open(t_slist *list, bool infile)
@@ -154,7 +158,7 @@ int *ft_open(t_slist *list, bool infile)
 				ft_putstr_fd(": ", 2);
                 ft_putstr_fd(strerror(errno), 2);
                 ft_putchar_fd('\n', 2);
-				return (-1);
+				return (NULL);
 			}
 			
 			j++;
@@ -163,44 +167,64 @@ int *ft_open(t_slist *list, bool infile)
 		list = list->next;
 	}
 	printf("%d--%d\n", fd[j], j);
-	int tmp = fd[0];
-	free(fd);
-	return (tmp);
+	return (fd);
+}
+
+int get_last_index(int *fd)
+{
+	int i;
+
+	i = 0;
+	while (fd[i] != -11)
+	{
+		if (fd[i] == -1)
+			return (i);
+		i++;
+	}
+	return (i - 1);
 }
 
 void hand_theredirectionin(t_command *lst)
 {
     int out = dup(STDOUT_FILENO);
     int in = dup(STDIN_FILENO);
-    int *filein;
-    int *fileout;
+    int *filein  = NULL;
+    int *fileout = NULL;
+	int last1;
+	int last2;
     
     while (lst)
     {
         if(lst->infile != NULL)
         {
             filein = ft_open(lst->infile, true);
-
-            if(filein == -1)
+			
+            if(!filein)
 			{
 	        	close(in);
 				return ;
 			}
             else
-            	dup2(filein, STDIN_FILENO);
+			{
+				last1 = get_last_index(filein);
+            	dup2(filein[last1], STDIN_FILENO);
+			}
 
         }
         if(lst->outfile != NULL)
         {
             fileout = ft_open(lst->outfile, false);
 
-            if(fileout == -1)
+            if(!fileout)
 			{
         		close(out);
 				return ;
 			}
             else
-            	dup2(fileout, STDOUT_FILENO);
+			{
+				last2 = get_last_index(fileout);
+            	dup2(fileout[last2], STDOUT_FILENO);
+			}
         }
         if (!lst->next)
             break ;
@@ -215,8 +239,8 @@ void hand_theredirectionin(t_command *lst)
     execute_command(lst->cmd);
     dup2(in, STDIN_FILENO);
     dup2(out, STDOUT_FILENO);
-    close(filein);
-    close(fileout);
+    ft_close(filein);
+    ft_close(fileout);
 	close(out);
 	close(in);
 }
