@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 23:12:46 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/03 14:11:35 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,37 +91,116 @@ void ft_pipe(t_cmds *lst)
     waitpid(pid2, NULL, 0); 
 }
 
+int get_files_num(t_slist *list)
+{
+	int i;
+	int size;
+
+	size = 0;
+	while (list)
+	{
+		i = 0;
+		while (list && list->cmd[i])
+		{
+			size++;
+			i++;
+		}
+		list = list->next;
+	}
+	printf("%d\n", size);
+	return (size);
+}
+
+void	ft_close(int *fd)
+{
+	int i = 0;
+	
+	while (fd[i] != -11)
+	{
+		if (fd[i] = -1)
+			break;
+		close(fd[i]);
+		i++;
+	}
+}
+
+int *ft_open(t_slist *list, bool infile)
+{
+	int *fd;
+	int i;
+	int j;
+	int size;
+
+	size = get_files_num(list);
+	fd = malloc((size + 1) * (sizeof(int)));
+	fd[size] = -11;
+	j = 0;
+    while (list)
+	{
+		i = 0;
+		while (list && list->cmd[i])
+		{
+			if (infile == true)
+				fd[j] = open(list->cmd[i], O_RDONLY);
+			else
+				fd[j] = open(list->cmd[i], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			printf("%d--%d\n", fd[j], j);
+			
+			if (fd[j] == -1)
+			{
+				ft_close(fd);
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(list->cmd[i], 2);
+				ft_putstr_fd(": ", 2);
+                ft_putstr_fd(strerror(errno), 2);
+                ft_putchar_fd('\n', 2);
+				return (-1);
+			}
+			
+			j++;
+			i++;
+		}
+		list = list->next;
+	}
+	printf("%d--%d\n", fd[j], j);
+	int tmp = fd[0];
+	free(fd);
+	return (tmp);
+}
+
 void hand_theredirectionin(t_command *lst)
 {
     int out = dup(STDOUT_FILENO);
     int in = dup(STDIN_FILENO);
-    int filein = -1;
-    int fileout = -1;
+    int *filein;
+    int *fileout;
     
-    // printf("%s\n", lst->cmd[0]);
     while (lst)
     {
         if(lst->infile != NULL)
         {
-            printf(":%s:\n", lst->infile->cmd[0]);
-            filein = open(lst->infile->cmd[0], O_RDONLY);
+            filein = ft_open(lst->infile, true);
 
             if(filein == -1)
-                perror("fail the file\n");
-            
-            // dup2(STDIN_FILENO, filein);
-            dup2(filein, STDIN_FILENO);
+			{
+	        	close(in);
+				return ;
+			}
+            else
+            	dup2(filein, STDIN_FILENO);
 
         }
         if(lst->outfile != NULL)
         {
-            fileout = open(lst->outfile->cmd[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+            fileout = ft_open(lst->outfile, false);
 
             if(fileout == -1)
-                perror("fail the file\n");
-            
-            // dup2(STDOUT_FILENO, fileout);
-            dup2(fileout, STDOUT_FILENO);
+			{
+        		close(out);
+				return ;
+			}
+            else
+            	dup2(fileout, STDOUT_FILENO);
         }
         if (!lst->next)
             break ;
@@ -134,20 +213,12 @@ void hand_theredirectionin(t_command *lst)
         lst = lst->prev;
     }
     execute_command(lst->cmd);
-    if (filein != -1)
-    {
-        dup2(in, STDIN_FILENO);
-        close(filein);
-    }
-    else
-        close(in);
-    if (fileout != -1) 
-    {
-        dup2(out, STDOUT_FILENO);
-        close(fileout);
-    }
-    else
-        close(out); 
+    dup2(in, STDIN_FILENO);
+    dup2(out, STDOUT_FILENO);
+    close(filein);
+    close(fileout);
+	close(out);
+	close(in);
 }
 
 

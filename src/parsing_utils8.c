@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:19 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 23:24:13 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/03 13:16:32 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,23 @@ t_command	*get_commands(t_cmds *lst)
 
 		while (lst && lst->token != Pipe)
 		{
-			if (lst->token == Cmd || (lst->token == Non )) // && lst->cmd[0][0] == '\0'))
+			if (lst->token == Cmd || (lst->token == Non ))
 			{
 				if (!command->cmd)
 					command->cmd = array_copy(lst->cmd);
+				else
+				{
+					if (!infile)
+					{
+						infile = node_new(infile, lst->cmd, lst->token);
+					}
+					else
+					{
+						infile->next = node_new(infile, lst->cmd, lst->token);
+						infile = infile->next;
+					}
+				}
+					
 			}
 			else if (lst->token == Infile)
 			{

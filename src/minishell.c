@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 23:09:14 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/03 12:55:02 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ int main(int ac, char **av, char **env)
 		}
 		free(data.line);
     }
-	// printf("exit\n");
+	printf("exit\n");
     return (0);
 }
