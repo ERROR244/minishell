@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/03 12:55:02 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:48:27 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@ int main(int ac, char **av, char **env)
     t_data data;
 
 	if (ac != 1)
-		return (1);
-	
-	if (!env)
 		return (1);
 	copieenv(env);
 	(void)av;

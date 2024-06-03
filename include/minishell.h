@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 20:49:51 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:45:00 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@
 typedef struct s_data t_data;
 extern char **myenv;
 
+
+struct s_myenv
+{
+    char    *var_name;
+
+	struct s_myenv *next;
+    struct s_myenv *prev;
+}   t_myenv;
 
 
 typedef enum s_token

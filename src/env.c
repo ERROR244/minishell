@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:53 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 21:18:35 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:40:41 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,31 @@ void exiterror(void)
     return ;
 }
 
-void  copieenv(char **env)
+void    creat_myenv()
 {
-    int len = lenofmyenv(env);
-    myenv = (char **)malloc((len + 1)*sizeof(char *));
-    
+    char buffer[PATH_MAX];
+
+    myenv = (char **)malloc((4)*sizeof(char *));
     if(!myenv)
         exiterror();
+    myenv[0] = ft_strjoin("PWD=", getcwd(buffer, PATH_MAX));
+    myenv[1] = ft_strdup("SHLVL=1");
+    myenv[2] = ft_strdup("_=/usr/bin/env");
+    myenv[3] = NULL;
+}
+
+void  copieenv(char **env)
+{
+    if (!env[0])
+    {
+        creat_myenv();
+        return ;
+    }
+    int len = lenofmyenv(env);
+    myenv = (char **)malloc((len + 1)*sizeof(char *));
+    if(!myenv)
+        exiterror();
+    
     int i = 0;
     while(env[i])
     {
@@ -51,6 +69,7 @@ void  copieenv(char **env)
         i++;
     }
     myenv[i] = NULL;
+    
 }
 
 void ft_putendle(char *str, int fd)

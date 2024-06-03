@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 19:21:01 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:18:32 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,15 @@ char *findmyvar(char *va)
         free_array(vale);
         i++;
     }
-    free(tmp);
-    return(0);
+    i = 0;
+    while (myenv[i])
+    {
+        if (ft_strncmp(myenv[i], "path", 3) == 0)
+            return (NULL);
+        i++;
+    }
+    
+    return ("/usr/bin");
 }
 
 int morethan2arg(char **com)

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/03 15:50:47 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:17:35 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void execute_command(char **com)
 {
     int pid;
 
+    if (!com)
+        return ;
     if (com[0][0] == '\0')
     {
         ft_putstr_fd("minishell: command '' not found\n", 2);
@@ -151,7 +153,6 @@ int *ft_open(t_slist *list, bool infile)
 				fd[j] = open(list->cmd[i], O_RDONLY);
 			else
 				fd[j] = open(list->cmd[i], O_WRONLY | O_CREAT | O_TRUNC, 0666);
-			printf("%d--%d\n", fd[j], j);
 			
 			if (fd[j] == -1)
 			{
@@ -163,13 +164,19 @@ int *ft_open(t_slist *list, bool infile)
                 ft_putchar_fd('\n', 2);
 				return (NULL);
 			}
+            else
+            {
+                if (infile == true)
+            	    dup2(fd[j], STDIN_FILENO);
+			    else
+            	    dup2(fd[j], STDOUT_FILENO);
+            }
 			
 			j++;
 			i++;
 		}
 		list = list->next;
 	}
-	printf("%d--%d\n", fd[j], j);
 	return (fd);
 }
 
@@ -193,8 +200,6 @@ void hand_theredirectionin(t_command *lst)
     int in = dup(STDIN_FILENO);
     int *filein  = NULL;
     int *fileout = NULL;
-	int last1;
-	int last2;
     
     while (lst)
     {
@@ -207,12 +212,6 @@ void hand_theredirectionin(t_command *lst)
 	        	close(in);
 				return ;
 			}
-            else
-			{
-				last1 = get_last_index(filein);
-            	dup2(filein[last1], STDIN_FILENO);
-			}
-
         }
         if(lst->outfile != NULL)
         {
@@ -222,11 +221,6 @@ void hand_theredirectionin(t_command *lst)
 			{
         		close(out);
 				return ;
-			}
-            else
-			{
-				last2 = get_last_index(fileout);
-            	dup2(fileout[last2], STDOUT_FILENO);
 			}
         }
         if (!lst->next)
@@ -255,21 +249,27 @@ void executing(t_data *data)
     t_command *list;
 
     list = data->list;
-    if(!list->cmd || list->cmd[0] == NULL || list->cmd[0][0] == '\n')
+    // if(!list->cmd || list->cmd[0] == NULL || list->cmd[0][0] == '\n')
+    //     return ;
+    if(!list || (list->cmd && list->cmd[0][0] == '\n'))
         return ;
-    else if(ft_strcmp(list->cmd[0], "cd") == 0)   
+    else if(list->infile != NULL || list->outfile != NULL)
+    {
+        hand_theredirectionin(list);
+    }
+    else if(list->cmd && ft_strcmp(list->cmd[0], "cd") == 0)   
         my_cd(list->cmd);
-    else if(ft_strcmp(list->cmd[0], "pwd") == 0)
+    else if(list->cmd && ft_strcmp(list->cmd[0], "pwd") == 0)
         mypwd();
-    else if(ft_strcmp(list->cmd[0], "env") == 0 && list->cmd[1] == NULL)
+    else if(list->cmd && ft_strcmp(list->cmd[0], "env") == 0 && list->cmd[1] == NULL)
         printmyenv();
-    else if(ft_strcmp(list->cmd[0], "export") == 0)
+    else if(list->cmd && ft_strcmp(list->cmd[0], "export") == 0)
         export(list->cmd);
-    else if(ft_strcmp(list->cmd[0], "unset") == 0)
+    else if(list->cmd && ft_strcmp(list->cmd[0], "unset") == 0)
         unset_env(list->cmd);
-    else if(ft_strcmp(list->cmd[0], "exit") == 0)
+    else if(list->cmd && ft_strcmp(list->cmd[0], "exit") == 0)
         exit_myminishell(list->cmd);
-    else if(ft_strcmp(list->cmd[0], "echo") == 0)
+    else if(list->cmd && ft_strcmp(list->cmd[0], "echo") == 0)
     {
         if (!list->cmd[1])
             printf("\n");
@@ -277,10 +277,6 @@ void executing(t_data *data)
             ft_echo(list->cmd + 1, true);
     }
 
-    else if(list->infile != NULL || list->outfile != NULL)
-    {
-        hand_theredirectionin(list);
-    }
     else
         execute_command(list->cmd);
 }
