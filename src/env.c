@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:53 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/03 18:30:49 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/03 18:43:02 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void  copieenv(char **env)
         i++;
     }
     myenv[i] = NULL;
-    creat_env_list(myenv);
+    creat_env_list(env);
 }
 
 void ft_putendle(char *str, int fd)
@@ -133,14 +133,12 @@ void ft_putendle(char *str, int fd)
 
 void printmyenv()
 {
-    int		i;
+    t_env *list;
 
-	i = 0;
-
-	while (myenv[i])
-    {
-		ft_putendle(myenv[i], 1);
-        i++;
-    }
-    // printlistenv(env_list);
+	list = env_list;
+	while (list)
+	{
+		printf("%s\n", list->var_name);
+		list = list->next;
+	}
 }

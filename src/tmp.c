@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:31:09 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/03 18:14:57 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/03 18:43:08 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,6 @@ void	printlist(void *tmp)
 	while (list)
 	{
 		print_array(list->cmd);
-		list = list->next;
-	}
-}
-
-void	printlistenv(void *tmp)
-{
-	t_env *list;
-
-	list = tmp;
-	while (list)
-	{
-		printf("%s\n", list->var_name);
 		list = list->next;
 	}
 }
