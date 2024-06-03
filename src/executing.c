@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/03 14:42:14 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:50:47 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void execute_command(char **com)
     char *path = get_my_path(com);
     if(path == NULL)
     {
-        ft_putstr_fd("minishell: \n", 2);
+        ft_putstr_fd("minishell: ", 2);
         ft_putstr_fd(com[0], 2);
         ft_putstr_fd(": command not found\n", 2);
         return ;
@@ -37,9 +37,11 @@ void execute_command(char **com)
     if (pid == 0)
     {
         execve(path, com, myenv);
+        ft_putstr_fd("minishell: ", 2);
+        ft_putstr_fd(com[0], 2);
+        ft_putstr_fd(": ", 2);
         ft_putstr_fd(strerror(errno), 2);
         ft_putstr_fd("\n", 2);
-        // perror("command not found:");
         exit(1);
     }
     else if (pid < 0)
@@ -52,6 +54,7 @@ void execute_command(char **com)
     if (path)
         free(path);
 }
+
 void ft_pipe(t_cmds *lst)
 {
     int fd[2];
@@ -108,7 +111,7 @@ int get_files_num(t_slist *list)
 		}
 		list = list->next;
 	}
-	printf("%d\n", size);
+	// printf("%d\n", size);
 	return (size);
 }
 

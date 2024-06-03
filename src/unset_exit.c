@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 19:10:29 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:45:17 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,9 @@ char *get_my_path(char **com)
 {
     char **str;
     char *path1;
-    
+
+    if (com[0][0] == '/' || com[0][0] == '.')
+        return (ft_strdup(com[0]));
     path1 = findmyvar("PATH");
     if (!path1) 
         return NULL;
