@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils8.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:19 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/03 17:30:38 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:06:03 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,33 +166,33 @@ t_command	*get_commands(t_cmds *lst)
 	
 	command = tmp;
 	
-	// while (tmp)
-	// {q
-	// 	printf("---\n");
-	// 	if (tmp->cmd)
-	// 		print_array(tmp->cmd);
-	// 	if (tmp->infile)
-	// 	{
-	// 		printf("\ninfile->          ");
-	// 		printlist(tmp->infile);
-	// 	}
-	// 	if (tmp->outfile)
-	// 	{
-	// 		printf("\noutfile->         ");
-	// 		printlist(tmp->outfile);
-	// 	}
-	// 	if (tmp->appendfile)
-	// 	{
-	// 		printf("\nappendfile->      ");
-	// 		printlist(tmp->appendfile);
-	// 	}
-	// 	if (tmp->heredocdel)
-	// 	{
-	// 		printf("\nheredocdel->      ");
-	// 		printlist(tmp->heredocdel);
-	// 	}
-	// 	printf("\n---\n");
-	// 	tmp = tmp->next;
-	// }
+	while (tmp)
+	{
+		printf("---\n");
+		if (tmp->cmd)
+			print_array(tmp->cmd);
+		if (tmp->infile)
+		{
+			printf("\ninfile->          ");
+			printlist(tmp->infile);
+		}
+		if (tmp->outfile)
+		{
+			printf("\noutfile->         ");
+			printlist(tmp->outfile);
+		}
+		if (tmp->appendfile)
+		{
+			printf("\nappendfile->      ");
+			printlist(tmp->appendfile);
+		}
+		if (tmp->heredocdel)
+		{
+			printf("\nheredocdel->      ");
+			printlist(tmp->heredocdel);
+		}
+		printf("\n---\n");
+		tmp = tmp->next;
+	}
 	return (command);
 }

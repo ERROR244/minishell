@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/03 16:17:35 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 11:30:56 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,45 @@ void	ft_close(int *fd)
 		free(fd);
 }
 
+int *ft_open_append(t_slist *list, bool appendfile)
+{
+	int *fd;
+	int i;
+	int j;
+	int size;
+
+	size = get_files_num(list);
+	fd = malloc((size + 1) * (sizeof(int)));
+	fd[size] = -11;
+	j = 0;
+    while (list)
+	{
+		i = 0;
+		while(list && list->cmd[i])
+		{
+            if(appendfile == true)
+            {
+		        fd[j] = open(list->cmd[i], O_WRONLY | O_CREAT | O_APPEND, 0666);
+            }
+			if (fd[j] == -1)
+			{
+				ft_close(fd);
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(list->cmd[i], 2);
+				ft_putstr_fd(": ", 2);
+                ft_putstr_fd(strerror(errno), 2);
+                ft_putchar_fd('\n', 2);
+				return (NULL);
+			}
+            else
+            	dup2(fd[j], STDOUT_FILENO);
+			j++;
+			i++;
+		}
+		list = list->next;
+	}
+	return (fd);
+}
 int *ft_open(t_slist *list, bool infile)
 {
 	int *fd;
@@ -151,7 +190,7 @@ int *ft_open(t_slist *list, bool infile)
 		{
 			if (infile == true)
 				fd[j] = open(list->cmd[i], O_RDONLY);
-			else
+            else
 				fd[j] = open(list->cmd[i], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 			
 			if (fd[j] == -1)
@@ -197,10 +236,11 @@ int get_last_index(int *fd)
 void hand_theredirectionin(t_command *lst)
 {
     int out = dup(STDOUT_FILENO);
+    int apendout = dup(STDOUT_FILENO);
     int in = dup(STDIN_FILENO);
     int *filein  = NULL;
     int *fileout = NULL;
-    
+    int *appendfile = NULL ;
     while (lst)
     {
         if(lst->infile != NULL)
@@ -223,6 +263,17 @@ void hand_theredirectionin(t_command *lst)
 				return ;
 			}
         }
+        if(lst->appendfile != NULL)
+        {
+            appendfile = ft_open_append(lst->appendfile, true);
+
+            if(!appendfile)
+            {
+                close(apendout);
+                return ;
+            }                        
+        }
+    
         if (!lst->next)
             break ;
         lst = lst->next;
@@ -240,6 +291,7 @@ void hand_theredirectionin(t_command *lst)
     ft_close(fileout);
 	close(out);
 	close(in);
+    close(apendout);
 }
 
 
@@ -253,7 +305,7 @@ void executing(t_data *data)
     //     return ;
     if(!list || (list->cmd && list->cmd[0][0] == '\n'))
         return ;
-    else if(list->infile != NULL || list->outfile != NULL)
+    else if(list->infile != NULL || list->outfile != NULL || list->appendfile)
     {
         hand_theredirectionin(list);
     }
