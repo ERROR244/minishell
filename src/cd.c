@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 15:29:37 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:58:05 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,13 @@ void set_myenv(t_env *list, char *key, char *value)
         else
             index->var_name = ft_strjoin(key, "=");
     }
-    else if (!index || ft_strcmp(key, "OLDPWD") == 0)
+    else if (ft_strcmp(key, "OLDPWD") == 0)
+    {
+        node = env_new(list, ft_strjoin(key, tmp));
+        list = env_last(list);
+        list->next = node;
+    }
+    else if (!index)
     {
         if(value)
             node = env_new(list, ft_strjoin(key, tmp));

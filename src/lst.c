@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 11:09:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 15:17:51 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:00:52 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	senv_clear(t_env **lst)
 	while (curr1->next != NULL)
 	{
 		curr2 = curr1->next;
+		printf("%s \n", curr1->var_name);
 		free(curr1->var_name);
 		free(curr1);
 		curr1 = curr2;
