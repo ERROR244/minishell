@@ -3,24 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   unset_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 09:50:46 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/06/04 12:09:24 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void unset_env(char **com)
+void unset_env(t_env *list, char **com)
 {
+    t_env *index;
     if(com[1] == NULL)
         return ;
     int i = 1;
-    int j;
+    int j = 0;
+    index = NULL;
     while(com[i])
     {
-        j  = findmyindex(com[i]);
+        index  = findmyindex(list, com[i]);
         if(j > 0)
         {
             free(myenv[j]);
@@ -88,14 +90,14 @@ char	*join(char const *s1, char const *s2)
 	return (concatenated);
 }
 
-char *get_my_path(char **com) 
+char *get_my_path(t_env *list, char **com) 
 {
     char **str;
     char *path1;
 
     if (com[0][0] == '/' || com[0][0] == '.')
         return (ft_strdup(com[0]));
-    path1 = findmyvar("PATH");
+    path1 = findmyvar(list, "PATH");
     if (!path1) 
         return NULL;
 

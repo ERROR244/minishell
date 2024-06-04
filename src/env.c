@@ -6,13 +6,11 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:53 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/03 18:43:02 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 12:26:57 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-t_env *env_list = NULL;
 
 int lenofmyenv(char **env)
 {
@@ -35,17 +33,19 @@ void exiterror(void)
     return ;
 }
 
-void    creat_myenv()
+char **creat_myenv()
 {
+    char **ptr;
     char buffer[PATH_MAX];
 
-    myenv = (char **)malloc((4)*sizeof(char *));
-    if(!myenv)
+    ptr = (char **)malloc((4)*sizeof(char *));
+    if(!ptr)
         exiterror();
-    myenv[0] = ft_strjoin("PWD=", getcwd(buffer, PATH_MAX));
-    myenv[1] = ft_strdup("SHLVL=1");
-    myenv[2] = ft_strdup("_=/usr/bin/env");
-    myenv[3] = NULL;
+    ptr[0] = ft_strjoin("PWD=", getcwd(buffer, PATH_MAX));
+    ptr[1] = ft_strdup("SHLVL=1");
+    ptr[2] = ft_strdup("_=/usr/bin/env");
+    ptr[3] = NULL;
+    return (ptr);
 }
 
 t_env	*env_last(t_env *lst)
@@ -81,28 +81,34 @@ t_env	*env_new(t_env *lst, char *str)
 	return (n_node);
 }
 
-void    creat_env_list(char **env)
+void    creat_env_list(t_env **list, char **env)
 {
     t_env   *node;
     t_env   *curr;
     int i;
 
     i = 0;
-    env_list = env_new(env_list, env[i++]);
+    *list = env_new(*list, ft_strdup(env[i++]));
     while (env[i])
     {
-        node = env_new(env_list, env[i++]);
-		curr = env_last(env_list);
+        node = env_new(*list, ft_strdup(env[i++]));
+		curr = env_last(*list);
 		curr->next = node;
     }
 }
 
-void  copieenv(char **env)
+t_env  *copieenv(char **env)
 {
+    t_env *list;
+
+    list = NULL;
     if (!env[0])
     {
-        creat_myenv();
-        return ;
+        env = creat_myenv();
+        creat_env_list(&list, env);
+        free(env[3]);
+        free(env);
+        return (list);
     }
     int len = lenofmyenv(env);
     myenv = (char **)malloc((len + 1)*sizeof(char *));
@@ -120,7 +126,8 @@ void  copieenv(char **env)
         i++;
     }
     myenv[i] = NULL;
-    creat_env_list(env);
+    creat_env_list(&list, env);
+    return (list);
 }
 
 void ft_putendle(char *str, int fd)
@@ -131,11 +138,8 @@ void ft_putendle(char *str, int fd)
 	ft_putstr_fd("\n", fd);
 }
 
-void printmyenv()
+void printmyenv(t_env *list)
 {
-    t_env *list;
-
-	list = env_list;
 	while (list)
 	{
 		printf("%s\n", list->var_name);

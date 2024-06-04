@@ -6,66 +6,90 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/03 17:18:32 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 12:56:17 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 
-int findmyindex(char *va)
+t_env *findmyindex(t_env *list, char *va)
 {
-    int i = 0;
-    char *tmp;
-    tmp = ft_strjoin(va, "=");
-    if (tmp && tmp[0] == '=' && tmp[1] == '\0')
+    // int i = 0;
+    // char *tmp;
+    // tmp = ft_strjoin(va, "=");
+    // if (tmp && tmp[0] == '=' && tmp[1] == '\0')
+    // {
+    //     free(tmp);
+    //     tmp = NULL;
+    // }
+    // int len = ft_strlen(tmp);
+    // while(myenv[i])
+    // {
+    //     if(ft_strncmp(myenv[i], tmp, len) == 0)
+    //     {
+    //             free(tmp);
+    //             return(i);
+    //     }
+    //     i++;
+    // }
+    // free(tmp);
+    // return (0);
+    // list
+    
+    int len = ft_strlen(va);
+    while(list)
     {
-        free(tmp);
-        tmp = NULL;
-    }
-    int len = ft_strlen(tmp);
-    while(myenv[i])
-    {
-        if(ft_strncmp(myenv[i], tmp, len) == 0)
+        if(ft_strncmp(list->var_name, va, len) == 0)
         {
-                free(tmp);
-                return(i);
+            // free(tmp);
+            return(list);
         }
-        i++;
+        list = list->next;
     }
-    free(tmp);
-    return(0);
+    return(NULL);
 }
 
-void set_myenv(char *key, char *value)
+
+void set_myenv(t_env *list, char *key, char *value)
 {
-    int myi = findmyindex(key);
+    t_env *index = findmyindex(list, key);
+    t_env *node;
     char *tmp = ft_strjoin("=", value);
-    int i = 0;
+    char *ptr;
 
-    while (myenv[i])
-        i++;
-    if(myi != 0)
+    
+    
+    
+    
+    if (index && (ft_strcmp(key, "OLDPWD") == 0 || ft_strcmp(key, "PWD") == 0))
     {
-        free(myenv[myi]);
+        free(index->var_name);
         if(value)
-            myenv[myi] = ft_strjoin(key, tmp);
+            index->var_name = ft_strjoin(key, tmp);
         else
-            myenv[myi] = ft_strjoin(key, "=");
+            index->var_name = ft_strjoin(key, "=");
     }
-    else
+    else if (index || ft_strcmp(key, "OLDPWD") == 0)
     {
-        myenv = (char **)realloc(myenv, (sizeof(char *) * i) + 8);
         if(value)
-            myenv[i - 1] = ft_strjoin(key, tmp);
+            ptr = ft_strjoin(key, tmp);
         else
-            myenv[i - 1] = ft_strjoin(key, "= "" ");
-        myenv[i] = NULL;
+            ptr = ft_strjoin(key, "=\"\" ");
+        
+        node = env_new(list, ptr);
+        if (!index)
+        {
+            list = env_last(list);
+            list->next = node;
+        }
+        else
+            index->next = node;
     }
     free(tmp);
 }
 
-void change_mydir(char *path)
+void change_mydir(t_env *list, char *path)
 {
     char *cur;
     char buffer[PATH_MAX];
@@ -75,37 +99,42 @@ void change_mydir(char *path)
     {
         perror("cd");
     }
-	set_myenv("OLDPWD", cur);
-    set_myenv("PWD", path);
+    set_myenv(list, "PWD", path);
+	set_myenv(list, "OLDPWD", cur);
 }
 
-char *findmyvar(char *va)
+char *findmyvar(t_env *list, char *va)
 {
-    int i = 0;
-    char *tmp;
     char **vale;
 
-    tmp = va;
-    while(myenv[i])
+    while(list)
     {
-        vale = ft_split(myenv[i], '=');
-        if(ft_strcmp(vale[0], tmp) == 0)
+        vale = ft_split(list->var_name, '=');
+        if(ft_strcmp(vale[0], va) == 0)
         {
             free_array(vale);
-            return(ft_strchr(myenv[i], '=')) + 1;
+            return (ft_strchr(list->var_name, '=') + 1);
         }
         free_array(vale);
-        i++;
+        if (!list->next)
+            break ;
+        list = list->next;
     }
-    i = 0;
-    while (myenv[i])
+    while (list)
     {
-        if (ft_strncmp(myenv[i], "path", 3) == 0)
-            return (NULL);
-        i++;
+        if (!list->prev)
+            break ;
+        list = list->prev;
     }
-    
-    return ("/usr/bin");
+    while (list)
+    {
+        if (ft_strncmp(list->var_name, "path", 3) == 0)
+            return (NULL);
+        list = list->next;
+    }
+    if (ft_strncmp(va, "path", 3) == 0)
+        return ("/usr/bin");
+    return (NULL);
 }
 
 int morethan2arg(char **com)

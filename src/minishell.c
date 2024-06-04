@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/03 16:48:27 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 11:31:18 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@ char **myenv = NULL;
 int main(int ac, char **av, char **env)
 {
     t_data data;
-
+	
 	if (ac != 1)
 		return (1);
-	copieenv(env);
 	(void)av;
+	data.list_env = NULL;
+	data.list_env = copieenv(env);
 	data.env = env;
     while (1)
     {

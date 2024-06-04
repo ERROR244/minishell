@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 18:59:09 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:23:43 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,21 +59,21 @@ void printmyexport()
     }
 }
 
-void export(char **com)
-{
-    int i;
-    char **export;
+// void export(t_env *list, char **com)
+// {
+//     int i;
+//     char **export;
 
-    i = 1;
-    if(com[1] == NULL)
-        printmyexport();
-    while(com[i])
-    {
-        if(ft_isalpha(com[i][0]) != 1)
-            printf("export: '%s' :not a valid identifier\n", com[i]);
-        export = ft_split(com[i], '=');
-        set_myenv(export[0], export[1]);
-        i++;
-    }
-    // free_array(export);
-}
+//     i = 1;
+//     if(com[1] == NULL)
+//         printmyexport();
+//     while(com[i])
+//     {
+//         if(ft_isalpha(com[i][0]) != 1)
+//             printf("export: '%s' :not a valid identifier\n", com[i]);
+//         export = ft_split(com[i], '=');
+//         set_myenv(list, export[0], export[1]);
+//         i++;
+//     }
+//     free_array(export);
+// }

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/03 18:07:51 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 12:24:47 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ struct s_data
     char        **env;
 	char 	    **cmds;
     char 	    *line;
+    t_env       *list_env;
 	t_cmds      *lst;
     t_command   *list;
 };
@@ -136,12 +137,12 @@ int         cmdcheck(char *str);
 int		    errormsg(char *str);
 int		    errormsg_v1(char *str);
 int		    errormsg_v2(char *str);
-void	    close_used_files(t_data *data);
+// void	    close_used_files(t_data *data);
 int         is_spaces(char *str);
 void	    non_token(t_cmds *lst);
 int         check_for_in_out_put(t_cmds *cmds);
 int         check_for_Append_heredoc(t_cmds *cmds);
-int         check_access(t_cmds *curr);
+// int         check_access(t_cmds *curr);
 int         errormsg(char *str);
 int         check_quotation(char *str);
 int     	count_words(char const *s);
@@ -169,42 +170,42 @@ void	    commands_clear(t_command **lst);
 // tmp
 void	print_array(char **str);
 void	printlist(void *tmp);
-void	printlistenv(void *tmp);
 
 
 
 // executing
 void        executing(t_data *data);
-void        copieenv(char **env);
-void        my_cd(char **com);
-void ft_echo(char **com, bool flag);
+void        my_cd(t_env *list, char **com);
+void        ft_echo(char **com, bool flag);
 
 
 
 
 // tools
-void        exiterror(void);
+void    exiterror(void);
 bool    check_n_flag(char *str);
+t_env   *env_new(t_env *lst, char *str);
+t_env	*env_last(t_env *lst);
 
-void unset_env(char **com);
-void exit_myminishell(char **com);
-char	*join(char const *s1, char const *s2);
-char *get_my_path(char **com);
-void printmyexport();
-void export(char **com);
-int lenofmyenv(char **env);
-void exiterror(void);
-void  copieenv(char **env);
-void ft_putendle(char *str, int fd);
-void printmyenv();
-int findmyindex(char *va);
-void set_myenv(char *key, char *value);
-void change_mydir(char *path);
-char *findmyvar(char *va);
-int morethan2arg(char **com);
-void my_cd(char **com);
-void mypwd(void);
-void ft_putendexp(char *str, int fd);
+void        unset_env(t_env *list, char **com);
+void        exit_myminishell(char **com);
+char       	*join(char const *s1, char const *s2);
+char        *get_my_path(t_env  *list, char **com);
+void        printmyexport();
+void        export(char **com);
+int         lenofmyenv(char **env);
+void        exiterror(void);
+t_env       *copieenv(char **env);
+void        ft_putendle(char *str, int fd);
+void        printmyenv(t_env *list);
+t_env       *findmyindex(t_env *list, char *va);
+void        set_myenv(t_env *list, char *key, char *value);
+void        change_mydir(t_env *list, char *path);
+char        *findmyvar(t_env *list, char *va);
+int         morethan2arg(char **com);
+void        my_cd(t_env *list, char **com);
+void        mypwd(void);
+void        ft_putendexp(char *str, int fd);
 
 
 
