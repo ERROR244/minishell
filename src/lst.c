@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 11:09:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 16:38:10 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:17:51 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,25 @@ void	slist_clear(t_slist **lst)
 	while (curr1->next != NULL)
 	{
 		curr2 = curr1->next;
+		free(curr1);
+		curr1 = curr2;
+	}
+	free(curr1);
+	*lst = NULL;
+}
+
+void	senv_clear(t_env **lst)
+{
+	t_env	*curr1;
+	t_env	*curr2;
+
+	if (lst == NULL || *lst == NULL)
+		return ;
+	curr1 = *lst;
+	while (curr1->next != NULL)
+	{
+		curr2 = curr1->next;
+		free(curr1->var_name);
 		free(curr1);
 		curr1 = curr2;
 	}

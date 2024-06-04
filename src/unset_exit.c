@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 12:09:24 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:16:45 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void unset_env(t_env *list, char **com)
         index  = findmyindex(list, com[i]);
         if(j > 0)
         {
-            free(myenv[j]);
-            myenv[j] = NULL;
+            // free(myenv[j]);
+            // myenv[j] = NULL;
         }
         i++;
     }

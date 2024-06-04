@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 12:24:47 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:28:43 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@
 
 
 typedef struct s_data t_data;
-// typedef struct s_env t_env;
 
-extern char **myenv;
 
 
 typedef struct s_env
@@ -43,8 +41,6 @@ typedef struct s_env
 	struct s_env *next;
     struct s_env *prev;
 }   t_env;
-
-extern  t_env *env_list;        // creating env var as a list
 
 typedef enum s_token
 {
@@ -186,13 +182,17 @@ void    exiterror(void);
 bool    check_n_flag(char *str);
 t_env   *env_new(t_env *lst, char *str);
 t_env	*env_last(t_env *lst);
+char    **linked_list_to_array(t_env *list);
+char    **sortexport(char **arr, int n);
+void	senv_clear(t_env **lst);
+
 
 void        unset_env(t_env *list, char **com);
 void        exit_myminishell(char **com);
 char       	*join(char const *s1, char const *s2);
 char        *get_my_path(t_env  *list, char **com);
-void        printmyexport();
-void        export(char **com);
+void        printmyexport(t_env *list);
+void        export(t_env *list, char **com);
 int         lenofmyenv(char **env);
 void        exiterror(void);
 t_env       *copieenv(char **env);

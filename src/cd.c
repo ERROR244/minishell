@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 12:56:17 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:29:37 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void set_myenv(t_env *list, char *key, char *value)
     t_env *index = findmyindex(list, key);
     t_env *node;
     char *tmp = ft_strjoin("=", value);
-    char *ptr;
 
     
     
@@ -70,14 +69,12 @@ void set_myenv(t_env *list, char *key, char *value)
         else
             index->var_name = ft_strjoin(key, "=");
     }
-    else if (index || ft_strcmp(key, "OLDPWD") == 0)
+    else if (!index || ft_strcmp(key, "OLDPWD") == 0)
     {
         if(value)
-            ptr = ft_strjoin(key, tmp);
+            node = env_new(list, ft_strjoin(key, tmp));
         else
-            ptr = ft_strjoin(key, "=\"\" ");
-        
-        node = env_new(list, ptr);
+            node = env_new(list, ft_strdup(key));
         if (!index)
         {
             list = env_last(list);

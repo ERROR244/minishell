@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:40:02 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 12:59:03 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:43:41 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,4 @@ void mypwd(void)
     char buffer[PATH_MAX];
     cur = getcwd(buffer, PATH_MAX);
     printf("%s\n", cur);
-}
-
-void ft_putendexp(char *str, int fd)
-{
-    char	*tmp;
-
-    if(!str)
-            return ;
-	tmp = ft_strjoin(str, "\n");
-    ft_putstr_fd("declare -x ", 1);
-	ft_putstr_fd(tmp, fd);
-	free(tmp);
 }

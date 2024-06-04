@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 11:31:18 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:16:33 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int main(int ac, char **av, char **env)
 	if (ac != 1)
 		return (1);
 	(void)av;
-	data.list_env = NULL;
 	data.list_env = copieenv(env);
 	data.env = env;
     while (1)
@@ -36,6 +35,7 @@ int main(int ac, char **av, char **env)
 		}
 		free(data.line);
     }
+	senv_clear(&data.list_env);
 	printf("exit\n");
     return (0);
 }

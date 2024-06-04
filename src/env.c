@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:53 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 12:26:57 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:26:15 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ int lenofmyenv(char **env)
 
 void exiterror(void)
 {
-    free_array(myenv);
-    write(1, "\n", 1);
+    write(1, "error\n", 7);
     return ;
 }
 
@@ -110,22 +109,6 @@ t_env  *copieenv(char **env)
         free(env);
         return (list);
     }
-    int len = lenofmyenv(env);
-    myenv = (char **)malloc((len + 1)*sizeof(char *));
-    if(!myenv)
-        exiterror();
-    
-    int i = 0;
-    while(env[i])
-    {
-        myenv[i] = ft_strdup(env[i]);
-        if(!myenv[i])
-        {
-            exiterror();
-        }
-        i++;
-    }
-    myenv[i] = NULL;
     creat_env_list(&list, env);
     return (list);
 }
@@ -140,9 +123,24 @@ void ft_putendle(char *str, int fd)
 
 void printmyenv(t_env *list)
 {
+    int i;
+    bool flag;
+
 	while (list)
 	{
-		printf("%s\n", list->var_name);
+        i = 0;
+        flag = false;
+        while (list->var_name[i])
+        {
+            if (list->var_name[i] == '=')
+            {
+                flag = true;
+                break ;
+            }
+            i++;
+        }
+        if (flag == true)
+		    printf("%s\n", list->var_name);
 		list = list->next;
 	}
 }

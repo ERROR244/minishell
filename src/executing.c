@@ -6,14 +6,14 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 13:25:18 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:02:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // executing_command
-void execute_command(t_env *list, char **com)
+void execute_command(t_env *list, char **com, t_data *data)
 {
     int pid;
 
@@ -38,7 +38,7 @@ void execute_command(t_env *list, char **com)
     // char *cmds[2] = {path,*com};
     if (pid == 0)
     {
-        execve(path, com, myenv);
+        execve(path, com, data->env);
         ft_putstr_fd("minishell: ", 2);
         ft_putstr_fd(com[0], 2);
         ft_putstr_fd(": ", 2);
@@ -57,7 +57,7 @@ void execute_command(t_env *list, char **com)
         free(path);
 }
 
-void ft_pipe(t_env *list, t_cmds *lst)
+void ft_pipe(t_env *list, t_cmds *lst, t_data *data)
 {
     int fd[2];
     if(pipe(fd) == -1)
@@ -72,7 +72,7 @@ void ft_pipe(t_env *list, t_cmds *lst)
         close(fd[0]); 
         dup2(fd[1], STDOUT_FILENO);
         close(fd[1]); 
-        execute_command(list, &lst->prev->cmd[0]);
+        execute_command(list, &lst->prev->cmd[0], data);
         exit(1); 
     }
 
@@ -86,7 +86,7 @@ void ft_pipe(t_env *list, t_cmds *lst)
             close(fd[1]);
             dup2(fd[0], STDIN_FILENO);
             close(fd[0]); 
-            execute_command(list, &lst->next->cmd[0]);
+            execute_command(list, &lst->next->cmd[0], data);
             exit(1); 
         }
     }
@@ -194,7 +194,7 @@ int get_last_index(int *fd)
 	return (i - 1);
 }
 
-void hand_theredirectionin(t_env *list, t_command *lst)
+void hand_theredirectionin(t_env *list, t_command *lst, t_data *data)
 {
     int out = dup(STDOUT_FILENO);
     int in = dup(STDIN_FILENO);
@@ -233,7 +233,7 @@ void hand_theredirectionin(t_env *list, t_command *lst)
             break ;
         lst = lst->prev;
     }
-    execute_command(list, lst->cmd);
+    execute_command(list, lst->cmd, data);
     dup2(in, STDIN_FILENO);
     dup2(out, STDOUT_FILENO);
     ft_close(filein);
@@ -255,7 +255,7 @@ void executing(t_data *data)
         return ;
     else if(list->infile != NULL || list->outfile != NULL)
     {
-        hand_theredirectionin(data->list_env, list);
+        hand_theredirectionin(data->list_env, list, data);
     }
     else if(list->cmd && ft_strcmp(list->cmd[0], "cd") == 0)   
         my_cd(data->list_env, list->cmd);
@@ -265,8 +265,8 @@ void executing(t_data *data)
     {
         printmyenv(data->list_env);
     }
-    // else if(list->cmd && ft_strcmp(list->cmd[0], "export") == 0)
-    //     export(data->list_env, list->cmd);
+    else if(list->cmd && ft_strcmp(list->cmd[0], "export") == 0)
+        export(data->list_env, list->cmd);
     else if(list->cmd && ft_strcmp(list->cmd[0], "unset") == 0)
         unset_env(data->list_env, list->cmd);
     else if(list->cmd && ft_strcmp(list->cmd[0], "exit") == 0)
@@ -279,6 +279,6 @@ void executing(t_data *data)
             ft_echo(list->cmd + 1, true);
     }
 
-    // else
-    //     execute_command(data->list_env, list->cmd);
+    else
+        execute_command(data->list_env, list->cmd, data);
 }
