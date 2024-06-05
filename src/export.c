@@ -82,7 +82,6 @@ char **linked_list_to_array(t_env *list)
         i++;
     }
     array[i] = NULL;
-    sortexport(array, i);
     return (array);
 }
 
@@ -95,6 +94,10 @@ void printmyexport(t_env *list)
 	i = 0;
 
     ptr = linked_list_to_array(list);
+    while (ptr[i])
+        i++;
+    sortexport(ptr, i);
+    i = 0;
 	while (ptr[i])
     {
         printf("%s", "declare -x ");
