@@ -109,10 +109,15 @@ void printmyexport(t_env *list)
 
 void export(t_env *list, char **com)
 {
-    int i;
     char **export;
+    char c;
+    char *str;
+    size_t size;
+    int i;
+    int j;
 
     i = 1;
+    c = '-';
     if(com[1] == NULL)
     {
         printmyexport(list);
@@ -125,7 +130,22 @@ void export(t_env *list, char **com)
             if(ft_isalpha(com[i][0]) != 1)
                 printf("export: '%s' :not a valid identifier\n", com[i]);
             export = ft_split(com[i], '=');
-            set_myenv(list, export[0], export[1]);
+            size = ft_strlen(export[0]);
+            if (export[0][size - 1] == '+')
+            {
+                c = '+';
+                str = malloc(sizeof(char) * size);
+                j = 0;
+                while (export[0][j] != '+')
+                {
+                    str[j] = export[0][j];
+                    j++;
+                }
+                str[j] = '\0';
+                free(export[0]);
+                export[0] = str;
+            }
+            set_myenv(list, export[0], export[1], c);
             i++;
         }
         free_array(export);

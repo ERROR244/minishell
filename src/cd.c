@@ -74,14 +74,12 @@ void insert_var_node_in_list(t_env *index, t_env *node)
 }
 
 
-void set_myenv(t_env *list, char *key, char *value)
+void set_myenv(t_env *list, char *key, char *value, char c)
 {
     t_env *index = findmyindex(list, key);
     t_env *node;
     char *tmp;
-    int i;
-    
-    i = ft_strlen(key);
+
     if (index && (ft_strcmp(key, "OLDPWD") == 0 || ft_strcmp(key, "PWD") == 0))                   //  update oldpwd or pwd if they exist in the envirment list.
     {
         free(index->var_name);
@@ -99,17 +97,20 @@ void set_myenv(t_env *list, char *key, char *value)
         list = env_last(list);
         list->next = node;
     }
-    else if (!index && key[i - 1] != '+')                                                         //    this part is for export command for a key don't have a value.
+    else if (!index)                                                         //    this part is for export command for a key don't have a value.
     {
         node = env_new(list, ft_strjoin3(key, '=', value));
         list = env_last(list);
         list->next = node;
     }
-    else if (index || key[i - 1] == '+')                                                          //    this part is for export command for a key do have a value.
+    else if (index)                                                          //    this part is for export command for a key do have a value.
     {
-        if (key[i - 1] == '+')                                                                    //    this sub-part is for Append export
+        if (c == '+')                                                                    //    this sub-part is for Append export
         {
             printf("%s - %s \n", key, value);
+            tmp = ft_strjoin(index->var_name, value);
+            free(index->var_name);
+            index->var_name = tmp;
         }
         else                                                                                      //    this sub-part is for non-Append export
         {
@@ -125,11 +126,11 @@ void change_mydir(t_env *list, char *path)
     char buffer[PATH_MAX];
 
     cur = getcwd(buffer, PATH_MAX);
-	set_myenv(list, "OLDPWD", cur);
+	set_myenv(list, "OLDPWD", cur, '-');
     if(chdir(path) != 0)
         perror("cd");
     else
-        set_myenv(list, "PWD", getcwd(buffer, PATH_MAX));
+        set_myenv(list, "PWD", getcwd(buffer, PATH_MAX), '-');
 }
 
 char *findmyvar(t_env *list, char *va)

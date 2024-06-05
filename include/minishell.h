@@ -199,7 +199,7 @@ t_env       *copieenv(char **env);
 void        ft_putendle(char *str, int fd);
 void        printmyenv(t_env *list);
 t_env       *findmyindex(t_env *list, char *va);
-void        set_myenv(t_env *list, char *key, char *value);
+void        set_myenv(t_env *list, char *key, char *value, char c);
 void        change_mydir(t_env *list, char *path);
 char        *findmyvar(t_env *list, char *va);
 int         morethan2arg(char **com);
