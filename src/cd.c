@@ -39,7 +39,7 @@ void set_myenv(t_env *list, char *key, char *value)
     
     tmp = NULL;
     
-    if (index && (ft_strcmp(key, "OLDPWD") == 0 || ft_strcmp(key, "PWD") == 0))                 // update oldpwd and pwd if they don't exist in the envirment list
+    if (index && (ft_strcmp(key, "OLDPWD") == 0 || ft_strcmp(key, "PWD") == 0))                 //  update oldpwd or pwd if they exist in the envirment list
     {
         free(index->var_name);
         index->var_name = ft_strjoin(key, "=");
@@ -50,7 +50,7 @@ void set_myenv(t_env *list, char *key, char *value)
             free(tmp);
         }
     }
-    else if (!index || ft_strcmp(key, "PWD") == 0 || ft_strcmp(key, "OLDPWD") == 0)
+    else if (!index && (ft_strcmp(key, "PWD") == 0 || ft_strcmp(key, "OLDPWD") == 0))             //  creat oldpwd or pwd in the envirment list if they don't exist in the envirment list
     {
         tmp = ft_strjoin("=", value);
         node = env_new(list, ft_strjoin(key, tmp));
