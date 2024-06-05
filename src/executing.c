@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/05 14:41:54 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:48:11 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,14 +126,13 @@ void	ft_close(int *fd)
 		if (fd[i] == -1)
 			break;
 		close(fd[i]);
-		printf("---------------->%d \n", fd[i]);
 		i++;
 	}
 	if (fd)
 		free(fd);
 }
 
-int *ft_open(t_slist *list, bool infile)
+int *ft_open(t_slist *list, t_token token)
 {
 	int *fd;
 	int i;
@@ -149,10 +148,12 @@ int *ft_open(t_slist *list, bool infile)
 		i = 0;
 		while (list && list->cmd[i])
 		{
-			if (infile == true)
+			if (token == Infile)
 				fd[j] = open(list->cmd[i], O_RDONLY);
-			else
+			else if (token == OutFile)
 				fd[j] = open(list->cmd[i], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			else if (token == AppendFile)
+				fd[j] = open(list->cmd[i], O_WRONLY | O_CREAT | O_APPEND, 0666);
 			
 			if (fd[j] == -1)
 			{
@@ -166,9 +167,9 @@ int *ft_open(t_slist *list, bool infile)
 			}
             else
             {
-                if (infile == true)
+			    if (token == Infile)
             	    dup2(fd[j], STDIN_FILENO);
-			    else
+    			else if (token == OutFile || token == AppendFile)
             	    dup2(fd[j], STDOUT_FILENO);
             }
 			
@@ -205,7 +206,7 @@ void hand_theredirectionin(t_env *list, t_command *lst, t_data *data)
     {
         if(lst->infile != NULL)
         {
-            filein = ft_open(lst->infile, true);
+            filein = ft_open(lst->infile, Infile);
 			
             if(!filein)
 			{
@@ -213,9 +214,12 @@ void hand_theredirectionin(t_env *list, t_command *lst, t_data *data)
 				return ;
 			}
         }
-        if(lst->outfile != NULL)
+        if(lst->outfile || lst->appendfile)
         {
-            fileout = ft_open(lst->outfile, false);
+            if (lst->appendfile)
+                fileout = ft_open(lst->appendfile, AppendFile);
+            else
+                fileout = ft_open(lst->outfile, OutFile);
 
             if(!fileout)
 			{
@@ -253,7 +257,7 @@ void executing(t_data *data)
     //     return ;
     if(!list || (list->cmd && list->cmd[0][0] == '\n'))
         return ;
-    else if(list->infile != NULL || list->outfile != NULL)
+    else if(list->infile || list->outfile || list->appendfile)
     {
         hand_theredirectionin(data->list_env, list, data);
     }

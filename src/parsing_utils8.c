@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:19 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/03 17:30:38 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:47:05 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ t_command	*get_commands(t_cmds *lst)
 	command = tmp;
 	
 	// while (tmp)
-	// {q
+	// {
 	// 	printf("---\n");
 	// 	if (tmp->cmd)
 	// 		print_array(tmp->cmd);
