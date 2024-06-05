@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/05 18:44:32 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/05 19:08:35 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,39 +249,44 @@ void hand_theredirectionin(t_env *list, t_command *lst, t_data *data)
 
 void executing(t_data *data)
 {
-
     t_command *list;
 
     list = data->list;
     // if(!list->cmd || list->cmd[0] == NULL || list->cmd[0][0] == '\n')
     //     return ;
-    if(!list || (list->cmd && list->cmd[0][0] == '\n'))
-        return ;
-    else if(list->infile || list->outfile || list->appendfile)
+    while (list)
     {
-        hand_theredirectionin(data->list_env, list, data);
-    }
-    else if(list->cmd && ft_strcmp(list->cmd[0], "cd") == 0)   
-        my_cd(data->list_env, list->cmd);
-    else if(list->cmd && ft_strcmp(list->cmd[0], "pwd") == 0)
-        mypwd(data->list_env);
-    else if(list->cmd && ft_strcmp(list->cmd[0], "env") == 0 && list->cmd[1] == NULL)
-    {
-        printmyenv(data->list_env);
-    }
-    else if(list->cmd && ft_strcmp(list->cmd[0], "export") == 0)
-        export(data->list_env, list->cmd);
-    else if(list->cmd && ft_strcmp(list->cmd[0], "unset") == 0)
-        unset_env(data->list_env, list->cmd);
-    else if(list->cmd && ft_strcmp(list->cmd[0], "exit") == 0)
-        exit_myminishell(list->cmd);
-    else if(list->cmd && ft_strcmp(list->cmd[0], "echo") == 0)
-    {
-        if (!list->cmd[1])
-            printf("\n");
+        //  pipe
+        if(!list || (list->cmd && list->cmd[0][0] == '\n'))
+            return ;
+        else if(list->infile || list->outfile || list->appendfile)
+        {
+            hand_theredirectionin(data->list_env, list, data);
+        }
+        else if(list->cmd && ft_strcmp(list->cmd[0], "cd") == 0)   
+            my_cd(data->list_env, list->cmd);
+        else if(list->cmd && ft_strcmp(list->cmd[0], "pwd") == 0)
+            mypwd(data->list_env);
+        else if(list->cmd && ft_strcmp(list->cmd[0], "env") == 0 && list->cmd[1] == NULL)
+        {
+            printmyenv(data->list_env);
+        }
+        else if(list->cmd && ft_strcmp(list->cmd[0], "export") == 0)
+            export(data->list_env, list->cmd);
+        else if(list->cmd && ft_strcmp(list->cmd[0], "unset") == 0)
+            unset_env(data->list_env, list->cmd);
+        else if(list->cmd && ft_strcmp(list->cmd[0], "exit") == 0)
+            exit_myminishell(list->cmd);
+        else if(list->cmd && ft_strcmp(list->cmd[0], "echo") == 0)
+        {
+            if (!list->cmd[1])
+                printf("\n");
+            else
+                ft_echo(list->cmd + 1, true);
+        }
         else
-            ft_echo(list->cmd + 1, true);
+            execute_command(data->list_env, list->cmd, data);
+        //  pip
+        list = list->next;
     }
-    else
-        execute_command(data->list_env, list->cmd, data);
 }

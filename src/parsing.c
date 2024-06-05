@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/05 18:53:10 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/05 20:22:55 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,23 +193,23 @@ int parsing(t_data *data)
 	last_update_in_the_list(lst);
 
 	//									after
-	// char **tmp11;							   							//
-    // t_cmds *tmp22 = lst;							   						//
-	// while (tmp22)							   							//
-	// {										   							//
-	// 	tmp11 = tmp22->cmd;						   							//
-	// 	if (tmp11)															//
-	// 	{																	//
-	// 		for (int i = 0; tmp11[i]; i++)			   						//
-	// 		{										   						//
-	// 			if (data->line[0] != '\0')			   						//
-	// 				printf(":%s:", tmp11[i]);		   						//
-	// 		} 										   						//
-	// 		printf("%s:%s:\n",Gstr[tmp22->token],Gstr[tmp22->operation]);	//
-	// 	}																	//
-	// 	tmp22 = tmp22->next;												//
-	// }																	//
-	//
+	char **tmp11;							   							//
+    t_cmds *tmp22 = lst;							   						//
+	while (tmp22)							   							//
+	{										   							//
+		tmp11 = tmp22->cmd;						   							//
+		if (tmp11)															//
+		{																	//
+			for (int i = 0; tmp11[i]; i++)			   						//
+			{										   						//
+				if (data->line[0] != '\0')			   						//
+					printf(":%s:", tmp11[i]);		   						//
+			} 										   						//
+			printf("%s:%s:\n",Gstr[tmp22->token],Gstr[tmp22->operation]);	//
+		}																	//
+		tmp22 = tmp22->next;												//
+	}																	//
+	
 	
 	data->lst = lst;
 	data->cmds = cmds;
@@ -219,7 +219,7 @@ int parsing(t_data *data)
 		t_command *commands;
 		commands = get_commands(lst);
 		data->list = commands;
-		executing(data);					// exe
+		// executing(data);					// exe
 		ft_clear(data);
 		commands_clear(&commands);
 	}

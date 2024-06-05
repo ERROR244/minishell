@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:19 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/05 18:53:39 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/05 20:22:33 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,29 +87,25 @@ t_command	*get_commands(t_cmds *lst)
 
 		while (lst && lst->token != Pipe)
 		{
-			if (!lst->cmd)
+			if (lst->cmd && (lst->token == Cmd || lst->token == Non))
 			{
-				printf("NULL\n");
-			}
-			else if (lst->token == Cmd || (lst->token == Non ))
-			{
-				if (!command->cmd)
+				// if (!command->cmd)
 					command->cmd = array_copy(lst->cmd);
-				else
-				{
-					if (!infile)
-					{
-						infile = node_new(infile, lst->cmd, lst->token);
-					}
-					else
-					{
-						infile->next = node_new(infile, lst->cmd, lst->token);
-						infile = infile->next;
-					}
-				}
+				// else
+				// {
+				// 	if (!infile)
+				// 	{
+				// 		infile = node_new(infile, lst->cmd, lst->token);
+				// 	}
+				// 	else
+				// 	{
+				// 		infile->next = node_new(infile, lst->cmd, lst->token);
+				// 		infile = infile->next;
+				// 	}
+				// }
 					
 			}
-			else if (lst->token == Infile)
+			else if (lst->cmd && lst->token == Infile)
 			{
 				if (!infile)
 				{
@@ -121,7 +117,7 @@ t_command	*get_commands(t_cmds *lst)
 					infile = infile->next;
 				}
 			}
-			else if (lst->token == OutFile)
+			else if (lst->cmd && lst->token == OutFile)
 			{
 				if (!outfile)
 				{
@@ -133,7 +129,7 @@ t_command	*get_commands(t_cmds *lst)
 					outfile = outfile->next;
 				}
 			}
-			else if (lst->token == AppendFile)
+			else if (lst->cmd && lst->token == AppendFile)
 			{
 				if (!appendfile)
 				{
@@ -145,7 +141,7 @@ t_command	*get_commands(t_cmds *lst)
 					appendfile = appendfile->next;
 				}
 			}
-			else if (lst->token == HereDocDel)
+			else if (lst->cmd && lst->token == HereDocDel)
 			{
 				if (!heredocdel)
 				{
@@ -170,33 +166,36 @@ t_command	*get_commands(t_cmds *lst)
 	
 	command = tmp;
 	
-	// while (tmp)
-	// {
-	// 	printf("---\n");
-	// 	if (tmp->cmd)
-	// 		print_array(tmp->cmd);
-	// 	if (tmp->infile)
-	// 	{
-	// 		printf("\ninfile->          ");
-	// 		printlist(tmp->infile);
-	// 	}
-	// 	if (tmp->outfile)
-	// 	{
-	// 		printf("\noutfile->         ");
-	// 		printlist(tmp->outfile);
-	// 	}
-	// 	if (tmp->appendfile)
-	// 	{
-	// 		printf("\nappendfile->      ");
-	// 		printlist(tmp->appendfile);
-	// 	}
-	// 	if (tmp->heredocdel)
-	// 	{
-	// 		printf("\nheredocdel->      ");
-	// 		printlist(tmp->heredocdel);
-	// 	}
-	// 	printf("\n---\n");
-	// 	tmp = tmp->next;
-	// }
+	while (tmp)
+	{
+		printf("---\n");
+		if (tmp->cmd)
+		{
+			printf("cmd->");
+			print_array(tmp->cmd);
+		}
+		if (tmp->infile)
+		{
+			printf("\ninfile->          ");
+			printlist(tmp->infile);
+		}
+		if (tmp->outfile)
+		{
+			printf("\noutfile->         ");
+			printlist(tmp->outfile);
+		}
+		if (tmp->appendfile)
+		{
+			printf("\nappendfile->      ");
+			printlist(tmp->appendfile);
+		}
+		if (tmp->heredocdel)
+		{
+			printf("\nheredocdel->      ");
+			printlist(tmp->heredocdel);
+		}
+		printf("\n---\n");
+		tmp = tmp->next;
+	}
 	return (command);
 }
