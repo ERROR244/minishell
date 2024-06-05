@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/05 18:24:39 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/05 18:53:10 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	last_update_in_the_list(t_cmds *list)
 	}
 	command[i] = NULL;
 	list = head;
-	falg = true;
+	flag = true;
 	while (list)
 	{
 		if (list->token == Cmd && flag == true)
@@ -115,9 +115,10 @@ void	last_update_in_the_list(t_cmds *list)
 			else
 			{
 				name = malloc(sizeof(char *) * 2);
-				name[0] = list->cmd[0];
+				name[0] = ft_strdup(list->cmd[0]);
 				name[1] = NULL;
 				free_array(list->cmd);
+				list->cmd = NULL;
 				list->cmd = name;
 			}
 			list = list->next;
@@ -173,53 +174,56 @@ int parsing(t_data *data)
 	remove_quotes(lst);
 	init_tokens(lst, 0, lst);
 
-	//
-	char **tmp1;								   						//
-    t_cmds *tmp2 = lst;							   						//
-	while (tmp2)								   						//
-	{											   						//
-		tmp1 = tmp2->cmd;						   						//
-		for (int i = 0; tmp1[i]; i++)			   						//
-		{										   						//
-			if (data->line[0] != '\0')			   						//
-				printf(":%s:", tmp1[i]);		   						//
-		} 										   						//
-		printf("%s:%s:\n", Gstr[tmp2->token], Gstr[tmp2->operation]);	//
-		tmp2 = tmp2->next;												//
-	}																	//
+	//									before
+	// char **tmp1;								   							//
+    // t_cmds *tmp2 = lst;							  						//
+	// while (tmp2)								   							//
+	// {											   						//
+	// 	tmp1 = tmp2->cmd;						   							//
+	// 	for (int i = 0; tmp1[i]; i++)			   							//
+	// 	{										   							//
+	// 		if (data->line[0] != '\0')			   							//
+	// 			printf(":%s:", tmp1[i]);		   							//
+	// 	} 										   							//
+	// 	printf("%s:%s:\n", Gstr[tmp2->token], Gstr[tmp2->operation]);		//
+	// 	tmp2 = tmp2->next;													//
+	// }																	//
 	//
 	
 	last_update_in_the_list(lst);
 
-	//
-	char **tmp1;								   						//
-    t_cmds *tmp2 = lst;							   						//
-	while (tmp2)								   						//
-	{											   						//
-		tmp1 = tmp2->cmd;						   						//
-		for (int i = 0; tmp1[i]; i++)			   						//
-		{										   						//
-			if (data->line[0] != '\0')			   						//
-				printf(":%s:", tmp1[i]);		   						//
-		} 										   						//
-		printf("%s:%s:\n", Gstr[tmp2->token], Gstr[tmp2->operation]);	//
-		tmp2 = tmp2->next;												//
-	}																	//
+	//									after
+	// char **tmp11;							   							//
+    // t_cmds *tmp22 = lst;							   						//
+	// while (tmp22)							   							//
+	// {										   							//
+	// 	tmp11 = tmp22->cmd;						   							//
+	// 	if (tmp11)															//
+	// 	{																	//
+	// 		for (int i = 0; tmp11[i]; i++)			   						//
+	// 		{										   						//
+	// 			if (data->line[0] != '\0')			   						//
+	// 				printf(":%s:", tmp11[i]);		   						//
+	// 		} 										   						//
+	// 		printf("%s:%s:\n",Gstr[tmp22->token],Gstr[tmp22->operation]);	//
+	// 	}																	//
+	// 	tmp22 = tmp22->next;												//
+	// }																	//
 	//
 	
 	data->lst = lst;
 	data->cmds = cmds;
 	ret = errors_managment(data, 0);
-	// if (ret == 0 || 1)
-	// {
-	// 	t_command *commands;
-	// 	commands = get_commands(lst);
-	// 	data->list = commands;
-	// 	executing(data);					// exe
-	// 	ft_clear(data);
-	// 	commands_clear(&commands);
-	// }
-	// else
+	if (ret == 0 || 1)
+	{
+		t_command *commands;
+		commands = get_commands(lst);
+		data->list = commands;
+		executing(data);					// exe
+		ft_clear(data);
+		commands_clear(&commands);
+	}
+	else
 		ft_clear(data);
 	return (ret);
 }

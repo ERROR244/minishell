@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/05 15:48:11 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/05 18:44:32 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,7 +282,6 @@ void executing(t_data *data)
         else
             ft_echo(list->cmd + 1, true);
     }
-
     else
         execute_command(data->list_env, list->cmd, data);
 }
