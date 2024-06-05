@@ -15,29 +15,9 @@
 
 t_env *findmyindex(t_env *list, char *va)
 {
-    // int i = 0;
-    // char *tmp;
-    // tmp = ft_strjoin(va, "=");
-    // if (tmp && tmp[0] == '=' && tmp[1] == '\0')
-    // {
-    //     free(tmp);
-    //     tmp = NULL;
-    // }
-    // int len = ft_strlen(tmp);
-    // while(myenv[i])
-    // {
-    //     if(ft_strncmp(myenv[i], tmp, len) == 0)
-    //     {
-    //             free(tmp);
-    //             return(i);
-    //     }
-    //     i++;
-    // }
-    // free(tmp);
-    // return (0);
-    // list
+    int len;
     
-    int len = ft_strlen(va);
+    len = ft_strlen(va);
     while(list)
     {
         if(ft_strncmp(list->var_name, va, len) == 0)
@@ -55,28 +35,32 @@ void set_myenv(t_env *list, char *key, char *value)
 {
     t_env *index = findmyindex(list, key);
     t_env *node;
-    char *tmp = ft_strjoin("=", value);
-
+    char *tmp;
     
+    tmp = NULL;
     
-    
-    
-    if (index && (ft_strcmp(key, "OLDPWD") == 0 || ft_strcmp(key, "PWD") == 0))
+    if (index && (ft_strcmp(key, "OLDPWD") == 0 || ft_strcmp(key, "PWD") == 0))                 // update oldpwd and pwd if they don't exist in the envirment list
     {
         free(index->var_name);
+        index->var_name = ft_strjoin(key, "=");
         if(value)
-            index->var_name = ft_strjoin(key, tmp);
-        else
-            index->var_name = ft_strjoin(key, "=");
+        {
+            tmp = index->var_name;
+            index->var_name = ft_strjoin(index->var_name, value);
+            free(tmp);
+        }
     }
-    else if (ft_strcmp(key, "OLDPWD") == 0)
+    else if (!index || ft_strcmp(key, "PWD") == 0 || ft_strcmp(key, "OLDPWD") == 0)
     {
+        tmp = ft_strjoin("=", value);
         node = env_new(list, ft_strjoin(key, tmp));
         list = env_last(list);
         list->next = node;
+        free(tmp);
     }
     else if (!index)
     {
+        tmp = ft_strjoin("=", value);
         if(value)
             node = env_new(list, ft_strjoin(key, tmp));
         else
@@ -88,22 +72,22 @@ void set_myenv(t_env *list, char *key, char *value)
         }
         else
             index->next = node;
+        free(tmp);
     }
-    free(tmp);
 }
 
 void change_mydir(t_env *list, char *path)
 {
     char *cur;
     char buffer[PATH_MAX];
-    cur = getcwd(buffer, PATH_MAX);
 
-    if(chdir(path) != 0)
-    {
-        perror("cd");
-    }
-    set_myenv(list, "PWD", path);
+    cur = getcwd(buffer, PATH_MAX);
+    // printf("%s \n", cur);
 	set_myenv(list, "OLDPWD", cur);
+    if(chdir(path) != 0)
+        perror("cd");
+    else
+        set_myenv(list, "PWD", getcwd(buffer, PATH_MAX));
 }
 
 char *findmyvar(t_env *list, char *va)
@@ -135,7 +119,7 @@ char *findmyvar(t_env *list, char *va)
             return (NULL);
         list = list->next;
     }
-    if (ft_strncmp(va, "path", 3) == 0)
+    if (ft_strncmp(va, "PATH", 3) == 0)
         return ("/usr/bin");
     return (NULL);
 }

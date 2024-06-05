@@ -94,16 +94,12 @@ void printmyexport(t_env *list)
 
 	i = 0;
 
-    // while(myenv[i])
-    //     i++;
     ptr = linked_list_to_array(list);
-
-    int j = 0;
-	while (ptr[j])
+	while (ptr[i])
     {
         printf("%s", "declare -x ");
-        printf("%s \n", ptr[j]);
-        j++;
+        printf("%s \n", ptr[i]);
+        i++;
     }
     free_array(ptr);
 }

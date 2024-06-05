@@ -22,9 +22,9 @@ int main(int ac, char **av, char **env)
 		return (1);
 	(void)av;
 	data.list_env = copieenv(env);
-	data.env = env;
     while (1)
     {
+		data.env = linked_list_to_array(data.list_env);;
 		data.line = readline("minishell$ ");
 		if (!data.line)
 			break ;
@@ -34,7 +34,10 @@ int main(int ac, char **av, char **env)
 			parsing(&data);
 		}
 		free(data.line);
+		free_array(data.env);
     }
+	if (data.env)
+		free_array(data.env);
 	senv_clear(&data.list_env);
 	printf("exit\n");
     return (0);

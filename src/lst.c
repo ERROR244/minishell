@@ -84,11 +84,11 @@ void	senv_clear(t_env **lst)
 	while (curr1->next != NULL)
 	{
 		curr2 = curr1->next;
-		printf("%s \n", curr1->var_name);
 		free(curr1->var_name);
 		free(curr1);
 		curr1 = curr2;
 	}
+	free(curr1->var_name);
 	free(curr1);
 	*lst = NULL;
 }

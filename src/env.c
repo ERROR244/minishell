@@ -105,8 +105,7 @@ t_env  *copieenv(char **env)
     {
         env = creat_myenv();
         creat_env_list(&list, env);
-        free(env[3]);
-        free(env);
+        free_array(env);
         return (list);
     }
     creat_env_list(&list, env);

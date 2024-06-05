@@ -185,7 +185,7 @@ t_env	*env_last(t_env *lst);
 char    **linked_list_to_array(t_env *list);
 char    **sortexport(char **arr, int n);
 void	senv_clear(t_env **lst);
-
+char    **linked_list_to_array(t_env *list);
 
 void        unset_env(t_env *list, char **com);
 void        exit_myminishell(char **com);
