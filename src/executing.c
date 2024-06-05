@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 15:02:31 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:41:54 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,7 +260,7 @@ void executing(t_data *data)
     else if(list->cmd && ft_strcmp(list->cmd[0], "cd") == 0)   
         my_cd(data->list_env, list->cmd);
     else if(list->cmd && ft_strcmp(list->cmd[0], "pwd") == 0)
-        mypwd();
+        mypwd(data->list_env);
     else if(list->cmd && ft_strcmp(list->cmd[0], "env") == 0 && list->cmd[1] == NULL)
     {
         printmyenv(data->list_env);

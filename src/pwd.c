@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:40:02 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 14:43:41 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:48:40 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,18 @@ void my_cd(t_env *list, char **com)
         change_mydir(list, com[1]);
 }
 
-void mypwd(void)
+void mypwd(t_env *env)
 {
-    char *cur;
     char buffer[PATH_MAX];
+    char *cur;
+    char *str;
+
     cur = getcwd(buffer, PATH_MAX);
-    printf("%s\n", cur);
+    if (cur)
+        printf("%s\n", cur);
+    else
+    {
+        str = findmyvar(env, "PWD");
+        printf("%s\n", str);
+    }
 }

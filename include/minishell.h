@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 15:28:43 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:42:01 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,8 +204,8 @@ void        change_mydir(t_env *list, char *path);
 char        *findmyvar(t_env *list, char *va);
 int         morethan2arg(char **com);
 void        my_cd(t_env *list, char **com);
-void        mypwd(void);
-void        ft_putendexp(char *str, int fd);
+void        mypwd(t_env *env);
+// void        ft_putendexp(char *str, int fd);
 
 
 
