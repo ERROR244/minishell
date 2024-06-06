@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/05 14:42:01 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/06 10:50:08 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,6 @@ void        ft_echo(char **com, bool flag);
 
 
 
-
 // tools
 void    exiterror(void);
 bool    check_n_flag(char *str);
@@ -187,7 +186,7 @@ char    **sortexport(char **arr, int n);
 void	senv_clear(t_env **lst);
 char    **linked_list_to_array(t_env *list);
 
-void        unset_env(t_env *list, char **com);
+t_env *     unset_env(t_env *list, char **com);
 void        exit_myminishell(char **com);
 char       	*join(char const *s1, char const *s2);
 char        *get_my_path(t_env  *list, char **com);

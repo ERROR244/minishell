@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/05 14:36:07 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:26:52 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void set_myenv(t_env *list, char *key, char *value, char c)
     {
         if (c == '+')                                                                             //    this sub-part is for Append export
         {
-            printf("%s - %s \n", key, value);
+            // printf("%s - %s \n", key, value);
             tmp = ft_strjoin(index->var_name, value);
             free(index->var_name);
             index->var_name = tmp;

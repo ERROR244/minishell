@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/05 19:08:35 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:26:21 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,10 +252,10 @@ void executing(t_data *data)
     t_command *list;
 
     list = data->list;
-    // if(!list->cmd || list->cmd[0] == NULL || list->cmd[0][0] == '\n')
-    //     return ;
-    while (list)
-    {
+    // if(!list || list->cmd[0] == NULL || list->cmd[0][0] == '\n')
+    //         return ;
+    // while (list)
+    // {
         //  pipe
         if(!list || (list->cmd && list->cmd[0][0] == '\n'))
             return ;
@@ -274,7 +274,7 @@ void executing(t_data *data)
         else if(list->cmd && ft_strcmp(list->cmd[0], "export") == 0)
             export(data->list_env, list->cmd);
         else if(list->cmd && ft_strcmp(list->cmd[0], "unset") == 0)
-            unset_env(data->list_env, list->cmd);
+            data->list_env = unset_env(data->list_env, list->cmd);
         else if(list->cmd && ft_strcmp(list->cmd[0], "exit") == 0)
             exit_myminishell(list->cmd);
         else if(list->cmd && ft_strcmp(list->cmd[0], "echo") == 0)
@@ -288,5 +288,5 @@ void executing(t_data *data)
             execute_command(data->list_env, list->cmd, data);
         //  pip
         list = list->next;
-    }
+    // }
 }

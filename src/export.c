@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 15:26:51 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:27:25 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void printmyexport(t_env *list)
 	while (ptr[i])
     {
         printf("%s", "declare -x ");
-        printf("%s \n", ptr[i]);
+        printf("%s\n", ptr[i]);
         i++;
     }
     free_array(ptr);

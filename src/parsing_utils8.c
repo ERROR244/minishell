@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:19 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/06 10:01:40 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:13:28 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ char	**array_copy(char **str)
 	int i;
 	
 	i = 0;
+	if (!str)
+		return (NULL);
 	while (str[i])
 		i++;
 	ptr = malloc(sizeof(char *) * (i + 1));
@@ -75,7 +77,7 @@ t_command	*get_commands(t_cmds *lst)
     t_slist 	*outfile;;
     t_slist 	*appendfile;
     t_slist 	*heredocdel;
-	
+
 	command = get_command(lst);
 	tmp = command;
 	while (command && lst)
@@ -151,36 +153,36 @@ t_command	*get_commands(t_cmds *lst)
 	
 	command = tmp;
 	
-	while (tmp)
-	{
-		printf("---\n");
-		if (tmp->cmd)
-		{
-			printf("cmd->");
-			print_array(tmp->cmd);
-		}
-		if (tmp->infile)
-		{
-			printf("\ninfile->          ");
-			printlist(tmp->infile);
-		}
-		if (tmp->outfile)
-		{
-			printf("\noutfile->         ");
-			printlist(tmp->outfile);
-		}
-		if (tmp->appendfile)
-		{
-			printf("\nappendfile->      ");
-			printlist(tmp->appendfile);
-		}
-		if (tmp->heredocdel)
-		{
-			printf("\nheredocdel->      ");
-			printlist(tmp->heredocdel);
-		}
-		printf("\n---\n");
-		tmp = tmp->next;
-	}
+	// while (tmp)
+	// {
+	// 	printf("---\n");
+	// 	if (tmp->cmd)
+	// 	{
+	// 		printf("cmd->");
+	// 		print_array(tmp->cmd);
+	// 	}
+	// 	if (tmp->infile)
+	// 	{
+	// 		printf("\ninfile->          ");
+	// 		printlist(tmp->infile);
+	// 	}
+	// 	if (tmp->outfile)
+	// 	{
+	// 		printf("\noutfile->         ");
+	// 		printlist(tmp->outfile);
+	// 	}
+	// 	if (tmp->appendfile)
+	// 	{
+	// 		printf("\nappendfile->      ");
+	// 		printlist(tmp->appendfile);
+	// 	}
+	// 	if (tmp->heredocdel)
+	// 	{
+	// 		printf("\nheredocdel->      ");
+	// 		printlist(tmp->heredocdel);
+	// 	}
+	// 	printf("\n---\n");
+	// 	tmp = tmp->next;
+	// }
 	return (command);
 }

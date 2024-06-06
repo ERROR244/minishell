@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/06 10:19:22 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:30:42 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	get_cmd_size(t_cmds *list)
 	int		i;
 
 	size = 0;
+	if (list->cmd[0][0] == '\0')
+		size++;
 	while (list)
 	{
 		if (list->token == Pipe)
@@ -56,7 +58,7 @@ void	get_command_done(t_cmds *list, t_cmds *head, char **command, bool flag)
 {
 	int i;
 	int j;
-	
+
 	list = find_cmd(list);
 	i = -1;
 	while (list->cmd[++i])
@@ -96,7 +98,7 @@ void	get_list_done(t_cmds *list, char **command, bool flag, char **name)
 	{
 		if (list->token == Pipe)
 			break ;
-		else if (list->token == Cmd && flag == true)
+		else if ((list->token == Cmd || list->token == Non) && flag == true)
 		{
 			free_array(list->cmd);
 			list->cmd = command;
@@ -191,7 +193,8 @@ int parsing(t_data *data)
 	remove_quotes(lst);
 	init_tokens(lst, 0, lst);
 
-	//									before
+										// before
+	// //
 	// char **tmp1;								   							//
     // t_cmds *tmp2 = lst;							  						//
 	// while (tmp2)								   							//
@@ -205,28 +208,28 @@ int parsing(t_data *data)
 	// 	printf("%s:%s:\n", Gstr[tmp2->token], Gstr[tmp2->operation]);		//
 	// 	tmp2 = tmp2->next;													//
 	// }																	//
-	//
+	// //
 	
 	last_update_in_the_list(lst);
 
-	//									after
-	char **tmp11;							   							//
-    t_cmds *tmp22 = lst;							   						//
-	while (tmp22)							   							//
-	{										   							//
-		tmp11 = tmp22->cmd;						   							//
-		if (tmp11)															//
-		{																	//
-			for (int i = 0; tmp11[i]; i++)			   						//
-			{										   						//
-				if (data->line[0] != '\0')			   						//
-					printf(":%s:", tmp11[i]);		   						//
-			} 										   						//
-			printf("%s:%s:\n",Gstr[tmp22->token],Gstr[tmp22->operation]);	//
-		}																	//
-		tmp22 = tmp22->next;												//
-	}																	//
-	
+	// //									after
+	// char **tmp11;							   							//
+    // t_cmds *tmp22 = lst;							   						//
+	// while (tmp22)							   							//
+	// {										   							//
+	// 	tmp11 = tmp22->cmd;						   							//
+	// 	if (tmp11)															//
+	// 	{																	//
+	// 		for (int i = 0; tmp11[i]; i++)			   						//
+	// 		{										   						//
+	// 			if (data->line[0] != '\0')			   						//
+	// 				printf(":%s:", tmp11[i]);		   						//
+	// 		} 										   						//
+	// 		printf("%s:%s:\n",Gstr[tmp22->token],Gstr[tmp22->operation]);	//
+	// 	}																	//
+	// 	tmp22 = tmp22->next;												//
+	// }																	//
+	// // 
 	
 	data->lst = lst;
 	data->cmds = cmds;
@@ -236,7 +239,7 @@ int parsing(t_data *data)
 		t_command *commands;
 		commands = get_commands(lst);
 		data->list = commands;
-		// executing(data);					// exe
+		executing(data);					// exe
 		ft_clear(data);
 		commands_clear(&commands);
 	}

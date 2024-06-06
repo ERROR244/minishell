@@ -6,30 +6,54 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 15:16:45 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/06 10:50:37 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void unset_env(t_env *list, char **com)
+t_env *remove_node(t_env *head, t_env *node_to_remove)
+{
+    if (!head || !node_to_remove)
+    return (head);
+
+    if (node_to_remove == head)
+    {
+        head = node_to_remove->next;
+        if (head)
+            head->prev = NULL;
+        free(node_to_remove->var_name);
+        free(node_to_remove);
+        return (head);
+    }
+
+    if (node_to_remove->prev)
+        node_to_remove->prev->next = node_to_remove->next;
+    if (node_to_remove->next)
+        node_to_remove->next->prev = node_to_remove->prev;
+
+    free(node_to_remove->var_name);
+    free(node_to_remove);
+
+    return (head);
+}
+
+t_env *unset_env(t_env *list, char **com)
 {
     t_env *index;
+
     if(com[1] == NULL)
-        return ;
+        return (list);
     int i = 1;
-    int j = 0;
     index = NULL;
     while(com[i])
     {
         index  = findmyindex(list, com[i]);
-        if(j > 0)
-        {
-            // free(myenv[j]);
-            // myenv[j] = NULL;
-        }
+        if(index)
+            list = remove_node(list, index);
         i++;
     }
+    return (list);
 }
 
 void exit_myminishell(char **com)
