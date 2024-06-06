@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 23:23:48 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/06 09:52:36 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void    init_tokens(t_cmds *cmds, int size, t_cmds *lst)
 			token2(cmds, 2);
 		else if (!cmds->prev && !cmds->next)
 			cmds->token = Cmd;
+		else if (cmds->token == Non && cmds->prev && (cmds->prev->token == OutFile || cmds->prev->token == Infile || cmds->prev->token == Append || cmds->prev->token == HereDocDel))
+			cmds->token = Cmd;
 		if (cmds)
 			cmds = cmds->next;
 	}
@@ -91,11 +93,11 @@ void	non_token(t_cmds *lst)
 			lst->token = Non;
 		else if (is_spaces(lst->cmd[0]) == 0)
 			lst->token = Non;
-		// if (lst->token == Non && lst->prev && lst->prev->token == OutFile)
-		// {
-		// 	printf("HERE\n");
-		// 	lst->token = Cmd;
-		// }
+		if (lst->token == Non && lst->prev && lst->prev->token == OutFile)
+		{
+			printf("HERE\n");
+			lst->token = Cmd;
+		}
 		if (lst->token == Input ||
 				lst->token == Output ||
 				lst->token == Append ||

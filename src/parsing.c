@@ -6,104 +6,101 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/05 20:22:55 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/06 10:19:22 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	last_update_in_the_list(t_cmds *list)
+int	get_cmd_size(t_cmds *list)
 {
-	t_cmds	*head;
-	char	**command;
-	char	**ptr = NULL;
-	char	**name = NULL;
-	char	**str;
-	bool	flag = true;
 	int		size;
 	int		i;
-	int		j;
 
-	i = 0;
-	j = 0;
 	size = 0;
-	head = list;
 	while (list)
 	{
-		if (list->token == Cmd)
+		if (list->token == Pipe)
+			break ;
+		else if (list->token == Cmd)
 		{
-			str = list->cmd;
 			i = 0;
-			while (str[i])
-			{
+			while (list->cmd[i++])
 				size++;
-				i++;
-			}
 		}
 		else
 		{
 			i = 1;
-			while (list->cmd[i])
-			{
+			while (list->cmd[i++])
 				size++;
-				i++;
-			}
 		}
 		list = list->next;
 	}
-	command = malloc(sizeof(char *) * (size + 1));
-	printf("%d \n", size);
-	list = head;
+	return (size);
+}
 
+t_cmds	*find_cmd(t_cmds *list)
+{
 	while (list)
 	{
+		if (list->token == Pipe)
+			break ;
 		if (list->token == Cmd)
-		{
-			ptr = list->cmd;
-			break;
-		}
+			return (list);
 		list = list->next;
 	}
-	list = head;
-	i = 0;
-	while (ptr[i])
+	return (NULL);
+}
+
+void	get_command_done(t_cmds *list, t_cmds *head, char **command, bool flag)
+{
+	int i;
+	int j;
+	
+	list = find_cmd(list);
+	i = -1;
+	while (list->cmd[++i])
+		command[i] = ft_strdup(list->cmd[i]);
+	while (head)
 	{
-		command[i] = ft_strdup(ptr[i]);
-		i++;
-	}
-	while (list)
-	{
-		if (list->token == Cmd && flag == true)
-		{
+		if (head->token == Pipe)
+			break ;
+		else if (head->token == Cmd && flag == true)
 			flag = false;
-			list = list->next;
-		}
 		else
 		{
-			str = list->cmd;
-			if (list->token == Cmd)
-				command[i++] = ft_strdup(str[0]);
+			if (head->token == Cmd)
+				command[i++] = ft_strdup(head->cmd[0]);
 			j = 1;
-			while (str[j])
-			{
-				command[i] = ft_strdup(str[j]);
-				i++;
-				j++;
-			}
-			list = list->next;
+			while (head->cmd[j])
+				command[i++] = ft_strdup(head->cmd[j++]);
 		}
+		head = head->next;
 	}
 	command[i] = NULL;
-	list = head;
-	flag = true;
+}
+
+char	**get_name(char *str)
+{
+	char **name;
+
+	name = malloc(sizeof(char *) * 2);
+	name[0] = ft_strdup(str);
+	name[1] = NULL;
+	return (name);
+}
+
+void	get_list_done(t_cmds *list, char **command, bool flag, char **name)
+{
 	while (list)
 	{
-		if (list->token == Cmd && flag == true)
+		if (list->token == Pipe)
+			break ;
+		else if (list->token == Cmd && flag == true)
 		{
 			free_array(list->cmd);
 			list->cmd = command;
 			flag = false;
-			list = list->next;
 		}
 		else
 		{
@@ -114,21 +111,41 @@ void	last_update_in_the_list(t_cmds *list)
 			}
 			else
 			{
-				name = malloc(sizeof(char *) * 2);
-				name[0] = ft_strdup(list->cmd[0]);
-				name[1] = NULL;
+				name = get_name(list->cmd[0]);
 				free_array(list->cmd);
 				list->cmd = NULL;
 				list->cmd = name;
 			}
-			list = list->next;
 		}
+		list = list->next;
 	}
-	
+}
 
-	// for (int i = 0; command[i]; i++)
-	// 	printf("%s \n", command[i]);
-	// free_array(command);
+void	last_update_in_the_list(t_cmds *list)
+{
+	t_cmds	*head;
+	char	**command;
+	int		size;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	head = list;
+	command = NULL;
+	while (head)
+	{
+		list = head;
+		size = get_cmd_size(list);
+		command = malloc(sizeof(char *) * (size + 1));
+		get_command_done(list, list, command, true);
+		get_list_done(list, command, true, NULL);
+		while (list && list->token != Pipe)
+			list = list->next;
+		if (!list)
+			break ;
+		head = list->next;
+	}
 }
 
 void ft_clear(t_data *data)
@@ -214,7 +231,7 @@ int parsing(t_data *data)
 	data->lst = lst;
 	data->cmds = cmds;
 	ret = errors_managment(data, 0);
-	if (ret == 0 || 1)
+	if (ret == 0)
 	{
 		t_command *commands;
 		commands = get_commands(lst);

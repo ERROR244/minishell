@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 11:09:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/04 16:00:52 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/06 09:40:02 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,19 +104,19 @@ void	commands_clear(t_command **lst)
 	while (curr1->next != NULL)
 	{
 		curr2 = curr1->next;
+		free_array(curr1->cmd);
 		slist_clear(&curr1->appendfile);
 		slist_clear(&curr1->heredocdel);
 		slist_clear(&curr1->infile);
 		slist_clear(&curr1->outfile);
-		free_array(curr1->cmd);
 		free(curr1);
 		curr1 = curr2;
 	}
+	free_array(curr1->cmd);
 	slist_clear(&curr1->appendfile);
 	slist_clear(&curr1->heredocdel);
 	slist_clear(&curr1->infile);
 	slist_clear(&curr1->outfile);
-	free_array(curr1->cmd);
 	free(curr1);
 	*lst = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 23:48:23 by error01           #+#    #+#             */
-/*   Updated: 2024/06/04 14:30:23 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/06 09:33:41 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void free_array(char **array)
         ptr++;
     }
     free(array);
+	array = NULL;
 }
 
 int check_for_in_out_put(t_cmds *cmds)
