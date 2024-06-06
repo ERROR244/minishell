@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/06 11:30:42 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:33:30 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,34 @@ void ft_clear(t_data *data)
 	free_array(data->cmds);
 }
 
+char *check_tabs(char *str, int i, int tab_count, int j)
+{
+	char *new_str;
+	int input_len;
+
+    input_len = strlen(str);
+    while (i < input_len)
+	{
+        if (str[i] == '\t')
+            tab_count++;
+		i++;
+    }
+    new_str = (char *)malloc(input_len + 1);
+    if (new_str == NULL)
+		return (NULL);
+    i = 0;
+    while (i < input_len)
+	{
+        if (str[i] == '\t')
+            new_str[j++] = ' ';
+        else
+            new_str[j++] = str[i];
+		i++;
+    }
+    new_str[j] = '\0';
+    return (new_str);
+}
+
 char Gstr[100][100] = { "Cmd", "AppendFile",						//
 							"HereDocDel", "Infile",					//
 							"OutFile", "Operation",					//
@@ -182,7 +210,7 @@ int parsing(t_data *data)
 	i = -1;
 	lst = NULL;
 
-	// data->line = check_line(data->line);
+	data->line = check_tabs(data->line, 0, 0, 0);
 	cmds = ft_split_msh(data->line);
 	while (cmds[++i])
 	{
@@ -194,7 +222,7 @@ int parsing(t_data *data)
 	init_tokens(lst, 0, lst);
 
 										// before
-	// //
+	
 	// char **tmp1;								   							//
     // t_cmds *tmp2 = lst;							  						//
 	// while (tmp2)								   							//

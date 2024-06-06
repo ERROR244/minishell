@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/06 11:26:21 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:19:19 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,11 +252,8 @@ void executing(t_data *data)
     t_command *list;
 
     list = data->list;
-    // if(!list || list->cmd[0] == NULL || list->cmd[0][0] == '\n')
-    //         return ;
-    // while (list)
-    // {
-        //  pipe
+    while (list)
+    {
         if(!list || (list->cmd && list->cmd[0][0] == '\n'))
             return ;
         else if(list->infile || list->outfile || list->appendfile)
@@ -286,7 +283,6 @@ void executing(t_data *data)
         }
         else
             execute_command(data->list_env, list->cmd, data);
-        //  pip
         list = list->next;
-    // }
+    }
 }
