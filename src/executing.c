@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/06 17:27:00 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:42:19 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,27 @@ void execute_command(t_env *list, t_command *command, t_data *data)
     {
         if (command->prev && !command->infile && data->tmp != -1)
         {
-            ft_putstr_fd("IN", 2);
-            printf(" --> %d \n", data->tmp);
-            ft_putstr_fd(command->cmd[0], 2);
-            ft_putstr_fd("\n", 2);
-            ft_putstr_fd(command->cmd[1], 2);
-            ft_putstr_fd("\n", 2);
+            // ft_putstr_fd("IN", 2);
+            // printf(" --> %d \n", data->tmp);
+            // ft_putstr_fd(command->cmd[0], 2);
+            // ft_putstr_fd("\n", 2);
+            // ft_putstr_fd(command->cmd[1], 2);
+            // ft_putstr_fd("\n", 2);
             dup2(data->tmp, STDIN_FILENO);
+            close(data->tmp);
         }
     	if (command->next && !command->outfile && !command->appendfile)
         {
-            ft_putstr_fd("OUT", 2);
-            printf(" --> %d \n", data->tmp);
-            ft_putstr_fd(command->cmd[0], 2);
-            ft_putstr_fd("\n", 2);
-            ft_putstr_fd(command->cmd[1], 2);
-            ft_putstr_fd("\n", 2);
+            close(data->fd[0]);
+            // ft_putstr_fd("OUT", 2);
+            // printf(" --> %d \n", data->tmp);
+            // ft_putstr_fd(command->cmd[0], 2);
+            // ft_putstr_fd("\n", 2);
+            // ft_putstr_fd(command->cmd[1], 2);
+            // ft_putstr_fd("\n", 2);
             dup2(data->fd[1], STDOUT_FILENO);
+            close(data->fd[1]);
         }
-
-        close(data->tmp);
-        close(data->fd[1]);
         execve(path, com, data->env);
         ft_putstr_fd("minishell: ", 2);
         ft_putstr_fd(com[0], 2);
@@ -69,6 +69,9 @@ void execute_command(t_env *list, t_command *command, t_data *data)
     }
     else if (pid < 0)
     {
+        // close(data->fd[0]);
+        close(data->tmp);
+        close(data->fd[1]);
         free(path);
         return;
     }
@@ -287,7 +290,6 @@ void executing(t_data *data)
             data->tmp = data->fd[0];
             printf("%d \n", data->tmp);
         }
-
         if(!list || (list->cmd && list->cmd[0][0] == '\n'))
             return ;
         else if(list->infile || list->outfile || list->appendfile)
@@ -313,6 +315,8 @@ void executing(t_data *data)
         }
         else
             execute_command(data->list_env, list, data);
+        // close(data->tmp);
+        close(data->fd[1]);
         list = list->next;
     }
 }
