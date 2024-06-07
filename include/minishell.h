@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 10:59:41 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:47:26 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,14 +116,13 @@ struct s_data
 t_cmds	    *lstlast(t_cmds *lst);
 void	    lstclear(t_cmds **lst);
 t_cmds	    *lstnew(char *cmd, t_cmds *stack);
-// int		    lstsize(t_cmds *lst);
 
 
 
 // parsing
 void	    free_array(char **array);
 char	    *rm_spaces(char *str);
-void         get_list(char **cmd, int size, t_cmds **lst, t_data *data);
+void        get_list(char **cmd, int size, t_cmds **lst, t_data *data);
 void        init_tokens(t_cmds *cmds, int size, t_cmds *lst);
 int         parsing(t_data *data);
 char	    *get_cmd(char *cmd);
@@ -166,8 +165,8 @@ t_command	*get_commands(t_cmds *lst);
 void	    commands_clear(t_command **lst);
 
 // tmp
-void	print_array(char **str);
-void	printlist(void *tmp);
+void	    print_array(char **str);
+void	    printlist(void *tmp);
 
 
 
@@ -179,14 +178,14 @@ void        ft_echo(char **com, bool flag, int i);
 
 
 // tools
-void    exiterror(void);
-bool    check_n_flag(char *str);
-t_env   *env_new(t_env *lst, char *str);
-t_env	*env_last(t_env *lst);
-char    **linked_list_to_array(t_env *list);
-char    **sortexport(char **arr, int n);
-void	senv_clear(t_env **lst);
-char    **linked_list_to_array(t_env *list);
+void        exiterror(void);
+bool        check_n_flag(char *str);
+t_env       *env_new(t_env *lst, char *str);
+t_env	    *env_last(t_env *lst);
+char        **linked_list_to_array(t_env *list);
+char        **sortexport(char **arr, int n);
+void	    senv_clear(t_env **lst);
+char        **linked_list_to_array(t_env *list);
 
 t_env *     unset_env(t_env *list, char **com);
 void        exit_myminishell(char **com);

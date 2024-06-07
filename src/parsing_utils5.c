@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils5.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 22:14:09 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/06/07 12:15:05 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,6 +285,7 @@ void	expand_variable(t_cmds *cmds)
 				else
 				{
 					line = get_final_line(spleted_line, var, cmds->cmd[i]);
+					printf("%s \n", line);
 					free(cmds->cmd[i]);
 					cmds->cmd[i] = line;
 					free_array(spleted_line);

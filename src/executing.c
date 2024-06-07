@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 10:59:31 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 12:03:24 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 void execute_command(t_env *list, t_command *command, t_data *data)
 {
     char **com = command->cmd;
+    char *path;
     int pid;
 
     if (!com)
@@ -25,7 +26,7 @@ void execute_command(t_env *list, t_command *command, t_data *data)
         ft_putstr_fd("minishell: command '' not found\n", 2);
         return ;
     }
-    char *path = get_my_path(list, com);
+    path = get_my_path(list, com);
     if(path == NULL)
     {
         ft_putstr_fd("minishell: ", 2);

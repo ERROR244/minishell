@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 10:26:59 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:46:58 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,7 @@ char Gstr[100][100] = { "Cmd", "AppendFile",						//
 
 int parsing(t_data *data)
 {
+	t_command *commands;
     t_cmds *lst;
 	char **cmds;
 	int ret;
@@ -221,8 +222,7 @@ int parsing(t_data *data)
 	remove_quotes(lst);
 	init_tokens(lst, 0, lst);
 
-										// before
-	
+	// //	
 	// char **tmp1;								   							//
     // t_cmds *tmp2 = lst;							  						//
 	// while (tmp2)								   							//
@@ -238,38 +238,17 @@ int parsing(t_data *data)
 	// }																	//
 	// //
 	
-	last_update_in_the_list(lst);
-
-	// //									after
-	// char **tmp11;							   							//
-    // t_cmds *tmp22 = lst;							   						//
-	// while (tmp22)							   							//
-	// {										   							//
-	// 	tmp11 = tmp22->cmd;						   							//
-	// 	if (tmp11)															//
-	// 	{																	//
-	// 		for (int i = 0; tmp11[i]; i++)			   						//
-	// 		{										   						//
-	// 			if (data->line[0] != '\0')			   						//
-	// 				printf(":%s:", tmp11[i]);		   						//
-	// 		} 										   						//
-	// 		printf("%s:%s:\n",Gstr[tmp22->token],Gstr[tmp22->operation]);	//
-	// 	}																	//
-	// 	tmp22 = tmp22->next;												//
-	// }																	//
-	// // 
-	
 	data->lst = lst;
 	data->cmds = cmds;
 	ret = errors_managment(data, 0);
 	if (ret == 0)
 	{
-		t_command *commands;
+		last_update_in_the_list(lst);
 		commands = get_commands(lst);
 		data->list = commands;
 		executing(data);					// exe
-		ft_clear(data);
 		commands_clear(&commands);
+		ft_clear(data);
 	}
 	else
 		ft_clear(data);
