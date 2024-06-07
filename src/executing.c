@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 10:45:44 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 10:59:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,11 @@ void execute_command(t_env *list, t_command *command, t_data *data)
     {
         if (command->prev && !command->infile)
         {
-
-
-            ft_putstr_fd(command->cmd[0], 2);
-            ft_putstr_fd(command->cmd[1], 2);
-            ft_putstr_fd("---->IN\n", 2);
-
-
             dup2(data->fd_in, STDIN_FILENO);
             close(data->fd_in);
         }
-        if (command->infile)
-            ft_putstr_fd("HI from IN\n", 2);
     	if (command->next && !command->outfile && !command->appendfile)
-        {
-
-
-            ft_putstr_fd(command->cmd[0], 2);
-            ft_putstr_fd(command->cmd[1], 2);
-            ft_putstr_fd("---->OUT\n", 2);
-
-
             dup2(data->fd[1], STDOUT_FILENO);
-        }
-        if (command->outfile)
-            ft_putstr_fd("HI from OUT\n", 2);
         close(data->fd[0]);
         close(data->fd[1]);
         execve(path, com, data->env);
@@ -80,11 +60,6 @@ void execute_command(t_env *list, t_command *command, t_data *data)
     }
     else
         wait(&pid);
-    
-    // if (!command->prev)
-    //     close(data->fd[0]);
-    // close(data->fd_in);
-    // close(data->fd[1]);
     if (path)
         free(path);
 }
@@ -105,7 +80,6 @@ int get_files_num(t_slist *list)
 		}
 		list = list->next;
 	}
-	// printf("%d\n", size);
 	return (size);
 }
 
@@ -191,7 +165,6 @@ void hand_the_redirectionin(t_command *lst, int in, int out)
 {
     int *filein  = NULL;
     int *fileout = NULL;
-    
 
     while (lst)
     {
@@ -265,7 +238,7 @@ void executing(t_data *data)
         else if(list->cmd && ft_strcmp(list->cmd[0], "exit") == 0)
             exit_myminishell(list->cmd);
         else if(list->cmd && ft_strcmp(list->cmd[0], "echo") == 0)
-                ft_echo(list->cmd + 1, true);
+                ft_echo(list->cmd + 1, true, 0);
         else
             execute_command(data->list_env, list, data);
         if (list->infile || list->outfile || list->appendfile)

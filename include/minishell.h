@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 10:41:59 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 10:59:41 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ void	printlist(void *tmp);
 // executing
 void        executing(t_data *data);
 void        my_cd(t_env *list, char **com);
-void        ft_echo(char **com, bool flag);
+void        ft_echo(char **com, bool flag, int i);
 
 
 

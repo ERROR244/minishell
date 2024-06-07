@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:36:48 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 10:45:37 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 10:59:24 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,29 +23,29 @@ bool    check_n_flag(char *str)
     return (true);
 }
 
-void ft_echo(char **com, bool flag)
+void ft_echo(char **com, bool flag, int i)
 {
-    int i = 0;
-
-    if (!list->cmd[1])
+    if (!com[0])
     {
         printf("\n");
         return ;
     }
     if (com[0][0] == '-' && com[0][1] == 'n')
-        flag = false;
+        flag = true;
     while (com[0][0] == '-')
     {
         if (check_n_flag(com[0] + 1) == true)
+        {
+            flag = false;
             com++;
+        }
         else
             break ;
     }
     while(com[i])
     {
-        ft_putstr_fd(com[i], 1);
+        ft_putstr_fd(com[i++], 1);
         ft_putchar_fd(' ', 1);
-        i++; 
     }
     if (flag == true)
         printf("\n");
