@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 14:04:44 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 14:39:45 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,13 +150,14 @@ void        remove_quotes(t_cmds *lst);
 int         dollar_is_in(char *str);
 char        *grep_variable_name(char *line);
 char        **ft_split_str(char *s1);
-void    	expand_variable(t_cmds *cmds);
+char    	*expand_variable(char *str, t_data *data);
 char        **get_vars(char *cmd);
 char        *get_final_line(char **lines, char **vars, char *cmd);
 int         dollar_is_in(char *str);
 int         count_vars(char *s1);
 bool        check_ex(char *str, int size);
-// void        ft_free(char **ptr, int i);
+char        *check_tabs(char *str, int i, int tab_count, int j, t_data *data);
+// void     ft_free(char **ptr, int i);
 char const	*get_position(char const *s);
 
 t_slist     *nodes_last(t_slist *lst);
