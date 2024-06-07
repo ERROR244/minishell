@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 13:03:51 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 14:05:42 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ char    **get_the_new_command(char **str)
 }
 
 // executing_command
-void execute_command(t_env *list, t_command *command, t_data *data)
+void execute_command(t_env *list, t_command *command, t_data *data, int index)
 {
     char *path;
-    int pid;
+    // int pid;
 
     if (!command->cmd)
         return ;
@@ -84,8 +84,8 @@ void execute_command(t_env *list, t_command *command, t_data *data)
         ft_putstr_fd(": command not found\n", 2);
         return ;
     }
-    pid = fork();
-    if (pid == 0)
+    data->pid[index] = fork();
+    if (data->pid[index] == 0)
     {
         if (command->prev && !command->infile)
         {
@@ -104,13 +104,13 @@ void execute_command(t_env *list, t_command *command, t_data *data)
         ft_putstr_fd("\n", 2);
         exit(1);
     }
-    else if (pid < 0)
+    else if (data->pid[index] < 0)
     {
         free(path);
         return;
     }
-    else
-        wait(&pid);
+    // else
+    //     wait(&pid);
     if (path)
         free(path);
 }
@@ -256,6 +256,34 @@ void hand_the_redirectionin(t_command *lst, int in, int out)
     ft_close(fileout);
 }
 
+int get_command_size(t_command *command)
+{
+    int size;
+
+    size = 0;
+    while (command)
+    {
+        command = command->next;
+        size++;
+    }
+    return (size);
+}
+
+int	wait_pid(int *pid, int status, int cmd_num)
+{
+	int	i;
+
+	i = cmd_num;
+	status = 0;
+	waitpid(pid[i--], &status, 0);
+	if (WIFEXITED(status))
+		status = WEXITSTATUS(status);
+	while (i >= 0)
+		waitpid(pid[i--], 0, 0);
+	free(pid);
+	return (status);
+}
+
 
 void executing(t_data *data)
 {
@@ -263,8 +291,15 @@ void executing(t_data *data)
 
     int in = dup(STDIN_FILENO);
     int out = dup(STDOUT_FILENO);
+
     list = data->list;
+    
+    int num = get_command_size(list);
+    printf("%d \n", num);
+    
     data->fd_in = STDIN_FILENO;
+    data->pid = malloc(sizeof(int) * (num + 1));
+    data->k = 0;
     while (list)
     {
         if (list->next)
@@ -291,12 +326,11 @@ void executing(t_data *data)
         else if(list->cmd && ft_strcmp(list->cmd[0], "echo") == 0)
                 ft_echo(list->cmd + 1, true, 0);
         else
-            execute_command(data->list_env, list, data);
-        if (list->infile || list->outfile || list->appendfile)
-        {
+            execute_command(data->list_env, list, data, data->k++);
+        if (list->infile)
             dup2(in, STDIN_FILENO);
+        if (list->outfile || list->appendfile)
             dup2(out, STDOUT_FILENO);
-        }
         if (list->next && !list->outfile && !list->appendfile)
             close(data->fd[1]);
         if (list->prev && !list->infile)
@@ -304,4 +338,6 @@ void executing(t_data *data)
         data->fd_in = data->fd[0];
         list = list->next;
     }
+    int status = 0;
+    wait_pid(data->pid, status, data->k);
 }

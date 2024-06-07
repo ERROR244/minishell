@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 11:46:58 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:42:28 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ char *check_tabs(char *str, int i, int tab_count, int j)
 	char *new_str;
 	int input_len;
 
-    input_len = strlen(str);
+    input_len = ft_strlen(str);
     while (i < input_len)
 	{
         if (str[i] == '\t')
