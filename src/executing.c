@@ -6,21 +6,71 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 12:03:24 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:03:51 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+int	space_in(char *str)
+{
+    int split_time;
+
+    split_time = 0;
+	while (*str)
+	{
+		if (*str == 32)
+        {
+			split_time++;
+            while (*str == 32)
+                str++;
+		    // if (*str && *str != 32)
+    		// 	split_time++;
+        }
+        else
+		    str++;
+	}
+	return (split_time);
+}
+
+char    **get_the_new_command(char **str)
+{
+    char    **tmp;
+    bool    flag;
+    int     split_time;
+    int     i;
+    int     size;
+
+    i = 0;
+    split_time = 0;
+    flag = false;
+    size = 0;
+    if (str[0])
+    {
+        split_time = space_in(str[i]);
+        if (split_time != 0)
+        {
+            flag = true;
+        }
+        size += split_time;
+    }
+    if (flag == false)
+        return (str);
+    tmp = ft_split(str[0], ' ');
+    free_array(str);
+    return (tmp);
+}
+
 // executing_command
 void execute_command(t_env *list, t_command *command, t_data *data)
 {
-    char **com = command->cmd;
     char *path;
     int pid;
 
-    if (!com)
+    if (!command->cmd)
         return ;
+    command->cmd = get_the_new_command(command->cmd);
+    char **com = command->cmd;
     if (com[0][0] == '\0')
     {
         ft_putstr_fd("minishell: command '' not found\n", 2);
