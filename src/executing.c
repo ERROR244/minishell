@@ -6,24 +6,24 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 17:11:59 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 17:43:47 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // executing_command
-void execute_command(t_env *list, t_command *command, t_data *data, int index)
+int execute_command(t_env *list, t_command *command, t_data *data, int index)
 {
     char *path;
 
     if (!command->cmd)
-        return ;
+        return (-1);
     char **com = command->cmd;
     if (com[0][0] == '\0')
     {
         ft_putstr_fd("minishell: command '' not found\n", 2);
-        return ;
+        return (127);
     }
     path = get_my_path(list, com);
     if(path == NULL)
@@ -31,7 +31,7 @@ void execute_command(t_env *list, t_command *command, t_data *data, int index)
         ft_putstr_fd("minishell: ", 2);
         ft_putstr_fd(com[0], 2);
         ft_putstr_fd(": command not found\n", 2);
-        return ;
+        return (127);
     }
     data->pid[index] = fork();
     if (data->pid[index] == 0)
@@ -51,15 +51,16 @@ void execute_command(t_env *list, t_command *command, t_data *data, int index)
         ft_putstr_fd(": ", 2);
         ft_putstr_fd(strerror(errno), 2);
         ft_putstr_fd("\n", 2);
-        exit(1);
+        exit(-1);
     }
     else if (data->pid[index] < 0)
     {
         free(path);
-        return;
+        return (-1);
     }
     if (path)
         free(path);
+    return (0);
 }
 
 int get_files_num(t_slist *list)
@@ -233,10 +234,11 @@ int	wait_pid(int *pid, int status, int cmd_num)
 
 int executing(t_data *data)
 {
-    t_command *list;
+    t_command   *list;
+    int         ret;
+    int         out = dup(STDOUT_FILENO);
+    int         in = dup(STDIN_FILENO);
 
-    int in = dup(STDIN_FILENO);
-    int out = dup(STDOUT_FILENO);
 
     list = data->list;
     data->fd_in = STDIN_FILENO;
@@ -268,7 +270,7 @@ int executing(t_data *data)
         else if(list->cmd && ft_strcmp(list->cmd[0], "echo") == 0)
                 ft_echo(list->cmd + 1, true, 0);
         else
-            execute_command(data->list_env->next, list, data, data->k++);
+            ret = execute_command(data->list_env->next, list, data, data->k++);
         if (list->infile)
             dup2(in, STDIN_FILENO);
         if (list->outfile || list->appendfile)
@@ -280,8 +282,8 @@ int executing(t_data *data)
         data->fd_in = data->fd[0];
         list = list->next;
     }
-    int status = 0;
-    wait_pid(data->pid, status, data->k);
+    if (ret == 0)
+            ret = wait_pid(data->pid, 0, data->k);
 	free(data->pid);
-    return (0);
+    return (ret);
 }

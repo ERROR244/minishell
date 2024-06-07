@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 14:42:19 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 17:43:32 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ int parsing(t_data *data)
 		last_update_in_the_list(lst);
 		commands = get_commands(lst);
 		data->list = commands;
-		executing(data);					// exe
+		ret = executing(data);					// exe
 		commands_clear(&commands);
 		ft_clear(data);
 	}
