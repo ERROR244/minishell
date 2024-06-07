@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/06 17:42:19 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 10:45:44 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,35 @@ void execute_command(t_env *list, t_command *command, t_data *data)
     pid = fork();
     if (pid == 0)
     {
-        if (command->prev && !command->infile && data->tmp != -1)
+        if (command->prev && !command->infile)
         {
-            // ft_putstr_fd("IN", 2);
-            // printf(" --> %d \n", data->tmp);
-            // ft_putstr_fd(command->cmd[0], 2);
-            // ft_putstr_fd("\n", 2);
-            // ft_putstr_fd(command->cmd[1], 2);
-            // ft_putstr_fd("\n", 2);
-            dup2(data->tmp, STDIN_FILENO);
-            close(data->tmp);
+
+
+            ft_putstr_fd(command->cmd[0], 2);
+            ft_putstr_fd(command->cmd[1], 2);
+            ft_putstr_fd("---->IN\n", 2);
+
+
+            dup2(data->fd_in, STDIN_FILENO);
+            close(data->fd_in);
         }
+        if (command->infile)
+            ft_putstr_fd("HI from IN\n", 2);
     	if (command->next && !command->outfile && !command->appendfile)
         {
-            close(data->fd[0]);
-            // ft_putstr_fd("OUT", 2);
-            // printf(" --> %d \n", data->tmp);
-            // ft_putstr_fd(command->cmd[0], 2);
-            // ft_putstr_fd("\n", 2);
-            // ft_putstr_fd(command->cmd[1], 2);
-            // ft_putstr_fd("\n", 2);
+
+
+            ft_putstr_fd(command->cmd[0], 2);
+            ft_putstr_fd(command->cmd[1], 2);
+            ft_putstr_fd("---->OUT\n", 2);
+
+
             dup2(data->fd[1], STDOUT_FILENO);
-            close(data->fd[1]);
         }
+        if (command->outfile)
+            ft_putstr_fd("HI from OUT\n", 2);
+        close(data->fd[0]);
+        close(data->fd[1]);
         execve(path, com, data->env);
         ft_putstr_fd("minishell: ", 2);
         ft_putstr_fd(com[0], 2);
@@ -69,60 +75,19 @@ void execute_command(t_env *list, t_command *command, t_data *data)
     }
     else if (pid < 0)
     {
-        // close(data->fd[0]);
-        close(data->tmp);
-        close(data->fd[1]);
         free(path);
         return;
     }
     else
         wait(&pid);
+    
+    // if (!command->prev)
+    //     close(data->fd[0]);
+    // close(data->fd_in);
+    // close(data->fd[1]);
     if (path)
         free(path);
 }
-
-// void ft_pipe(t_env *list, t_cmds *lst, t_data *data)
-// {
-//     int fd[2];
-//     if(pipe(fd) == -1)
-//         return;
-    
-//     int pid1 = fork();
-//     if(pid1 == -1)
-//         return;
-
-//     if(pid1 == 0)
-//     {
-//         close(fd[0]); 
-//         dup2(fd[1], STDOUT_FILENO);
-//         close(fd[1]); 
-//         execute_command(list, &lst->prev->cmd[0], data);
-//         exit(1); 
-//     }
-
-//     int pid2 = fork();
-//     if(pid2 == -1)
-//         return;
-//     else if(pid1 != 0)
-//     {
-//         if(pid2 == 0)if (token == Infile)
-            	//     dup2(fd[j], STDIN_FILENO);
-    			// else if (token == OutFile || token == AppendFile)
-            	//     dup2(fd[j], STDOUT_FILENO);
-//         {
-//             close(fd[1]);
-//             dup2(fd[0], STDIN_FILENO);
-//             close(fd[0]); 
-//             execute_command(list, &lst->next->cmd[0], data);
-//             exit(1); 
-//         }
-//     }
-
-//     close(fd[0]); 
-//     close(fd[1]);
-//     waitpid(pid1, NULL, 0);
-//     waitpid(pid2, NULL, 0); 
-// }
 
 int get_files_num(t_slist *list)
 {
@@ -222,13 +187,12 @@ int get_last_index(int *fd)
 	return (i - 1);
 }
 
-void hand_the_redirectionin(t_env *list, t_command *lst, t_data *data)
+void hand_the_redirectionin(t_command *lst, int in, int out)
 {
-    int out = dup(STDOUT_FILENO);
-    int in = dup(STDIN_FILENO);
     int *filein  = NULL;
     int *fileout = NULL;
     
+
     while (lst)
     {
         if(lst->infile != NULL)
@@ -264,13 +228,8 @@ void hand_the_redirectionin(t_env *list, t_command *lst, t_data *data)
             break ;
         lst = lst->prev;
     }
-    execute_command(list, lst, data);
-    dup2(in, STDIN_FILENO);
-    dup2(out, STDOUT_FILENO);
     ft_close(filein);
     ft_close(fileout);
-	close(out);
-	close(in);
 }
 
 
@@ -278,23 +237,22 @@ void executing(t_data *data)
 {
     t_command *list;
 
-    data->tmp = -1;
+    int in = dup(STDIN_FILENO);
+    int out = dup(STDOUT_FILENO);
     list = data->list;
+    data->fd_in = STDIN_FILENO;
     while (list)
     {
         if (list->next)
         {
             if (pipe(data->fd) == -1)
                 break ;
-            printf("%d \n", data->tmp);
-            data->tmp = data->fd[0];
-            printf("%d \n", data->tmp);
         }
         if(!list || (list->cmd && list->cmd[0][0] == '\n'))
             return ;
-        else if(list->infile || list->outfile || list->appendfile)
-            hand_the_redirectionin(data->list_env, list, data);
-        else if(list->cmd && ft_strcmp(list->cmd[0], "cd") == 0)   
+        if(list->infile || list->outfile || list->appendfile)
+            hand_the_redirectionin(list, in, out);
+        if(list->cmd && ft_strcmp(list->cmd[0], "cd") == 0)   
             my_cd(data->list_env, list->cmd);
         else if(list->cmd && ft_strcmp(list->cmd[0], "pwd") == 0)
             mypwd(data->list_env);
@@ -307,16 +265,19 @@ void executing(t_data *data)
         else if(list->cmd && ft_strcmp(list->cmd[0], "exit") == 0)
             exit_myminishell(list->cmd);
         else if(list->cmd && ft_strcmp(list->cmd[0], "echo") == 0)
-        {
-            if (!list->cmd[1])
-                printf("\n");
-            else
                 ft_echo(list->cmd + 1, true);
-        }
         else
             execute_command(data->list_env, list, data);
-        // close(data->tmp);
-        close(data->fd[1]);
+        if (list->infile || list->outfile || list->appendfile)
+        {
+            dup2(in, STDIN_FILENO);
+            dup2(out, STDOUT_FILENO);
+        }
+        if (list->next && !list->outfile && !list->appendfile)
+            close(data->fd[1]);
+        if (list->prev && !list->infile)
+            close(data->fd_in);
+        data->fd_in = data->fd[0];
         list = list->next;
     }
 }

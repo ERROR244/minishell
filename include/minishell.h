@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/06 17:11:32 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 10:41:59 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ typedef struct s_command
 struct s_data
 {
     int         fd[2];
-    int         tmp;
+    int         fd_in;
     char        **env;
 	char 	    **cmds;
     char 	    *line;
