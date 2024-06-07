@@ -6,17 +6,29 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 13:41:46 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 17:08:29 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char **myenv = NULL;
+// char **myenv = NULL;
+
+char *get_exit_status(int ret)
+{
+	char	*exit_status;
+	char	*tmp;
+
+	tmp = ft_itoa(ret);
+	exit_status = ft_strjoin("?=", tmp);
+	free(tmp);
+	return (exit_status);
+}
 
 int main(int ac, char **av, char **env)
 {
     t_data data;
+	int ret;
 	
 	if (ac != 1)
 		return (1);
@@ -31,10 +43,12 @@ int main(int ac, char **av, char **env)
 		else if (check_quotation(data.line) != -1)
 		{
 			add_history(data.line);
-			parsing(&data);
+			ret = parsing(&data);
 		}
 		free(data.line);
 		free_array(data.env);
+		free(data.list_env->var_name);
+		data.list_env->var_name = get_exit_status(ret);
     }
 	if (data.env)
 		free_array(data.env);

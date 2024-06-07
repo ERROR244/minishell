@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 16:16:57 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:51:51 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int  errormsg_v1(char *str)
     ft_putstr_fd("minishel: syntax error near unexpected token '", 2);
     ft_putstr_fd(str, 2);
     ft_putstr_fd("'\n", 2);
-    return (1);
+    return (2);
 }
 
 int  errormsg_v2(char *str)
@@ -26,7 +26,7 @@ int  errormsg_v2(char *str)
     ft_putstr_fd(str, 2);
     ft_putstr_fd(str, 2);
     ft_putstr_fd("'\n", 2);
-    return (1);
+    return (2);
 }
 
 int check_file(t_cmds *cmds)

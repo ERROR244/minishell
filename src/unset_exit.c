@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/06 10:50:37 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 17:13:56 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,18 @@ t_env *remove_node(t_env *head, t_env *node_to_remove)
 
 t_env *unset_env(t_env *list, char **com)
 {
-    t_env *index;
+    t_env   *index;
+    t_env   *head;
+    int i;
 
     if(com[1] == NULL)
         return (list);
-    int i = 1;
+    i = 0;
     index = NULL;
+    head = list;
+    if (!list || !list->next)
+        return (list);
+    list = list->next;
     while(com[i])
     {
         index  = findmyindex(list, com[i]);
@@ -53,7 +59,7 @@ t_env *unset_env(t_env *list, char **com)
             list = remove_node(list, index);
         i++;
     }
-    return (list);
+    return (head);
 }
 
 void exit_myminishell(char **com)

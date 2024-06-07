@@ -14,6 +14,7 @@ SRCS = 	src/minishell.c Libft/ft_split.c Libft/ft_putstr_fd.c\
 		Libft/ft_strcmp.c src/parsing_utils6.c src/parsing_utils7.c\
 		Libft/ft_isdigit.c Libft/ft_isalnum.c src/parsing_utils8.c\
 		Libft/ft_strchr.c Libft/ft_strlcpy.c src/tmp.c src/expand_variable.c\
+		Libft/ft_itoa.c\
 		src/env.c src/export.c src/unset_exit.c src/cd.c src/pwd.c\
 		src/echo.c\
 

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/02 16:29:49 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/07 17:31:53 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,58 +132,3 @@ char	**ft_split_str(char *s1)
 	}
 	return (split(s1, 0, ptr));
 }
-
-// void free_split_array(char **split_array)
-// {
-//     char **ptr = split_array;
-//     while (*ptr) {
-//         free(*ptr);
-//         ptr++;
-//     }
-//     free(split_array);
-// }
-
-// #include "../include/minishell.h"
-
-// int main(int ac, char **av)
-// {
-//     char **result = ft_split_str("echo '$PWD'   The current user is $USER. to your home directory: \" '$HOME'\".");
-//     // char **result = ft_split_str(av[1]);
-
-//     if (result)
-// 	{
-//         for (int i = 0; result[i]; i++)
-// 		{
-//             printf(":%s:\n", result[i]);
-//         }
-
-//         free_split_array(result);
-//     }
-// 	else
-// 	{
-//         printf("Error: ft_split returned NULL\n");
-//     }
-
-//     return 0;
-// }
-
-
-// bool	check_ex(char *str, int size)
-// {
-// 	int i;
-// 	int flag;
-
-// 	i = 0;
-// 	if (size == 0)
-// 		return (true);
-// 	flag = 0;
-// 	while (str[i] && i <= size)
-// 	{
-// 		if (str[i] == 34)
-// 			flag++;
-// 		i++;
-// 	}
-// 	if (flag % 2 == 0)
-// 		return (true);
-// 	return (false);
-// }
