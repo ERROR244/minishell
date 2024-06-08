@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 15:22:25 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:31:05 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ int	get_cmd_size(t_cmds *list)
 	int		i;
 
 	size = 0;
-	// if (list->cmd[0] && list->cmd[0][0] == '\0')
-	// 	size++;
 	while (list)
 	{
 		if (list->token == Pipe)
@@ -165,17 +163,16 @@ void	last_update_in_the_list(t_cmds *list)
 		size = get_cmd_size(list);
 		if (size == 0)
 		{
-			command = malloc(sizeof(char *) * (3));
+			list->data->flag = false;
+			command = malloc(sizeof(char *) * (2));
 			command[0] = ft_strdup("");
-			command[1] = ft_strdup("");
-			command[2] = NULL;
+			command[1] = NULL;
 		}
 		else
 		{
 			command = malloc(sizeof(char *) * (size + 1));
 			get_command_done(list, list, command, true);
 		}
-		// print_array(command);
 		get_list_done(list, command, true, NULL);
 		while (list && list->token != Pipe)
 			list = list->next;
@@ -209,7 +206,7 @@ int parsing(t_data *data)
 
 	i = -1;
 	lst = NULL;
-
+	data->flag = true;
 	data->line = check_tabs(data->line, 0, 0, 0, data);
 	cmds = ft_split_msh(data->line);
 	while (cmds[++i])

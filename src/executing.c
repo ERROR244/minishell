@@ -6,13 +6,14 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 15:21:44 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:20:36 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // executing_command
+
 int execute_command(t_env *list, t_command *command, t_data *data, int index)
 {
     char *path;
@@ -22,7 +23,7 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
     char **com = command->cmd;
     if (com[0][0] == '\0')
     {
-        if (com[1] && com[1][0] == '\0')
+        if (data->flag != true)
             return (0);
         ft_putstr_fd("minishell: command '' not found\n", 2);
         return (127);
@@ -41,17 +42,16 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
         if (command->prev && !command->infile)
         {
             dup2(data->fd_in, STDIN_FILENO);
-            ft_ft_close(data->fd_in, "exe_command");
+            close(data->fd_in);
         }
     	if (command->next && !command->outfile && !command->appendfile)
-        {
             dup2(data->fd[1], STDOUT_FILENO);
-        }
         if (command->next)
         {
-            ft_ft_close(data->fd[0], "exe_command");
-            ft_ft_close(data->fd[1], "exe_command");
+            ft_close(data->fd[1], "exe_command");
+            ft_close(data->fd[0], "exe_command");
         }
+	    free(data->pid);
         execve(path, com, data->env);
         ft_putstr_fd("minishell: ", 2);
         ft_putstr_fd(com[0], 2);
@@ -70,117 +70,53 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
     return (0);
 }
 
-int get_files_num(t_slist *list)
+int ft_open(t_slist *list, t_token token)
 {
-	int i;
-	int size;
+	int fd;
 
-	size = 0;
-	while (list)
+	if (token == Infile)
+		fd = open(list->cmd[0], O_RDONLY);
+	else if (token == OutFile)
+		fd = open(list->cmd[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+	else
+		fd = open(list->cmd[0], O_WRONLY | O_CREAT | O_APPEND, 0666);
+	
+	if (fd == -1)
 	{
-		i = 0;
-		while (list && list->cmd[i])
-		{
-			size++;
-			i++;
-		}
-		list = list->next;
+        printf("HERE %d \n", token);
+		ft_close(fd, "open fail");
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(list->cmd[0], 2);
+		ft_putstr_fd(": ", 2);
+        ft_putstr_fd(strerror(errno), 2);
+        ft_putchar_fd('\n', 2);
+		return (-1);
 	}
-	return (size);
-}
-
-void	ft_close(int *fd)
-{
-	int i = 0;
-
-	while (fd && fd[i] != -11)
-	{
-		if (fd[i] == -1)
-			break;
-		ft_ft_close(fd[i], "inside");
-		i++;
-	}
-	if (fd)
-		free(fd);
-}
-
-int *ft_open(t_slist *list, t_token token)
-{
-	int *fd;
-	int i;
-	int j;
-	int size;
-
-	size = get_files_num(list);
-	fd = malloc((size + 1) * (sizeof(int)));
-	fd[size] = -11;
-	j = 0;
-    while (list)
-	{
-		i = 0;
-		while (list && list->cmd[i])
-		{
-			if (token == Infile)
-				fd[j] = open(list->cmd[i], O_RDONLY);
-			else if (token == OutFile)
-				fd[j] = open(list->cmd[i], O_WRONLY | O_CREAT | O_TRUNC, 0666);
-			else if (token == AppendFile)
-				fd[j] = open(list->cmd[i], O_WRONLY | O_CREAT | O_APPEND, 0666);
-			
-			if (fd[j] == -1)
-			{
-				ft_close(fd);
-				ft_putstr_fd("minishell: ", 2);
-				ft_putstr_fd(list->cmd[i], 2);
-				ft_putstr_fd(": ", 2);
-                ft_putstr_fd(strerror(errno), 2);
-                ft_putchar_fd('\n', 2);
-				return (NULL);
-			}
-            else
-            {
-			    if (token == Infile)
-            	    dup2(fd[j], STDIN_FILENO);
-    			else if (token == OutFile || token == AppendFile)
-            	    dup2(fd[j], STDOUT_FILENO);
-            }
-			
-			j++;
-			i++;
-		}
-		list = list->next;
-	}
+    else
+    {
+	    if (token == Infile)
+    	    dup2(fd, STDIN_FILENO);
+    	else if (token == OutFile || token == AppendFile)
+    	    dup2(fd, STDOUT_FILENO);
+    }
+    ft_close(fd, "fd");
 	return (fd);
-}
-
-int get_last_index(int *fd)
-{
-	int i;
-
-	i = 0;
-	while (fd[i] != -11)
-	{
-		if (fd[i] == -1)
-			return (i);
-		i++;
-	}
-	return (i - 1);
 }
 
 void hand_the_redirectionin(t_command *lst, int in, int out)
 {
-    int *filein  = NULL;
-    int *fileout = NULL;
+    int filein;
+    int fileout;
 
     while (lst)
     {
-        if(lst->infile != NULL)
+        if(lst->infile)
         {
             filein = ft_open(lst->infile, Infile);
 			
             if(!filein)
 			{
-	        	ft_ft_close(in, "Ingile");
+	        	ft_close(in, "Ingile");
 				return ;
 			}
         }
@@ -193,7 +129,7 @@ void hand_the_redirectionin(t_command *lst, int in, int out)
 
             if(!fileout)
 			{
-        		ft_ft_close(out, "Outfile");
+        		ft_close(out, "Outfile");
 				return ;
 			}
         }
@@ -201,14 +137,6 @@ void hand_the_redirectionin(t_command *lst, int in, int out)
             break ;
         lst = lst->next;
     }
-    while (lst)
-    {
-        if (!lst->prev)
-            break ;
-        lst = lst->prev;
-    }
-    ft_close(filein);
-    ft_close(fileout);
 }
 
 int get_command_size(t_command *command)
@@ -248,9 +176,9 @@ int executing(t_data *data)
 
 
     list = data->list;
-    data->fd_in = STDIN_FILENO;
     data->pid = malloc(sizeof(int) * (get_command_size(list) + 1));
     data->k = 0;
+    data->fd_in = STDIN_FILENO;
     while (list)
     {
         if (list->next)
@@ -283,10 +211,11 @@ int executing(t_data *data)
         if (list->outfile || list->appendfile)
             dup2(out, STDOUT_FILENO);
         if (list->next && !list->outfile && !list->appendfile)
-            ft_ft_close(data->fd[1], "fd[1]");
+            ft_close(data->fd[1], "fd[1]");
         if (list->prev && !list->infile)
-            ft_ft_close(data->fd_in, "fd_in");
-        data->fd_in = data->fd[0];
+            ft_close(data->fd_in, "fd_in");
+        if (list->next)
+            data->fd_in = data->fd[0];
         list = list->next;
     }
     if (ret == 0)

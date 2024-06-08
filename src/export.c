@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/06 11:27:25 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:38:50 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,25 +129,28 @@ void export(t_env *list, char **com)
         {
             if(ft_isalpha(com[i][0]) != 1)
                 printf("export: '%s' :not a valid identifier\n", com[i]);
-            export = ft_split(com[i], '=');
-            size = ft_strlen(export[0]);
-            if (export[0][size - 1] == '+')
+            else
             {
-                c = '+';
-                str = malloc(sizeof(char) * size);
-                j = 0;
-                while (export[0][j] != '+')
+                export = ft_split(com[i], '=');
+                size = ft_strlen(export[0]);
+                if (export[0][size - 1] == '+')
                 {
-                    str[j] = export[0][j];
-                    j++;
+                    c = '+';
+                    str = malloc(sizeof(char) * size);
+                    j = 0;
+                    while (export[0][j] != '+')
+                    {
+                        str[j] = export[0][j];
+                        j++;
+                    }
+                    str[j] = '\0';
+                    free(export[0]);
+                    export[0] = str;
                 }
-                str[j] = '\0';
-                free(export[0]);
-                export[0] = str;
+                set_myenv(list, export[0], export[1], c);
+                free_array(export);
             }
-            set_myenv(list, export[0], export[1], c);
             i++;
         }
-        free_array(export);
     }
 }

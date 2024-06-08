@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 14:44:46 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:06:37 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ struct s_data
     int         *pid;
     int         k;
     int         fd_in;
+    bool        flag;
     char        **env;
 	char 	    **cmds;
     char 	    *line;
@@ -171,7 +172,7 @@ void	    commands_clear(t_command **lst);
 void	    print_array(char **str);
 void	    printlist(void *tmp);
 int         ft_fork(void);
-void        ft_ft_close(int fd, char *str);
+void        ft_close(int fd, char *str);
 
 
 // executing

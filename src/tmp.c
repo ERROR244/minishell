@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:31:09 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 13:38:15 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:05:38 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	printlist(void *tmp)
 	}
 }
 
-void	ft_ft_close(int fd, char *str)
+void	ft_close(int fd, char *str)
 {
 	int	n;
 
