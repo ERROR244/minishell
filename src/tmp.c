@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:31:09 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 11:43:19 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 13:38:15 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	print_array(char **str)
 		printf(" <-> %s", *str);
 		str++;
 	}
-	printf(":");
+	printf(":\n");
 }
 
 void	printlist(void *tmp)

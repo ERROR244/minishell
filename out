@@ -1,0 +1,12 @@
+total 1508
+drwxr-xr-x 7 ksohail- candidates    4096 Jun  8 15:14 .
+drwxr-xr-x 6 ksohail- candidates    4096 Jun  8 13:13 ..
+drwxr-xr-x 8 ksohail- candidates    4096 Jun  8 13:13 .git
+drwxr-xr-x 2 ksohail- candidates    4096 Jun  8 13:13 include
+drwxr-xr-x 2 ksohail- candidates    4096 Jun  8 15:12 Libft
+-rw-r--r-- 1 ksohail- candidates    1150 Jun  8 13:13 Makefile
+-rwxr-xr-x 1 ksohail- candidates 1510576 Jun  8 15:12 minishell
+-rw-r--r-- 1 ksohail- candidates       0 Jun  8 15:14 out
+-rw-r--r-- 1 ksohail- candidates       0 Jun  8 13:13 README.md
+drwxr-xr-x 2 ksohail- candidates    4096 Jun  8 15:12 src
+drwxr-xr-x 2 ksohail- candidates    4096 Jun  8 13:13 .vscode

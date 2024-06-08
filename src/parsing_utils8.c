@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:19 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/06 11:13:28 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:12:41 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_command	*get_commands(t_cmds *lst)
     	heredocdel = NULL;
 		while (lst && lst->token != Pipe)
 		{
-			if (lst->cmd && lst->token == Cmd)
+			if (lst->cmd && (lst->token == Cmd || lst->token == Non))
 			{
 				command->cmd = array_copy(lst->cmd);
 			}

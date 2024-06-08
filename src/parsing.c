@@ -6,11 +6,19 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 11:21:52 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:22:25 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+char Gstr[100][100] = { "Cmd", "AppendFile",						//
+							"HereDocDel", "Infile",					//
+							"OutFile", "Operation",					//
+							"NonOperation", "Input",				//
+							"Output", "Append",						//
+							"HereDoc", "Pipe", 						//
+							"Non" };		   						//
 
 int	get_cmd_size(t_cmds *list)
 {
@@ -18,19 +26,19 @@ int	get_cmd_size(t_cmds *list)
 	int		i;
 
 	size = 0;
-	if (list->cmd[0][0] == '\0')
-		size++;
+	// if (list->cmd[0] && list->cmd[0][0] == '\0')
+	// 	size++;
 	while (list)
 	{
 		if (list->token == Pipe)
 			break ;
-		else if (list->token == Cmd)
+		else if (list->token == Cmd && list->cmd)
 		{
 			i = 0;
 			while (list->cmd[i++])
 				size++;
 		}
-		else
+		else if (list->cmd[0])
 		{
 			i = 1;
 			while (list->cmd[i++])
@@ -60,9 +68,12 @@ void	get_command_done(t_cmds *list, t_cmds *head, char **command, bool flag)
 	int j;
 
 	list = find_cmd(list);
-	i = -1;
-	while (list->cmd[++i])
+	i = 0;
+	while (list && list->cmd[i])
+	{
 		command[i] = ft_strdup(list->cmd[i]);
+		i++;
+	}
 	while (head)
 	{
 		if (head->token == Pipe)
@@ -74,7 +85,7 @@ void	get_command_done(t_cmds *list, t_cmds *head, char **command, bool flag)
 			if (head->token == Cmd)
 				command[i++] = ft_strdup(head->cmd[0]);
 			j = 1;
-			while (head->cmd[j])
+			while (head->cmd[0] && head->cmd[j])
 				command[i++] = ft_strdup(head->cmd[j++]);
 		}
 		head = head->next;
@@ -94,6 +105,9 @@ char	**get_name(char *str)
 
 void	get_list_done(t_cmds *list, char **command, bool flag, char **name)
 {
+	t_cmds *head;
+
+	head = list;
 	while (list)
 	{
 		if (list->token == Pipe)
@@ -119,13 +133,22 @@ void	get_list_done(t_cmds *list, char **command, bool flag, char **name)
 				list->cmd = name;
 			}
 		}
+		if (!list->next)
+			break ;
 		list = list->next;
+	}
+	if (flag == true)
+	{
+		list->next = lstnew(NULL, head, command);
+		list = list->next;
+		list->data = head->data;
 	}
 }
 
 void	last_update_in_the_list(t_cmds *list)
 {
 	t_cmds	*head;
+	t_cmds	*tmp;
 	char	**command;
 	int		size;
 	int		i;
@@ -134,13 +157,25 @@ void	last_update_in_the_list(t_cmds *list)
 	i = 0;
 	j = 0;
 	head = list;
+	tmp = list;
 	command = NULL;
 	while (head)
 	{
 		list = head;
 		size = get_cmd_size(list);
-		command = malloc(sizeof(char *) * (size + 1));
-		get_command_done(list, list, command, true);
+		if (size == 0)
+		{
+			command = malloc(sizeof(char *) * (3));
+			command[0] = ft_strdup("");
+			command[1] = ft_strdup("");
+			command[2] = NULL;
+		}
+		else
+		{
+			command = malloc(sizeof(char *) * (size + 1));
+			get_command_done(list, list, command, true);
+		}
+		// print_array(command);
 		get_list_done(list, command, true, NULL);
 		while (list && list->token != Pipe)
 			list = list->next;
@@ -163,14 +198,6 @@ void ft_clear(t_data *data)
 	lstclear(&data->lst);
 	free_array(data->cmds);
 }
-
-char Gstr[100][100] = { "Cmd", "AppendFile",						//
-							"HereDocDel", "Infile",					//
-							"OutFile", "Operation",					//
-							"NonOperation", "Input",				//
-							"Output", "Append",						//
-							"HereDoc", "Pipe", 						//
-							"Non" };		   						//
 
 int parsing(t_data *data)
 {

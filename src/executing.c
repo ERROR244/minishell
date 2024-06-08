@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 11:44:44 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:21:44 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
     char **com = command->cmd;
     if (com[0][0] == '\0')
     {
+        if (com[1] && com[1][0] == '\0')
+            return (0);
         ft_putstr_fd("minishell: command '' not found\n", 2);
         return (127);
     }

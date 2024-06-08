@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 11:09:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/06 09:40:02 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 14:58:16 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char *get_cmd(char *cmd)
 	return (tmp);
 }
 
-t_cmds	*lstnew(char *cmd, t_cmds *lst)
+t_cmds	*lstnew(char *cmd, t_cmds *lst, char **str)
 {
 	t_cmds	*n_node;
 	t_cmds	*last_node;
@@ -40,7 +40,10 @@ t_cmds	*lstnew(char *cmd, t_cmds *lst)
 	n_node = (t_cmds *)malloc(sizeof(struct s_cmds));
 	if (n_node == NULL)
 		return (NULL);
-	n_node->cmd = ft_split(cmd, ' ');
+	if (cmd)
+		n_node->cmd = ft_split(cmd, ' ');
+	else
+		n_node->cmd = str;
 	n_node->token = Non;
 	n_node->next = NULL;
 	if (lst == NULL)

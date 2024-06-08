@@ -1,18 +1,7 @@
 {
     "files.associations": {
         "*.c": "c",
-        "minishell.h": "c",
-        "stdio.h": "c",
-        "history.h": "c",
-        "readline.h": "c",
-        "wait.h": "c",
-        "types.h": "c",
-        "unistd.h": "c",
-        "string.h": "c",
-        "errno.h": "c",
-        "signal.h": "c",
-        "libft.h": "c",
-        "dirent.h": "c"
+        "minishell.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 11:43:36 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 14:44:46 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ struct s_data
 // lst
 t_cmds	    *lstlast(t_cmds *lst);
 void	    lstclear(t_cmds **lst);
-t_cmds	    *lstnew(char *cmd, t_cmds *stack);
+t_cmds	    *lstnew(char *cmd, t_cmds *stack, char **str);
 
 
 

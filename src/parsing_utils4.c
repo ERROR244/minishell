@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 11:57:34 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 14:53:56 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,24 +69,24 @@ void get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 	i = 0;
 	if (cmd[0] == NULL)
 	{
-		*lst = lstnew("\n", *lst);
+		*lst = lstnew("\n", *lst, NULL);
 		return ;
 	}
-	*lst = lstnew(cmd[i++], *lst);
+	*lst = lstnew(cmd[i++], *lst, NULL);
 	(*lst)->data = data;
 	while (i < size)
 	{
 		if (cmd[i - 1][0] == '<' && is_space_in(cmd[i]) == 0)
 		{
 			ptr = get_file_name(cmd[i]);
-			node = lstnew(ptr[0], *lst);
+			node = lstnew(ptr[0], *lst, NULL);
 			node->data = data;
 			curr = lstlast(*lst);
 			curr->next = node;
 			if (ptr[1])
 			{
 				node->data = data;
-				node = lstnew(ptr[1], *lst);
+				node = lstnew(ptr[1], *lst, NULL);
 				curr = lstlast(*lst);
 				curr->next = node;
 			}
@@ -94,7 +94,7 @@ void get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 			if (++i == size)
 				return ;
 		}
-		node = lstnew(cmd[i], *lst);
+		node = lstnew(cmd[i], *lst, NULL);
 		node->data = data;
 		curr = lstlast(*lst);
 		curr->next = node;
