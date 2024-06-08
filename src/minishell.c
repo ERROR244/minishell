@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 17:08:29 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:38:05 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ int main(int ac, char **av, char **env)
 	if (ac != 1)
 		return (1);
 	(void)av;
+	data.path_flag = false;
+	if (!env[0])
+		data.path_flag = true;
 	data.list_env = copieenv(env);
     while (1)
     {

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 16:27:20 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:50:58 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
         ft_putstr_fd("minishell: command '' not found\n", 2);
         return (127);
     }
-    path = get_my_path(list, com);
+    path = get_my_path(list, com, data->path_flag);
     if(path == NULL)
     {
         ft_putstr_fd("minishell: ", 2);
@@ -199,7 +199,7 @@ int executing(t_data *data)
         else if(list->cmd && ft_strcmp(list->cmd[0], "export") == 0)
             export(data->list_env->next, list->cmd);
         else if(list->cmd && ft_strcmp(list->cmd[0], "unset") == 0)
-            data->list_env = unset_env(data->list_env, list->cmd);
+            data->list_env = unset_env(data->list_env, list->cmd, data);
         else if(list->cmd && ft_strcmp(list->cmd[0], "exit") == 0)
             exit_myminishell(list->cmd);
         else if(list->cmd && ft_strcmp(list->cmd[0], "echo") == 0)

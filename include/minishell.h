@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 16:06:37 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:50:35 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,13 @@ struct s_data
     int         *pid;
     int         k;
     int         fd_in;
-    bool        flag;
     char        **env;
 	char 	    **cmds;
     char 	    *line;
+    
+    bool        path_flag;
+    bool        flag;
+    
     t_env       *list_env;
 	t_cmds      *lst;
     t_command   *list;
@@ -192,10 +195,10 @@ char        **sortexport(char **arr, int n);
 void	    senv_clear(t_env **lst);
 char        **linked_list_to_array(t_env *list);
 
-t_env *     unset_env(t_env *list, char **com);
+t_env *     unset_env(t_env *list, char **com, t_data *data);
 void        exit_myminishell(char **com);
 char       	*join(char const *s1, char const *s2);
-char        *get_my_path(t_env  *list, char **com);
+char        *get_my_path(t_env  *list, char **com, bool flag);
 void        printmyexport(t_env *list);
 void        export(t_env *list, char **com);
 int         lenofmyenv(char **env);
@@ -206,7 +209,7 @@ void        printmyenv(t_env *list);
 t_env       *findmyindex(t_env *list, char *va);
 void        set_myenv(t_env *list, char *key, char *value, char c);
 void        change_mydir(t_env *list, char *path);
-char        *findmyvar(t_env *list, char *va);
+char        *findmyvar(t_env *list, char *va, bool flag);
 int         morethan2arg(char **com);
 void        my_cd(t_env *list, char **com);
 void        mypwd(t_env *env);

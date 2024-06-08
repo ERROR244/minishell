@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/06 14:11:25 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:44:17 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void change_mydir(t_env *list, char *path)
     }
 }
 
-char *findmyvar(t_env *list, char *va)
+char *findmyvar(t_env *list, char *va, bool flag)
 {
     char **vale;
 
@@ -164,7 +164,7 @@ char *findmyvar(t_env *list, char *va)
             return (NULL);
         list = list->next;
     }
-    if (ft_strncmp(va, "PATH", 3) == 0)
+    if (ft_strncmp(va, "PATH", 3) == 0 && flag == true)
         return ("/usr/bin");
     return (NULL);
 }

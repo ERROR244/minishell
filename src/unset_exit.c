@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 17:13:56 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:50:53 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_env *remove_node(t_env *head, t_env *node_to_remove)
     return (head);
 }
 
-t_env *unset_env(t_env *list, char **com)
+t_env *unset_env(t_env *list, char **com, t_data *data)
 {
     t_env   *index;
     t_env   *head;
@@ -54,6 +54,8 @@ t_env *unset_env(t_env *list, char **com)
     list = list->next;
     while(com[i])
     {
+        if (data->path_flag == true && ft_strcmp(com[i], "PATH") == 0)
+            data->path_flag = false;
         index  = findmyindex(list, com[i]);
         if(index)
             list = remove_node(list, index);
@@ -120,14 +122,14 @@ char	*join(char const *s1, char const *s2)
 	return (concatenated);
 }
 
-char *get_my_path(t_env *list, char **com) 
+char *get_my_path(t_env *list, char **com, bool flag) 
 {
     char **str;
     char *path1;
 
     if (com[0][0] == '/' || com[0][0] == '.')
         return (ft_strdup(com[0]));
-    path1 = findmyvar(list, "PATH");
+    path1 = findmyvar(list, "PATH", flag);
     if (!path1) 
         return NULL;
 
