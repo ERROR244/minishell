@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 17:03:08 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 11:43:36 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,8 @@ void	    commands_clear(t_command **lst);
 // tmp
 void	    print_array(char **str);
 void	    printlist(void *tmp);
-
+int         ft_fork(void);
+void        ft_ft_close(int fd, char *str);
 
 
 // executing

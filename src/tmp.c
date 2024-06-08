@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:31:09 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/05 17:57:32 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 11:43:19 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,35 @@ void	printlist(void *tmp)
 		print_array(list->cmd);
 		list = list->next;
 	}
+}
+
+void	ft_ft_close(int fd, char *str)
+{
+	int	n;
+
+	n = close(fd);
+	if (n == -1)
+	{
+		printf("Right Fucking here %s\n", str);
+		exit(1);
+	}
+}
+
+int	ft_fork(void)
+{
+	int	n;
+
+	n = fork();
+	if (n == -1)
+		exit(1);
+	return (n);
+}
+
+void	ft_dup2(int fd, int std)
+{
+	int	n;
+
+	n = dup2(fd, std);
+	if (n == -1)
+		exit(1);
 }

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 17:43:32 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 11:21:52 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,6 @@ int parsing(t_data *data)
 			cmds[i] = rm_spaces(cmds[i]);
 	}
 	get_list(cmds, i, &lst, data);
-	remove_quotes(lst);
 	init_tokens(lst, 0, lst);
 
 	// //	
@@ -213,6 +212,8 @@ int parsing(t_data *data)
 	data->lst = lst;
 	data->cmds = cmds;
 	ret = errors_managment(data, 0);
+	data->lst = lst;
+	remove_quotes(lst);
 	if (ret == 0)
 	{
 		last_update_in_the_list(lst);

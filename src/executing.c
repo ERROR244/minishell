@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 17:43:47 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 11:44:44 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,17 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
         if (command->prev && !command->infile)
         {
             dup2(data->fd_in, STDIN_FILENO);
-            close(data->fd_in);
+            ft_ft_close(data->fd_in, "exe_command");
         }
     	if (command->next && !command->outfile && !command->appendfile)
+        {
             dup2(data->fd[1], STDOUT_FILENO);
-        close(data->fd[0]);
-        close(data->fd[1]);
+        }
+        if (command->next)
+        {
+            ft_ft_close(data->fd[0], "exe_command");
+            ft_ft_close(data->fd[1], "exe_command");
+        }
         execve(path, com, data->env);
         ft_putstr_fd("minishell: ", 2);
         ft_putstr_fd(com[0], 2);
@@ -90,7 +95,7 @@ void	ft_close(int *fd)
 	{
 		if (fd[i] == -1)
 			break;
-		close(fd[i]);
+		ft_ft_close(fd[i], "inside");
 		i++;
 	}
 	if (fd)
@@ -173,7 +178,7 @@ void hand_the_redirectionin(t_command *lst, int in, int out)
 			
             if(!filein)
 			{
-	        	close(in);
+	        	ft_ft_close(in, "Ingile");
 				return ;
 			}
         }
@@ -186,7 +191,7 @@ void hand_the_redirectionin(t_command *lst, int in, int out)
 
             if(!fileout)
 			{
-        		close(out);
+        		ft_ft_close(out, "Outfile");
 				return ;
 			}
         }
@@ -276,9 +281,9 @@ int executing(t_data *data)
         if (list->outfile || list->appendfile)
             dup2(out, STDOUT_FILENO);
         if (list->next && !list->outfile && !list->appendfile)
-            close(data->fd[1]);
+            ft_ft_close(data->fd[1], "fd[1]");
         if (list->prev && !list->infile)
-            close(data->fd_in);
+            ft_ft_close(data->fd_in, "fd_in");
         data->fd_in = data->fd[0];
         list = list->next;
     }

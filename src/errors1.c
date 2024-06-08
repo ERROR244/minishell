@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 16:50:10 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 11:27:33 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,57 @@ int  errormsg(char *str)
     return (2);
 }
 
+int check_quot(char *str)
+{
+  int i;
+
+  i = 0;
+  while (*str)
+  {
+    if (*str == 34 || *str == 39)
+      i++;
+    str++;
+  }
+  return (i);
+}
+
+void  open_heredoc(t_cmds *cmds)
+{
+	static int  i;
+	char    	*tmp1;
+	char    	*filename;
+	char    	*line;
+	bool    	flag;
+	int     	fd;
+
+	flag = true;
+	if (check_quot(cmds->cmd[0]) != 0)
+		flag = false;
+	tmp1 = ft_itoa(i);
+	filename = ft_strjoin("/tmp/HereDoc", tmp1);
+	free(tmp1);
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	while (1)
+	{
+		line = readline(">");
+		if (!line || ft_strcmp(line, cmds->cmd[0]) == 0)
+			break;
+		if (flag == true)
+			line = expand_variable(line, cmds->data);
+		ft_putstr_fd(line, fd);
+		ft_putchar_fd('\n', fd);
+		free(line);
+	}
+	close(fd);
+	free_array(cmds->cmd);
+	cmds->cmd = malloc(sizeof(char *) * 2);
+	cmds->cmd[0] = filename;
+	cmds->cmd[1] = NULL;
+	cmds->prev->token = Input;
+	cmds->token = Infile;
+	i++;
+}
+
 int errors_managment(t_data *data, int i)
 {
 	t_cmds *curr;
@@ -48,6 +99,8 @@ int errors_managment(t_data *data, int i)
 			i = check_for_in_out_put(curr);
 		else if (curr->token == Append || curr->token == HereDoc)
 			i = check_for_Append_heredoc(curr);
+		else if (curr->token == HereDocDel)
+			open_heredoc(curr);
 		curr = curr->next;
 	}
 	return (i);
