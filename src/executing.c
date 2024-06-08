@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 16:20:36 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:27:20 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,9 +210,9 @@ int executing(t_data *data)
             dup2(in, STDIN_FILENO);
         if (list->outfile || list->appendfile)
             dup2(out, STDOUT_FILENO);
-        if (list->next && !list->outfile && !list->appendfile)
+        if (list->next)                             // && !list->outfile && !list->appendfile)
             ft_close(data->fd[1], "fd[1]");
-        if (list->prev && !list->infile)
+        if (list->prev)                             // && !list->infile)
             ft_close(data->fd_in, "fd_in");
         if (list->next)
             data->fd_in = data->fd[0];
