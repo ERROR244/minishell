@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 11:55:23 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 13:04:58 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,10 @@ int get_command_size(t_command *command)
     return (size);
 }
 
-int	wait_pid(int *pid, int status, int cmd_num)
+int	wait_pid(int *pid, int cmd_num)
 {
 	int	i;
+    int status;
 
 	i = cmd_num;
 	status = 0;
@@ -220,7 +221,7 @@ int executing(t_data *data)
         list = list->next;
     }
     if (ret == 0)
-        ret = wait_pid(data->pid, 0, data->k);
+        ret = wait_pid(data->pid, data->k);
     free(data->pid);
     return (ret);
 }

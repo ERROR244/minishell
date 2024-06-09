@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 11:57:15 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 13:23:57 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void insert_var_node_in_list(t_env *index, t_env *node)
 }
 
 
-void set_myenv(t_env *list, char *key, char *value, char c)
+void set_myenv(t_env *list, char *key, char *value, char c, bool export_flag)
 {
     t_env *index = findmyindex(list, key);
     t_env *node;
@@ -113,7 +113,7 @@ void set_myenv(t_env *list, char *key, char *value, char c)
         }
         else                                                                                      //    this sub-part is for non-Append export
         {
-            if (ft_strcmp(index->var_name, value) != 0)
+            if (ft_strcmp(index->var_name, value) != 0 || export_flag == true)
             {
                 free(index->var_name);
                 index->var_name = ft_strjoin3(key, '=', value);
@@ -132,8 +132,8 @@ void change_mydir(t_env *list, char *path)
         perror("cd");
     else
     {
-    	set_myenv(list, "OLDPWD", cur, '-');
-        set_myenv(list, "PWD", getcwd(buffer, PATH_MAX), '-');
+    	set_myenv(list, "OLDPWD", cur, '-', false);
+        set_myenv(list, "PWD", getcwd(buffer, PATH_MAX), '-', false);
     }
 }
 

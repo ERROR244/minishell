@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 10:13:26 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 13:24:07 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,6 @@ typedef struct s_command
 	struct s_command *next;
     struct s_command *prev;
 }   t_command;
-
-
 
 struct s_data
 {
@@ -207,7 +205,7 @@ t_env       *copieenv(char **env);
 void        ft_putendle(char *str, int fd);
 void        printmyenv(t_env *list);
 t_env       *findmyindex(t_env *list, char *va);
-void        set_myenv(t_env *list, char *key, char *value, char c);
+void        set_myenv(t_env *list, char *key, char *value, char c, bool export_flag);
 void        change_mydir(t_env *list, char *path);
 char        *findmyvar(t_env *list, char *va, bool flag);
 int         morethan2arg(char **com);
