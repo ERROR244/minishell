@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 13:24:07 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 14:56:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void        ft_close(int fd, char *str);
 // executing
 int         executing(t_data *data);
 void        my_cd(t_env *list, char **com);
-void        ft_echo(char **com, bool flag, int i);
+void        ft_echo(char **com, bool flag, int i, int fd);
 
 
 
@@ -197,19 +197,19 @@ t_env       *unset_env(t_env *list, char **com, t_data *data);
 void        exit_myminishell(char **com);
 char       	*join(char const *s1, char const *s2);
 char        *get_my_path(t_env  *list, char **com, bool flag);
-void        printmyexport(t_env *list);
-void        export(t_env *list, char **com);
+void        export(t_env *list, char **com, int fd);
+void        printmyexport(t_env *list, int fd);
 int         lenofmyenv(char **env);
 void        exiterror(void);
 t_env       *copieenv(char **env);
 void        ft_putendle(char *str, int fd);
-void        printmyenv(t_env *list);
+void        printmyenv(t_env *list, int fd);
 t_env       *findmyindex(t_env *list, char *va);
 void        set_myenv(t_env *list, char *key, char *value, char c, bool export_flag);
 void        change_mydir(t_env *list, char *path);
 char        *findmyvar(t_env *list, char *va, bool flag);
 int         morethan2arg(char **com);
-void        mypwd(t_env *env);
+void        mypwd(t_env *env, int fd);
 // void        ft_putendexp(char *str, int fd);
 
 

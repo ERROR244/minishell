@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 13:52:57 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 15:00:09 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int ft_open(t_slist *list, t_token token)
 	
 	if (fd == -1)
 	{
-		// ft_close(fd, strerror(errno));
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(list->cmd[0], 2);
 		ft_putstr_fd(": ", 2);
@@ -173,6 +172,7 @@ int executing(t_data *data)
     t_command   *list;
     int         out = dup(STDOUT_FILENO);
     int         in = dup(STDIN_FILENO);
+    int         write_in;
 
     list = data->list;
     data->pid = malloc(sizeof(int) * (get_command_size(list) + 1));
@@ -180,10 +180,12 @@ int executing(t_data *data)
     data->fd_in = STDIN_FILENO;
     while (list)
     {
+        write_in = STDOUT_FILENO;
         if (list->next)
         {
             if (pipe(data->fd) == -1)
                 break ;
+            write_in = data->fd[1];
         }
         if(!list || (list->cmd && list->cmd[0][0] == '\n'))
         {
@@ -195,17 +197,17 @@ int executing(t_data *data)
         if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "cd") == 0)   
             my_cd(data->list_env, list->cmd);
         else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "pwd") == 0)
-            mypwd(data->list_env);
+            mypwd(data->list_env, write_in);
         else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "env") == 0 && list->cmd[1] == NULL)
-            printmyenv(data->list_env);
+            printmyenv(data->list_env, write_in);
         else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "export") == 0)
-            export(data->list_env, list->cmd);
+            export(data->list_env, list->cmd, write_in);
         else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "unset") == 0)
             data->list_env = unset_env(data->list_env, list->cmd, data);
         else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "exit") == 0)
             exit_myminishell(list->cmd);
         else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "echo") == 0)
-                ft_echo(list->cmd + 1, true, 0);
+                ft_echo(list->cmd + 1, true, 0, write_in);
         else if (ret == 0)
             ret = execute_command(data->list_env, list, data, data->k++);
         if (ret == 0 && list->infile)

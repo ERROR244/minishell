@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:53 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 10:17:00 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 14:47:44 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void ft_putendle(char *str, int fd)
 	ft_putstr_fd("\n", fd);
 }
 
-void printmyenv(t_env *list)
+void printmyenv(t_env *list, int fd)
 {
     int i;
     bool flag;
@@ -139,7 +139,10 @@ void printmyenv(t_env *list)
             i++;
         }
         if (flag == true)
-		    printf("%s\n", list->var_name);
+        {
+            ft_putstr_fd(list->var_name, fd);
+            ft_putchar_fd('\n', fd);
+        }
 		list = list->next;
 	}
 }
