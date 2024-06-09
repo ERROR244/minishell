@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 14:56:31 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:51:23 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,13 +205,18 @@ t_env       *copieenv(char **env);
 void        ft_putendle(char *str, int fd);
 void        printmyenv(t_env *list, int fd);
 t_env       *findmyindex(t_env *list, char *va);
-void        set_myenv(t_env *list, char *key, char *value, char c, bool export_flag);
 void        change_mydir(t_env *list, char *path);
-char        *findmyvar(t_env *list, char *va, bool flag);
 int         morethan2arg(char **com);
 void        mypwd(t_env *env, int fd);
 // void        ft_putendexp(char *str, int fd);
 
 
+//  after the norm
+void    set_env_after_export(t_env *list, char *key, char *value, char c, bool export_flag);
+void    set_env_after_cd(t_env *list, char *key, char *value);
+char    *findmyvar(t_env *list, t_env *head, char *va, bool flag);
+
+
+// void        set_myenv(t_env *list, char *key, char *value, char c, bool export_flag);
 
 #endif

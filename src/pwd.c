@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:40:02 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 14:49:30 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:53:47 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void my_cd(t_env *list, char **com)
         ft_putstr_fd("cd: too many arguments\n", 2);
         return ;
     }
-    myhome = findmyvar(list, "HOME", false);
+    myhome = findmyvar(list, list, "HOME", false);
     if(com[1] == NULL || com[1][0] == '~')
     {
         if (!myhome)
@@ -46,15 +46,11 @@ void mypwd(t_env *env, int fd)
     {
         ft_putstr_fd(cur, fd);
         ft_putchar_fd('\n', fd);
-
-        // printf("%s\n", cur);
     }
     else
     {
-        str = findmyvar(env, "PWD", false);
+        str = findmyvar(env, env, "PWD", false);
         ft_putstr_fd(str, fd);
         ft_putchar_fd('\n', fd);
-        
-        // printf("%s\n", str);
     }
 }

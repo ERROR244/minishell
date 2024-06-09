@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 13:44:22 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:55:07 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ t_env *findmyindex(t_env *list, char *va)
     while(list)
     {
         if(ft_strncmp(list->var_name, va, len) == 0)
-        {
-            // free(tmp);
             return(list);
-        }
         list = list->next;
     }
     return(NULL);
@@ -73,13 +70,42 @@ void insert_var_node_in_list(t_env *index, t_env *node)
     }
 }
 
-
-void set_myenv(t_env *list, char *key, char *value, char c, bool export_flag)
+void    set_env_after_export(t_env *list, char *key, char *value, char c, bool export_flag)
 {
-    t_env *index = findmyindex(list, key);
-    t_env *node;
-    char *tmp;
+    t_env   *index;
+    char    *tmp;
 
+    index = findmyindex(list, key);
+    if (index)                                                                               //    this part is for export command for a key do have a value.
+    {
+        if (c == '+')                                                                             //    this sub-part is for Append export
+        {
+            tmp = ft_strjoin(index->var_name, value);
+            free(index->var_name);
+            index->var_name = ft_strjoin(index->var_name, value);
+        }
+        else                                                                                      //    this sub-part is for non-Append export
+        {
+            if (ft_strcmp(index->var_name, value) != 0 || export_flag == true)
+            {
+                free(index->var_name);
+                index->var_name = ft_strjoin3(key, '=', value);
+            }
+        }
+        return ;
+    }
+    tmp = ft_strjoin(index->var_name, value);
+    free(index->var_name);
+    index->var_name = tmp;
+}
+
+void    set_env_after_cd(t_env *list, char *key, char *value)
+{
+    t_env   *index;
+    t_env   *node;
+    char    *tmp;
+
+    index = findmyindex(list, key);
     if (index && (ft_strcmp(key, "OLDPWD") == 0 || ft_strcmp(key, "PWD") == 0))                   //  update oldpwd or pwd if they exist in the envirment list.
     {
         free(index->var_name);
@@ -97,29 +123,6 @@ void set_myenv(t_env *list, char *key, char *value, char c, bool export_flag)
         list = env_last(list);
         list->next = node;
     }
-    else if (!index)                                                                              //    this part is for export command for a key don't have a value.
-    {
-        node = env_new(list, ft_strjoin3(key, '=', value));
-        list = env_last(list);
-        list->next = node;
-    }
-    else if (index)                                                                               //    this part is for export command for a key do have a value.
-    {
-        if (c == '+')                                                                             //    this sub-part is for Append export
-        {
-            tmp = ft_strjoin(index->var_name, value);
-            free(index->var_name);
-            index->var_name = tmp;
-        }
-        else                                                                                      //    this sub-part is for non-Append export
-        {
-            if (ft_strcmp(index->var_name, value) != 0 || export_flag == true)
-            {
-                free(index->var_name);
-                index->var_name = ft_strjoin3(key, '=', value);
-            }
-        }
-    }
 }
 
 void change_mydir(t_env *list, char *path)
@@ -127,17 +130,17 @@ void change_mydir(t_env *list, char *path)
     char *cur;
     char buffer[PATH_MAX];
 
-    cur = findmyvar(list, "PWD", false);
+    cur = findmyvar(list, list, "PWD", false);
     if(chdir(path) != 0)
         perror("cd");
     else
     {
-    	set_myenv(list, "OLDPWD", cur, '-', false);
-        set_myenv(list, "PWD", getcwd(buffer, PATH_MAX), '-', false);
+    	set_env_after_cd(list, "OLDPWD", cur);
+        set_env_after_cd(list, "PWD", getcwd(buffer, PATH_MAX));
     }
 }
 
-char *findmyvar(t_env *list, char *va, bool flag)
+char *findmyvar(t_env *list, t_env *head, char *va, bool flag)
 {
     char **vale;
 
@@ -154,17 +157,11 @@ char *findmyvar(t_env *list, char *va, bool flag)
             break ;
         list = list->next;
     }
-    while (list)
+    while (head)
     {
-        if (!list->prev)
-            break ;
-        list = list->prev;
-    }
-    while (list)
-    {
-        if (ft_strncmp(list->var_name, "path", 3) == 0)
+        if (ft_strncmp(head->var_name, "path", 3) == 0)
             return (NULL);
-        list = list->next;
+        head = head->next;
     }
     if (ft_strncmp(va, "PATH", 3) == 0 && flag == true)
         return ("/usr/bin");

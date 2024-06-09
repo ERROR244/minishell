@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 10:12:14 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:50:40 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ t_env   *unset_env(t_env *list, char **com, t_data *data)
 
 void exit_myminishell(char **com)
 {
-    int a;
     if(com[1] == NULL)
     {
         printf("exit\n");        
@@ -68,13 +67,12 @@ void exit_myminishell(char **com)
     }
     if(ft_isdigit(com[1][0]) == 1)
     {
-        a = com[1][0]; 
-        if(a == '1')
+        if(com[1][0] == '1')
         {
             printf("exit\n");
             exit(1);
         }
-        else if(a == '0')
+        else if(com[1][0] == '0')
         {
             printf("exit\n");
             exit(0);
@@ -123,16 +121,14 @@ char *get_my_path(t_env *list, char **com, bool flag)
 
     if (com[0][0] == '/' || com[0][0] == '.')
         return (ft_strdup(com[0]));
-    path1 = findmyvar(list, "PATH", flag);
+    path1 = findmyvar(list, list, "PATH", flag);
     if (!path1) 
-        return NULL;
-
+        return (NULL);
     str = ft_split(path1, ':');
     if (!str)
-        return NULL;
-
+        return (NULL);
     int i = 0;
-    char *mypath = NULL;
+    char *mypath = (NULL);
     while (str[i]) 
     {
         char *joiner = join(str[i], "/");
@@ -149,12 +145,8 @@ char *get_my_path(t_env *list, char **com, bool flag)
         free(command_path);
         i++;
     }
-
-    i = 0;
    free_array(str);
-
     if (!mypath)
-        return NULL;
-
+        return (NULL);
     return (mypath);
 }

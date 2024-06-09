@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 15:17:47 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 17:36:59 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,52 +70,119 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
     return (0);
 }
 
-int ft_open(t_slist *list, t_token token)
-{
-	int fd;
 
-	if (token == Infile)
-		fd = open(list->cmd[0], O_RDONLY);
-	else if (token == OutFile)
-		fd = open(list->cmd[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
-	else
-		fd = open(list->cmd[0], O_WRONLY | O_CREAT | O_APPEND, 0666);
-	
-	if (fd == -1)
+int get_files_num(t_slist *list)
+{
+	int i;
+	int size;
+
+	size = 0;
+	while (list)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(list->cmd[0], 2);
-		ft_putstr_fd(": ", 2);
-        ft_putstr_fd(strerror(errno), 2);
-        ft_putchar_fd('\n', 2);
-		return (-1);
+		i = 0;
+		while (list && list->cmd[i])
+		{
+			size++;
+			i++;
+		}
+		list = list->next;
 	}
-    else
-    {
-	    if (token == Infile)
-    	    dup2(fd, STDIN_FILENO);
-    	else if (token == OutFile || token == AppendFile)
-    	    dup2(fd, STDOUT_FILENO);
-    }
-    ft_close(fd, strerror(errno));
+	return (size);
+}
+
+void	ft_ft_close(int *fd)
+{
+	int i = 0;
+
+	while (fd && fd[i] != -11)
+	{
+		if (fd[i] == -1)
+			break;
+		ft_close(fd[i], strerror(errno));
+		i++;
+	}
+	if (fd)
+		free(fd);
+}
+
+int *ft_open(t_slist *list, t_token token)
+{
+	int *fd;
+	int i;
+	int j;
+	int size;
+
+	size = get_files_num(list);
+	fd = malloc((size + 1) * (sizeof(int)));
+	fd[size] = -11;
+	j = 0;
+    while (list)
+	{
+		i = 0;
+		while (list && list->cmd[i])
+		{
+			if (token == Infile)
+				fd[j] = open(list->cmd[i], O_RDONLY);
+			else if (token == OutFile)
+				fd[j] = open(list->cmd[i], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			else if (token == AppendFile)
+				fd[j] = open(list->cmd[i], O_WRONLY | O_CREAT | O_APPEND, 0666);
+			
+			if (fd[j] == -1)
+			{
+				ft_ft_close(fd);
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(list->cmd[i], 2);
+				ft_putstr_fd(": ", 2);
+                ft_putstr_fd(strerror(errno), 2);
+                ft_putchar_fd('\n', 2);
+				return (NULL);
+			}
+            else
+            {
+			    if (token == Infile)
+            	    dup2(fd[j], STDIN_FILENO);
+    			else if (token == OutFile || token == AppendFile)
+            	    dup2(fd[j], STDOUT_FILENO);
+            }
+			
+			j++;
+			i++;
+		}
+		list = list->next;
+	}
 	return (fd);
+}
+
+int get_last_index(int *fd)
+{
+	int i;
+
+	i = 0;
+	while (fd[i] != -11)
+	{
+		if (fd[i] == -1)
+			return (i);
+		i++;
+	}
+	return (i - 1);
 }
 
 int hand_the_redirectionin(t_command *lst, int in, int out)
 {
-    int filein;
-    int fileout;
+    int *filein  = NULL;
+    int *fileout = NULL;
 
     while (lst)
     {
-        if(lst->infile)
+        if(lst->infile != NULL)
         {
             filein = ft_open(lst->infile, Infile);
 			
-            if(filein == -1)
+            if(!filein)
 			{
 	        	ft_close(in, strerror(errno));
-				return (1);
+				return (0);
 			}
         }
         if(lst->outfile || lst->appendfile)
@@ -125,18 +192,94 @@ int hand_the_redirectionin(t_command *lst, int in, int out)
             else
                 fileout = ft_open(lst->outfile, OutFile);
 
-            if(fileout == -1)
+            if(!fileout)
 			{
         		ft_close(out, strerror(errno));
-				return (1);
+				return (0);
 			}
         }
         if (!lst->next)
             break ;
         lst = lst->next;
     }
+    while (lst)
+    {
+        if (!lst->prev)
+            break ;
+        lst = lst->prev;
+    }
+    ft_ft_close(filein);
+    ft_ft_close(fileout);
     return (0);
 }
+
+// int ft_open(t_slist *list, t_token token)
+// {
+// 	int fd;
+
+// 	if (token == Infile)
+// 		fd = open(list->cmd[0], O_RDONLY);
+// 	else if (token == OutFile)
+// 		fd = open(list->cmd[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+// 	else
+// 		fd = open(list->cmd[0], O_WRONLY | O_CREAT | O_APPEND, 0666);
+	
+// 	if (fd == -1)
+// 	{
+// 		ft_putstr_fd("minishell: ", 2);
+// 		ft_putstr_fd(list->cmd[0], 2);
+// 		ft_putstr_fd(": ", 2);
+//         ft_putstr_fd(strerror(errno), 2);
+//         ft_putchar_fd('\n', 2);
+// 		return (-1);
+// 	}
+//     else
+//     {
+// 	    if (token == Infile)
+//     	    dup2(fd, STDIN_FILENO);
+//     	else if (token == OutFile || token == AppendFile)
+//     	    dup2(fd, STDOUT_FILENO);
+//     }
+//     ft_close(fd, strerror(errno));
+// 	return (fd);
+// }
+
+// int hand_the_redirectionin(t_command *lst, int in, int out)
+// {
+//     int filein;
+//     int fileout;
+
+//     while (lst)
+//     {
+//         if(lst->infile)
+//         {
+//             filein = ft_open(lst->infile, Infile);
+			
+//             if(filein == -1)
+// 			{
+// 	        	ft_close(in, strerror(errno));
+// 				return (1);
+// 			}
+//         }
+//         if(lst->outfile || lst->appendfile)
+//         {
+//             if (lst->appendfile)
+//                 fileout = ft_open(lst->appendfile, AppendFile);
+//             else
+//                 fileout = ft_open(lst->outfile, OutFile);
+
+//             if(fileout == -1)
+// 			{
+//         		ft_close(out, strerror(errno));
+// 				return (1);
+// 			}
+//         }
+//         if (!lst->next)
+//             break ;
+//         lst = lst->next;
+//     }
+//     return (0);
+// }
 
 int get_command_size(t_command *command)
 {

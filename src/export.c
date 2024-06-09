@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 14:55:21 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:53:57 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ void printmyexport(t_env *list, int fd)
         ft_putstr_fd("declare -x ", fd);
         ft_putstr_fd(ptr[i], fd);
         ft_putchar_fd('\n', fd);
-        // printf("%s", "declare -x ");
-        // printf("%s\n", ptr[i]);
         i++;
     }
     free_array(ptr);
@@ -154,7 +152,7 @@ void export(t_env *list, char **com, int fd)
                     free(export[0]);
                     export[0] = str;
                 }
-                set_myenv(list, export[0], export[1], c, export_flag);
+                set_env_after_export(list, export[0], export[1], c, export_flag);
                 free_array(export);
             }
             i++;
