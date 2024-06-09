@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 15:00:09 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 15:17:47 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,10 +158,10 @@ int	wait_pid(int *pid, int cmd_num)
 
 	i = cmd_num;
 	status = 0;
-	waitpid(pid[i--], &status, 0);
+	waitpid(pid[--i], &status, 0);
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
-	while (i >= 0)
+	while (i > 0)
 		waitpid(pid[i--], 0, 0);
 	return (status);
 }
@@ -175,7 +175,7 @@ int executing(t_data *data)
     int         write_in;
 
     list = data->list;
-    data->pid = malloc(sizeof(int) * (get_command_size(list) + 1));
+    data->pid = malloc(sizeof(int) * (get_command_size(list)));
     data->k = 0;
     data->fd_in = STDIN_FILENO;
     while (list)
@@ -222,7 +222,7 @@ int executing(t_data *data)
             data->fd_in = data->fd[0];
         list = list->next;
     }
-    if (ret == 0)
+    if (ret == 0 && data->k != 0)
         ret = wait_pid(data->pid, data->k);
     free(data->pid);
     return (ret);
