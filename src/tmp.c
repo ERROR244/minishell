@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:31:09 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 16:05:38 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 13:48:24 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ void	ft_close(int fd, char *str)
 
 	n = close(fd);
 	if (n == -1)
-	{
-		printf("Right Fucking here %s\n", str);
-		exit(1);
-	}
+		printf("Right here %s\n", str);
 }
 
 int	ft_fork(void)
