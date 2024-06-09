@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 19:03:41 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:28:04 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,20 +75,22 @@ void exit_myminishell(char **com)
 
     if(com[1] == NULL)
     {
-        printf("exit\n");
+    	ft_putstr_fd("exit\n", 2);
         exit(0);
     }
     else if (is_numeric(com[1]) != 0)
     {
-        printf("minishell: %s: numeric argument required\n", com[1]);
-        exit(1);
+        ft_putstr_fd("minishell: ", 2);
+        ft_putstr_fd(com[1], 2);
+        ft_putstr_fd(": numeric argument required\n", 2);
+        exit(2);
     }
     else if (com[1] && com[2])
-        printf("minishell: exit: too many arguments\n");
+        ft_putstr_fd("minishell: exit: too many arguments\n", 2);
     else
     {
         i = ft_atoi(com[1]);
-        printf("exit\n");
+	    ft_putstr_fd("exit\n", 2);
         ret = i;
         exit(i);
     }

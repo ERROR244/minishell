@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 10:16:02 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:26:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ int main(int ac, char **av, char **env)
 	if (data.env)
 		free_array(data.env);
 	senv_clear(&data.list_env);
-	printf("exit\n");
+	ft_putstr_fd("exit\n", 2);
     return (0);
 }

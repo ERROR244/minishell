@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 19:04:43 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:20:37 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,6 +324,10 @@ int executing(t_data *data)
                 ft_echo(list->cmd + 1, true, 0);
         else if (ret == 0)
             ret = execute_command(data->list_env, list, data, data->k++);
+        if (ret == 0 && list->infile)
+            dup2(in, STDIN_FILENO);
+        if (ret == 0 && (list->outfile || list->appendfile))
+            dup2(out, STDOUT_FILENO);
     }
     while (list && flag == false)
     {

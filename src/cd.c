@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 16:55:07 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:30:14 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,19 @@ void insert_var_node_in_list(t_env *index, t_env *node)
 void    set_env_after_export(t_env *list, char *key, char *value, char c, bool export_flag)
 {
     t_env   *index;
+    t_env   *node;
     char    *tmp;
 
     index = findmyindex(list, key);
-    if (index)                                                                               //    this part is for export command for a key do have a value.
+    if (index)
     {
-        if (c == '+')                                                                             //    this sub-part is for Append export
+        if (c == '+')
         {
             tmp = ft_strjoin(index->var_name, value);
             free(index->var_name);
             index->var_name = ft_strjoin(index->var_name, value);
         }
-        else                                                                                      //    this sub-part is for non-Append export
+        else
         {
             if (ft_strcmp(index->var_name, value) != 0 || export_flag == true)
             {
@@ -94,9 +95,9 @@ void    set_env_after_export(t_env *list, char *key, char *value, char c, bool e
         }
         return ;
     }
-    tmp = ft_strjoin(index->var_name, value);
-    free(index->var_name);
-    index->var_name = tmp;
+    node = env_new(list, ft_strjoin3(key, '=', value));
+    list = env_last(list);
+    list->next = node;
 }
 
 void    set_env_after_cd(t_env *list, char *key, char *value)
@@ -106,7 +107,7 @@ void    set_env_after_cd(t_env *list, char *key, char *value)
     char    *tmp;
 
     index = findmyindex(list, key);
-    if (index && (ft_strcmp(key, "OLDPWD") == 0 || ft_strcmp(key, "PWD") == 0))                   //  update oldpwd or pwd if they exist in the envirment list.
+    if (index && (ft_strcmp(key, "OLDPWD") == 0 || ft_strcmp(key, "PWD") == 0))
     {
         free(index->var_name);
         index->var_name = ft_strjoin(key, "=");
@@ -117,7 +118,7 @@ void    set_env_after_cd(t_env *list, char *key, char *value)
             free(tmp);
         }
     }
-    else if (!index && (ft_strcmp(key, "PWD") == 0 || ft_strcmp(key, "OLDPWD") == 0))             //  creat oldpwd or pwd in the envirment list if they don't exist in the envirment list.
+    else if (!index && (ft_strcmp(key, "PWD") == 0 || ft_strcmp(key, "OLDPWD") == 0))
     {
         node = env_new(list, ft_strjoin3(key, '=', value));
         list = env_last(list);

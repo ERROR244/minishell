@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:36:48 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 17:56:12 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:25:58 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void ft_echo(char **com, bool flag, int i)
     if (com[0][0] == '-' && com[0][1] == 'n')
     {
         flag = true;
-        while (com[0][0] == '-')
+        while (com[0] && com[0][0] == '-')
         {
             if (check_n_flag(com[0]) == true)
             {
