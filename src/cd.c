@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 09:58:31 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 11:57:15 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,15 +107,17 @@ void set_myenv(t_env *list, char *key, char *value, char c)
     {
         if (c == '+')                                                                             //    this sub-part is for Append export
         {
-            // printf("%s - %s \n", key, value);
             tmp = ft_strjoin(index->var_name, value);
             free(index->var_name);
             index->var_name = tmp;
         }
         else                                                                                      //    this sub-part is for non-Append export
         {
-            free(index->var_name);
-            index->var_name = ft_strjoin3(key, '=', value);
+            if (ft_strcmp(index->var_name, value) != 0)
+            {
+                free(index->var_name);
+                index->var_name = ft_strjoin3(key, '=', value);
+            }
         }
     }
 }

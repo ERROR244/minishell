@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 10:25:36 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 11:55:23 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,10 @@ int executing(t_data *data)
                 break ;
         }
         if(!list || (list->cmd && list->cmd[0][0] == '\n'))
+        {
+            free(data->pid);
             return (2);
+        }
         if(list->infile || list->outfile || list->appendfile)
             hand_the_redirectionin(list, in, out);
         if(list->cmd && ft_strcmp(list->cmd[0], "cd") == 0)   
