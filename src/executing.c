@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 17:36:59 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 19:04:43 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,32 @@
 
 // executing_command
 
+int    get_command_in_one_char(char **str)
+{
+    int c;
+
+    c = 0;
+    if(ft_strcmp(str[0], "cd") == 0)
+        c = 1;
+    else if(ft_strcmp(str[0], "pwd") == 0)
+        c = 2;
+    else if(ft_strcmp(str[0], "env") == 0 && str[1] == NULL)
+        c = 3;
+    else if(ft_strcmp(str[0], "export") == 0)
+        c = 4;
+    else if(ft_strcmp(str[0], "unset") == 0)
+        c = 5;
+    else if(ft_strcmp(str[0], "exit") == 0)
+        c = 6;
+    else if(ft_strcmp(str[0], "echo") == 0)
+        c = 7;
+    return (c);
+}
+
 int execute_command(t_env *list, t_command *command, t_data *data, int index)
 {
-    char *path;
+    char    *path;
+    int     cmd;
 
     if (!command->cmd)
         return (-1);
@@ -28,8 +51,9 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
         ft_putstr_fd("minishell: command '' not found\n", 2);
         return (127);
     }
+    cmd = get_command_in_one_char(com);
     path = get_my_path(list, com, data->path_flag);
-    if(path == NULL)
+    if(path == NULL && cmd == 0)
     {
         ft_putstr_fd("minishell: ", 2);
         ft_putstr_fd(com[0], 2);
@@ -51,14 +75,38 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
             ft_close(data->fd[1], strerror(errno));
             ft_close(data->fd[0], strerror(errno));
         }
-	    free(data->pid);
-        execve(path, com, data->env);
-        ft_putstr_fd("minishell: ", 2);
-        ft_putstr_fd(com[0], 2);
-        ft_putstr_fd(": ", 2);
-        ft_putstr_fd(strerror(errno), 2);
-        ft_putstr_fd("\n", 2);
-        exit(-1);
+        if(cmd == 0)
+        {
+            execve(path, com, data->env);
+            ret = -1;
+            ft_putstr_fd("minishell: ", 2);
+            ft_putstr_fd(com[0], 2);
+            ft_putstr_fd(": ", 2);
+            ft_putstr_fd(strerror(errno), 2);
+            ft_putstr_fd("\n", 2);
+        }
+        if(cmd == 1)   
+            my_cd(data->list_env, com);
+        else if(cmd == 2)
+            mypwd(data->list_env);
+        else if(cmd == 3)
+            printmyenv(data->list_env);
+        else if(cmd == 4)
+            export(data->list_env, com);
+        else if(cmd == 5)
+            data->list_env = unset_env(data->list_env, com, data);
+        else if(cmd == 6)
+            exit_myminishell(com);
+        else if(cmd == 7)
+            ft_echo(com + 1, true, 0);
+
+        commands_clear(&command);
+        free(data->line);
+        if (data->env)
+            free_array(data->env);
+        senv_clear(&data->list_env);
+        ft_clear(data);
+        exit(ret);
     }
     else if (data->pid[index] < 0)
     {
@@ -213,74 +261,6 @@ int hand_the_redirectionin(t_command *lst, int in, int out)
     return (0);
 }
 
-// int ft_open(t_slist *list, t_token token)
-// {
-// 	int fd;
-
-// 	if (token == Infile)
-// 		fd = open(list->cmd[0], O_RDONLY);
-// 	else if (token == OutFile)
-// 		fd = open(list->cmd[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
-// 	else
-// 		fd = open(list->cmd[0], O_WRONLY | O_CREAT | O_APPEND, 0666);
-	
-// 	if (fd == -1)
-// 	{
-// 		ft_putstr_fd("minishell: ", 2);
-// 		ft_putstr_fd(list->cmd[0], 2);
-// 		ft_putstr_fd(": ", 2);
-//         ft_putstr_fd(strerror(errno), 2);
-//         ft_putchar_fd('\n', 2);
-// 		return (-1);
-// 	}
-//     else
-//     {
-// 	    if (token == Infile)
-//     	    dup2(fd, STDIN_FILENO);
-//     	else if (token == OutFile || token == AppendFile)
-//     	    dup2(fd, STDOUT_FILENO);
-//     }
-//     ft_close(fd, strerror(errno));
-// 	return (fd);
-// }
-
-// int hand_the_redirectionin(t_command *lst, int in, int out)
-// {
-//     int filein;
-//     int fileout;
-
-//     while (lst)
-//     {
-//         if(lst->infile)
-//         {
-//             filein = ft_open(lst->infile, Infile);
-			
-//             if(filein == -1)
-// 			{
-// 	        	ft_close(in, strerror(errno));
-// 				return (1);
-// 			}
-//         }
-//         if(lst->outfile || lst->appendfile)
-//         {
-//             if (lst->appendfile)
-//                 fileout = ft_open(lst->appendfile, AppendFile);
-//             else
-//                 fileout = ft_open(lst->outfile, OutFile);
-
-//             if(fileout == -1)
-// 			{
-//         		ft_close(out, strerror(errno));
-// 				return (1);
-// 			}
-//         }
-//         if (!lst->next)
-//             break ;
-//         lst = lst->next;
-//     }
-//     return (0);
-// }
-
 int get_command_size(t_command *command)
 {
     int size;
@@ -299,6 +279,8 @@ int	wait_pid(int *pid, int cmd_num)
 	int	i;
     int status;
 
+    if (cmd_num == 0)
+            return (0);
 	i = cmd_num;
 	status = 0;
 	waitpid(pid[--i], &status, 0);
@@ -315,44 +297,49 @@ int executing(t_data *data)
     t_command   *list;
     int         out = dup(STDOUT_FILENO);
     int         in = dup(STDIN_FILENO);
-    int         write_in;
+    bool        flag = false;
 
     list = data->list;
     data->pid = malloc(sizeof(int) * (get_command_size(list)));
     data->k = 0;
     data->fd_in = STDIN_FILENO;
-    while (list)
+    if (list && !list->next)
     {
-        write_in = STDOUT_FILENO;
-        if (list->next)
-        {
-            if (pipe(data->fd) == -1)
-                break ;
-            write_in = data->fd[1];
-        }
-        if(!list || (list->cmd && list->cmd[0][0] == '\n'))
-        {
-            free(data->pid);
-            return (2);
-        }
+        flag = true;
         if(list->infile || list->outfile || list->appendfile)
             ret = hand_the_redirectionin(list, in, out);
-        if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "cd") == 0)   
+        if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "cd") == 0)
             my_cd(data->list_env, list->cmd);
         else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "pwd") == 0)
-            mypwd(data->list_env, write_in);
+            mypwd(data->list_env);
         else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "env") == 0 && list->cmd[1] == NULL)
-            printmyenv(data->list_env, write_in);
+            printmyenv(data->list_env);
         else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "export") == 0)
-            export(data->list_env, list->cmd, write_in);
+            export(data->list_env, list->cmd);
         else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "unset") == 0)
             data->list_env = unset_env(data->list_env, list->cmd, data);
         else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "exit") == 0)
             exit_myminishell(list->cmd);
         else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "echo") == 0)
-                ft_echo(list->cmd + 1, true, 0, write_in);
+                ft_echo(list->cmd + 1, true, 0);
         else if (ret == 0)
             ret = execute_command(data->list_env, list, data, data->k++);
+    }
+    while (list && flag == false)
+    {
+        if(!list || (list->cmd && list->cmd[0][0] == '\n'))
+        {
+            free(data->pid);
+            return (2);
+        }
+        if (list->next)
+        {
+            if (pipe(data->fd) == -1)
+                break ;
+        }
+        if(list->infile || list->outfile || list->appendfile)
+            ret = hand_the_redirectionin(list, in, out);
+        ret = execute_command(data->list_env, list, data, data->k++);
         if (ret == 0 && list->infile)
             dup2(in, STDIN_FILENO);
         if (ret == 0 && (list->outfile || list->appendfile))

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 16:51:23 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 18:35:51 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,9 @@ t_command	*command_new(t_command *lst);
 t_command	*get_command(t_cmds *lst);
 t_command	*get_commands(t_cmds *lst);
 void	    commands_clear(t_command **lst);
+void        ft_clear(t_data *data);
+
+
 
 // tmp
 void	    print_array(char **str);
@@ -179,7 +182,7 @@ void        ft_close(int fd, char *str);
 // executing
 int         executing(t_data *data);
 void        my_cd(t_env *list, char **com);
-void        ft_echo(char **com, bool flag, int i, int fd);
+void        ft_echo(char **com, bool flag, int i);
 
 
 
@@ -197,17 +200,17 @@ t_env       *unset_env(t_env *list, char **com, t_data *data);
 void        exit_myminishell(char **com);
 char       	*join(char const *s1, char const *s2);
 char        *get_my_path(t_env  *list, char **com, bool flag);
-void        export(t_env *list, char **com, int fd);
-void        printmyexport(t_env *list, int fd);
+void        export(t_env *list, char **com);
+void        printmyexport(t_env *list);
 int         lenofmyenv(char **env);
 void        exiterror(void);
 t_env       *copieenv(char **env);
 void        ft_putendle(char *str, int fd);
-void        printmyenv(t_env *list, int fd);
+void        printmyenv(t_env *list);
 t_env       *findmyindex(t_env *list, char *va);
 void        change_mydir(t_env *list, char *path);
 int         morethan2arg(char **com);
-void        mypwd(t_env *env, int fd);
+void        mypwd(t_env *env);
 // void        ft_putendexp(char *str, int fd);
 
 

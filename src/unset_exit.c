@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 16:50:40 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 19:03:41 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,31 +58,39 @@ t_env   *unset_env(t_env *list, char **com, t_data *data)
     return (list);
 }
 
+int is_numeric(char *str)
+{
+    while (*str)
+    {
+        if (ft_isdigit(*str) == 0)
+            return (1);
+        str++;
+    }
+    return (0);
+}
+
 void exit_myminishell(char **com)
 {
+    int i;
+
     if(com[1] == NULL)
     {
-        printf("exit\n");        
+        printf("exit\n");
         exit(0);
     }
-    if(ft_isdigit(com[1][0]) == 1)
+    else if (is_numeric(com[1]) != 0)
     {
-        if(com[1][0] == '1')
-        {
-            printf("exit\n");
-            exit(1);
-        }
-        else if(com[1][0] == '0')
-        {
-            printf("exit\n");
-            exit(0);
-        }
+        printf("minishell: %s: numeric argument required\n", com[1]);
+        exit(1);
     }
+    else if (com[1] && com[2])
+        printf("minishell: exit: too many arguments\n");
     else
     {
-        ft_putstr_fd(com[1], 1);
-        printf("%s",": numeric argument required\n");
-        exit(1);
+        i = ft_atoi(com[1]);
+        printf("exit\n");
+        ret = i;
+        exit(i);
     }
 }
 

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 16:53:57 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 17:53:58 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char **linked_list_to_array(t_env *list)
 }
 
 
-void printmyexport(t_env *list, int fd)
+void printmyexport(t_env *list)
 {
     int		i;
     char    **ptr;
@@ -100,15 +100,15 @@ void printmyexport(t_env *list, int fd)
     i = 0;
 	while (ptr[i])
     {
-        ft_putstr_fd("declare -x ", fd);
-        ft_putstr_fd(ptr[i], fd);
-        ft_putchar_fd('\n', fd);
+        ft_putstr_fd("declare -x ", 1);
+        ft_putstr_fd(ptr[i], 1);
+        ft_putchar_fd('\n', 1);
         i++;
     }
     free_array(ptr);
 }
 
-void export(t_env *list, char **com, int fd)
+void export(t_env *list, char **com)
 {
     char **export;
     char c;
@@ -122,7 +122,7 @@ void export(t_env *list, char **com, int fd)
     c = '-';
     if(com[1] == NULL)
     {
-        printmyexport(list, fd);
+        printmyexport(list);
         return ;
     }
     else
