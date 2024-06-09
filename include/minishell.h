@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 17:50:35 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 10:13:26 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 typedef struct s_data t_data;
 
-
+extern int ret;
 
 typedef struct s_env
 {
@@ -130,7 +130,7 @@ void	    free_array(char **array);
 char	    *rm_spaces(char *str);
 void        get_list(char **cmd, int size, t_cmds **lst, t_data *data);
 void        init_tokens(t_cmds *cmds, int size, t_cmds *lst);
-int         parsing(t_data *data);
+void        parsing(t_data *data);
 char	    *get_cmd(char *cmd);
 int		    errors_managment(t_data *data, int flag);
 int		    check_file(t_cmds *cmds);
@@ -160,7 +160,7 @@ char        *get_final_line(char **lines, char **vars, char *cmd);
 int         dollar_is_in(char *str);
 int         count_vars(char *s1);
 bool        check_ex(char *str, int size);
-char        *check_tabs(char *str, int i, int tab_count, int j, t_data *data);
+char        *check_tabs(char *str, int i, int j, t_data *data);
 // void     ft_free(char **ptr, int i);
 char const	*get_position(char const *s);
 
@@ -195,7 +195,7 @@ char        **sortexport(char **arr, int n);
 void	    senv_clear(t_env **lst);
 char        **linked_list_to_array(t_env *list);
 
-t_env *     unset_env(t_env *list, char **com, t_data *data);
+t_env       *unset_env(t_env *list, char **com, t_data *data);
 void        exit_myminishell(char **com);
 char       	*join(char const *s1, char const *s2);
 char        *get_my_path(t_env  *list, char **com, bool flag);
@@ -211,7 +211,6 @@ void        set_myenv(t_env *list, char *key, char *value, char c);
 void        change_mydir(t_env *list, char *path);
 char        *findmyvar(t_env *list, char *va, bool flag);
 int         morethan2arg(char **com);
-void        my_cd(t_env *list, char **com);
 void        mypwd(t_env *env);
 // void        ft_putendexp(char *str, int fd);
 

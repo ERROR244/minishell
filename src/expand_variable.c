@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:21:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 13:14:11 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 09:51:28 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,10 @@ char	**get_vars_content(char **var, char **env)
 	i = 0;
 	while (var[i])
 	{
-		vars[i] = get_content(env, var[i]);
+		if (var[i][0] == '?' && var[i][1] == '\0')
+			vars[i] = ft_itoa(ret);
+		else
+			vars[i] = get_content(env, var[i]);
 		i++;
 	}
 	vars[i] = NULL;
@@ -235,18 +238,12 @@ char	*expand_variable(char *str, t_data *data)
     return (line);
 }
 
-char *check_tabs(char *str, int i, int tab_count, int j, t_data *data)
+char *check_tabs(char *str, int i, int j, t_data *data)
 {
 	char *new_str;
 	int input_len;
 
     input_len = ft_strlen(str);
-    while (i < input_len)
-	{
-        if (str[i] == '\t')
-            tab_count++;
-		i++;
-    }
     new_str = (char *)malloc(input_len + 1);
     if (new_str == NULL)
 		return (NULL);
@@ -254,7 +251,10 @@ char *check_tabs(char *str, int i, int tab_count, int j, t_data *data)
     while (j < input_len)
 	{
         if (str[i] == '\t')
+		{
             new_str[j++] = ' ';
+			i++;
+		}
         else
             new_str[j++] = str[i++];
     }

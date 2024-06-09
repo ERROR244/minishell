@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 17:50:58 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 10:25:36 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,10 +170,8 @@ int	wait_pid(int *pid, int status, int cmd_num)
 int executing(t_data *data)
 {
     t_command   *list;
-    int         ret;
     int         out = dup(STDOUT_FILENO);
     int         in = dup(STDIN_FILENO);
-
 
     list = data->list;
     data->pid = malloc(sizeof(int) * (get_command_size(list) + 1));
@@ -191,13 +189,13 @@ int executing(t_data *data)
         if(list->infile || list->outfile || list->appendfile)
             hand_the_redirectionin(list, in, out);
         if(list->cmd && ft_strcmp(list->cmd[0], "cd") == 0)   
-            my_cd(data->list_env->next, list->cmd);
+            my_cd(data->list_env, list->cmd);
         else if(list->cmd && ft_strcmp(list->cmd[0], "pwd") == 0)
-            mypwd(data->list_env->next);
+            mypwd(data->list_env);
         else if(list->cmd && ft_strcmp(list->cmd[0], "env") == 0 && list->cmd[1] == NULL)
-            printmyenv(data->list_env->next);
+            printmyenv(data->list_env);
         else if(list->cmd && ft_strcmp(list->cmd[0], "export") == 0)
-            export(data->list_env->next, list->cmd);
+            export(data->list_env, list->cmd);
         else if(list->cmd && ft_strcmp(list->cmd[0], "unset") == 0)
             data->list_env = unset_env(data->list_env, list->cmd, data);
         else if(list->cmd && ft_strcmp(list->cmd[0], "exit") == 0)
@@ -205,7 +203,7 @@ int executing(t_data *data)
         else if(list->cmd && ft_strcmp(list->cmd[0], "echo") == 0)
                 ft_echo(list->cmd + 1, true, 0);
         else
-            ret = execute_command(data->list_env->next, list, data, data->k++);
+            ret = execute_command(data->list_env, list, data, data->k++);
         if (list->infile)
             dup2(in, STDIN_FILENO);
         if (list->outfile || list->appendfile)
@@ -219,7 +217,7 @@ int executing(t_data *data)
         list = list->next;
     }
     if (ret == 0)
-            ret = wait_pid(data->pid, 0, data->k);
-	free(data->pid);
+        ret = wait_pid(data->pid, 0, data->k);
+    free(data->pid);
     return (ret);
 }

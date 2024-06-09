@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 17:50:53 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 10:12:14 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_env *remove_node(t_env *head, t_env *node_to_remove)
 {
     if (!head || !node_to_remove)
-    return (head);
+        return (head);
 
     if (node_to_remove == head)
     {
@@ -38,20 +38,14 @@ t_env *remove_node(t_env *head, t_env *node_to_remove)
     return (head);
 }
 
-t_env *unset_env(t_env *list, char **com, t_data *data)
+t_env   *unset_env(t_env *list, char **com, t_data *data)
 {
     t_env   *index;
-    t_env   *head;
     int i;
 
-    if(com[1] == NULL)
-        return (list);
+
     i = 0;
     index = NULL;
-    head = list;
-    if (!list || !list->next)
-        return (list);
-    list = list->next;
     while(com[i])
     {
         if (data->path_flag == true && ft_strcmp(com[i], "PATH") == 0)
@@ -61,7 +55,7 @@ t_env *unset_env(t_env *list, char **com, t_data *data)
             list = remove_node(list, index);
         i++;
     }
-    return (head);
+    return (list);
 }
 
 void exit_myminishell(char **com)

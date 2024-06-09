@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 15:31:05 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 10:00:04 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,18 +196,17 @@ void ft_clear(t_data *data)
 	free_array(data->cmds);
 }
 
-int parsing(t_data *data)
+void	parsing(t_data *data)
 {
-	t_command *commands;
-    t_cmds *lst;
-	char **cmds;
-	int ret = 0;
-	int i;
+	t_command	*commands;
+    t_cmds		*lst;
+	char		**cmds;
+	int			i;
 
 	i = -1;
 	lst = NULL;
 	data->flag = true;
-	data->line = check_tabs(data->line, 0, 0, 0, data);
+	data->line = check_tabs(data->line, 0, 0, data);
 	cmds = ft_split_msh(data->line);
 	while (cmds[++i])
 	{
@@ -249,5 +248,4 @@ int parsing(t_data *data)
 	}
 	else
 		ft_clear(data);
-	return (ret);
 }

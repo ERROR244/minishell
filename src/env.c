@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:53 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 17:10:22 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/09 10:17:00 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,13 @@ char **creat_myenv()
     char **ptr;
     char buffer[PATH_MAX];
 
-    ptr = (char **)malloc((5)*sizeof(char *));
+    ptr = (char **)malloc((4) * sizeof(char *));
     if(!ptr)
         exiterror();
-    ptr[0] = ft_strjoin("?=", "0");
-    ptr[1] = ft_strjoin("PWD=", getcwd(buffer, PATH_MAX));
-    ptr[2] = ft_strdup("SHLVL=1");
-    ptr[3] = ft_strdup("_=/usr/bin/env");
-    ptr[4] = NULL;
+    ptr[0] = ft_strjoin("PWD=", getcwd(buffer, PATH_MAX));
+    ptr[1] = ft_strdup("SHLVL=1");
+    ptr[2] = ft_strdup("_=/usr/bin/env");
+    ptr[3] = NULL;
     return (ptr);
 }
 
@@ -88,7 +87,7 @@ void    creat_env_list(t_env **list, char **env)
     int i;
 
     i = 0;
-    *list = env_new(*list, ft_strdup("?=0"));
+    *list = env_new(*list, ft_strdup(env[i++]));
     while (env[i])
     {
         node = env_new(*list, ft_strdup(env[i++]));
