@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 18:35:51 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/10 11:22:09 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,10 @@ bool        check_ex(char *str, int size);
 char        *check_tabs(char *str, int i, int j, t_data *data);
 // void     ft_free(char **ptr, int i);
 char const	*get_position(char const *s);
+size_t      get_size(char *str);
+char        *get_string(char *str, size_t i, size_t k, size_t size);
+
+
 
 t_slist     *nodes_last(t_slist *lst);
 t_command	*command_last(t_command *lst);

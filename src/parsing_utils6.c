@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:47:27 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 17:31:20 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:28:43 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,19 @@ int	dollar_is_in(char *str)
 	k = 0;
 	while (str[i])
 	{
+		if (str[i] == '<')
+		{
+			if (str[i + 1] == '<')
+			{
+				i += 2;
+				while (str[i] == ' ')
+					i++;
+				while (str[i] && ft_isalpha(str[i]) != 1)
+					i++;
+			}
+		}
+		if (!str[i])
+			break ;
 		if (str[i] == '$')
 			k++;
 		i++;

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 11:27:33 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/10 11:25:14 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,27 @@ int check_quot(char *str)
   return (i);
 }
 
+int	ft_strcmp_for_heredoc(char *s1, char *s2)
+{
+	char *str;
+	int k;
+	int i;
+
+	i = 0;
+	if (!s1 || !s2)
+		return (0);
+	str = get_string(ft_strdup(s2), 0, 0, get_size(s2));
+	while (s1[i] == str[i] && s1[i] != '\0' && str[i] != '\0')
+		i++;
+	k = s1[i] - str[i];
+	free(str);
+	return (k);
+}
+
 void  open_heredoc(t_cmds *cmds)
 {
 	static int  i;
+	static int	k;
 	char    	*tmp1;
 	char    	*filename;
 	char    	*line;
@@ -65,16 +83,29 @@ void  open_heredoc(t_cmds *cmds)
 	filename = ft_strjoin("/tmp/HereDoc", tmp1);
 	free(tmp1);
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	k++;
 	while (1)
 	{
 		line = readline(">");
-		if (!line || ft_strcmp(line, cmds->cmd[0]) == 0)
+		if (!line)
+		{
+			char *num = ft_itoa(k);
+			ft_putstr_fd("minishell: warning: here-document at line ", 2);
+			ft_putstr_fd(num, 2);
+			free(num);
+			ft_putstr_fd("  delimited by end-of-file (wanted `", 2);
+			ft_putstr_fd(cmds->cmd[0], 2);
+			ft_putstr_fd("')\n", 2);
+			break;
+		}
+		else if (ft_strcmp_for_heredoc(line, cmds->cmd[0]) == 0)
 			break;
 		if (flag == true)
 			line = expand_variable(line, cmds->data);
 		ft_putstr_fd(line, fd);
 		ft_putchar_fd('\n', fd);
 		free(line);
+		k++;
 	}
 	close(fd);
 	free_array(cmds->cmd);
@@ -89,8 +120,10 @@ void  open_heredoc(t_cmds *cmds)
 int errors_managment(t_data *data, int i)
 {
 	t_cmds *curr;
+	t_cmds *head;
 
 	curr = data->lst;
+	head = curr;
 	while (curr && i == 0)
 	{
 		if (curr->token == Pipe)
@@ -99,9 +132,13 @@ int errors_managment(t_data *data, int i)
 			i = check_for_in_out_put(curr);
 		else if (curr->token == Append || curr->token == HereDoc)
 			i = check_for_Append_heredoc(curr);
-		else if (curr->token == HereDocDel)
-			open_heredoc(curr);
 		curr = curr->next;
+	}
+	while (head)
+	{
+		if (head->token == HereDocDel)
+			open_heredoc(head);
+		head = head->next;
 	}
 	return (i);
 }

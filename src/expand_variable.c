@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:21:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/10 10:14:54 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:03:35 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,20 @@ int how_many_dollar_in(char *str)
 	k = 0;
 	while (str && str[i])
 	{
+		// if (str[i] == '<')
+		// {
+		// 	if (str[i + 1] == '<')
+		// 	{
+		// 		i++;
+		// 		i++;
+		// 		while (str[i] == ' ')
+		// 			i++;
+		// 		while (str[i] && ft_isalpha(str[i]) != 1)
+		// 			i++;
+		// 	}
+		// }
+		// if (!str[i])
+		// 	break ;
 		if (str[i] == 39 && check_ex(str, i) == true)
 		{
 			i++;
@@ -69,6 +83,19 @@ char	**get_vars(char *cmd)
 	j = 0;
 	while (cmd[j])
 	{
+		// if (cmd[j] == '<')
+		// {
+		// 	if (cmd[j + 1] == '<')
+		// 	{
+		// 		j += 2;
+		// 		while (cmd[j] == ' ')
+		// 			j++;
+		// 		while (cmd[j] && ft_isalpha(cmd[j]) != 1)
+		// 			j++;
+		// 	}
+		// }
+		// if (!cmd[j])
+		// 	break ;
 		if (cmd[j] == 39 && check_ex(cmd, j) == true)
 		{
 			j++;
@@ -163,11 +190,29 @@ char	*get_final_line(char **lines, char **vars, char *cmd)
 	return (line);
 }
 
-char	**get_vars_content(char **var, char **env)
+bool	check_back_for_heredoc(char *str, int index)
+{
+	if (index < 0 || !str[index])
+		return (false);
+	index--;
+	while (index >= 0 && str[index] == ' ')
+		index--;
+	if (index >= 1 && str[index] == '<')
+	{
+		index--;
+		if (index >= 0 && str[index] == '<')
+			return (true);
+	}
+	return (false);
+}
+
+char	**get_vars_content(char **var, char **env, char *str)
 {
 	char **vars;
 	int i;
+	int k;
 
+	k = 0;
 	i = 0;
 	while (var[i])
 		i++;
@@ -175,12 +220,16 @@ char	**get_vars_content(char **var, char **env)
 	i = 0;
 	while (var[i])
 	{
+		while (str[k] && str[k] != '$')
+			k++;
 		if (var[i][0] == '?' && var[i][1] == '\0')
 			vars[i] = ft_itoa(ret);
+		else if (check_back_for_heredoc(str, k) == true)
+			vars[i] = ft_strdup(var[i]);
 		else
 			vars[i] = get_content(env, var[i]);
-		// printf("%s \n", vars[i]);
 		i++;
+		k++;
 	}
 	vars[i] = NULL;
 	free_array(var);
@@ -222,8 +271,7 @@ char	*expand_variable(char *str, t_data *data)
 	if (dollar_is_in(str))
 	{
 		var = get_vars(str);
-		var = get_vars_content(var, data->env);
-		// print_array(var);
+		var = get_vars_content(var, data->env, str);
 		spleted_line = ft_split_str(str);
 		if (spleted_line == NULL)
 			line = join_vars(var);
@@ -237,7 +285,6 @@ char	*expand_variable(char *str, t_data *data)
     else
         return (str);
     free(str);
-	// printf("%s \n", line);
     return (line);
 }
 

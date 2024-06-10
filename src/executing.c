@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/10 10:18:38 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/10 11:28:39 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ int hand_the_redirectionin(t_command *lst, int in, int out)
             if(!filein)
 			{
 	        	ft_close(in, strerror(errno));
-				return (0);
+				return (1);
 			}
         }
         if(lst->outfile || lst->appendfile)
@@ -243,7 +243,7 @@ int hand_the_redirectionin(t_command *lst, int in, int out)
             if(!fileout)
 			{
         		ft_close(out, strerror(errno));
-				return (0);
+				return (1);
 			}
         }
         if (!lst->next)
@@ -355,9 +355,9 @@ int executing(t_data *data)
                 ft_echo(list->cmd + 1, true, 0);
         else if (ret == 0)
             ret = execute_command(data->list_env, list, data, data->k++);
-        if (ret == 0 && list->infile)
+        if ((ret == 0 || ret != 1) && list->infile)
             dup2(in, STDIN_FILENO);
-        if (ret == 0 && (list->outfile || list->appendfile))
+        if ((ret == 0 || ret != 1) && (list->outfile || list->appendfile))
             dup2(out, STDOUT_FILENO);
         change_underscore(data->list_env, list);
     }

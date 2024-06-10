@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/07 14:28:27 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/10 11:21:17 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ size_t get_size(char *str)
 	return (i - k);
 }
 
-static char	*get_string(char *str, size_t i, size_t k, size_t size)
+char	*get_string(char *str, size_t i, size_t k, size_t size)
 {
 	char	*ptr;
 	char	tmp;
