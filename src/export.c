@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 17:53:58 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/10 09:14:07 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,15 @@ void printmyexport(t_env *list)
     i = 0;
 	while (ptr[i])
     {
-        ft_putstr_fd("declare -x ", 1);
-        ft_putstr_fd(ptr[i], 1);
-        ft_putchar_fd('\n', 1);
-        i++;
+        if (ptr[i][0] == '_' && ptr[i][1] == '=')
+            i++;
+        else
+        {
+            ft_putstr_fd("declare -x ", 1);
+            ft_putstr_fd(ptr[i], 1);
+            ft_putchar_fd('\n', 1);
+            i++;
+        }
     }
     free_array(ptr);
 }

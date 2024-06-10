@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:21:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 09:51:28 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/10 10:14:54 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ char	**get_vars_content(char **var, char **env)
 			vars[i] = ft_itoa(ret);
 		else
 			vars[i] = get_content(env, var[i]);
+		// printf("%s \n", vars[i]);
 		i++;
 	}
 	vars[i] = NULL;
@@ -222,6 +223,7 @@ char	*expand_variable(char *str, t_data *data)
 	{
 		var = get_vars(str);
 		var = get_vars_content(var, data->env);
+		// print_array(var);
 		spleted_line = ft_split_str(str);
 		if (spleted_line == NULL)
 			line = join_vars(var);
@@ -235,6 +237,7 @@ char	*expand_variable(char *str, t_data *data)
     else
         return (str);
     free(str);
+	// printf("%s \n", line);
     return (line);
 }
 

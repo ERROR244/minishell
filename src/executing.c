@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 20:20:37 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/10 10:18:38 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,6 +291,31 @@ int	wait_pid(int *pid, int cmd_num)
 	return (status);
 }
 
+void    change_underscore(t_env *head, t_command *command)
+{
+    t_env   *index;
+    char    *str;
+    int     i;
+
+    i = 0;
+    while (command->cmd[i])
+        i++;
+    str = command->cmd[--i];
+    index = findmyindex(head, "_");
+    if (!str || *str == '\n' || is_spaces(str) == 0)
+        return ;
+    if (index)
+    {
+        free(index->var_name);
+        index->var_name = ft_strjoin("_=", str);
+    }
+    else
+    {
+        index = env_new(head, ft_strjoin("_=", str));
+        head = env_last(head);
+        head->next = index;
+    }
+}
 
 int executing(t_data *data)
 {
@@ -305,7 +330,13 @@ int executing(t_data *data)
     data->fd_in = STDIN_FILENO;
     if (list && !list->next)
     {
+        if(!list || (list->cmd && list->cmd[0][0] == '\n'))
+        {
+            free(data->pid);
+            return (2);
+        }
         flag = true;
+        change_underscore(data->list_env, list);
         if(list->infile || list->outfile || list->appendfile)
             ret = hand_the_redirectionin(list, in, out);
         if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "cd") == 0)
@@ -328,6 +359,7 @@ int executing(t_data *data)
             dup2(in, STDIN_FILENO);
         if (ret == 0 && (list->outfile || list->appendfile))
             dup2(out, STDOUT_FILENO);
+        change_underscore(data->list_env, list);
     }
     while (list && flag == false)
     {
