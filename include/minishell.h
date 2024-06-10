@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/10 15:30:17 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:05:05 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ char const	*get_position(char const *s);
 size_t      get_size(char *str);
 char        *get_string(char *str, size_t i, size_t k, size_t size);
 
-
+int run_builtins(int c, t_command *command, t_data *data);
 
 t_slist     *nodes_last(t_slist *lst);
 t_command	*command_last(t_command *lst);

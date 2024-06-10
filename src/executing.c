@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/10 16:27:45 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:11:43 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,27 +84,8 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
             ft_putstr_fd(strerror(errno), 2);
             ft_putstr_fd("\n", 2);
         }
-        if(cmd == 1)   
-            my_cd(data->list_env, com);
-        else if(cmd == 2)
-            mypwd(data->list_env);
-        else if(cmd == 3)
-            printmyenv(data->list_env);
-        else if(cmd == 4)
-            export(data->list_env, com);
-        else if(cmd == 5)
-            data->list_env = unset_env(data->list_env, com, data);
-        else if(cmd == 6)
-            exit_myminishell(com);
-        else if(cmd == 7)
-            ft_echo(com + 1, true, 0);
-
-        // commands_clear(&command);
-        // free(data->line);
-        // if (data->env)
-        //     free_array(data->env);
-        // senv_clear(&data->list_env);
-        // ft_clear(data);
+        else
+            run_builtins(cmd, command, data);
         exit(-1);
     }
 
@@ -282,7 +263,7 @@ int	wait_pid(int *pid, int cmd_num)
 	waitpid(pid[--i], &status, 0);
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
-	while (i > 0)
+	while (i >= 0)
 		waitpid(pid[i--], 0, 0);
 	return (status);
 }
@@ -313,7 +294,27 @@ void    change_underscore(t_env *head, t_command *command)
     }
 }
 
-int fstat(int fd, struct stat *buf);
+int run_builtins(int c, t_command *command, t_data *data)
+{
+    t_env *list;
+    
+    list = data->list_env;
+    if(c == 1)
+        my_cd(list, command->cmd);
+    else if (c == 2)
+        mypwd(list);
+    else if (c == 3)
+        printmyenv(list);
+    else if (c == 4)
+        export(list, command->cmd);
+    else if (c == 5)
+        list = unset_env(list, command->cmd, data);
+    else if (c == 6)
+        exit_myminishell(command->cmd);
+    else if (c == 7)
+        ft_echo(command->cmd + 1, true, 0);
+    return (0);
+}
 
 int executing(t_data *data)
 {
@@ -322,6 +323,8 @@ int executing(t_data *data)
     int         out;
 
     list = data->list;
+    bool flag = false;
+    int builtins = get_command_in_one_char(list->cmd);
     data->pid = malloc(sizeof(int) * (get_command_size(list)));
     data->k = 0;
     if(!list || (list->cmd && list->cmd[0][0] == '\n'))
@@ -329,33 +332,14 @@ int executing(t_data *data)
         free(data->pid);
         return (2);
     }
-    else if (list && !list->next)
+    else if (builtins != 0)
     {
         in = dup(STDIN_FILENO);
         out = dup(STDOUT_FILENO);
-        change_underscore(data->list_env, list);
         if(list->infile || list->outfile || list->appendfile)
             ret = hand_the_redirectionin(list, in, out);
-        if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "cd") == 0)
-            my_cd(data->list_env, list->cmd);
-        else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "pwd") == 0)
-            mypwd(data->list_env);
-        else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "env") == 0 && list->cmd[1] == NULL)
-            printmyenv(data->list_env);
-        else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "export") == 0)
-            export(data->list_env, list->cmd);
-        else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "unset") == 0)
-            data->list_env = unset_env(data->list_env, list->cmd, data);
-        else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "exit") == 0)
-            exit_myminishell(list->cmd);
-        else if(ret == 0 && list->cmd && ft_strcmp(list->cmd[0], "echo") == 0)
-                ft_echo(list->cmd + 1, true, 0);
-        else if (ret == 0)
-            ret = execute_command(data->list_env, list, data, data->k++);
-
-
-
-            
+        change_underscore(data->list_env, list);
+        run_builtins(builtins, list, data);
         if ((ret != 1) && list->infile)
             dup2(in, STDIN_FILENO);
         else
@@ -364,14 +348,16 @@ int executing(t_data *data)
             dup2(out, STDOUT_FILENO);
         else
             ft_close(out, strerror(errno));
-
-
-            
         change_underscore(data->list_env, list);
     }
     else
     {
         data->fd_in = STDIN_FILENO;
+        if (!list->next)
+        {
+            change_underscore(data->list_env, list);
+            flag = true;
+        }
         while (list)
         {
             if (list->next)
@@ -386,10 +372,8 @@ int executing(t_data *data)
             
             if(list->infile || list->outfile || list->appendfile)
                 ret = hand_the_redirectionin(list, in, out);
-            ret = execute_command(data->list_env, list, data, data->k++);
 
 
-            
             if (ret != 1 && list->infile)
                 dup2(STDIN_FILENO, in);
             else
@@ -398,6 +382,8 @@ int executing(t_data *data)
                 dup2(STDOUT_FILENO, out);
             else
                 ft_close(out, "out");
+            
+            ret = execute_command(data->list_env, list, data, data->k++);
 
 
 
@@ -409,8 +395,12 @@ int executing(t_data *data)
                 
             if (list->next)
                 data->fd_in = data->fd[0];
+            else
+                break ;
             list = list->next;
         }
+        if (flag == true)
+            change_underscore(data->list_env, list);
     }
     if (ret == 0 && data->k != 0)
         ret = wait_pid(data->pid, data->k);
