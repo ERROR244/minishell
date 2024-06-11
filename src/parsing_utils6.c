@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:47:27 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 10:06:39 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:36:34 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,7 @@ t_command	*command_new(t_command *lst)
 	n_node = (t_command *)malloc(sizeof(struct s_command));
 	if (n_node == NULL)
 		return (NULL);
-	// n_node->appendfile = NULL;
 	n_node->cmd = NULL;
-	// n_node->heredocdel = NULL;
 	n_node->infile = NULL;
 	n_node->outfile = NULL;
 	n_node->next = NULL;

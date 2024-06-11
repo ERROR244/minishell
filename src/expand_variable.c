@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:21:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 11:14:03 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:39:30 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,31 +41,19 @@ int how_many_dollar_in(char *str)
 	k = 0;
 	while (str && str[i])
 	{
-		// if (str[i] == '<')
-		// {
-		// 	if (str[i + 1] == '<')
-		// 	{
-		// 		i++;
-		// 		i++;
-		// 		while (str[i] == ' ')
-		// 			i++;
-		// 		while (str[i] && ft_isalpha(str[i]) != 1)
-		// 			i++;
-		// 	}
-		// }
-		// if (!str[i])
-		// 	break ;
 		if (str[i] == 39 && check_ex(str, i) == true)
 		{
 			i++;
 			while (str[i] != 39)
 				i++;
 		}
-		else if (str[i] == '$')
+		else if (str[i] == '$' && str[i + 1] != '$')
 		{
 			k++;
 			i++;
 		}
+		else if (str[i] == '$' && str[i + 1] == '$')
+			i++;
 		if (str[i])
 			i++;
 	}
@@ -83,27 +71,16 @@ char	**get_vars(char *cmd)
 	j = 0;
 	while (cmd[j])
 	{
-		// if (cmd[j] == '<')
-		// {
-		// 	if (cmd[j + 1] == '<')
-		// 	{
-		// 		j += 2;
-		// 		while (cmd[j] == ' ')
-		// 			j++;
-		// 		while (cmd[j] && ft_isalpha(cmd[j]) != 1)
-		// 			j++;
-		// 	}
-		// }
-		// if (!cmd[j])
-		// 	break ;
 		if (cmd[j] == 39 && check_ex(cmd, j) == true)
 		{
 			j++;
 			while (cmd[j] && cmd[j] != 39)
 				j++;
 		}
-		if (cmd[j] == '$')
+		if (cmd[j] == '$' && cmd[j + 1] != '$')
 			var[k++] = grep_variable_name(cmd + j);
+		else if (cmd[j] == '$' && cmd[j + 1] == '$')
+			j++;
 		j++;
 	}
 	var[k] = NULL;
@@ -157,8 +134,9 @@ char	*get_final_line(char **lines, char **vars, char *cmd)
 	k = 0;
 	l = 0;
 	size = 0;
-	while (cmd[k++] == '$')
+	while (cmd[k] == '$' && cmd[k + 1] != '$')
 	{
+		k++;
 		while (cmd[k] && ft_isalpha(cmd[k]))
 			k++;
 		j = 0;
@@ -221,11 +199,15 @@ char	**get_vars_content(char **var, char **env, char *str)
 	while (var[i])
 	{
 		while (str[k] && str[k] != '$')
+		{
 			k++;
+			if (str[k] == '$' && str[k + 1] == '$')
+				k += 2;
+		}
 		if (var[i][0] == '?' && var[i][1] == '\0')
 			vars[i] = ft_itoa(ret);
 		else if (check_back_for_heredoc(str, k) == true)
-			vars[i] = ft_strdup(var[i]);
+			vars[i] = ft_strjoin("$", var[i]);
 		else
 			vars[i] = get_content(env, var[i]);
 		i++;

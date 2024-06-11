@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 11:39:26 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:46:36 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,12 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
     data->pid[index] = fork();
     if (data->pid[index] == 0)
     {
+        free(data->line);
         if (command->infile || command->outfile)
             red = hand_the_redirectionin(command);
         if (red == 1)
         {
-            ft_putstr_fd("minishell==: ", 2);
+            ft_putstr_fd("minishell=: ", 2);
             ft_putstr_fd(com[0], 2);
             ft_putstr_fd(": ", 2);
             ft_putstr_fd(strerror(errno), 2);
@@ -150,7 +151,8 @@ int *ft_open(t_slist *list)
 	j = 0;
     while (list)
 	{
-		if (list->token == Infile)
+        if (check)
+		else if (list->token == Infile)
 			fd[j] = open(list->cmd, O_RDONLY);
 		else if (list->token == OutFile)
 			fd[j] = open(list->cmd, O_WRONLY | O_CREAT | O_TRUNC, 0666);

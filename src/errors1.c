@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/10 11:25:14 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:04:21 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	ft_strcmp_for_heredoc(char *s1, char *s2)
 	if (!s1 || !s2)
 		return (0);
 	str = get_string(ft_strdup(s2), 0, 0, get_size(s2));
+	// printf("%s \n", str);
 	while (s1[i] == str[i] && s1[i] != '\0' && str[i] != '\0')
 		i++;
 	k = s1[i] - str[i];
