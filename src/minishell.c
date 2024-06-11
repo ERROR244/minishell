@@ -6,13 +6,12 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/10 16:25:42 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/11 11:13:46 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// char **myenv = NULL;
 int ret = 0;
 
 int main(int ac, char **av, char **env)
@@ -40,6 +39,7 @@ int main(int ac, char **av, char **env)
 		free(data.line);
 		free_array(data.env);
     }
+
 	if (data.env)
 		free_array(data.env);
 	senv_clear(&data.list_env);

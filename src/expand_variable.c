@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:21:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/10 14:03:35 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/11 11:14:03 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,6 +309,7 @@ char *check_tabs(char *str, int i, int j, t_data *data)
             new_str[j++] = str[i++];
     }
     new_str[j] = '\0';
+	free(str);
 	new_str = expand_variable(new_str, data);
     return (new_str);
 }

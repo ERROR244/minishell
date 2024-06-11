@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/10 19:05:05 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/11 10:14:50 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 typedef struct s_data t_data;
 
 extern int ret;
-
+extern char Gstr[100][100];
 
 
 typedef struct s_env
@@ -77,8 +77,9 @@ typedef struct s_cmds
 
 typedef struct s_slist
 {
-    char **cmd;
-	
+    char    *cmd;
+    // int     out;
+
     t_token token;
 
 	struct s_slist *next;
@@ -91,8 +92,8 @@ typedef struct s_command
 
     t_slist  *infile; 
     t_slist  *outfile;
-    t_slist  *appendfile;
-    t_slist  *heredocdel;
+    // t_slist  *appendfile;
+    // t_slist  *heredocdel;
 
 	struct s_command *next;
     struct s_command *prev;
@@ -167,6 +168,7 @@ size_t      get_size(char *str);
 char        *get_string(char *str, size_t i, size_t k, size_t size);
 
 int run_builtins(int c, t_command *command, t_data *data);
+int hand_the_redirectionin(t_command *lst); //, int in, int out)
 
 t_slist     *nodes_last(t_slist *lst);
 t_command	*command_last(t_command *lst);

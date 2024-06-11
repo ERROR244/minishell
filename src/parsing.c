@@ -6,19 +6,19 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/10 14:04:27 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/11 11:13:40 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 char Gstr[100][100] = { "Cmd", "AppendFile",						//
-							"HereDocDel", "Infile",					//
-							"OutFile", "Operation",					//
-							"NonOperation", "Input",				//
-							"Output", "Append",						//
-							"HereDoc", "Pipe", 						//
-							"Non" };		   						//
+						"HereDocDel", "Infile",					//
+						"OutFile", "Operation",					//
+						"NonOperation", "Input",				//
+						"Output", "Append",						//
+						"HereDoc", "Pipe", 						//
+						"Non" };	
 
 int	get_cmd_size(t_cmds *list)
 {
@@ -202,6 +202,9 @@ void	parsing(t_data *data)
     t_cmds		*lst;
 	char		**cmds;
 	int			i;
+
+
+
 
 	i = -1;
 	lst = NULL;
