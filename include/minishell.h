@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 10:14:50 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/11 12:11:17 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ t_cmds	    *lstlast(t_cmds *lst);
 void	    lstclear(t_cmds **lst);
 t_cmds	    *lstnew(char *cmd, t_cmds *stack, char **str);
 
-
+char	*ft_strjoin3(char const *s1, char c, char const *s2);
 
 // parsing
 void	    free_array(char **array);

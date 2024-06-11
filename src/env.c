@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:53 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 17:53:14 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/11 12:14:50 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,29 @@ t_env	*env_new(t_env *lst, char *str)
 
 void    creat_env_list(t_env **list, char **env)
 {
+    char    *str;
+    char    **ptr;
+    int     subshell;
     t_env   *node;
     t_env   *curr;
     int i;
 
     i = 0;
+    subshell = 0;
     *list = env_new(*list, ft_strdup(env[i++]));
     while (env[i])
     {
-        node = env_new(*list, ft_strdup(env[i++]));
+        if (ft_strncmp("SHLVL", env[i], 4) == 0)
+        {
+            ptr = ft_split(env[i++], '=');
+            subshell = ft_atoi(ptr[1]);
+            str = ft_itoa(++subshell);
+            free_array(ptr);
+            node = env_new(*list, ft_strjoin3("SHLVL", '=', str));
+            free(str);
+        }
+        else
+            node = env_new(*list, ft_strdup(env[i++]));
 		curr = env_last(*list);
 		curr->next = node;
     }
