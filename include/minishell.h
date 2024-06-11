@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 12:11:17 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/11 23:21:16 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 
 typedef struct s_data t_data;
 
+
+extern bool flag_sig;
+extern bool flag_data;
 extern int ret;
 extern char Gstr[100][100];
 
@@ -226,6 +229,7 @@ void        mypwd(t_env *env);
 void    set_env_after_export(t_env *list, char *key, char *value, char c, bool export_flag);
 void    set_env_after_cd(t_env *list, char *key, char *value);
 char    *findmyvar(t_env *list, t_env *head, char *va, bool flag);
+void 	handlersignals();
 
 
 // void        set_myenv(t_env *list, char *key, char *value, char c, bool export_flag);

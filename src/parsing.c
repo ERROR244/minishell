@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 11:13:40 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/11 23:19:12 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,8 @@ void	parsing(t_data *data)
 		last_update_in_the_list(lst);
 		commands = get_commands(lst);
 		data->list = commands;
+		if(commands->next != NULL)
+			flag_data = true;
 		ret = executing(data);					// exe
 		commands_clear(&commands);
 		ft_clear(data);

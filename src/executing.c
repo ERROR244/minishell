@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 17:46:36 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/11 23:20:54 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
     }
     cmd = get_command_in_one_char(com);
     path = get_my_path(list, com, data->path_flag);
+    flag_sig = true;
     data->pid[index] = fork();
     if (data->pid[index] == 0)
     {
@@ -91,6 +92,8 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
         }
         if (cmd == 0)
         {
+            signal(SIGQUIT, SIG_DFL);
+            signal(SIGINT,SIG_DFL);
             execve(path, com, data->env);
             ft_putstr_fd("minishell: ", 2);
             ft_putstr_fd(com[0], 2);
@@ -151,8 +154,7 @@ int *ft_open(t_slist *list)
 	j = 0;
     while (list)
 	{
-        if (check)
-		else if (list->token == Infile)
+        if (list->token == Infile)
 			fd[j] = open(list->cmd, O_RDONLY);
 		else if (list->token == OutFile)
 			fd[j] = open(list->cmd, O_WRONLY | O_CREAT | O_TRUNC, 0666);

@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -ggdb3 -g3 -fsanitize=address #-w  #-v
+CFLAGS = -Wall -Wextra -ggdb3 -g3 #-fsanitize=address #-w  #-v
 
 SRCS = 	src/minishell.c Libft/ft_split.c Libft/ft_putstr_fd.c\
 		src/lst.c Libft/ft_strjoin.c Libft/ft_strdup.c\
@@ -16,7 +16,7 @@ SRCS = 	src/minishell.c Libft/ft_split.c Libft/ft_putstr_fd.c\
 		Libft/ft_strchr.c Libft/ft_strlcpy.c src/tmp.c src/expand_variable.c\
 		Libft/ft_itoa.c Libft/ft_atoi.c\
 		src/env.c src/export.c src/unset_exit.c src/cd.c src/pwd.c\
-		src/echo.c\
+		src/echo.c src/handlingsignals.c\
 
 
 

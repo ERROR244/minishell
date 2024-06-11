@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 11:13:46 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/11 23:17:36 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 int ret = 0;
+bool flag_data = false;
+bool flag_sig = false;
 
 int main(int ac, char **av, char **env)
 {
@@ -25,6 +27,7 @@ int main(int ac, char **av, char **env)
 	if (!env[0])
 		data.path_flag = true;
 	data.list_env = copieenv(env);
+	handlersignals();
     while (1)
     {
 		data.env = linked_list_to_array(data.list_env);;
