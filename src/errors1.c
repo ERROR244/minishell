@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 17:04:21 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/12 00:47:43 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,13 @@ void  open_heredoc(t_cmds *cmds)
 	filename = ft_strjoin("/tmp/HereDoc", tmp1);
 	free(tmp1);
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	k++;
-	while (1)
+	my_signal.flag_heredoc = true;
+	while (my_signal.flag_heredoc == true)
 	{
+		k++;
 		line = readline(">");
+		if (my_signal.flag_heredoc == false)
+			break ;
 		if (!line)
 		{
 			char *num = ft_itoa(k);
@@ -106,9 +109,9 @@ void  open_heredoc(t_cmds *cmds)
 		ft_putstr_fd(line, fd);
 		ft_putchar_fd('\n', fd);
 		free(line);
-		k++;
 	}
 	close(fd);
+	my_signal.flag_heredoc = false;
 	free_array(cmds->cmd);
 	cmds->cmd = malloc(sizeof(char *) * 2);
 	cmds->cmd[0] = filename;

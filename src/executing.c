@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 23:20:54 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/06/12 00:13:39 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
     }
     cmd = get_command_in_one_char(com);
     path = get_my_path(list, com, data->path_flag);
-    flag_sig = true;
+    my_signal.flag_sig = true;
     data->pid[index] = fork();
     if (data->pid[index] == 0)
     {
@@ -64,7 +64,7 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
             red = hand_the_redirectionin(command);
         if (red == 1)
         {
-            ft_putstr_fd("minishell=: ", 2);
+            ft_putstr_fd("minishell: ", 2);
             ft_putstr_fd(com[0], 2);
             ft_putstr_fd(": ", 2);
             ft_putstr_fd(strerror(errno), 2);
@@ -92,8 +92,9 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
         }
         if (cmd == 0)
         {
-            signal(SIGQUIT, SIG_DFL);
-            signal(SIGINT,SIG_DFL);
+            if(signal(SIGQUIT, SIG_DFL) != SIG_ERR)
+                my_signal.ret = 131;
+            signal(SIGINT, SIG_DFL);
             execve(path, com, data->env);
             ft_putstr_fd("minishell: ", 2);
             ft_putstr_fd(com[0], 2);
@@ -235,6 +236,9 @@ int	wait_pid(int *pid, int cmd_num)
 		status = WEXITSTATUS(status);
 	while (i >= 0)
 		waitpid(pid[i--], 0, 0);
+    
+    if (my_signal.ret == 130)
+            return (130);
 	return (status);
 }
 
@@ -306,14 +310,14 @@ int executing(t_data *data)
         in = dup(STDIN_FILENO);
         out = dup(STDOUT_FILENO);
         if(list->infile || list->outfile)
-            ret = hand_the_redirectionin(list);
-        if (ret != 1)
+            my_signal.ret = hand_the_redirectionin(list);
+        if (my_signal.ret != 1)
             run_builtins(builtins, list, data);
-        if ((ret != 1) && list->infile)
+        if ((my_signal.ret != 1) && list->infile)
             dup2(in, STDIN_FILENO);
         else
             ft_close(in, "in");
-        if ((ret != 1) && list->outfile)
+        if ((my_signal.ret != 1) && list->outfile)
             dup2(out, STDOUT_FILENO);
         else
             ft_close(out, "out");
@@ -330,7 +334,7 @@ int executing(t_data *data)
                 if (pipe(data->fd) == -1)
                     break ;
             }
-            ret = execute_command(data->list_env, list, data, data->k++);
+            my_signal.ret = execute_command(data->list_env, list, data, data->k++);
             if (list->next)
                 ft_close(data->fd[1], "data->fd[0]");
             if (list->prev)
@@ -341,11 +345,11 @@ int executing(t_data *data)
                 break ;
             list = list->next;
         }
-        if (ret == 0 && data->k != 0)
-            ret = wait_pid(data->pid, data->k);
+        if (my_signal.ret == 0 && data->k != 0)
+            my_signal.ret = wait_pid(data->pid, data->k);
         free(data->pid);
     }
     if (flag == true)
         change_underscore(data->list_env, list);
-    return (ret);
+    return (my_signal.ret);
 }

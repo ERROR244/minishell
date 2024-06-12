@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 23:21:16 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/06/12 00:35:26 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,22 @@
 
 typedef struct s_data t_data;
 
+typedef struct s_signal
+{
+    int ret;
+    bool flag_sig;
+    bool flag_heredoc;
+
+}   t_signal;
+
+extern t_signal my_signal;
 
 extern bool flag_sig;
-extern bool flag_data;
+// extern bool flag_data;
 extern int ret;
 extern char Gstr[100][100];
+
+
 
 
 typedef struct s_env
@@ -56,11 +67,11 @@ typedef enum s_token
     OutFile,
     Operation,
     NonOperation,
-    Input,		// '<'
-    Output,		// '>'
-    Append,		// '>>'
-    HereDoc,	// '<<'
-    Pipe,		// '|'
+    Input,
+    Output,
+    Append,
+    HereDoc,
+    Pipe,
     Non
 }   t_token;
 
@@ -81,7 +92,6 @@ typedef struct s_cmds
 typedef struct s_slist
 {
     char    *cmd;
-    // int     out;
 
     t_token token;
 
@@ -95,8 +105,6 @@ typedef struct s_command
 
     t_slist  *infile; 
     t_slist  *outfile;
-    // t_slist  *appendfile;
-    // t_slist  *heredocdel;
 
 	struct s_command *next;
     struct s_command *prev;

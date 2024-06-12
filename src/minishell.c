@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 23:17:36 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/06/12 01:03:58 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int ret = 0;
-bool flag_data = false;
-bool flag_sig = false;
+t_signal my_signal;
 
 int main(int ac, char **av, char **env)
 {
@@ -23,6 +21,8 @@ int main(int ac, char **av, char **env)
 	if (ac != 1)
 		return (1);
 	(void)av;
+	my_signal.ret = 0;
+	my_signal.flag_heredoc = false;
 	data.path_flag = false;
 	if (!env[0])
 		data.path_flag = true;

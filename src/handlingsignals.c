@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handlingsignals.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 12:59:14 by ohassani          #+#    #+#             */
-/*   Updated: 2024/06/11 23:25:06 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/06/12 01:05:28 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,49 @@
 
 void printsignalsc(int signal)
 {
-    if (signal == SIGINT && flag_sig == true)
+    if (signal == SIGINT && my_signal.flag_sig == true)
     {
         printf("\n");
         rl_replace_line("", 0);
         rl_on_new_line();
-        ret = 130;
+        my_signal.ret = 130;
     }
     else
     {
+        // if (my_signal.flag_heredoc == true)
+        //     my_signal.flag_heredoc = false;
         rl_replace_line("", 0);
         rl_on_new_line();
         printf("\n");
         rl_redisplay();
-        ret = 0;
+        my_signal.ret = 130;
     }
-    flag_sig = false;
+    my_signal.flag_sig = false;
 }
+
+// void signalfunc(int pid)
+// {
+//     if(pid == SIGINT)
+//     {
+//         printf("HERE\n");
+//         my_signal.flag_heredoc = false;
+//     }
+// }
 void handlersignals()
 {
         
-    if( signal(SIGINT, printsignalsc) == SIG_ERR)
+    // if (my_signal.flag_heredoc == true)
+    //     signal(SIGINT, signalfunc);
+    if (signal(SIGINT, printsignalsc) == SIG_ERR)
     {
         perror("fail my signal");
         exit(1);
     }
-     if( signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+    if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
     {
         perror("fail my signal");
         exit(1);
     }
+
 }
 

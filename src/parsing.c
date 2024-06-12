@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 23:19:12 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/06/11 23:57:55 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,36 +218,19 @@ void	parsing(t_data *data)
 	}
 	get_list(cmds, i, &lst, data);
 	init_tokens(lst, 0, lst);
-
-	// //	
-	// char **tmp1;								   							//
-    // t_cmds *tmp2 = lst;							  						//
-	// while (tmp2)								   							//
-	// {											   						//
-	// 	tmp1 = tmp2->cmd;						   							//
-	// 	for (int i = 0; tmp1[i]; i++)			   							//
-	// 	{										   							//
-	// 		if (data->line[0] != '\0')			   							//
-	// 			printf(":%s:", tmp1[i]);		   							//
-	// 	} 										   							//
-	// 	printf("%s:%s:\n", Gstr[tmp2->token], Gstr[tmp2->operation]);		//
-	// 	tmp2 = tmp2->next;													//
-	// }																	//
-	// //
-	
 	data->lst = lst;
 	data->cmds = cmds;
-	ret = errors_managment(data, 0);
+	my_signal.ret = errors_managment(data, 0);
 	data->lst = lst;
 	remove_quotes(lst);
-	if (ret == 0)
+	if (my_signal.ret == 0)
 	{
 		last_update_in_the_list(lst);
 		commands = get_commands(lst);
 		data->list = commands;
-		if(commands->next != NULL)
-			flag_data = true;
-		ret = executing(data);					// exe
+		// if(commands->next != NULL)
+		// 	my_signal.flag_data = true;
+		my_signal.ret = executing(data);					// exe
 		commands_clear(&commands);
 		ft_clear(data);
 	}

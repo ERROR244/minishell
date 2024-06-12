@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/09 20:28:04 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/11 23:49:05 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void exit_myminishell(char **com)
     {
         i = ft_atoi(com[1]);
 	    ft_putstr_fd("exit\n", 2);
-        ret = i;
+        my_signal.ret = i;
         exit(i);
     }
 }
