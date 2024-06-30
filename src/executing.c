@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/12 00:13:39 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/30 16:16:15 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int    get_command_in_one_char(char **str)
         c = 7;
     return (c);
 }
+
 
 int execute_command(t_env *list, t_command *command, t_data *data, int index)
 {
@@ -94,7 +95,7 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
         {
             if(signal(SIGQUIT, SIG_DFL) != SIG_ERR)
                 my_signal.ret = 131;
-            signal(SIGINT, SIG_DFL);
+            // signal(SIGINT, SIG_DFL);
             execve(path, com, data->env);
             ft_putstr_fd("minishell: ", 2);
             ft_putstr_fd(com[0], 2);
@@ -107,7 +108,7 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
             run_builtins(cmd, command, data);
         exit(0);
     }
-
+    signal(SIGINT, printsignalsc);
     free(path);
     if (data->pid[index] < 0)
         return (-1);
@@ -333,6 +334,7 @@ int executing(t_data *data)
             {
                 if (pipe(data->fd) == -1)
                     break ;
+                my_signal.pipef = 1;
             }
             my_signal.ret = execute_command(data->list_env, list, data, data->k++);
             if (list->next)

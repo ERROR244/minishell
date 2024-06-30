@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 23:57:55 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/30 16:34:29 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,9 +203,6 @@ void	parsing(t_data *data)
 	char		**cmds;
 	int			i;
 
-
-
-
 	i = -1;
 	lst = NULL;
 	data->flag = true;
@@ -223,7 +220,7 @@ void	parsing(t_data *data)
 	my_signal.ret = errors_managment(data, 0);
 	data->lst = lst;
 	remove_quotes(lst);
-	if (my_signal.ret == 0)
+	if (my_signal.ret == 0 && my_signal.sig != -1)
 	{
 		last_update_in_the_list(lst);
 		commands = get_commands(lst);

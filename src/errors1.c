@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/12 00:47:43 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/30 16:39:36 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,31 @@ int	ft_strcmp_for_heredoc(char *s1, char *s2)
 	return (k);
 }
 
+int *fr()
+{
+	static int i = -1;
+
+	return (&i);
+}
+
+void signal_herd(int signal)
+{
+	(void)signal;
+	printf("\n");
+	rl_on_new_line();
+    rl_replace_line("", 0);
+	*fr() = dup(0);
+	close(0);
+}
+void signal_hand(int signal)
+{
+	(void)signal;
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+    my_signal.ret = 130;	
+}
+
 void  open_heredoc(t_cmds *cmds)
 {
 	static int  i;
@@ -84,15 +109,24 @@ void  open_heredoc(t_cmds *cmds)
 	filename = ft_strjoin("/tmp/HereDoc", tmp1);
 	free(tmp1);
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	signal(SIGINT, signal_herd);
 	my_signal.flag_heredoc = true;
+	line = readline(">");
 	while (my_signal.flag_heredoc == true)
 	{
 		k++;
-		line = readline(">");
 		if (my_signal.flag_heredoc == false)
 			break ;
 		if (!line)
 		{
+			if (*fr() != -1)
+			{
+				dup2(*fr(), 0);
+				close(*fr());
+				signal(SIGINT, signal_hand);
+				my_signal.sig = -1;
+				break;
+			}
 			char *num = ft_itoa(k);
 			ft_putstr_fd("minishell: warning: here-document at line ", 2);
 			ft_putstr_fd(num, 2);
@@ -103,12 +137,16 @@ void  open_heredoc(t_cmds *cmds)
 			break;
 		}
 		else if (ft_strcmp_for_heredoc(line, cmds->cmd[0]) == 0)
+		{
+			signal(SIGINT, printsignalsc);
 			break;
+		}
 		if (flag == true)
 			line = expand_variable(line, cmds->data);
 		ft_putstr_fd(line, fd);
 		ft_putchar_fd('\n', fd);
 		free(line);
+		line = readline(">");
 	}
 	close(fd);
 	my_signal.flag_heredoc = false;

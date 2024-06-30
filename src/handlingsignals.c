@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handlingsignals.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 12:59:14 by ohassani          #+#    #+#             */
-/*   Updated: 2024/06/12 01:05:28 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/30 15:20:49 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,20 @@
 
 void printsignalsc(int signal)
 {
-    if (signal == SIGINT && my_signal.flag_sig == true)
+    if (signal == SIGINT && my_signal.flag_sig == true && my_signal.pipef != 1)
     {
-        printf("\n");
         rl_replace_line("", 0);
         rl_on_new_line();
+        rl_redisplay();
         my_signal.ret = 130;
+    }
+    if (signal == SIGINT && my_signal.pipef == 1)
+    {
+        printf("\n");
+        my_signal.pipef = 0;
     }
     else
     {
-        // if (my_signal.flag_heredoc == true)
-        //     my_signal.flag_heredoc = false;
         rl_replace_line("", 0);
         rl_on_new_line();
         printf("\n");

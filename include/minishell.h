@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/12 00:35:26 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/30 16:00:06 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct s_signal
 {
     int ret;
     bool flag_sig;
+    int pipef;
+    int sig;
     bool flag_heredoc;
 
 }   t_signal;
@@ -151,6 +153,7 @@ int		    check_for_pipe(t_cmds *cmds);
 int         cmdcheck(char *str);
 int		    errormsg(char *str);
 int		    errormsg_v1(char *str);
+void printsignalsc(int signal);
 int		    errormsg_v2(char *str);
 // void	    close_used_files(t_data *data);
 int         is_spaces(char *str);

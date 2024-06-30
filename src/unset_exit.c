@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 23:49:05 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/06/30 16:46:47 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,22 +75,22 @@ void exit_myminishell(char **com)
 
     if(com[1] == NULL)
     {
-    	ft_putstr_fd("exit\n", 2);
+    	printf("exit\n");
         exit(0);
     }
     else if (is_numeric(com[1]) != 0)
     {
-        ft_putstr_fd("minishell: ", 2);
-        ft_putstr_fd(com[1], 2);
-        ft_putstr_fd(": numeric argument required\n", 2);
+        printf("minishell: ");
+        printf(com[1], 2);
+        printf(": numeric argument required\n");
         exit(2);
     }
     else if (com[1] && com[2])
-        ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+        printf("minishell: exit: too many arguments\n");
     else
     {
         i = ft_atoi(com[1]);
-	    ft_putstr_fd("exit\n", 2);
+	    printf("exit\n");
         my_signal.ret = i;
         exit(i);
     }
