@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 12:59:14 by ohassani          #+#    #+#             */
-/*   Updated: 2024/06/30 15:20:49 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/06/30 16:55:43 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ void printsignalsc(int signal)
     if (signal == SIGINT && my_signal.pipef == 1)
     {
         printf("\n");
+        rl_replace_line("", 0);
+        rl_on_new_line();
+        rl_redisplay();
         my_signal.pipef = 0;
     }
     else
