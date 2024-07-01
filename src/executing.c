@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/30 16:52:26 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:32:08 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
     }
     cmd = get_command_in_one_char(com);
     path = get_my_path(list, com, data->path_flag);
-    my_signal.flag_sig = true;
     data->pid[index] = fork();
+    my_signal.flag_sig = true;
     if (data->pid[index] == 0)
     {
         free(data->line);
@@ -93,9 +93,8 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
         }
         if (cmd == 0)
         {
-            if(signal(SIGQUIT, SIG_DFL) != SIG_ERR)
+            if(signal(SIGQUIT, printsignalsc) != SIG_ERR)
                 my_signal.ret = 131;
-            // signal(SIGINT, SIG_DFL);
             execve(path, com, data->env);
             ft_putstr_fd("minishell: ", 2);
             ft_putstr_fd(com[0], 2);
@@ -108,7 +107,6 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
             run_builtins(cmd, command, data);
         exit(0);
     }
-    signal(SIGINT, printsignalsc);
     free(path);
     if (data->pid[index] < 0)
         return (-1);
@@ -233,6 +231,13 @@ int	wait_pid(int *pid, int cmd_num)
 	i = cmd_num;
 	status = 0;
 	waitpid(pid[--i], &status, 0);
+    if (WIFSIGNALED(status))
+    {
+        if(WTERMSIG(status) == SIGQUIT)
+        {
+            write(2, "Quit (core dumped)\n", 20);
+        }
+    }
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
 	while (i >= 0)
@@ -332,10 +337,11 @@ int executing(t_data *data)
         {
             if (list->next)
             {
+                my_signal.pipef = 1;
                 if (pipe(data->fd) == -1)
                     break ;
-                my_signal.pipef = 1;
             }
+            my_signal.pipef = 1;
             my_signal.ret = execute_command(data->list_env, list, data, data->k++);
             if (list->next)
                 ft_close(data->fd[1], "data->fd[0]");

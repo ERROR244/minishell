@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 12:59:14 by ohassani          #+#    #+#             */
-/*   Updated: 2024/06/30 16:55:43 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:38:49 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,55 +14,48 @@
 
 void printsignalsc(int signal)
 {
-    if (signal == SIGINT && my_signal.flag_sig == true && my_signal.pipef != 1)
+    if (signal == SIGINT)
     {
-        rl_replace_line("", 0);
-        rl_on_new_line();
-        rl_redisplay();
-        my_signal.ret = 130;
+        if (my_signal.pipef == 1)
+        {
+            printf("\n");
+            my_signal.pipef = 0;
+        }
+        else if (my_signal.flag_sig == false)
+        {
+            printf("\n");
+            rl_replace_line("", 0);
+            rl_on_new_line();
+            rl_redisplay();
+            my_signal.ret = 130;
+        }
     }
-    if (signal == SIGINT && my_signal.pipef == 1)
+    else if (signal == SIGQUIT)
     {
-        printf("\n");
-        rl_replace_line("", 0);
-        rl_on_new_line();
-        rl_redisplay();
-        my_signal.pipef = 0;
-    }
-    else
-    {
-        rl_replace_line("", 0);
-        rl_on_new_line();
-        printf("\n");
-        rl_redisplay();
-        my_signal.ret = 130;
+        printf("Quit (core dumped)\n");
     }
     my_signal.flag_sig = false;
 }
 
-// void signalfunc(int pid)
-// {
-//     if(pid == SIGINT)
-//     {
-//         printf("HERE\n");
-//         my_signal.flag_heredoc = false;
-//     }
-// }
 void handlersignals()
 {
-        
-    // if (my_signal.flag_heredoc == true)
-    //     signal(SIGINT, signalfunc);
+
     if (signal(SIGINT, printsignalsc) == SIG_ERR)
     {
         perror("fail my signal");
         exit(1);
     }
-    if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+     if (my_signal.flag_sig == false) 
+     {
+       signal(SIGQUIT, SIG_IGN);
+    } 
+    else 
     {
-        perror("fail my signal");
-        exit(1);
+        if (signal(SIGQUIT, printsignalsc) == SIG_ERR) 
+        {
+            perror("Failed to set SIGQUIT handler");
+            exit(1);
+        }
     }
-
 }
 
