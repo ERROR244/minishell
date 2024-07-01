@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/01 11:05:09 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/07/01 22:31:43 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,10 @@ t_cmds	    *lstnew(char *cmd, t_cmds *stack, char **str);
 char	*ft_strjoin3(char const *s1, char c, char const *s2);
 
 // parsing
-void sig_mouad(int signal);
+void    signal_handler(void);
+void signal_hand2();
+void sig_pipe(int signal);
+void handler_before(void);
 void	    free_array(char **array);
 char	    *rm_spaces(char *str);
 void        get_list(char **cmd, int size, t_cmds **lst, t_data *data);

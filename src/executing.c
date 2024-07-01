@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/01 14:32:08 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/07/01 23:19:42 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,11 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
     }
     cmd = get_command_in_one_char(com);
     path = get_my_path(list, com, data->path_flag);
+    signal(SIGINT, SIG_IGN);
     data->pid[index] = fork();
-    my_signal.flag_sig = true;
     if (data->pid[index] == 0)
     {
+       signal(SIGINT, SIG_DFL);
         free(data->line);
         if (command->infile || command->outfile)
             red = hand_the_redirectionin(command);
@@ -237,6 +238,10 @@ int	wait_pid(int *pid, int cmd_num)
         {
             write(2, "Quit (core dumped)\n", 20);
         }
+        if(WTERMSIG(status) == SIGINT)
+        {
+            write(2, "\n", 1);
+        }
     }
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
@@ -341,7 +346,6 @@ int executing(t_data *data)
                 if (pipe(data->fd) == -1)
                     break ;
             }
-            my_signal.pipef = 1;
             my_signal.ret = execute_command(data->list_env, list, data, data->k++);
             if (list->next)
                 ft_close(data->fd[1], "data->fd[0]");
@@ -354,7 +358,9 @@ int executing(t_data *data)
             list = list->next;
         }
         if (my_signal.ret == 0 && data->k != 0)
+        {
             my_signal.ret = wait_pid(data->pid, data->k);
+        }
         free(data->pid);
     }
     if (flag == true)

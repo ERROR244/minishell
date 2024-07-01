@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/01 14:28:19 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/07/01 22:35:22 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ int main(int ac, char **av, char **env)
 	my_signal.ret = 0;
 	my_signal.flag_heredoc = false;
 	data.path_flag = false;
-	// my_signal.flag_sig = false;
 	if (!env[0])
 		data.path_flag = true;
 	data.list_env = copieenv(env);
-	handlersignals();
     while (1)
     {
+		signal_handler();
 		data.env = linked_list_to_array(data.list_env);;
 		data.line = readline("minishell$ ");
 		if (!data.line)
