@@ -146,16 +146,16 @@ void	get_list_done(t_cmds *list, char **command, bool flag, char **name)
 void	last_update_in_the_list(t_cmds *list)
 {
 	t_cmds	*head;
-	t_cmds	*tmp;
+//	t_cmds	*tmp;
 	char	**command;
 	int		size;
-	int		i;
-	int		j;
+//	int		i;
+//	int		j;
 
-	i = 0;
-	j = 0;
+//	i = 0;
+//	j = 0;
 	head = list;
-	tmp = list;
+//	tmp = list;
 	command = NULL;
 	while (head)
 	{

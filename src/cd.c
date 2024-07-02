@@ -74,14 +74,14 @@ void    set_env_after_export(t_env *list, char *key, char *value, char c, bool e
 {
     t_env   *index;
     t_env   *node;
-    char    *tmp;
+//    char    *tmp;
 
     index = findmyindex(list, key);
     if (index)
     {
         if (c == '+')
         {
-            tmp = ft_strjoin(index->var_name, value);
+//            tmp = ft_strjoin(index->var_name, value);
             free(index->var_name);
             index->var_name = ft_strjoin(index->var_name, value);
         }

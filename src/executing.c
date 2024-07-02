@@ -71,6 +71,8 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
             ft_putstr_fd(": ", 2);
             ft_putstr_fd(strerror(errno), 2);
             ft_putstr_fd("\n", 2);
+            senv_clear(&data->list_env);
+            free_array(data->env);
             exit(-1);
         }
         if (path == NULL && cmd == 0)
@@ -78,6 +80,8 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
             ft_putstr_fd("minishell: ", 2);
             ft_putstr_fd(com[0], 2);
             ft_putstr_fd(": command not found\n", 2);
+            senv_clear(&data->list_env);
+            free_array(data->env);
             exit(127);
         }
         if (command->prev && !command->infile)
@@ -102,10 +106,14 @@ int execute_command(t_env *list, t_command *command, t_data *data, int index)
             ft_putstr_fd(": ", 2);
             ft_putstr_fd(strerror(errno), 2);
             ft_putstr_fd("\n", 2);
+            senv_clear(&data->list_env);
+            free_array(data->env);
             exit(-1);
         }
         else
-            run_builtins(cmd, command, data);
+            run_builtins(cmd, command, data, 1);
+        senv_clear(&data->list_env);
+        free_array(data->env);
         exit(0);
     }
     free(path);
@@ -280,7 +288,7 @@ bool    change_underscore(t_env *head, t_command *command)
     return (true);
 }
 
-int run_builtins(int c, t_command *command, t_data *data)
+int run_builtins(int c, t_command *command, t_data *data, int flag)
 {
     t_env *list;
     
@@ -296,7 +304,7 @@ int run_builtins(int c, t_command *command, t_data *data)
     else if (c == 5)
         list = unset_env(list, command->cmd, data);
     else if (c == 6)
-        exit_myminishell(command->cmd);
+        exit_myminishell(command->cmd, flag);
     else if (c == 7)
         ft_echo(command->cmd + 1, true, 0);
     return (0);
@@ -323,7 +331,7 @@ int executing(t_data *data)
         if(list->infile || list->outfile)
             my_signal.ret = hand_the_redirectionin(list);
         if (my_signal.ret != 1)
-            run_builtins(builtins, list, data);
+            run_builtins(builtins, list, data, 0);
         if ((my_signal.ret != 1) && list->infile)
             dup2(in, STDIN_FILENO);
         else
@@ -362,6 +370,7 @@ int executing(t_data *data)
             my_signal.ret = wait_pid(data->pid, data->k);
         }
         free(data->pid);
+        data->pid = NULL;
     }
     if (flag == true)
         change_underscore(data->list_env, list);

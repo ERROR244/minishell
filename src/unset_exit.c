@@ -69,9 +69,26 @@ int is_numeric(char *str)
     return (0);
 }
 
-void exit_myminishell(char **com)
+void exit_myminishell(char **com, int flag)
 {
     int i;
+
+    if (flag != 0)
+    {
+        if(com[1] == NULL)
+            exit(0);
+        else if (is_numeric(com[1]) != 0)
+            exit(2);
+        else if (com[1] && com[2])
+            ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+        else
+        {
+            i = ft_atoi(com[1]);
+            my_signal.ret = i;
+            exit(i);
+        }
+        return ;
+    }
 
     if(com[1] == NULL)
     {

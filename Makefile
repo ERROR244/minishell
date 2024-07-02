@@ -29,23 +29,16 @@ RM = rm -rf
 all : $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) -lreadline  $(OBJ) -o minishell 
+	$(CC) $(CFLAGS) $(OBJ) -o minishell -lreadline
 
 
 %.o: %.c
 	$(CC) $(CFLAGS)  -c $< -o $@
-
-install:
-	make
-	cp ./minishell /user/local/bin/minishell
 
 clean : 
 		@$(RM) $(OBJ)
 
 fclean :
 		@$(RM) $(OBJ) $(NAME)
-
-rminstall:
-	rm -rf /user/local/bin/minishell
 
 re : fclean all

@@ -185,7 +185,7 @@ char const	*get_position(char const *s);
 size_t      get_size(char *str);
 char        *get_string(char *str, size_t i, size_t k, size_t size);
 
-int run_builtins(int c, t_command *command, t_data *data);
+int run_builtins(int c, t_command *command, t_data *data, int flag);
 int hand_the_redirectionin(t_command *lst); //, int in, int out)
 
 t_slist     *nodes_last(t_slist *lst);
@@ -223,7 +223,7 @@ void	    senv_clear(t_env **lst);
 char        **linked_list_to_array(t_env *list);
 
 t_env       *unset_env(t_env *list, char **com, t_data *data);
-void        exit_myminishell(char **com);
+void        exit_myminishell(char **com, int flag);
 char       	*join(char const *s1, char const *s2);
 char        *get_my_path(t_env  *list, char **com, bool flag);
 void        export(t_env *list, char **com);
