@@ -161,6 +161,7 @@ void  open_heredoc(t_cmds *cmds)
 
 int errors_managment(t_data *data, int i)
 {
+	int		heredoc_num = 0;
 	t_cmds *curr;
 	t_cmds *head;
 
@@ -174,6 +175,18 @@ int errors_managment(t_data *data, int i)
 			i = check_for_in_out_put(curr);
 		else if (curr->token == Append || curr->token == HereDoc)
 			i = check_for_Append_heredoc(curr);
+		curr = curr->next;
+	}
+	curr = head;
+	while (curr)
+	{
+		if (heredoc_num > 16)
+		{
+			ft_putstr_fd("minishell: maximum here-document count exceeded\n", 2);
+			exit(2);
+		}
+		if (curr->token == HereDoc)
+			heredoc_num++;
 		curr = curr->next;
 	}
 	while (head)
