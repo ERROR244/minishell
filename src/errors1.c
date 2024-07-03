@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/30 16:39:36 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/07/02 14:34:10 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,21 @@ int *fr()
 
 void signal_herd(int signal)
 {
-	(void)signal;
+	// (void)signal;
+	// printf("\n");
+	// rl_on_new_line();
+    // rl_replace_line("", 0);
+	// *fr() = dup(0);
+	// close(0);
+	my_signal.ff = 1;
 	printf("\n");
-	rl_on_new_line();
-    rl_replace_line("", 0);
-	*fr() = dup(0);
 	close(0);
+	
 }
 void signal_hand(int signal)
 {
 	(void)signal;
+
     rl_on_new_line();
     rl_replace_line("", 0);
     rl_redisplay();
@@ -101,8 +106,10 @@ void  open_heredoc(t_cmds *cmds)
 	char    	*line;
 	bool    	flag;
 	int     	fd;
-
+	int fd0 = dup(0);
 	flag = true;
+	if(my_signal.ff)
+		return;
 	if (check_quot(cmds->cmd[0]) != 0)
 		flag = false;
 	tmp1 = ft_itoa(i);
@@ -112,21 +119,14 @@ void  open_heredoc(t_cmds *cmds)
 	signal(SIGINT, signal_herd);
 	my_signal.flag_heredoc = true;
 	line = readline(">");
-	while (my_signal.flag_heredoc == true)
+	while (my_signal.flag_heredoc == true && !my_signal.ff)
 	{
 		k++;
 		if (my_signal.flag_heredoc == false)
 			break ;
 		if (!line)
 		{
-			if (*fr() != -1)
-			{
-				dup2(*fr(), 0);
-				close(*fr());
-				signal(SIGINT, signal_hand);
-				my_signal.sig = -1;
-				break;
-			}
+
 			char *num = ft_itoa(k);
 			ft_putstr_fd("minishell: warning: here-document at line ", 2);
 			ft_putstr_fd(num, 2);
@@ -136,9 +136,10 @@ void  open_heredoc(t_cmds *cmds)
 			ft_putstr_fd("')\n", 2);
 			break;
 		}
+		
 		else if (ft_strcmp_for_heredoc(line, cmds->cmd[0]) == 0)
 		{
-			signal(SIGINT, printsignalsc);
+			// signal(SIGINT, printsignalsc);
 			break;
 		}
 		if (flag == true)
@@ -148,7 +149,10 @@ void  open_heredoc(t_cmds *cmds)
 		free(line);
 		line = readline(">");
 	}
+	
 	close(fd);
+	dup2(fd0 , 0);
+	close(fd0);
 	my_signal.flag_heredoc = false;
 	free_array(cmds->cmd);
 	cmds->cmd = malloc(sizeof(char *) * 2);

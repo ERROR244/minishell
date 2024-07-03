@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/01 22:35:22 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:11:47 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int main(int ac, char **av, char **env)
 	my_signal.ret = 0;
 	my_signal.flag_heredoc = false;
 	data.path_flag = false;
+	my_signal.ff = 0;
 	if (!env[0])
 		data.path_flag = true;
 	data.list_env = copieenv(env);

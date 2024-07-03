@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/01 22:31:43 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:15:41 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_signal
     int pipef;
     int sig;
     bool flag_heredoc;
+    int ff;
 
 }   t_signal;
 
@@ -187,6 +188,7 @@ char        *get_string(char *str, size_t i, size_t k, size_t size);
 
 int run_builtins(int c, t_command *command, t_data *data, int flag);
 int hand_the_redirectionin(t_command *lst); //, int in, int out)
+ void    ft_handle_sigint(int sig);
 
 t_slist     *nodes_last(t_slist *lst);
 t_command	*command_last(t_command *lst);
