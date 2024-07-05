@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/04 14:29:07 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/05 01:40:10 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,28 +76,12 @@ int *fr()
 
 void signal_herd(int signal)
 {
-	// (void)signal;
-	// printf("\n");
-	// rl_on_new_line();
-    // rl_replace_line("", 0);
-	// *fr() = dup(0);
-	// close(0);
-	my_signal.ff = 1;
 	printf("\n");
-	close(0);
-	
-}
-void signal_hand(int signal)
-{
-	(void)signal;
-
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
-    my_signal.ret = 130;	
+	exit(128);	
 }
 
-void  open_heredoc(t_cmds *cmds)
+
+int  open_heredoc(t_cmds *cmds)
 {
 	static int  i;
 	static int	k;
@@ -106,82 +90,30 @@ void  open_heredoc(t_cmds *cmds)
 	char    	*line;
 	bool    	flag;
 	int     	fd;
+	int status;
+	
+	
 	int fd0 = dup(0);
 	flag = true;
-	if(my_signal.ff)
-		return;
 	if (check_quot(cmds->cmd[0]) != 0)
 		flag = false;
 	tmp1 = ft_itoa(i);
 	filename = ft_strjoin("/tmp/HereDoc", tmp1);
 	free(tmp1);
 
-
-
-
-
-
 		// this part is only froking for the heredoc, it doesn't handel any thing in seg, if u wanna test it
 		// remove any thing about seg in this function
-
-	// int pid = fork();
-	// if (pid == 0)
-	// {
-	// 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	// 	line = readline(">");
-	// 	while (1)
-	// 	{
-	// 		k++;
-	// 		if (!line)
-	// 		{
-
-	// 			char *num = ft_itoa(k);
-	// 			ft_putstr_fd("minishell: warning: here-document at line ", 2);
-	// 			ft_putstr_fd(num, 2);
-	// 			free(num);
-	// 			ft_putstr_fd("  delimited by end-of-file (wanted `", 2);
-	// 			ft_putstr_fd(cmds->cmd[0], 2);
-	// 			ft_putstr_fd("')\n", 2);
-	// 			break;
-	// 		}
-			
-	// 		else if (ft_strcmp_for_heredoc(line, cmds->cmd[0]) == 0)
-	// 		{
-	// 			break;
-	// 		}
-	// 		if (flag == true)
-	// 			line = expand_variable(line, cmds->data);
-	// 		ft_putstr_fd(line, fd);
-	// 		ft_putchar_fd('\n', fd);
-	// 		free(line);
-	// 		line = readline(">");
-	// 	}
-	// 	close(fd);
-	// 	exit(0);
-	// }
-	// else if (pid < 0)
-	//     ft_putstr_fd("minishell: fork fail while creating the HereDocument\n", 2);
-	// else
-	// 	wait(NULL);
-
-	
-		// here i keep the seg opertion, some testes work and some don't (like multiple heredocs).
-
 	int pid = fork();
 	if (pid == 0)
 	{
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 		signal(SIGINT, signal_herd);
-		my_signal.flag_heredoc = true;
 		line = readline(">");
-		while (my_signal.flag_heredoc == true && !my_signal.ff)
+		while (1)
 		{
 			k++;
-			if (my_signal.flag_heredoc == false)
-				break ;
 			if (!line)
 			{
-
 				char *num = ft_itoa(k);
 				ft_putstr_fd("minishell: warning: here-document at line ", 2);
 				ft_putstr_fd(num, 2);
@@ -194,7 +126,6 @@ void  open_heredoc(t_cmds *cmds)
 			
 			else if (ft_strcmp_for_heredoc(line, cmds->cmd[0]) == 0)
 			{
-				// signal(SIGINT, printsignalsc);
 				break;
 			}
 			if (flag == true)
@@ -205,16 +136,20 @@ void  open_heredoc(t_cmds *cmds)
 			line = readline(">");
 		}
 		close(fd);
-		dup2(fd0 , 0);
-		close(fd0);
-		my_signal.flag_heredoc = false;
 		exit(0);
 	}
 	else if (pid < 0)
 	    ft_putstr_fd("minishell: fork fail while creating the HereDocument\n", 2);
-	else
-		wait(NULL);
 
+	
+	waitpid(pid,&status,0);
+	if (status != 0)
+		return (1);
+	return (0);
+		
+
+	dup2(fd0, 0);
+	close(fd0);
 	free_array(cmds->cmd);
 	cmds->cmd = malloc(sizeof(char *) * 2);
 	cmds->cmd[0] = filename;
@@ -257,7 +192,10 @@ int errors_managment(t_data *data, int i)
 	while (head)
 	{
 		if (head->token == HereDocDel)
-			open_heredoc(head);
+		{
+			if (open_heredoc(head))
+				break;
+		}
 		head = head->next;
 	}
 	return (i);
