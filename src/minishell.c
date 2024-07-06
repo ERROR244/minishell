@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/04 19:42:18 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/07/06 12:42:35 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int main(int ac, char **av, char **env)
     while (1)
     {
 		signal_handler();
+		
 		data.env = linked_list_to_array(data.list_env);;
 		data.line = readline("minishell$ ");
 		if (!data.line)

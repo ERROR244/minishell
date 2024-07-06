@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/05 01:40:10 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/07/06 12:46:11 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int  open_heredoc(t_cmds *cmds)
 
 		// this part is only froking for the heredoc, it doesn't handel any thing in seg, if u wanna test it
 		// remove any thing about seg in this function
+	my_signal.ff = 1;
 	int pid = fork();
 	if (pid == 0)
 	{
@@ -147,7 +148,7 @@ int  open_heredoc(t_cmds *cmds)
 		return (1);
 	return (0);
 		
-
+	my_signal.ff = 0;
 	dup2(fd0, 0);
 	close(fd0);
 	free_array(cmds->cmd);

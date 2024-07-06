@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 12:59:14 by ohassani          #+#    #+#             */
-/*   Updated: 2024/07/02 13:15:31 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/07/06 12:46:04 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void signal_hand2(int s)
 
  void    ft_handle_sigint(int sig)
 {
+    if(my_signal.ff == 1)
+        return;
     (void)sig;
     printf("\n");
     rl_replace_line("", 1);
