@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/06 14:59:02 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/06 16:27:15 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int ft_all_isalpha(char *str)
     i = 0;
     while (str[i] && (ft_isalpha(str[i]) == 1 || str[i] == '_'))
         i++;
-    if (str[i] == '\0')
+    if (str[i] == '=' || str[i] == '\0')
         return (0);
     return (1);
 }
