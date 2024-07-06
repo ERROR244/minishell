@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/30 16:34:29 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/07/06 14:42:33 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,8 +225,6 @@ void	parsing(t_data *data)
 		last_update_in_the_list(lst);
 		commands = get_commands(lst);
 		data->list = commands;
-		// if(commands->next != NULL)
-		// 	my_signal.flag_data = true;
 		my_signal.ret = executing(data);					// exe
 		commands_clear(&commands);
 		ft_clear(data);

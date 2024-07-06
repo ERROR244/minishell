@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:21:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 23:51:33 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/06 14:42:28 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,7 +265,7 @@ char	*expand_variable(char *str, t_data *data)
 		free_array(var);
 	}
     else
-        return (str);
+	        return (str);
     free(str);
     return (line);
 }

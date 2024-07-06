@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/10 14:02:52 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/06 14:39:21 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ bool	check_next(char *str)
 static char	**split(char *s1, int i, char **ptr)
 {
 	char	*start;
-	// char	*tmp = s1;
 	bool	flag;
 
 	while (s1 && *s1)
@@ -107,8 +106,10 @@ static char	**split(char *s1, int i, char **ptr)
 		else
         {
             s1++;
-            while (*s1 && ft_isalnum(*s1) == 1)
+            while (*s1 && ft_isalpha(*s1) == 1)
                 s1++;
+			if ((*s1 >= '0' && *s1 <= '9') || *s1 == '?' || *s1 == '_')
+				s1++;
         }
 	}
 	ptr[i] = NULL;

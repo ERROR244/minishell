@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/10 09:14:07 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/06 14:38:00 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void export(t_env *list, char **com)
         while(com[i])
         {
             export_flag = false;
-            if(ft_isalpha(com[i][0]) != 1)
+            if(ft_isalpha(com[i][0]) == 0)
                 printf("export: '%s' :not a valid identifier\n", com[i]);
             else
             {

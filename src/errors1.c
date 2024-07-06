@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/06 12:49:13 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/07/06 13:50:19 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,6 @@ int  open_heredoc(t_cmds *cmds)
 
 	
 	waitpid(pid,&status,0);
-	if (status != 0)
-		return (1);
-	return (0);
 		
 	my_signal.ff = 0;
 	dup2(fd0, 0);
@@ -159,6 +156,9 @@ int  open_heredoc(t_cmds *cmds)
 	cmds->prev->token = Input;
 	cmds->token = Infile;
 	i++;
+	if (status != 0)
+		return (130);
+	return (0);
 }
 
 int errors_managment(t_data *data, int i)
@@ -191,13 +191,10 @@ int errors_managment(t_data *data, int i)
 			heredoc_num++;
 		curr = curr->next;
 	}
-	while (head)
+	while (head && i != 130)
 	{
 		if (head->token == HereDocDel)
-		{
-			if (open_heredoc(head))
-				break;
-		}
+			i = open_heredoc(head);
 		head = head->next;
 	}
 	return (i);

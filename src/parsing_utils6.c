@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:47:27 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 17:36:34 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/06 14:38:29 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ char	*grep_variable_name(char *line)
 	if (!line)
 		return (NULL);
 	j = ++i;
-	while (line[i] && ft_isalnum(line[i]) == 1)
+	if (line[i] && line[i] == '?')
+		return (ft_strdup("?"));
+	else if (line[i] && line[i] == '_')
+		return (ft_strdup("_"));
+	while (line[i]&& ft_isalnum(line[i]) == 1)
 		i++;
 	k = i - j;
 	str = malloc(sizeof(char) * (k + 1));
@@ -48,12 +52,12 @@ int	count_vars(char *s1)
 	in_word = 0;
 	while (s1 && *s1)
 	{
-		if (*s1 == '$' && ft_isalpha(s1[1]) == 1)
+		if (*s1 == '$' && ft_isalpha(s1[1]) != 0)
         {
             s1++;
 			if (*s1 != '$')
             {
-                while (*s1 && ft_isalpha(s1[0]) == 1)
+                while (*s1 && ft_isalpha(s1[0]) != 0)
 			    {
                     s1++;
                 }
@@ -93,7 +97,7 @@ int	dollar_is_in(char *str)
 				i += 2;
 				while (str[i] == ' ')
 					i++;
-				while (str[i] && ft_isalpha(str[i]) != 1)
+				while (str[i] && ft_isalpha(str[i]) == 0)
 					i++;
 			}
 		}
