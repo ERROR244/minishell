@@ -6,7 +6,7 @@
 /*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/06 12:46:11 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/07/06 12:49:13 by ohassani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,9 @@ int *fr()
 	return (&i);
 }
 
-void signal_herd(int signal)
+void signal_herd(int pid)
 {
+	(void)pid;
 	printf("\n");
 	exit(128);	
 }
