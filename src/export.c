@@ -6,38 +6,11 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/06 16:27:15 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 08:33:28 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void swap(char **s1, char **s2)
-{
-     char *tmp = *s1;
-    *s1 = *s2;
-    *s2 = tmp;
-}
-
-int comparestring(char *s1, char *s2)
-{
-    return ft_strcmp(s1, s2);
-}
-
-int count_nodes(t_env *list)
-{
-    int count;
-    t_env *current;
-    
-    count = 0;
-    current = list;
-    while (current != NULL)
-    {
-        count++;
-        current = current->next;
-    }
-    return (count);
-}
 
 char **sortexport(char **arr, int n)
 {
@@ -47,7 +20,7 @@ char **sortexport(char **arr, int n)
         int j = 0;
         while(j < n  - i - 1)
         {
-            if(comparestring(arr[j], arr[j + 1]) > 0)
+            if(ft_strcmp(arr[j], arr[j + 1]) > 0)
                 swap(&arr[j], &arr[j + 1]);
             j++;
         }

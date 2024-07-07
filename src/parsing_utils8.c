@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:19 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 10:17:35 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:07:57 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,31 +75,21 @@ t_command	*get_commands(t_cmds *lst)
 	t_command	*tmp;
 	t_slist  	*infile;
     t_slist 	*outfile;;
-    // t_slist 	*appendfile;
-    // t_slist 	*heredocdel;
-	// int 		i;
-
-	// i = 0;
+	
 	command = get_command(lst);
 	tmp = command;
 	while (command && lst)
 	{
 		infile = NULL;
     	outfile = NULL;;
-    	// appendfile = NULL;
-    	// heredocdel = NULL;
 		while (lst && lst->token != Pipe)
 		{
 			if (lst->cmd && (lst->token == Cmd || lst->token == Non))
-			{
 				command->cmd = array_copy(lst->cmd);
-			}
 			else if (lst->cmd && lst->token == Infile)
 			{
 				if (!infile)
-				{
 					infile = node_new(infile, lst->cmd[0], lst->token);
-				}
 				else
 				{
 					infile->next = node_new(infile, lst->cmd[0], lst->token);
@@ -110,76 +100,22 @@ t_command	*get_commands(t_cmds *lst)
 			{
 				
 				if (!outfile)
-				{
 					outfile = node_new(outfile, lst->cmd[0], lst->token);
-					// outfile->out = i++;
-				}
 				else
 				{
 					outfile->next = node_new(outfile, lst->cmd[0], lst->token);
-					// outfile->out = i++;
 					outfile = outfile->next;
 				}
 			}
-			// else if (lst->cmd[0] && lst->token == AppendFile)
-			// {
-			// 	if (!appendfile)
-			// 	{
-			// 		appendfile = node_new(appendfile, lst->cmd[0], lst->token);
-			// 		appendfile->out = i++;
-			// 	}
-			// 	else
-			// 	{
-			// 		appendfile->next = node_new(appendfile, lst->cmd[0], lst->token);
-			// 		appendfile->out = i++;
-			// 		appendfile = appendfile->next;
-			// 	}
-			// }
-			// else if (lst->cmd[0] && lst->token == HereDocDel)
-			// {
-			// 	if (!heredocdel)
-			// 	{
-			// 		heredocdel = node_new(heredocdel, lst->cmd[0], lst->token);
-			// 	}
-			// 	else
-			// 	{
-			// 		heredocdel->next = node_new(heredocdel, lst->cmd[0], lst->token);
-			// 		heredocdel = heredocdel->next;
-			// 	}
-			// }
 			lst = lst->next;
 		}
 		command->infile = get_head(infile);
 		command->outfile = get_head(outfile);
-		// command->appendfile = get_head(appendfile);
-		// command->heredocdel = get_head(heredocdel);
 		if (lst)
 			lst = lst->next;
 		command = command->next;
 	}
 	
 	command = tmp;
-	
-	// while (tmp)
-	// {
-	// 	printf("---\n");
-	// 	if (tmp->cmd)
-	// 	{
-	// 		printf("cmd->");
-	// 		print_array(tmp->cmd);
-	// 	}
-	// 	if (tmp->infile)
-	// 	{
-	// 		printf("\ninfile->          ");
-	// 		printlist(tmp->infile);
-	// 	}
-	// 	if (tmp->outfile)
-	// 	{
-	// 		printf("\noutfile->         ");
-	// 		printlist(tmp->outfile);
-	// 	}
-	// 	printf("\n---\n");
-	// 	tmp = tmp->next;
-	// }
 	return (command);
 }

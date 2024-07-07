@@ -17,8 +17,8 @@ SRCS = 	src/minishell.c Libft/ft_split.c Libft/ft_putstr_fd.c\
 		Libft/ft_itoa.c Libft/ft_atoi.c\
 		src/env.c src/export.c src/unset_exit.c src/cd.c src/pwd.c\
 		src/echo.c src/handlingsignals.c\
-
-
+		src/utils0.c src/utils1.c src/utils2.c src/utils3.c src/utils4.c src/utils5.c\
+		src/open_heredoc.c src/utils6.c src/utils7.c
 
 OBJ = $(SRCS:.c=.o)
 
@@ -42,3 +42,5 @@ fclean :
 		@$(RM) $(OBJ) $(NAME)
 
 re : fclean all
+
+.SECONDARY : ${OBJ}

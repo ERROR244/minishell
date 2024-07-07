@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/10 11:21:17 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:04:51 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,49 @@ void	remove_quotes(t_cmds *lst)
 		}
 		lst = lst->next;
 	}
+}
+
+t_command	*command_new(t_command *lst)
+{
+	t_command	*n_node;
+	t_command	*last_node;
+
+	n_node = (t_command *)malloc(sizeof(struct s_command));
+	if (n_node == NULL)
+		return (NULL);
+	n_node->cmd = NULL;
+	n_node->infile = NULL;
+	n_node->outfile = NULL;
+	n_node->next = NULL;
+	if (lst == NULL)
+	{
+		n_node->prev = NULL;
+	}
+	else
+	{
+		last_node = command_last(lst);
+		n_node->prev = last_node;
+	}
+	return (n_node);
+}
+
+t_command	*get_command(t_cmds *lst)
+{
+	t_command *command;
+	t_command *node;
+	t_command *curr;
+
+	command = NULL;
+	command = command_new(command);
+	while (lst)
+	{
+		if (lst->token == Pipe)
+		{
+			node = command_new(command);
+			curr = command_last(command);
+			curr->next = node;
+		}
+		lst = lst->next;
+	}
+	return (command);
 }

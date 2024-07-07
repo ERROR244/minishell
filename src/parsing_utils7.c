@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/06 14:39:21 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:06:00 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,6 @@ static void	ft_free(char **ptr, int i)
 	while (j < i)
 		free(ptr[j++]);
 	free(ptr);
-}
-
-bool	check_next(char *str)
-{
-	int i;
-	int flag;
-
-	i = 0;
-	flag = 0;
-	while (str[i])
-	{
-		if (str[i] == 34)
-			flag++;
-		i++;
-	}
-	if (flag % 2 == 0)
-		return (true);
-	return (false);
 }
 
 static char	**split(char *s1, int i, char **ptr)

@@ -6,38 +6,11 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/08 14:53:56 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:03:40 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-char	**get_file_name(char *str)
-{
-	char	**ptr;
-	int		size;
-	int		i;
-
-	size = 0;
-	i = 0;
-	ptr = malloc(sizeof(char *) * (3));
-	while (str[size] && str[size] != 32 && str[size] != 9)
-		size++;
-	ptr[0] = malloc(sizeof(char) * (size + 1));
-	ft_strlcpy(ptr[0], str, size + 1);
-	if (!str[size])
-	{
-		ptr[1] = NULL;
-		return (ptr);
-	}
-	i = 0; 
-	while (str[i])
-		i++;
-	ptr[1] = malloc(sizeof(char) * (i - size + 1));
-	ft_strlcpy(ptr[1], str + size, ft_strlen(str + size) + 1);
-	ptr[2] = NULL;
-	return (ptr);
-}
 
 int	is_space_in(char *str)
 {
@@ -100,34 +73,6 @@ void get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 		curr->next = node;
 		i++;
 	}
-}
-
-char *rm_spaces(char *str)
-{
-	int i;
-	int k;
-	int l;
-	char *ptr;
-
-	i = 0;
-	while (str[i] && (str[i] == ' ' || str[i] == '	'))
-		i++;
-	l = i;
-    k = i;
-	while (str[i++])
-        l++;
-    i--;
-    while (--i != 0 && (str[i] == ' ' || str[i] == '	'))
-	{
-        l--;
-	}
-	ptr = malloc(sizeof(char) * (l - k + 1));
-    i = 0;
-	while (k < l)
-		ptr[i++] = str[k++];
-	ptr[i] = '\0';
-	free(str);
-	return (ptr);
 }
 
 int	count_words(char const *s)

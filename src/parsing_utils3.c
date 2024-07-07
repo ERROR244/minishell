@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/25 16:30:09 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:02:41 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,36 +112,3 @@ char	**ft_split_msh(char const *s)
 	ptr = split(s, 0, ptr, 1);
 	return (ptr);
 }
-
-// void free_split_array(char **split_array)
-// {
-//     char **ptr = split_array;
-//     while (*ptr) {
-//         free(*ptr);
-//         ptr++;
-//     }
-//     free(split_array);
-// }
-
-// int main(int ac, char **av)
-// {
-//     const char *test_string = av[1];
-
-//     char **result = ft_split_msh(test_string);
-
-//     if (result)
-// 	{
-//         for (int i = 0; result[i]; i++)
-// 		{
-//             printf(":%s:\n", result[i]);
-//         }
-
-//         free_split_array(result);
-//     }
-// 	else
-// 	{
-//         printf("Error: ft_split returned NULL\n");
-//     }
-
-//     return 0;
-// }

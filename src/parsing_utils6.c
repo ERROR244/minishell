@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:47:27 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/06 14:38:29 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:06:03 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,47 +110,20 @@ int	dollar_is_in(char *str)
 	return (k);
 }
 
-t_command	*command_new(t_command *lst)
+bool	check_next(char *str)
 {
-	t_command	*n_node;
-	t_command	*last_node;
+	int i;
+	int flag;
 
-	n_node = (t_command *)malloc(sizeof(struct s_command));
-	if (n_node == NULL)
-		return (NULL);
-	n_node->cmd = NULL;
-	n_node->infile = NULL;
-	n_node->outfile = NULL;
-	n_node->next = NULL;
-	if (lst == NULL)
+	i = 0;
+	flag = 0;
+	while (str[i])
 	{
-		n_node->prev = NULL;
+		if (str[i] == 34)
+			flag++;
+		i++;
 	}
-	else
-	{
-		last_node = command_last(lst);
-		n_node->prev = last_node;
-	}
-	return (n_node);
-}
-
-t_command	*get_command(t_cmds *lst)
-{
-	t_command *command;
-	t_command *node;
-	t_command *curr;
-
-	command = NULL;
-	command = command_new(command);
-	while (lst)
-	{
-		if (lst->token == Pipe)
-		{
-			node = command_new(command);
-			curr = command_last(command);
-			curr->next = node;
-		}
-		lst = lst->next;
-	}
-	return (command);
+	if (flag % 2 == 0)
+		return (true);
+	return (false);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohassani <ohassani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/02 13:15:41 by ohassani         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:12:22 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_data t_data;
 typedef struct s_signal
 {
     int ret;
-    bool flag_sig;
+    // bool flag_sig;
     int pipef;
     int sig;
     bool flag_heredoc;
@@ -45,10 +45,7 @@ typedef struct s_signal
 
 extern t_signal my_signal;
 
-extern bool flag_sig;
-// extern bool flag_data;
-extern int ret;
-extern char Gstr[100][100];
+// extern char Gstr[100][100];
 
 
 
@@ -142,9 +139,9 @@ char	*ft_strjoin3(char const *s1, char c, char const *s2);
 
 // parsing
 void    signal_handler(void);
-void signal_hand2();
-void sig_pipe(int signal);
-void handler_before(void);
+// void signal_hand2();
+// void sig_pipe(int signal);
+// void handler_before(void);
 void	    free_array(char **array);
 char	    *rm_spaces(char *str);
 void        get_list(char **cmd, int size, t_cmds **lst, t_data *data);
@@ -240,6 +237,30 @@ void        change_mydir(t_env *list, char *path);
 int         morethan2arg(char **com);
 void        mypwd(t_env *env);
 // void        ft_putendexp(char *str, int fd);
+
+
+// utils
+
+void swap(char **s1, char **s2);
+int count_nodes(t_env *list);
+int	get_cmd_size(t_cmds *list);
+void	get_command_done(t_cmds *list, t_cmds *head, char **command, bool flag);
+char **creat_myenv();
+int check_quot(char *str);
+int  open_heredoc(t_cmds *cmds);
+int	ft_strcmp_for_heredoc(char *s1, char *s2);
+int get_command_size(t_command *command);
+int	wait_pid(int *pid, int cmd_num);
+int execute_command(t_env *list, t_command *command, t_data *data, int index);
+int    get_command_in_one_char(char **str);
+char	*get_content(char **env, char *str);
+bool	check_back_for_heredoc(char *str, int index);
+void	slist_clear(t_slist **lst);
+char	**get_file_name(char *str);
+bool	check_next(char *str);
+char	**get_name(char *str);
+int is_numeric(char *str);
+
 
 
 //  after the norm

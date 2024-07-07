@@ -6,57 +6,11 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:53 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/06/11 12:14:50 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 08:41:42 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-int lenofmyenv(char **env)
-{
-    int i = 0;
-    int mylen = 0;
-
-    while(env[i])
-    {
-        i++;
-        mylen++;
-    }
-    return(mylen);
-
-}
-
-void exiterror(void)
-{
-    write(1, "error\n", 7);
-    return ;
-}
-
-char **creat_myenv()
-{
-    char **ptr;
-    char buffer[PATH_MAX];
-
-    ptr = (char **)malloc((4) * sizeof(char *));
-    if(!ptr)
-        exiterror();
-    ptr[0] = ft_strjoin("PWD=", getcwd(buffer, PATH_MAX));
-    ptr[1] = ft_strdup("SHLVL=1");
-    ptr[2] = ft_strdup("_=/usr/bin/env");
-    ptr[3] = NULL;
-    return (ptr);
-}
-
-t_env	*env_last(t_env *lst)
-{
-	if (lst == NULL)
-		return (lst);
-	while (lst->next)
-	{
-		lst = lst->next;
-	}
-	return (lst);
-}
 
 t_env	*env_new(t_env *lst, char *str)
 {
