@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 08:46:00 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:36:34 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_strcmp_for_heredoc(char *s1, char *s2)
 {
-	char *str;
-	int k;
-	int i;
+	char	*str;
+	int		k;
+	int		i;
 
 	i = 0;
 	if (!s1 || !s2)
@@ -29,12 +29,13 @@ int	ft_strcmp_for_heredoc(char *s1, char *s2)
 	return (k);
 }
 
-int errors_managment(t_data *data, int i)
+int	errors_managment(t_data *data, int i)
 {
-	int		heredoc_num = 0;
-	t_cmds *curr;
-	t_cmds *head;
+	int		heredoc_num;
+	t_cmds	*curr;
+	t_cmds	*head;
 
+	heredoc_num = 0;
 	curr = data->lst;
 	head = curr;
 	while (curr && i == 0)
@@ -52,7 +53,8 @@ int errors_managment(t_data *data, int i)
 	{
 		if (heredoc_num > 16)
 		{
-			ft_putstr_fd("minishell: maximum here-document count exceeded\n", 2);
+			ft_putstr_fd("minishell: maximum here-document count exceeded\n",
+				2);
 			exit(2);
 		}
 		if (curr->token == HereDoc)
@@ -68,9 +70,9 @@ int errors_managment(t_data *data, int i)
 	return (i);
 }
 
-int cmdcheck(char *str)
+int	cmdcheck(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!str)

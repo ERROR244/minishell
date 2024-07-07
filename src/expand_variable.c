@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:21:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 08:56:36 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:38:41 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 bool	check_ex(char *str, int size)
 {
-	int i;
-	int flag;
+	int	i;
+	int	flag;
 
 	flag = 0;
 	i = 0;
@@ -34,9 +34,9 @@ bool	check_ex(char *str, int size)
 
 char	**get_vars_content(char **var, char **env, char *str)
 {
-	char **vars;
-	int i;
-	int k;
+	char	**vars;
+	int		i;
+	int		k;
 
 	k = 0;
 	i = 0;
@@ -69,9 +69,9 @@ char	**get_vars_content(char **var, char **env, char *str)
 char	*join_vars(char **vars)
 {
 	char	*line;
-	int i;
-	int j;
-	int size;
+	int		i;
+	int		j;
+	int		size;
 
 	i = 0;
 	size = 0;
@@ -96,8 +96,9 @@ char	*expand_variable(char *str, t_data *data)
 {
 	char	**var;
 	char	**spleted_line;
-	char	*line = NULL;
+	char	*line;
 
+	line = NULL;
 	if (dollar_is_in(str))
 	{
 		var = get_vars(str);
@@ -112,34 +113,34 @@ char	*expand_variable(char *str, t_data *data)
 		}
 		free_array(var);
 	}
-    else
-	        return (str);
-    free(str);
-    return (line);
+	else
+		return (str);
+	free(str);
+	return (line);
 }
 
-char *check_tabs(char *str, int i, int j, t_data *data)
+char	*check_tabs(char *str, int i, int j, t_data *data)
 {
-	char *new_str;
-	int input_len;
+	char	*new_str;
+	int		input_len;
 
-    input_len = ft_strlen(str);
-    new_str = (char *)malloc(input_len + 1);
-    if (new_str == NULL)
+	input_len = ft_strlen(str);
+	new_str = (char *)malloc(input_len + 1);
+	if (new_str == NULL)
 		return (NULL);
-    i = 0;
-    while (j < input_len)
+	i = 0;
+	while (j < input_len)
 	{
-        if (str[i] == '\t')
+		if (str[i] == '\t')
 		{
-            new_str[j++] = ' ';
+			new_str[j++] = ' ';
 			i++;
 		}
-        else
-            new_str[j++] = str[i++];
-    }
-    new_str[j] = '\0';
+		else
+			new_str[j++] = str[i++];
+	}
+	new_str[j] = '\0';
 	free(str);
 	new_str = expand_variable(new_str, data);
-    return (new_str);
+	return (new_str);
 }
