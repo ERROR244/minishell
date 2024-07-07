@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 12:17:29 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 17:21:37 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ void	set_env_after_export(t_env *list, char **export, char c,
 		if (c == '+')
 		{
 			tmp = index->var_name;
-			index->var_name = ft_strjoin(index->var_name, export[1]);
+			if (tmp[ft_strlen(tmp) - 1] != '=')
+				index->var_name = ft_strjoin3(tmp, '=', export[1]);
+			else
+				index->var_name = ft_strjoin(tmp, export[1]);
 			free(tmp);
 		}
 		else
