@@ -6,39 +6,39 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:32:38 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 11:54:44 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	set_env_after_export(t_env *list, char *key, char *value, char c,
-		bool export_flag)
+void	set_env_after_export(t_env *list, char **export, char c,
+			bool export_flag)
 {
 	t_env	*index;
-	t_env	*node;
+	char	*tmp;
 
-	index = findmyindex(list, key);
+	index = findmyindex(list, export[0]);
 	if (index)
 	{
 		if (c == '+')
 		{
-			free(index->var_name);
-			index->var_name = ft_strjoin(index->var_name, value);
+			tmp = index->var_name;
+			index->var_name = ft_strjoin(tmp, export[1]);
+			free(tmp);
 		}
 		else
 		{
-			if (ft_strcmp(index->var_name, value) != 0 || export_flag == true)
-			{
-				free(index->var_name);
-				index->var_name = ft_strjoin3(key, '=', value);
-			}
+			free(index->var_name);
+			if (export[1] != NULL)
+				index->var_name = ft_strjoin3(export[0], '=', export[1]);
+			else if (export_flag == true)
+				index->var_name = ft_strjoin3(export[0], '=', "");
 		}
 		return ;
 	}
-	node = env_new(list, ft_strjoin3(key, '=', value));
 	list = env_last(list);
-	list->next = node;
+	list->next = env_new(list, ft_strjoin3(export[0], '=', export[1]));
 }
 
 void	set_env_after_cd(t_env *list, char *key, char *value)

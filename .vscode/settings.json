@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "*.c": "c",
-        "minishell.h": "c"
+        "minishell.h": "c",
+        "libft.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:39:30 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 11:55:53 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ int	ft_all_isalpha(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] && (ft_isalpha(str[i]) == 1 || str[i] == '_'))
+	while (str[i] && (ft_isalpha(str[i]) == 1 || str[i] == '_'
+			|| str[i] == '+'))
 		i++;
 	if (str[i] == '=' || str[i] == '\0')
 		return (0);
@@ -126,7 +127,9 @@ void	export(t_env *list, char **com)
 			else
 			{
 				if (com[i][ft_strlen(com[i]) - 1] == '=')
+				{
 					export_flag = true;
+				}
 				export = ft_split(com[i], '=');
 				size = ft_strlen(export[0]);
 				if (export[0][size - 1] == '+')
@@ -143,8 +146,7 @@ void	export(t_env *list, char **com)
 					free(export[0]);
 					export[0] = str;
 				}
-				set_env_after_export(list, export[0], export[1], c,
-					export_flag);
+				set_env_after_export(list, export, c, export_flag);
 				free_array(export);
 			}
 			i++;
