@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 13:38:14 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:04:33 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,51 +93,58 @@ char	*get_content(char **env, char *str)
 	return (ft_strdup(""));
 }
 
+int	fill_in(char *line, char *ptr, int pos)
+{
+	int i;
+	int tpos;
+
+	i = 0;
+	tpos = pos;
+	if (ptr)
+	{
+		while (ptr[i])
+			line[tpos++] = ptr[i++];
+	}
+	return (tpos);
+}
+
 char	*get_final_line(char **lines, char **vars, char *cmd, char	*line)
 {
 	int		i;
 	int		j;
 	int		k;
 	int		l;
-	int		size;
+	int		pos;
 
 	j = 0;
 	i = 0;
 	k = 0;
 	l = 0;
-	size = 0;
+	int size = 0;
+	pos = 0;
 	line = malloc(sizeof(char) * (get_2d_size(vars, lines) + 1));
-	while (cmd[k] == '$' && cmd[k + 1] != '$')
+	while (cmd[size])
 	{
-		k++;
-		while (cmd[k] && ft_isalpha(cmd[k]))
-			k++;
-		j = 0;
-		while (vars[i][j])
-			line[size++] = vars[i][j++];
-		i++;
-	}
-	k = 0;
-	while (lines[k] || vars[i])
-	{
-		if (lines[k])
+		if (cmd[size] != '$' && lines[k])
 		{
-			l = 0;
-			while (lines[k][l])
-				line[size++] = lines[k][l++];
-			k++;
+			pos = fill_in(line, lines[k++], pos);
+			while (cmd[size] && cmd[size] != '$')
+				size++;
 		}
-		if (vars[i])
+		if (cmd[size] == '$' && vars[i])
 		{
-			j = 0;
-			while (vars[i][j])
+			pos = fill_in(line, vars[i++], pos);
+			if (cmd[size + 1] == '?')
+				size += 2;
+			else
 			{
-				line[size++] = vars[i][j++];
+				size++;
+				while (cmd[size] && ft_isalnum(cmd[size]) == 1)
+					size++;
 			}
-			i++;
 		}
 	}
-	line[size] = '\0';
+	line[pos] = '\0';
 	return (line);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:31:09 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:31:14 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 17:28:45 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_array(char **str)
 {
-	if (!str)
+	if (!str || !*str)
 		return ;
 	printf(":");
 	printf("%s", *str);

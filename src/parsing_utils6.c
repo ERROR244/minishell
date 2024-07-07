@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:47:27 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:44:09 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 17:54:32 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,22 @@ int	count_vars(char *s1)
 		if (*s1 == '$' && ft_isalpha(s1[1]) != 0)
 		{
 			s1++;
-			if (*s1 != '$')
+			if (*s1 == '?')
 			{
-				while (*s1 && ft_isalpha(s1[0]) != 0)
-				{
+				s1++;
+				in_word = 0;
+			}
+			else if (*s1 != '$')
+			{
+				while (*s1 && ft_isalpha(*s1) != 0 && *s1 != '?')
 					s1++;
-				}
 				in_word = 0;
 			}
 		}
 		else if (in_word == 0)
 		{
 			count++;
-			while (*s1 && (*s1 != '$' || ft_isalnum(s1[0]) == 1 || !s1[1]))
+			while (*s1 && (*s1 != '$' || ft_isalnum(s1[0]) == 1 || *s1 == '?' || !s1[1]))
 			{
 				if (s1[0] == '$' && s1[1] == '$')
 					s1++;

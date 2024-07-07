@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:44:24 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 18:05:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,14 @@ static char	**split(char *s1, int i, char **ptr)
 			s1++;
 			while (*s1 && ft_isalpha(*s1) == 1)
 				s1++;
-			if ((*s1 >= '0' && *s1 <= '9') || *s1 == '?' || *s1 == '_')
+			if ((*s1 >= '0' && *s1 <= '9') || (s1[-1] == '$' && *s1 == '?') || *s1 == '_')
 				s1++;
+			// int i = 1;
+			// while (s1[i] && ft_isalpha(s1[i]) == 1)
+			// 	s1++;
+			// if ((s1[i] >= '0' && s1[i] <= '9') || (s1[i - 1] == '$' && s1[i] == '?') || s1[i] == '_')
+			// 	s1++;
+			// s1 += i;
 		}
 	}
 	ptr[i] = NULL;
@@ -107,7 +113,7 @@ char	**ft_split_str(char *s1)
 	word_count = count_vars(s1);
 	if (word_count == 0)
 		return (NULL);
-	ptr = malloc((word_count + 1) * sizeof(char *));
+	ptr = malloc((word_count + 2) * sizeof(char *));
 	if (ptr == NULL)
 	{
 		return (NULL);
