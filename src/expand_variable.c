@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:21:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 10:09:31 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:48:12 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,14 @@ char	*expand_variable(char *str, t_data *data)
 	if (dollar_is_in(str))
 	{
 		var = get_vars(str);
+		print_array(var);
 		var = get_vars_content(var, data->env, str);
 		spleted_line = ft_split_str(str);
 		if (spleted_line == NULL)
 			line = join_vars(var);
 		else
 		{
-			line = get_final_line(spleted_line, var, str);
+			line = get_final_line(spleted_line, var, str, NULL);
 			free_array(spleted_line);
 		}
 		free_array(var);

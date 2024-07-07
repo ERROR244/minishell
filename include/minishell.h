@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 11:24:12 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:36:33 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ char        *grep_variable_name(char *line);
 char        **ft_split_str(char *s1);
 char    	*expand_variable(char *str, t_data *data);
 char        **get_vars(char *cmd);
-char        *get_final_line(char **lines, char **vars, char *cmd);
+char        *get_final_line(char **lines, char **vars, char *cmd, char *line);
 int         dollar_is_in(char *str);
 int         count_vars(char *s1);
 bool        check_ex(char *str, int size);
@@ -214,7 +214,7 @@ char        **linked_list_to_array(t_env *list);
 t_env       *unset_env(t_env *list, char **com, t_data *data);
 void        exit_myminishell(char **com, int flag);
 char       	*join(char const *s1, char const *s2);
-char        *get_my_path(t_env  *list, char **com, bool flag);
+char        *get_my_path(t_env  *list, char **com, bool flag, int i);
 void        export(t_env *list, char **com);
 void        printmyexport(t_env *list);
 int         lenofmyenv(char **env);
@@ -237,7 +237,7 @@ int	get_cmd_size(t_cmds *list);
 void	get_command_done(t_cmds *list, t_cmds *head, char **command, bool flag);
 char **creat_myenv();
 int check_quot(char *str);
-int  open_heredoc(t_cmds *cmds);
+int  open_heredoc(t_cmds *cmds, int pid, int status, bool flag);
 int	ft_strcmp_for_heredoc(char *s1, char *s2);
 int get_command_size(t_command *command);
 int	wait_pid(int *pid, int cmd_num);
@@ -250,6 +250,7 @@ char	**get_file_name(char *str);
 bool	check_next(char *str);
 char	**get_name(char *str);
 int is_numeric(char *str);
+int get_2d_size(char **vars, char **lines);
 
 
 

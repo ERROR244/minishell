@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 10:04:31 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:38:14 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,31 +93,20 @@ char	*get_content(char **env, char *str)
 	return (ft_strdup(""));
 }
 
-char	*get_final_line(char **lines, char **vars, char *cmd)
+char	*get_final_line(char **lines, char **vars, char *cmd, char	*line)
 {
-	char	*line;
 	int		i;
 	int		j;
 	int		k;
 	int		l;
 	int		size;
 
-	i = 0;
 	j = 0;
-	k = 0;
-	l = 0;
-	size = 0;
-	i = 0;
-	while (vars[i])
-		size += ft_strlen(vars[i++]);
-	i = 0;
-	while (lines[i])
-		size += ft_strlen(lines[i++]);
-	line = malloc(sizeof(char) * (size + 1));
 	i = 0;
 	k = 0;
 	l = 0;
 	size = 0;
+	line = malloc(sizeof(char) * (get_2d_size(vars, lines) + 1));
 	while (cmd[k] == '$' && cmd[k + 1] != '$')
 	{
 		k++;

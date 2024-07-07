@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 10:09:31 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:25:55 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,10 @@ char	*join(char const *s1, char const *s2)
 	return (concatenated);
 }
 
-char	*get_my_path(t_env *list, char **com, bool flag)
+char	*get_my_path(t_env *list, char **com, bool flag, int i)
 {
 	char	**str;
 	char	*path1;
-	int		i;
 	char	*mypath;
 	char	*joiner;
 	char	*command_path;
@@ -100,8 +99,7 @@ char	*get_my_path(t_env *list, char **com, bool flag)
 	str = ft_split(path1, ':');
 	if (!str)
 		return (NULL);
-	i = 0;
-	mypath = (NULL);
+	mypath = NULL;
 	while (str[i])
 	{
 		joiner = join(str[i], "/");

@@ -6,12 +6,12 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 11:54:44 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 12:17:29 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
+		
 void	set_env_after_export(t_env *list, char **export, char c,
 			bool export_flag)
 {
@@ -24,12 +24,13 @@ void	set_env_after_export(t_env *list, char **export, char c,
 		if (c == '+')
 		{
 			tmp = index->var_name;
-			index->var_name = ft_strjoin(tmp, export[1]);
+			index->var_name = ft_strjoin(index->var_name, export[1]);
 			free(tmp);
 		}
 		else
 		{
-			free(index->var_name);
+			if (export[1] != NULL || export_flag == true)
+				free(index->var_name);
 			if (export[1] != NULL)
 				index->var_name = ft_strjoin3(export[0], '=', export[1]);
 			else if (export_flag == true)

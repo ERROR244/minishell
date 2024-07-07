@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 10:10:26 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 12:31:54 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	errors_managment(t_data *data, int i)
 	while (head && i != 130)
 	{
 		if (head->token == HereDocDel)
-			i = open_heredoc(head);
+			i = open_heredoc(head, 0, 0, true);
 		head = head->next;
 	}
 	return (i);

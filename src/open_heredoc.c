@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 10:09:31 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 12:45:14 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,52 +19,56 @@ void	signal_herd(int pid)
 	exit(128);
 }
 
-int	open_heredoc(t_cmds *cmds)
+int	print_error(int k, char *str)
+{
+	char	*num;
+
+	num = ft_itoa(k);
+	ft_putstr_fd("minishell: warning: here-document at line ", 2);
+	ft_putstr_fd(num, 2);
+	free(num);
+	ft_putstr_fd("  delimited by end-of-file (wanted `", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd("')\n", 2);
+	return (0);
+}
+
+void	check_quot_and_filename(bool *flag, char **filename, char *str, int i)
+{
+	char	*tmp1;
+
+	if (check_quot(str) != 0)
+		*flag = false;
+	tmp1 = ft_itoa(i);
+	*filename = ft_strjoin("/tmp/HereDoc", tmp1);
+	free(tmp1);
+}
+
+int	open_heredoc(t_cmds *cmds, int pid, int status, bool flag)
 {
 	static int	i;
 	static int	k;
-	char		*tmp1;
-	char		*filename;
 	char		*line;
-	bool		flag;
 	int			fd;
-	int			status;
 	int			fd0;
-	int			pid;
-	char		*num;
 
 	fd0 = dup(0);
-	flag = true;
-	if (check_quot(cmds->cmd[0]) != 0)
-		flag = false;
-	tmp1 = ft_itoa(i);
-	filename = ft_strjoin("/tmp/HereDoc", tmp1);
-	free(tmp1);
+	check_quot_and_filename(&flag, &line, cmds->cmd[0], i);
 	g_signal.ff = 1;
-	pid = fork();
+	pid = ft_fork();
 	if (pid == 0)
 	{
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+		fd = open(line, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+		free(line);
 		signal(SIGINT, signal_herd);
 		line = readline(">");
 		while (1)
 		{
 			k++;
-			if (!line)
-			{
-				num = ft_itoa(k);
-				ft_putstr_fd("minishell: warning: here-document at line ", 2);
-				ft_putstr_fd(num, 2);
-				free(num);
-				ft_putstr_fd("  delimited by end-of-file (wanted `", 2);
-				ft_putstr_fd(cmds->cmd[0], 2);
-				ft_putstr_fd("')\n", 2);
+			if (!line && print_error(k, cmds->cmd[0]) == 0)
 				break ;
-			}
 			else if (ft_strcmp_for_heredoc(line, cmds->cmd[0]) == 0)
-			{
 				break ;
-			}
 			if (flag == true)
 				line = expand_variable(line, cmds->data);
 			ft_putstr_fd(line, fd);
@@ -84,7 +88,7 @@ int	open_heredoc(t_cmds *cmds)
 	close(fd0);
 	free_array(cmds->cmd);
 	cmds->cmd = malloc(sizeof(char *) * 2);
-	cmds->cmd[0] = filename;
+	cmds->cmd[0] = line;
 	cmds->cmd[1] = NULL;
 	cmds->prev->token = Input;
 	cmds->token = Infile;

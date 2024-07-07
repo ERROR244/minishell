@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 10:09:31 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:25:42 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	execute_command(t_env *list, t_command *command, t_data *data, int index)
 		return (127);
 	}
 	cmd = get_command_in_one_char(com);
-	path = get_my_path(list, com, data->path_flag);
+	path = get_my_path(list, com, data->path_flag, 0);
 	signal(SIGINT, SIG_IGN);
 	data->pid[index] = fork();
 	if (data->pid[index] == 0)

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:53 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:34:51 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 12:00:24 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,13 @@ t_env	*env_new(t_env *lst, char *str)
 	return (n_node);
 }
 
-void	creat_env_list(t_env **list, char **env)
+void	creat_env_list(t_env **list, char **env, int subshell, int i)
 {
 	char	*str;
 	char	**ptr;
-	int		subshell;
 	t_env	*node;
 	t_env	*curr;
-	int		i;
 
-	i = 0;
-	subshell = 0;
 	*list = env_new(*list, ft_strdup(env[i++]));
 	while (env[i])
 	{
@@ -72,11 +68,11 @@ t_env	*copieenv(char **env)
 	if (!env[0])
 	{
 		env = creat_myenv();
-		creat_env_list(&list, env);
+		creat_env_list(&list, env, 0, 0);
 		free_array(env);
 		return (list);
 	}
-	creat_env_list(&list, env);
+	creat_env_list(&list, env, 0, 0);
 	return (list);
 }
 

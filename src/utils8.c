@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   utils8.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/30 20:34:14 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 13:47:42 by ksohail-         ###   ########.fr       */
+/*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
+/*   Updated: 2024/07/07 13:29:47 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/minishell.h"
 
-int	ft_isalpha(int c)
+int get_2d_size(char **vars, char **lines)
 {
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-		return (1);
-	if (c == '_' || c == '?')
-		return (2);
-	return (0);
+    int i;
+    int size;
+	i = 0;
+    size = 0;
+	while (vars[i])
+		size += ft_strlen(vars[i++]);
+	i = 0;
+	while (lines[i])
+		size += ft_strlen(lines[i++]);
+    return (size);
 }
