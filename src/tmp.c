@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:31:09 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:09:42 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:31:14 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,11 @@ void	print_array(char **str)
 
 void	printlist(void *tmp)
 {
-	t_slist *list;
+	t_slist	*list;
 
 	list = tmp;
 	while (list)
 	{
-		// printf("-%s<----->%s-	", list->cmd, Gstr[list->token]);
 		list = list->next;
 	}
 }

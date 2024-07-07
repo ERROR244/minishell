@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 08:39:48 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:29:54 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,12 @@ void    set_env_after_export(t_env *list, char *key, char *value, char c, bool e
 {
     t_env   *index;
     t_env   *node;
-//    char    *tmp;
 
     index = findmyindex(list, key);
     if (index)
     {
         if (c == '+')
         {
-//            tmp = ft_strjoin(index->var_name, value);
             free(index->var_name);
             index->var_name = ft_strjoin(index->var_name, value);
         }
