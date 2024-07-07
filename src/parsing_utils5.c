@@ -6,13 +6,13 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:04:51 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:43:54 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-size_t get_size(char *str)
+size_t	get_size(char *str)
 {
 	size_t	k;
 	size_t	i;
@@ -65,7 +65,7 @@ char	*get_string(char *str, size_t i, size_t k, size_t size)
 
 void	remove_quotes(t_cmds *lst)
 {
-	int i;
+	int	i;
 
 	while (lst)
 	{
@@ -73,7 +73,8 @@ void	remove_quotes(t_cmds *lst)
 		while (lst->cmd[i])
 		{
 			if (lst->cmd[i] != NULL)
-				lst->cmd[i] = get_string(lst->cmd[i], 0, 0, get_size(lst->cmd[i]));
+				lst->cmd[i] = get_string(lst->cmd[i], 0, 0,
+						get_size(lst->cmd[i]));
 			i++;
 		}
 		lst = lst->next;
@@ -106,9 +107,9 @@ t_command	*command_new(t_command *lst)
 
 t_command	*get_command(t_cmds *lst)
 {
-	t_command *command;
-	t_command *node;
-	t_command *curr;
+	t_command	*command;
+	t_command	*node;
+	t_command	*curr;
 
 	command = NULL;
 	command = command_new(command);

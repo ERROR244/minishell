@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:19 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:07:57 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:55:17 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,17 @@ t_slist	*get_head(t_slist *list)
 	while (list)
 	{
 		if (!list->prev)
-			break;
+			break ;
 		list = list->prev;
 	}
 	return (list);
 }
 
-
 char	**array_copy(char **str)
 {
 	char	**ptr;
-	int i;
-	
+	int		i;
+
 	i = 0;
 	if (!str)
 		return (NULL);
@@ -59,7 +58,6 @@ char	**array_copy(char **str)
 		i++;
 	ptr = malloc(sizeof(char *) * (i + 1));
 	i = 0;
-
 	while (str[i])
 	{
 		ptr[i] = ft_strdup(str[i]);
@@ -73,15 +71,15 @@ t_command	*get_commands(t_cmds *lst)
 {
 	t_command	*command;
 	t_command	*tmp;
-	t_slist  	*infile;
-    t_slist 	*outfile;;
-	
+	t_slist		*infile;
+	t_slist		*outfile;
+
 	command = get_command(lst);
 	tmp = command;
 	while (command && lst)
 	{
 		infile = NULL;
-    	outfile = NULL;;
+		outfile = NULL;
 		while (lst && lst->token != Pipe)
 		{
 			if (lst->cmd && (lst->token == Cmd || lst->token == Non))
@@ -96,9 +94,9 @@ t_command	*get_commands(t_cmds *lst)
 					infile = infile->next;
 				}
 			}
-			else if (lst->cmd[0] && (lst->token == OutFile || lst->token == AppendFile))
+			else if (lst->cmd[0] && (lst->token == OutFile
+					|| lst->token == AppendFile))
 			{
-				
 				if (!outfile)
 					outfile = node_new(outfile, lst->cmd[0], lst->token);
 				else
@@ -115,7 +113,6 @@ t_command	*get_commands(t_cmds *lst)
 			lst = lst->next;
 		command = command->next;
 	}
-	
 	command = tmp;
 	return (command);
 }

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:47:27 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:06:03 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:44:09 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*grep_variable_name(char *line)
 		return (ft_strdup("?"));
 	else if (line[i] && line[i] == '_')
 		return (ft_strdup("_"));
-	while (line[i]&& ft_isalnum(line[i]) == 1)
+	while (line[i] && ft_isalnum(line[i]) == 1)
 		i++;
 	k = i - j;
 	str = malloc(sizeof(char) * (k + 1));
@@ -53,30 +53,30 @@ int	count_vars(char *s1)
 	while (s1 && *s1)
 	{
 		if (*s1 == '$' && ft_isalpha(s1[1]) != 0)
-        {
-            s1++;
+		{
+			s1++;
 			if (*s1 != '$')
-            {
-                while (*s1 && ft_isalpha(s1[0]) != 0)
-			    {
-                    s1++;
-                }
-			    in_word = 0;
-            }
-        }
+			{
+				while (*s1 && ft_isalpha(s1[0]) != 0)
+				{
+					s1++;
+				}
+				in_word = 0;
+			}
+		}
 		else if (in_word == 0)
 		{
-		    count++;
-            while (*s1 && (*s1 != '$' || ft_isalnum(s1[0]) == 1 || !s1[1]))
-		    {
+			count++;
+			while (*s1 && (*s1 != '$' || ft_isalnum(s1[0]) == 1 || !s1[1]))
+			{
 				if (s1[0] == '$' && s1[1] == '$')
 					s1++;
-                s1++;
-            }
-		    in_word = 1;
+				s1++;
+			}
+			in_word = 1;
 		}
-        else
-    		s1++;
+		else
+			s1++;
 	}
 	return (count);
 }
@@ -112,8 +112,8 @@ int	dollar_is_in(char *str)
 
 bool	check_next(char *str)
 {
-	int i;
-	int flag;
+	int	i;
+	int	flag;
 
 	i = 0;
 	flag = 0;

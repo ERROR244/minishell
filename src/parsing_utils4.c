@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:03:40 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:43:37 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	is_space_in(char *str)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -32,13 +32,13 @@ int	is_space_in(char *str)
 	return (0);
 }
 
-void get_list(char **cmd, int size, t_cmds **lst, t_data *data)
+void	get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 {
-	t_cmds *node;
-	t_cmds *curr;
-	char **ptr;
-	int i;
-	
+	t_cmds	*node;
+	t_cmds	*curr;
+	char	**ptr;
+	int		i;
+
 	i = 0;
 	if (cmd[0] == NULL)
 	{
@@ -88,7 +88,8 @@ int	count_words(char const *s)
 	{
 		if (*s == '|' || *s == '<' || *s == '>')
 		{
-			if ((*s == '<' && *(s + 1) == '<') || (*s == '>' && *(s + 1) == '>'))
+			if ((*s == '<' && *(s + 1) == '<') || (*s == '>' && *(s
+						+ 1) == '>'))
 				s++;
 			in_word = 0;
 			count++;

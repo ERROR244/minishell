@@ -6,18 +6,18 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:02:01 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:46:13 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_signal my_signal;
+t_signal	my_signal;
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-    t_data	data;
-	
+	t_data	data;
+
 	if (ac != 1)
 		return (1);
 	(void)av;
@@ -28,11 +28,10 @@ int main(int ac, char **av, char **env)
 	if (!env[0])
 		data.path_flag = true;
 	data.list_env = copieenv(env);
-    while (1)
-    {
+	while (1)
+	{
 		signal_handler();
-		
-		data.env = linked_list_to_array(data.list_env);;
+		data.env = linked_list_to_array(data.list_env);
 		data.line = readline("minishell$ ");
 		if (!data.line)
 			break ;
@@ -44,11 +43,10 @@ int main(int ac, char **av, char **env)
 		free(data.line);
 		free_array(data.env);
 		my_signal.ff = 0;
-    }
-
+	}
 	if (data.env)
 		free_array(data.env);
 	senv_clear(&data.list_env);
 	ft_putstr_fd("exit\n", 2);
-    return (0);
+	return (0);
 }

@@ -6,32 +6,34 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 08:48:10 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:42:50 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void signal_herd(int pid)
+void	signal_herd(int pid)
 {
 	(void)pid;
 	printf("\n");
-	exit(128);	
+	exit(128);
 }
 
-int  open_heredoc(t_cmds *cmds)
+int	open_heredoc(t_cmds *cmds)
 {
-	static int  i;
+	static int	i;
 	static int	k;
-	char    	*tmp1;
-	char    	*filename;
-	char    	*line;
-	bool    	flag;
-	int     	fd;
-	int status;
-	
-	
-	int fd0 = dup(0);
+	char		*tmp1;
+	char		*filename;
+	char		*line;
+	bool		flag;
+	int			fd;
+	int			status;
+	int			fd0;
+	int			pid;
+	char		*num;
+
+	fd0 = dup(0);
 	flag = true;
 	if (check_quot(cmds->cmd[0]) != 0)
 		flag = false;
@@ -39,7 +41,7 @@ int  open_heredoc(t_cmds *cmds)
 	filename = ft_strjoin("/tmp/HereDoc", tmp1);
 	free(tmp1);
 	my_signal.ff = 1;
-	int pid = fork();
+	pid = fork();
 	if (pid == 0)
 	{
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
@@ -50,19 +52,18 @@ int  open_heredoc(t_cmds *cmds)
 			k++;
 			if (!line)
 			{
-				char *num = ft_itoa(k);
+				num = ft_itoa(k);
 				ft_putstr_fd("minishell: warning: here-document at line ", 2);
 				ft_putstr_fd(num, 2);
 				free(num);
 				ft_putstr_fd("  delimited by end-of-file (wanted `", 2);
 				ft_putstr_fd(cmds->cmd[0], 2);
 				ft_putstr_fd("')\n", 2);
-				break;
+				break ;
 			}
-			
 			else if (ft_strcmp_for_heredoc(line, cmds->cmd[0]) == 0)
 			{
-				break;
+				break ;
 			}
 			if (flag == true)
 				line = expand_variable(line, cmds->data);
@@ -75,11 +76,9 @@ int  open_heredoc(t_cmds *cmds)
 		exit(0);
 	}
 	else if (pid < 0)
-	    ft_putstr_fd("minishell: fork fail while creating the HereDocument\n", 2);
-
-	
-	waitpid(pid,&status,0);
-		
+		ft_putstr_fd("minishell: fork fail while creating the HereDocument\n",
+			2);
+	waitpid(pid, &status, 0);
 	my_signal.ff = 0;
 	dup2(fd0, 0);
 	close(fd0);

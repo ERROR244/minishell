@@ -6,13 +6,13 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:02:20 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:42:58 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void token1(t_cmds *cmds, char c)
+static void	token1(t_cmds *cmds, char c)
 {
 	if (c == '<')
 	{
@@ -40,7 +40,7 @@ static void token1(t_cmds *cmds, char c)
 	}
 }
 
-static void token2(t_cmds *cmds, int i)
+static void	token2(t_cmds *cmds, int i)
 {
 	if (i == 1)
 	{
@@ -60,7 +60,7 @@ static void token2(t_cmds *cmds, int i)
 	}
 }
 
-void    init_tokens(t_cmds *cmds, int size, t_cmds *lst)
+void	init_tokens(t_cmds *cmds, int size, t_cmds *lst)
 {
 	while (cmds)
 	{
@@ -77,7 +77,10 @@ void    init_tokens(t_cmds *cmds, int size, t_cmds *lst)
 			token2(cmds, 2);
 		else if (!cmds->prev && !cmds->next)
 			cmds->token = Cmd;
-		else if (cmds->token == Non && cmds->prev && (cmds->prev->token == OutFile || cmds->prev->token == Infile || cmds->prev->token == Append || cmds->prev->token == HereDocDel))
+		else if (cmds->token == Non && cmds->prev
+			&& (cmds->prev->token == OutFile || cmds->prev->token == Infile
+				|| cmds->prev->token == Append
+				|| cmds->prev->token == HereDocDel))
 			cmds->token = Cmd;
 		if (cmds)
 			cmds = cmds->next;
@@ -95,11 +98,8 @@ void	non_token(t_cmds *lst)
 		// 	lst->token = Non;
 		if (lst->token == Non && lst->prev && lst->prev->token == OutFile)
 			lst->token = Cmd;
-		if (lst->token == Input ||
-				lst->token == Output ||
-				lst->token == Append ||
-				lst->token == HereDoc ||
-				lst->token == Pipe)
+		if (lst->token == Input || lst->token == Output || lst->token == Append
+			|| lst->token == HereDoc || lst->token == Pipe)
 			lst->operation = Operation;
 		else
 			lst->operation = NonOperation;
@@ -107,7 +107,7 @@ void	non_token(t_cmds *lst)
 	}
 }
 
-int is_spaces(char *str)
+int	is_spaces(char *str)
 {
 	while (*str)
 	{

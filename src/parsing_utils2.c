@@ -6,66 +6,70 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 23:48:23 by error01           #+#    #+#             */
-/*   Updated: 2024/07/07 09:03:49 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:43:16 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void free_array(char **array)
+void	free_array(char **array)
 {
-    char **ptr;
-	
+	char	**ptr;
+
 	ptr = array;
-    if (!ptr)
+	if (!ptr)
 		return ;
 	while (*ptr)
 	{
-    	free(*ptr);
-        ptr++;
+		free(*ptr);
+		ptr++;
 	}
 	free(array);
 	array = NULL;
 }
 
-int check_for_in_out_put(t_cmds *cmds)
+int	check_for_in_out_put(t_cmds *cmds)
 {
-	
 	if (cmds->token == Input)
 	{
 		if (!cmds->next || (cmds->next->token == Non && !cmds->next->next))
 			return (errormsg(" 'newline'\n"));
-		else if (cmds->next && cmds->next->next && cmds->next->token == Pipe && cmds->next->next->token == Pipe)
+		else if (cmds->next && cmds->next->next && cmds->next->token == Pipe
+			&& cmds->next->next->token == Pipe)
 			return (errormsg_v2(cmds->next->cmd[0]));
 		else if (cmds->next && cmds->next->operation == Operation)
 			return (errormsg_v1(cmds->next->cmd[0]));
-		else if (cmds->prev && cmds->prev->token == Non && cmds->prev->prev && cmds->prev->prev->token != Pipe)
+		else if (cmds->prev && cmds->prev->token == Non && cmds->prev->prev
+			&& cmds->prev->prev->token != Pipe)
 			return (errormsg_v1(cmds->cmd[0]));
 	}
 	else if (cmds->token == Output)
 	{
 		if (!cmds->next || (cmds->next->token == Non && !cmds->next->next))
 			return (errormsg(" 'newline'\n"));
-		else if (cmds->next && cmds->next->next && cmds->next->token == Pipe && cmds->next->next->token == Pipe)
+		else if (cmds->next && cmds->next->next && cmds->next->token == Pipe
+			&& cmds->next->next->token == Pipe)
 			return (errormsg_v2(cmds->next->cmd[0]));
 		else if (cmds->next && cmds->next->operation == Operation)
 			return (errormsg_v1(cmds->next->cmd[0]));
-		else if (cmds->prev && cmds->prev->token == Non && cmds->prev->prev && cmds->prev->prev->token != Pipe)
+		else if (cmds->prev && cmds->prev->token == Non && cmds->prev->prev
+			&& cmds->prev->prev->token != Pipe)
 			return (errormsg_v1(cmds->cmd[0]));
 	}
 	return (0);
 }
 
-int check_for_Append_heredoc(t_cmds *cmds)
+int	check_for_Append_heredoc(t_cmds *cmds)
 {
-	
 	if (cmds->token == Append)
 	{
 		if (!cmds->next || (cmds->next->token == Non && !cmds->next->next))
 			return (errormsg(" 'newline'\n"));
-		else if (cmds->prev && cmds->prev->token == Non && cmds->prev->prev && cmds->prev->prev->token != Pipe)
+		else if (cmds->prev && cmds->prev->token == Non && cmds->prev->prev
+			&& cmds->prev->prev->token != Pipe)
 			return (errormsg_v1(cmds->cmd[0]));
-		else if (cmds->next && cmds->next->next && cmds->next->token == Pipe && cmds->next->next->token == Pipe)
+		else if (cmds->next && cmds->next->next && cmds->next->token == Pipe
+			&& cmds->next->next->token == Pipe)
 			return (errormsg_v2(cmds->next->cmd[0]));
 		else if (cmds->next && cmds->next->operation == Operation)
 			return (errormsg_v1(cmds->next->cmd[0]));
@@ -74,9 +78,11 @@ int check_for_Append_heredoc(t_cmds *cmds)
 	{
 		if (!cmds->next || (cmds->next->token == Non && !cmds->next->next))
 			return (errormsg(" 'newline'\n"));
-		else if (cmds->prev && cmds->prev->token == Non && cmds->prev->prev && cmds->prev->prev->token != Pipe)
+		else if (cmds->prev && cmds->prev->token == Non && cmds->prev->prev
+			&& cmds->prev->prev->token != Pipe)
 			return (errormsg_v1(cmds->cmd[0]));
-		else if (cmds->next && cmds->next->next && cmds->next->token == Pipe && cmds->next->next->token == Pipe)
+		else if (cmds->next && cmds->next->next && cmds->next->token == Pipe
+			&& cmds->next->next->token == Pipe)
 			return (errormsg_v2(cmds->next->cmd[0]));
 		else if (cmds->next && cmds->next->operation == Operation)
 			return (errormsg_v1(cmds->next->cmd[0]));
@@ -102,7 +108,7 @@ char	**get_file_name(char *str)
 		ptr[1] = NULL;
 		return (ptr);
 	}
-	i = 0; 
+	i = 0;
 	while (str[i])
 		i++;
 	ptr[1] = malloc(sizeof(char) * (i - size + 1));
@@ -111,27 +117,27 @@ char	**get_file_name(char *str)
 	return (ptr);
 }
 
-char *rm_spaces(char *str)
+char	*rm_spaces(char *str)
 {
-	int i;
-	int k;
-	int l;
-	char *ptr;
+	int		i;
+	int		k;
+	int		l;
+	char	*ptr;
 
 	i = 0;
 	while (str[i] && (str[i] == ' ' || str[i] == '	'))
 		i++;
 	l = i;
-    k = i;
+	k = i;
 	while (str[i++])
-        l++;
-    i--;
-    while (--i != 0 && (str[i] == ' ' || str[i] == '	'))
+		l++;
+	i--;
+	while (--i != 0 && (str[i] == ' ' || str[i] == '	'))
 	{
-        l--;
+		l--;
 	}
 	ptr = malloc(sizeof(char) * (l - k + 1));
-    i = 0;
+	i = 0;
 	while (k < l)
 		ptr[i++] = str[k++];
 	ptr[i] = '\0';

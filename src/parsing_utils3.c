@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:02:41 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 09:43:28 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	ft_free(char **ptr, int i)
 
 int	inside(char const *s)
 {
-	char c;
-	int i;
+	char	c;
+	int		i;
 
 	i = 0;
 	while (*s)
@@ -39,7 +39,8 @@ int	inside(char const *s)
 			{
 				if (*s == '|' || *s == '<' || *s == '>')
 				{
-					if ((*s == '<' && *(s + 1) == '<') || (*s == '>' && *(s + 1) == '>'))
+					if ((*s == '<' && *(s + 1) == '<') || (*s == '>' && *(s
+								+ 1) == '>'))
 						s++;
 					i++;
 				}
@@ -54,14 +55,16 @@ int	inside(char const *s)
 
 char const	*get_position(char const *s)
 {
-	char c;
+	char	c;
 
 	while (*s && (*s != '|' && *s != '<' && *s != '>'))
 	{
 		if (*s == 39 || *s == 34)
 		{
 			c = *s;
-			while (++s && *s != c) {}
+			while (++s && *s != c)
+			{
+			}
 		}
 		s++;
 	}
@@ -84,7 +87,8 @@ static char	**split(char const *s, int i, char **ptr, int k)
 		}
 		else
 		{
-			if ((*s == '<' && *(s + 1) == '<') || (*s == '>' && *(s + 1) == '>'))
+			if ((*s == '<' && *(s + 1) == '<') || (*s == '>' && *(s
+						+ 1) == '>'))
 				k++;
 			ptr[i] = ndup(s, k);
 			ft_free(ptr, i);
