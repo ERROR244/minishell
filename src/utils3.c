@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 13:25:42 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:59:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,11 @@ int	execute_command(t_env *list, t_command *command, t_data *data, int index)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(com[0], 2);
 			ft_putstr_fd(": ", 2);
-			ft_putstr_fd(strerror(errno), 2);
+			struct stat stats;
+			if (stat(path, &stats) == 0)
+				ft_putstr_fd("Is a directory", 2);
+			else
+				ft_putstr_fd(strerror(errno), 2);
 			ft_putstr_fd("\n", 2);
 			senv_clear(&data->list_env);
 			free_array(data->env);
