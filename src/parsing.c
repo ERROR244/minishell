@@ -6,23 +6,15 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:10:52 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:13:12 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char Gstr[100][100] = { "Cmd", "AppendFile",	
-						"HereDocDel", "Infile",
-						"OutFile", "Operation",
-						"NonOperation", "Input",
-						"Output", "Append",
-						"HereDoc", "Pipe", 
-						"Non" };
-
 void	get_list_done(t_cmds *list, char **command, bool flag, char **name)
 {
-	t_cmds *head;
+	t_cmds	*head;
 
 	head = list;
 	while (list)
@@ -67,7 +59,7 @@ void	last_update_in_the_list(t_cmds *list)
 	t_cmds	*head;
 	char	**command;
 	int		size;
-	
+
 	head = list;
 	command = NULL;
 	while (head)
@@ -98,7 +90,7 @@ void	last_update_in_the_list(t_cmds *list)
 void	parsing(t_data *data)
 {
 	t_command	*commands;
-    t_cmds		*lst;
+	t_cmds		*lst;
 	char		**cmds;
 	int			i;
 
@@ -116,15 +108,15 @@ void	parsing(t_data *data)
 	init_tokens(lst, 0, lst);
 	data->lst = lst;
 	data->cmds = cmds;
-	my_signal.ret = errors_managment(data, 0);
+	g_signal.ret = errors_managment(data, 0);
 	data->lst = lst;
 	remove_quotes(lst);
-	if (my_signal.ret == 0 && my_signal.sig != -1)
+	if (g_signal.ret == 0 && g_signal.sig != -1)
 	{
 		last_update_in_the_list(lst);
 		commands = get_commands(lst);
 		data->list = commands;
-		my_signal.ret = executing(data);
+		g_signal.ret = executing(data);
 		commands_clear(&commands);
 		ft_clear(data);
 	}

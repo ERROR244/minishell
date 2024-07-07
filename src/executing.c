@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:37:28 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:09:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,14 @@ int	executing(t_data *data)
 		in = dup(STDIN_FILENO);
 		out = dup(STDOUT_FILENO);
 		if (list->infile || list->outfile)
-			my_signal.ret = hand_the_redirectionin(list);
-		if (my_signal.ret != 1)
+			g_signal.ret = hand_the_redirectionin(list);
+		if (g_signal.ret != 1)
 			run_builtins(builtins, list, data, 0);
-		if ((my_signal.ret != 1) && list->infile)
+		if ((g_signal.ret != 1) && list->infile)
 			dup2(in, STDIN_FILENO);
 		else
 			ft_close(in, "in");
-		if ((my_signal.ret != 1) && list->outfile)
+		if ((g_signal.ret != 1) && list->outfile)
 			dup2(out, STDOUT_FILENO);
 		else
 			ft_close(out, "out");
@@ -102,11 +102,11 @@ int	executing(t_data *data)
 		{
 			if (list->next)
 			{
-				my_signal.pipef = 1;
+				g_signal.pipef = 1;
 				if (pipe(data->fd) == -1)
 					break ;
 			}
-			my_signal.ret = execute_command(data->list_env, list, data,
+			g_signal.ret = execute_command(data->list_env, list, data,
 					data->k++);
 			if (list->next)
 				ft_close(data->fd[1], "data->fd[0]");
@@ -118,14 +118,14 @@ int	executing(t_data *data)
 				break ;
 			list = list->next;
 		}
-		if (my_signal.ret == 0 && data->k != 0)
+		if (g_signal.ret == 0 && data->k != 0)
 		{
-			my_signal.ret = wait_pid(data->pid, data->k);
+			g_signal.ret = wait_pid(data->pid, data->k);
 		}
 		free(data->pid);
 		data->pid = NULL;
 	}
 	if (flag == true)
 		change_underscore(data->list_env, list);
-	return (my_signal.ret);
+	return (g_signal.ret);
 }

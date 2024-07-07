@@ -6,13 +6,13 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:46:13 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:09:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_signal	my_signal;
+t_signal	g_signal;
 
 int	main(int ac, char **av, char **env)
 {
@@ -21,10 +21,10 @@ int	main(int ac, char **av, char **env)
 	if (ac != 1)
 		return (1);
 	(void)av;
-	my_signal.ret = 0;
-	my_signal.flag_heredoc = false;
+	g_signal.ret = 0;
+	g_signal.flag_heredoc = false;
 	data.path_flag = false;
-	my_signal.ff = 0;
+	g_signal.ff = 0;
 	if (!env[0])
 		data.path_flag = true;
 	data.list_env = copieenv(env);
@@ -42,7 +42,7 @@ int	main(int ac, char **av, char **env)
 		}
 		free(data.line);
 		free_array(data.env);
-		my_signal.ff = 0;
+		g_signal.ff = 0;
 	}
 	if (data.env)
 		free_array(data.env);

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:36:34 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:10:26 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	errors_managment(t_data *data, int i)
 		else if (curr->token == Output || curr->token == Input)
 			i = check_for_in_out_put(curr);
 		else if (curr->token == Append || curr->token == HereDoc)
-			i = check_for_Append_heredoc(curr);
+			i = check_for_append_heredoc(curr);
 		curr = curr->next;
 	}
 	curr = head;

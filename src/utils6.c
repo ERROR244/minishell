@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:08:53 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:04:43 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**get_name(char *str)
 {
-	char **name;
+	char	**name;
 
 	name = malloc(sizeof(char *) * 2);
 	name[0] = ft_strdup(str);
@@ -22,11 +22,11 @@ char	**get_name(char *str)
 	return (name);
 }
 
-char *get_cmd(char *cmd)
+char	*get_cmd(char *cmd)
 {
-	char *tmp;
-	int i;
-	int k;
+	char	*tmp;
+	int		i;
+	int		k;
 
 	i = 0;
 	k = 0;
@@ -34,10 +34,10 @@ char *get_cmd(char *cmd)
 		i++;
 	tmp = malloc(sizeof(char) * (i + 1));
 	while (k < i)
-    {
+	{
 		tmp[k] = cmd[k];
-        k++;
-    }
+		k++;
+	}
 	tmp[k] = '\0';
 	return (tmp);
 }

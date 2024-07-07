@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 19:12:43 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:42:58 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:12:08 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ void	non_token(t_cmds *lst)
 	{
 		if (!lst->cmd[0])
 			lst->token = Non;
-		// else if (is_spaces(lst->cmd[0]) == 0)
-		// 	lst->token = Non;
 		if (lst->token == Non && lst->prev && lst->prev->token == OutFile)
 			lst->token = Cmd;
 		if (lst->token == Input || lst->token == Output || lst->token == Append

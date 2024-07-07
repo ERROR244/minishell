@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:21:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:38:41 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:09:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	**get_vars_content(char **var, char **env, char *str)
 				k += 2;
 		}
 		if (var[i][0] == '?' && var[i][1] == '\0')
-			vars[i] = ft_itoa(my_signal.ret);
+			vars[i] = ft_itoa(g_signal.ret);
 		else if (check_back_for_heredoc(str, k) == true)
 			vars[i] = ft_strjoin("$", var[i]);
 		else

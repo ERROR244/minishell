@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:12:22 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:15:50 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,11 @@
 # include <dirent.h>
 # include <limits.h>
 
-
 typedef struct s_data t_data;
 
 typedef struct s_signal
 {
     int ret;
-    // bool flag_sig;
     int pipef;
     int sig;
     bool flag_heredoc;
@@ -43,12 +41,7 @@ typedef struct s_signal
 
 }   t_signal;
 
-extern t_signal my_signal;
-
-// extern char Gstr[100][100];
-
-
-
+extern t_signal g_signal;
 
 typedef struct s_env
 {
@@ -135,13 +128,10 @@ t_cmds	    *lstlast(t_cmds *lst);
 void	    lstclear(t_cmds **lst);
 t_cmds	    *lstnew(char *cmd, t_cmds *stack, char **str);
 
-char	*ft_strjoin3(char const *s1, char c, char const *s2);
 
 // parsing
 void    signal_handler(void);
-// void signal_hand2();
-// void sig_pipe(int signal);
-// void handler_before(void);
+char	*ft_strjoin3(char const *s1, char c, char const *s2);
 void	    free_array(char **array);
 char	    *rm_spaces(char *str);
 void        get_list(char **cmd, int size, t_cmds **lst, t_data *data);
@@ -150,7 +140,7 @@ void        parsing(t_data *data);
 char	    *get_cmd(char *cmd);
 int		    errors_managment(t_data *data, int flag);
 int		    check_file(t_cmds *cmds);
-int		    check_if_NULL(char *str);
+// int		    check_if_NULL(char *str);
 int		    check_for_pipe(t_cmds *cmds);
 int         cmdcheck(char *str);
 int		    errormsg(char *str);
@@ -161,7 +151,7 @@ int		    errormsg_v2(char *str);
 int         is_spaces(char *str);
 void	    non_token(t_cmds *lst);
 int         check_for_in_out_put(t_cmds *cmds);
-int         check_for_Append_heredoc(t_cmds *cmds);
+int         check_for_append_heredoc(t_cmds *cmds);
 // int         check_access(t_cmds *curr);
 int         errormsg(char *str);
 int         check_quotation(char *str);
@@ -184,7 +174,7 @@ size_t      get_size(char *str);
 char        *get_string(char *str, size_t i, size_t k, size_t size);
 
 int run_builtins(int c, t_command *command, t_data *data, int flag);
-int hand_the_redirectionin(t_command *lst); //, int in, int out)
+int hand_the_redirectionin(t_command *lst);
  void    ft_handle_sigint(int sig);
 
 t_slist     *nodes_last(t_slist *lst);
@@ -267,7 +257,7 @@ int is_numeric(char *str);
 void    set_env_after_export(t_env *list, char *key, char *value, char c, bool export_flag);
 void    set_env_after_cd(t_env *list, char *key, char *value);
 char    *findmyvar(t_env *list, t_env *head, char *va, bool flag);
-void 	handlersignals();
+// void 	handlersignals();
 
 
 // void        set_myenv(t_env *list, char *key, char *value, char c, bool export_flag);

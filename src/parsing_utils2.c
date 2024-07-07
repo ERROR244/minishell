@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 23:48:23 by error01           #+#    #+#             */
-/*   Updated: 2024/07/07 09:43:16 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:10:26 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	check_for_in_out_put(t_cmds *cmds)
 	return (0);
 }
 
-int	check_for_Append_heredoc(t_cmds *cmds)
+int	check_for_append_heredoc(t_cmds *cmds)
 {
 	if (cmds->token == Append)
 	{

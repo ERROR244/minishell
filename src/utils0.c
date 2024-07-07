@@ -6,38 +6,40 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 08:36:43 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:01:19 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void swap(char **s1, char **s2)
+void	swap(char **s1, char **s2)
 {
-     char *tmp = *s1;
-    *s1 = *s2;
-    *s2 = tmp;
+	char	*tmp;
+
+	tmp = *s1;
+	*s1 = *s2;
+	*s2 = tmp;
 }
 
-int count_nodes(t_env *list)
+int	count_nodes(t_env *list)
 {
-    int count;
-    t_env *current;
-    
-    count = 0;
-    current = list;
-    while (current != NULL)
-    {
-        count++;
-        current = current->next;
-    }
-    return (count);
+	int		count;
+	t_env	*current;
+
+	count = 0;
+	current = list;
+	while (current != NULL)
+	{
+		count++;
+		current = current->next;
+	}
+	return (count);
 }
 
 int	get_cmd_size(t_cmds *list)
 {
-	int		size;
-	int		i;
+	int	size;
+	int	i;
 
 	size = 0;
 	while (list)
@@ -76,8 +78,8 @@ t_cmds	*find_cmd(t_cmds *list)
 
 void	get_command_done(t_cmds *list, t_cmds *head, char **command, bool flag)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	list = find_cmd(list);
 	i = 0;

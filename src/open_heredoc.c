@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:42:50 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:09:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	open_heredoc(t_cmds *cmds)
 	tmp1 = ft_itoa(i);
 	filename = ft_strjoin("/tmp/HereDoc", tmp1);
 	free(tmp1);
-	my_signal.ff = 1;
+	g_signal.ff = 1;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -79,7 +79,7 @@ int	open_heredoc(t_cmds *cmds)
 		ft_putstr_fd("minishell: fork fail while creating the HereDocument\n",
 			2);
 	waitpid(pid, &status, 0);
-	my_signal.ff = 0;
+	g_signal.ff = 0;
 	dup2(fd0, 0);
 	close(fd0);
 	free_array(cmds->cmd);

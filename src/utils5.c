@@ -6,17 +6,17 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 08:57:44 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:04:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int how_many_dollar_in(char *str)
+int	how_many_dollar_in(char *str)
 {
-	int i;
-	int k;
-	
+	int	i;
+	int	k;
+
 	i = 0;
 	k = 0;
 	while (str && str[i])
@@ -79,7 +79,7 @@ char	*get_content(char **env, char *str)
 		return (NULL);
 	while (env[i])
 	{
-		size =  ft_strlen(str);
+		size = ft_strlen(str);
 		ptr = ft_strnstr(env[i], str, size);
 		if (ptr != NULL)
 		{
@@ -96,12 +96,17 @@ char	*get_content(char **env, char *str)
 char	*get_final_line(char **lines, char **vars, char *cmd)
 {
 	char	*line;
-	int		i = 0;
-	int		j = 0;
-	int		k = 0;
-	int		l = 0;
-	int		size = 0;
-	
+	int		i;
+	int		j;
+	int		k;
+	int		l;
+	int		size;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	l = 0;
+	size = 0;
 	i = 0;
 	while (vars[i])
 		size += ft_strlen(vars[i++]);
@@ -109,7 +114,6 @@ char	*get_final_line(char **lines, char **vars, char *cmd)
 	while (lines[i])
 		size += ft_strlen(lines[i++]);
 	line = malloc(sizeof(char) * (size + 1));
-	
 	i = 0;
 	k = 0;
 	l = 0;

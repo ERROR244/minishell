@@ -6,45 +6,46 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 08:43:01 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:08:03 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int check_if_NULL(char *str)
+// int	check_if_null(char *str)
+// {
+// 	if (!str)
+// 		return (errormsg(" `newline'\n"));
+// 	return (0);
+// }
+
+int	lenofmyenv(char **env)
 {
-    if (!str)
-        return (errormsg(" `newline'\n"));
-    return (0);
+	int	i;
+	int	mylen;
+
+	i = 0;
+	mylen = 0;
+	while (env[i])
+	{
+		i++;
+		mylen++;
+	}
+	return (mylen);
 }
 
-int lenofmyenv(char **env)
+t_env	*findmyindex(t_env *list, char *va)
 {
-    int i = 0;
-    int mylen = 0;
+	int	len;
 
-    while(env[i])
-    {
-        i++;
-        mylen++;
-    }
-    return(mylen);
-
-}
-
-t_env *findmyindex(t_env *list, char *va)
-{
-    int len;
-    
-    len = ft_strlen(va);
-    while(list)
-    {
-        if(ft_strncmp(list->var_name, va, len) == 0)
-            return(list);
-        list = list->next;
-    }
-    return(NULL);
+	len = ft_strlen(va);
+	while (list)
+	{
+		if (ft_strncmp(list->var_name, va, len) == 0)
+			return (list);
+		list = list->next;
+	}
+	return (NULL);
 }
 
 char	*ft_strjoin3(char const *s1, char c, char const *s2)
@@ -76,16 +77,14 @@ char	*ft_strjoin3(char const *s1, char c, char const *s2)
 	return (ptr);
 }
 
-void insert_var_node_in_list(t_env *index, t_env *node)
+void	insert_var_node_in_list(t_env *index, t_env *node)
 {
-    if (index && node)
-    {
-        node->next = index->next;
-        node->prev = index;
-        
-        if (index->next)
-            index->next->prev = node;
-        
-        index->next = node;
-    }
+	if (index && node)
+	{
+		node->next = index->next;
+		node->prev = index;
+		if (index->next)
+			index->next->prev = node;
+		index->next = node;
+	}
 }

@@ -6,54 +6,53 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:11:33 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:09:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void exit_myminishell(char **com, int flag)
+void	exit_myminishell(char **com, int flag)
 {
-    int i;
+	int	i;
 
-    if (flag != 0)
-    {
-        if(com[1] == NULL)
-            exit(0);
-        else if (is_numeric(com[1]) != 0)
-            exit(2);
-        else if (com[1] && com[2])
-            ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-        else
-        {
-            i = ft_atoi(com[1]);
-            my_signal.ret = i;
-            exit(i);
-        }
-        return ;
-    }
-
-    if(com[1] == NULL)
-    {
-    	printf("exit\n");
-        exit(0);
-    }
-    else if (is_numeric(com[1]) != 0)
-    {
-        printf("minishell: ");
-        printf(com[1], 2);
-        printf(": numeric argument required\n");
-        exit(2);
-    }
-    else if (com[1] && com[2])
-        printf("minishell: exit: too many arguments\n");
-    else
-    {
-        i = ft_atoi(com[1]);
-	    printf("exit\n");
-        my_signal.ret = i;
-        exit(i);
-    }
+	if (flag != 0)
+	{
+		if (com[1] == NULL)
+			exit(0);
+		else if (is_numeric(com[1]) != 0)
+			exit(2);
+		else if (com[1] && com[2])
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		else
+		{
+			i = ft_atoi(com[1]);
+			g_signal.ret = i;
+			exit(i);
+		}
+		return ;
+	}
+	if (com[1] == NULL)
+	{
+		printf("exit\n");
+		exit(0);
+	}
+	else if (is_numeric(com[1]) != 0)
+	{
+		printf("minishell: ");
+		printf(com[1], 2);
+		printf(": numeric argument required\n");
+		exit(2);
+	}
+	else if (com[1] && com[2])
+		printf("minishell: exit: too many arguments\n");
+	else
+	{
+		i = ft_atoi(com[1]);
+		printf("exit\n");
+		g_signal.ret = i;
+		exit(i);
+	}
 }
 
 char	*join(char const *s1, char const *s2)
@@ -84,39 +83,40 @@ char	*join(char const *s1, char const *s2)
 	return (concatenated);
 }
 
-char *get_my_path(t_env *list, char **com, bool flag) 
+char	*get_my_path(t_env *list, char **com, bool flag)
 {
-    char **str;
-    char *path1;
+	char	**str;
+	char	*path1;
+	int		i;
+	char	*mypath;
+	char	*joiner;
+	char	*command_path;
 
-    if (com[0][0] == '/' || com[0][0] == '.')
-        return (ft_strdup(com[0]));
-    path1 = findmyvar(list, list, "PATH", flag);
-    if (!path1) 
-        return (NULL);
-    str = ft_split(path1, ':');
-    if (!str)
-        return (NULL);
-    int i = 0;
-    char *mypath = (NULL);
-    while (str[i]) 
-    {
-        char *joiner = join(str[i], "/");
-
-        char *command_path = ft_strjoin(joiner, com[0]);
-        free(joiner);
-
-        if (access(command_path, X_OK) == 0) 
-        {
-            mypath = command_path; 
-            break;
-        }
-
-        free(command_path);
-        i++;
-    }
-   free_array(str);
-    if (!mypath)
-        return (NULL);
-    return (mypath);
+	if (com[0][0] == '/' || com[0][0] == '.')
+		return (ft_strdup(com[0]));
+	path1 = findmyvar(list, list, "PATH", flag);
+	if (!path1)
+		return (NULL);
+	str = ft_split(path1, ':');
+	if (!str)
+		return (NULL);
+	i = 0;
+	mypath = (NULL);
+	while (str[i])
+	{
+		joiner = join(str[i], "/");
+		command_path = ft_strjoin(joiner, com[0]);
+		free(joiner);
+		if (access(command_path, X_OK) == 0)
+		{
+			mypath = command_path;
+			break ;
+		}
+		free(command_path);
+		i++;
+	}
+	free_array(str);
+	if (!mypath)
+		return (NULL);
+	return (mypath);
 }
