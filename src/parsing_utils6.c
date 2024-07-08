@@ -6,23 +6,17 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:47:27 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 17:54:32 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:42:57 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*grep_variable_name(char *line)
+char	*grep_variable_name(char *line, int i, int j, int k)
 {
-	int		i;
-	int		j;
-	int		k;
 	int		l;
 	char	*str;
 
-	i = 0;
-	j = 0;
-	k = 0;
 	l = 0;
 	if (!line)
 		return (NULL);
@@ -43,6 +37,23 @@ char	*grep_variable_name(char *line)
 	return (str);
 }
 
+char *in_var(char *s1, int *in_word)
+{
+	s1++;
+	if (*s1 == '?')
+	{
+		s1++;
+		*in_word = 0;
+	}
+	else if (*s1 != '$')
+	{
+		while (*s1 && ft_isalpha(*s1) != 0 && *s1 != '?')
+			s1++;
+		*in_word = 0;
+	}
+	return (s1);
+}
+
 int	count_vars(char *s1)
 {
 	int	count;
@@ -53,20 +64,7 @@ int	count_vars(char *s1)
 	while (s1 && *s1)
 	{
 		if (*s1 == '$' && ft_isalpha(s1[1]) != 0)
-		{
-			s1++;
-			if (*s1 == '?')
-			{
-				s1++;
-				in_word = 0;
-			}
-			else if (*s1 != '$')
-			{
-				while (*s1 && ft_isalpha(*s1) != 0 && *s1 != '?')
-					s1++;
-				in_word = 0;
-			}
-		}
+			s1 = in_var(s1, &in_word);
 		else if (in_word == 0)
 		{
 			count++;

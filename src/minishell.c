@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 10:09:31 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:34:13 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,25 @@
 
 t_signal	g_signal;
 
+int	data_init(char **av, t_data *data, char **env)
+{
+	(void)av;
+	g_signal.ret = 0;
+	g_signal.flag_heredoc = false;
+	data->path_flag = false;
+	g_signal.ff = 0;
+	if (!env[0])
+		data->path_flag = true;
+	data->list_env = copieenv(env);
+	return (1);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_data	data;
 
-	if (ac != 1)
+	if (ac != 1 || data_init(av, &data, env) == 0)
 		return (1);
-	(void)av;
-	g_signal.ret = 0;
-	g_signal.flag_heredoc = false;
-	data.path_flag = false;
-	g_signal.ff = 0;
-	if (!env[0])
-		data.path_flag = true;
-	data.list_env = copieenv(env);
 	while (1)
 	{
 		signal_handler();

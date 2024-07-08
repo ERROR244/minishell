@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:43:28 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:31:38 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	**ft_split_msh(char const *s)
 
 	if (s == NULL)
 		return (NULL);
-	word_count = count_words(s) - inside(s);
+	word_count = count_words(s, 0, 0) - inside(s);
 	ptr = malloc((word_count + 1) * sizeof(char *));
 	if (ptr == NULL)
 	{

@@ -6,30 +6,22 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 17:21:37 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:19:35 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-		
+
 void	set_env_after_export(t_env *list, char **export, char c,
 			bool export_flag)
 {
 	t_env	*index;
-	char	*tmp;
-
+	
 	index = findmyindex(list, export[0]);
 	if (index)
 	{
 		if (c == '+')
-		{
-			tmp = index->var_name;
-			if (tmp[ft_strlen(tmp) - 1] != '=')
-				index->var_name = ft_strjoin3(tmp, '=', export[1]);
-			else
-				index->var_name = ft_strjoin(tmp, export[1]);
-			free(tmp);
-		}
+			set_env_if_plus(index, export[1]);
 		else
 		{
 			if (export[1] != NULL || export_flag == true)

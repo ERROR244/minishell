@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:43:37 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:38:35 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 {
 	t_cmds	*node;
 	t_cmds	*curr;
-	char	**ptr;
 	int		i;
 
 	i = 0;
@@ -49,24 +48,6 @@ void	get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 	(*lst)->data = data;
 	while (i < size)
 	{
-		if (cmd[i - 1][0] == '<' && is_space_in(cmd[i]) == 0)
-		{
-			ptr = get_file_name(cmd[i]);
-			node = lstnew(ptr[0], *lst, NULL);
-			node->data = data;
-			curr = lstlast(*lst);
-			curr->next = node;
-			if (ptr[1])
-			{
-				node->data = data;
-				node = lstnew(ptr[1], *lst, NULL);
-				curr = lstlast(*lst);
-				curr->next = node;
-			}
-			free_array(ptr);
-			if (++i == size)
-				return ;
-		}
 		node = lstnew(cmd[i], *lst, NULL);
 		node->data = data;
 		curr = lstlast(*lst);
@@ -75,13 +56,8 @@ void	get_list(char **cmd, int size, t_cmds **lst, t_data *data)
 	}
 }
 
-int	count_words(char const *s)
+int	count_words(char const *s, int count, int in_word)
 {
-	int	count;
-	int	in_word;
-
-	count = 0;
-	in_word = 0;
 	if (s[0] == '\0')
 		return (1);
 	while (s && *s)

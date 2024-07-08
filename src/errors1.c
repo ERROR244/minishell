@@ -6,11 +6,23 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 12:31:54 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:19:38 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	set_env_if_plus(t_env *index, char *export)
+{
+	char *tmp;
+
+	tmp = index->var_name;
+	if (tmp[ft_strlen(tmp) - 1] != '=' && check_eq(tmp) == true)
+		index->var_name = ft_strjoin3(tmp, '=', export);
+	else
+		index->var_name = ft_strjoin(tmp, export);
+	free(tmp);
+}
 
 int	ft_strcmp_for_heredoc(char *s1, char *s2)
 {
@@ -29,26 +41,11 @@ int	ft_strcmp_for_heredoc(char *s1, char *s2)
 	return (k);
 }
 
-int	errors_managment(t_data *data, int i)
+int	heredoc(t_cmds	*head, t_cmds	*curr, int i)
 {
 	int		heredoc_num;
-	t_cmds	*curr;
-	t_cmds	*head;
 
 	heredoc_num = 0;
-	curr = data->lst;
-	head = curr;
-	while (curr && i == 0)
-	{
-		if (curr->token == Pipe)
-			i = check_for_pipe(curr);
-		else if (curr->token == Output || curr->token == Input)
-			i = check_for_in_out_put(curr);
-		else if (curr->token == Append || curr->token == HereDoc)
-			i = check_for_append_heredoc(curr);
-		curr = curr->next;
-	}
-	curr = head;
 	while (curr)
 	{
 		if (heredoc_num > 16)
@@ -68,6 +65,26 @@ int	errors_managment(t_data *data, int i)
 		head = head->next;
 	}
 	return (i);
+}
+
+int	errors_managment(t_data *data, int i)
+{
+	t_cmds	*curr;
+	t_cmds	*head;
+
+	curr = data->lst;
+	head = curr;
+	while (curr && i == 0)
+	{
+		if (curr->token == Pipe)
+			i = check_for_pipe(curr);
+		else if (curr->token == Output || curr->token == Input)
+			i = check_for_in_out_put(curr);
+		else if (curr->token == Append || curr->token == HereDoc)
+			i = check_for_append_heredoc(curr);
+		curr = curr->next;
+	}
+	return (heredoc(head, head, i));
 }
 
 int	cmdcheck(char *str)

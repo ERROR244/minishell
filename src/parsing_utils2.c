@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 23:48:23 by error01           #+#    #+#             */
-/*   Updated: 2024/07/07 10:10:26 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:32:09 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,63 +30,31 @@ void	free_array(char **array)
 
 int	check_for_in_out_put(t_cmds *cmds)
 {
-	if (cmds->token == Input)
-	{
-		if (!cmds->next || (cmds->next->token == Non && !cmds->next->next))
-			return (errormsg(" 'newline'\n"));
-		else if (cmds->next && cmds->next->next && cmds->next->token == Pipe
-			&& cmds->next->next->token == Pipe)
-			return (errormsg_v2(cmds->next->cmd[0]));
-		else if (cmds->next && cmds->next->operation == Operation)
-			return (errormsg_v1(cmds->next->cmd[0]));
-		else if (cmds->prev && cmds->prev->token == Non && cmds->prev->prev
-			&& cmds->prev->prev->token != Pipe)
-			return (errormsg_v1(cmds->cmd[0]));
-	}
-	else if (cmds->token == Output)
-	{
-		if (!cmds->next || (cmds->next->token == Non && !cmds->next->next))
-			return (errormsg(" 'newline'\n"));
-		else if (cmds->next && cmds->next->next && cmds->next->token == Pipe
-			&& cmds->next->next->token == Pipe)
-			return (errormsg_v2(cmds->next->cmd[0]));
-		else if (cmds->next && cmds->next->operation == Operation)
-			return (errormsg_v1(cmds->next->cmd[0]));
-		else if (cmds->prev && cmds->prev->token == Non && cmds->prev->prev
-			&& cmds->prev->prev->token != Pipe)
-			return (errormsg_v1(cmds->cmd[0]));
-	}
+	if (!cmds->next || (cmds->next->token == Non && !cmds->next->next))
+		return (errormsg(" 'newline'\n"));
+	else if (cmds->next && cmds->next->next && cmds->next->token == Pipe
+		&& cmds->next->next->token == Pipe)
+		return (errormsg_v2(cmds->next->cmd[0]));
+	else if (cmds->next && cmds->next->operation == Operation)
+		return (errormsg_v1(cmds->next->cmd[0]));
+	else if (cmds->prev && cmds->prev->token == Non && cmds->prev->prev
+		&& cmds->prev->prev->token != Pipe)
+		return (errormsg_v1(cmds->cmd[0]));
 	return (0);
 }
 
 int	check_for_append_heredoc(t_cmds *cmds)
 {
-	if (cmds->token == Append)
-	{
-		if (!cmds->next || (cmds->next->token == Non && !cmds->next->next))
-			return (errormsg(" 'newline'\n"));
-		else if (cmds->prev && cmds->prev->token == Non && cmds->prev->prev
-			&& cmds->prev->prev->token != Pipe)
-			return (errormsg_v1(cmds->cmd[0]));
-		else if (cmds->next && cmds->next->next && cmds->next->token == Pipe
-			&& cmds->next->next->token == Pipe)
-			return (errormsg_v2(cmds->next->cmd[0]));
-		else if (cmds->next && cmds->next->operation == Operation)
-			return (errormsg_v1(cmds->next->cmd[0]));
-	}
-	else if (cmds->token == HereDoc)
-	{
-		if (!cmds->next || (cmds->next->token == Non && !cmds->next->next))
-			return (errormsg(" 'newline'\n"));
-		else if (cmds->prev && cmds->prev->token == Non && cmds->prev->prev
-			&& cmds->prev->prev->token != Pipe)
-			return (errormsg_v1(cmds->cmd[0]));
-		else if (cmds->next && cmds->next->next && cmds->next->token == Pipe
-			&& cmds->next->next->token == Pipe)
-			return (errormsg_v2(cmds->next->cmd[0]));
-		else if (cmds->next && cmds->next->operation == Operation)
-			return (errormsg_v1(cmds->next->cmd[0]));
-	}
+	if (!cmds->next || (cmds->next->token == Non && !cmds->next->next))
+		return (errormsg(" 'newline'\n"));
+	else if (cmds->prev && cmds->prev->token == Non && cmds->prev->prev
+		&& cmds->prev->prev->token != Pipe)
+		return (errormsg_v1(cmds->cmd[0]));
+	else if (cmds->next && cmds->next->next && cmds->next->token == Pipe
+		&& cmds->next->next->token == Pipe)
+		return (errormsg_v2(cmds->next->cmd[0]));
+	else if (cmds->next && cmds->next->operation == Operation)
+		return (errormsg_v1(cmds->next->cmd[0]));
 	return (0);
 }
 

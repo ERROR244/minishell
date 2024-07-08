@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 13:36:33 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:38:08 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,11 +155,11 @@ int         check_for_append_heredoc(t_cmds *cmds);
 // int         check_access(t_cmds *curr);
 int         errormsg(char *str);
 int         check_quotation(char *str);
-int     	count_words(char const *s);
+int     	count_words(char const *s, int count, int in_word);
 char	    *ndup(const char *s, size_t n);
 void        remove_quotes(t_cmds *lst);
 int         dollar_is_in(char *str);
-char        *grep_variable_name(char *line);
+char        *grep_variable_name(char *line, int i, int j, int k);
 char        **ft_split_str(char *s1);
 char    	*expand_variable(char *str, t_data *data);
 char        **get_vars(char *cmd);
@@ -251,6 +251,8 @@ bool	check_next(char *str);
 char	**get_name(char *str);
 int is_numeric(char *str);
 int get_2d_size(char **vars, char **lines);
+bool	check_eq(char *str);
+void	set_env_if_plus(t_env *index, char *export);
 
 
 

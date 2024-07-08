@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:21:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 19:47:57 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:22:06 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,23 @@ bool	check_ex(char *str, int size)
 	return (false);
 }
 
-char	**get_vars_content(char **var, char **env, char *str)
+int	array_size(char **var)
 {
-	char	**vars;
-	int		i;
-	int		k;
+	int i;
 
-	k = 0;
 	i = 0;
 	while (var[i])
 		i++;
-	vars = malloc(sizeof(char *) * (i + 1));
-	i = 0;
+	return (i);
+}
+
+char	**get_vars_content(char **var, char **env, char *str, int i)
+{
+	char	**vars;
+	int		k;
+
+	k = 0;
+	vars = malloc(sizeof(char *) * (array_size(var) + 1));
 	while (var[i])
 	{
 		while (str[k] && str[k] != '$')
@@ -102,11 +107,8 @@ char	*expand_variable(char *str, t_data *data)
 	if (dollar_is_in(str))
 	{
 		var = get_vars(str);
-		// print_array(var);
-		var = get_vars_content(var, data->env, str);
-		// print_array(var);
+		var = get_vars_content(var, data->env, str, 0);
 		spleted_line = ft_split_str(str);
-		// print_array(spleted_line);
 		if (spleted_line == NULL)
 			line = join_vars(var);
 		else
