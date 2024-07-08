@@ -6,18 +6,39 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 10:08:03 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:15:44 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// int	check_if_null(char *str)
-// {
-// 	if (!str)
-// 		return (errormsg(" `newline'\n"));
-// 	return (0);
-// }
+int	how_many_dollar_in(char *str)
+{
+	int	i;
+	int	k;
+
+	i = 0;
+	k = 0;
+	while (str && str[i])
+	{
+		if (str[i] == 39 && check_ex(str, i) == true)
+		{
+			i++;
+			while (str[i] != 39)
+				i++;
+		}
+		else if (str[i] == '$' && str[i + 1] != '$')
+		{
+			k++;
+			i++;
+		}
+		else if (str[i] == '$' && str[i + 1] == '$')
+			i++;
+		if (str[i])
+			i++;
+	}
+	return (k + 1);
+}
 
 int	lenofmyenv(char **env)
 {

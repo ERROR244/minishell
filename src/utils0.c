@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 16:59:03 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:38:57 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,9 @@ void	get_command_done(t_cmds *list, t_cmds *head, char **command, bool flag)
 	int	j;
 
 	list = find_cmd(list);
-	i = 0;
-	while (list && list->cmd[i])
-	{
+	i = -1;
+	while (++i >= 0 && list && list->cmd[i])
 		command[i] = ft_strdup(list->cmd[i]);
-		i++;
-	}
 	command[i] = NULL;
 	while (head)
 	{
@@ -105,5 +102,4 @@ void	get_command_done(t_cmds *list, t_cmds *head, char **command, bool flag)
 		}
 		head = head->next;
 	}
-	printf("%d \n", i);
 }

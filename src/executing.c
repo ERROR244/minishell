@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 14:15:14 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:43:08 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	run_builtins(int c, t_command *command, t_data *data, int flag)
 	else if (c == 3)
 		printmyenv(list);
 	else if (c == 4)
-		export(list, command->cmd);
+		export(list, command->cmd, '-', 1);
 	else if (c == 5)
 		list = unset_env(list, command->cmd, data);
 	else if (c == 6)

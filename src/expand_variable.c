@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:21:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 14:22:06 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:32:49 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ char	*expand_variable(char *str, t_data *data)
 	char	**var;
 	char	**spleted_line;
 	char	*line;
+	t_line	line_data;
 
 	line = NULL;
 	if (dollar_is_in(str))
@@ -113,7 +114,7 @@ char	*expand_variable(char *str, t_data *data)
 			line = join_vars(var);
 		else
 		{
-			line = get_final_line(spleted_line, var, str, NULL);
+			line = get_final_line(spleted_line, var, str, &line_data);
 			free_array(spleted_line);
 		}
 		free_array(var);

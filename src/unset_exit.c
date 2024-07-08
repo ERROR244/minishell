@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 17:05:23 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:16:36 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	exit_from_child(char **com)
 {
+	int i;
+
 	if (com[1] == NULL)
 		exit(0);
 	else if (is_numeric(com[1]) != 0)
@@ -26,7 +28,6 @@ void	exit_from_child(char **com)
 		g_signal.ret = i;
 		exit(i);
 	}
-	return ;
 }
 
 void	exit_myminishell(char **com, int flag)
@@ -35,7 +36,7 @@ void	exit_myminishell(char **com, int flag)
 
 	if (flag != 0)
 		exit_from_child(com);
-	if (com[1] == NULL)
+	else if (com[1] == NULL)
 	{
 		printf("exit\n");
 		exit(0);
@@ -62,7 +63,7 @@ char	*get_my_path(t_env *list, char **com, bool flag, int i)
 {
 	char	**str;
 	char	*path1;
-	char	*mypath;
+	char	*mypath = NULL;
 	char	*command_path;
 
 	if (com[0][0] == '/' || com[0][0] == '.')
@@ -73,7 +74,7 @@ char	*get_my_path(t_env *list, char **com, bool flag, int i)
 	str = ft_split(path1, ':');
 	while (str[i])
 	{
-		command_path = ft_strjoin(str[i], "/", com[0]);
+		command_path = ft_strjoin3(str[i], '/', com[0]);
 		if (access(command_path, X_OK) == 0)
 		{
 			mypath = command_path;
@@ -84,4 +85,31 @@ char	*get_my_path(t_env *list, char **com, bool flag, int i)
 	}
 	free_array(str);
 	return (mypath);
+}
+
+char	**get_vars(char *cmd)
+{
+	char	**var;
+	int		k;
+	int		j;
+
+	var = malloc(sizeof(char *) * how_many_dollar_in(cmd));
+	k = 0;
+	j = 0;
+	while (cmd[j])
+	{
+		if (cmd[j] == 39 && check_ex(cmd, j) == true)
+		{
+			j++;
+			while (cmd[j] && cmd[j] != 39)
+				j++;
+		}
+		if (cmd[j] == '$' && cmd[j + 1] != '$')
+			var[k++] = grep_variable_name(cmd + j, 0, 0, 0);
+		else if (cmd[j] == '$' && cmd[j + 1] == '$')
+			j++;
+		j++;
+	}
+	var[k] = NULL;
+	return (var);
 }

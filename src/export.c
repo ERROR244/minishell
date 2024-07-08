@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 13:40:26 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:04:45 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	**linked_list_to_array(t_env *list)
 	return (array);
 }
 
-void	printmyexport(t_env *list)
+int	printmyexport(t_env *list)
 {
 	int		i;
 	char	**ptr;
@@ -85,6 +85,7 @@ void	printmyexport(t_env *list)
 		}
 	}
 	free_array(ptr);
+	return (0);
 }
 
 int	ft_all_isalpha(char *str)
@@ -100,56 +101,44 @@ int	ft_all_isalpha(char *str)
 	return (1);
 }
 
-void	export(t_env *list, char **com)
+char	*fill_var(char *var, char *c)
+{
+	int j;
+	char *str;
+
+	*c = '+';
+	str = malloc(sizeof(char) * ft_strlen(var));
+	j = -1;
+	while (++j >= 0 && var[j] != '+')
+		str[j] = var[j];
+	str[j] = '\0';
+	free(var);
+	return (str);
+}
+
+void	export(t_env *list, char **com, char c, int i)
 {
 	char	**export;
-	char	c;
-	char	*str;
 	bool	export_flag;
-	size_t	size;
-	int		i;
-	int		j;
 
-	i = 1;
-	c = '-';
-	if (com[1] == NULL)
-	{
-		printmyexport(list);
+	if (com[1] == NULL && printmyexport(list) == 0)
 		return ;
-	}
-	else
+	while (com[i])
 	{
-		while (com[i])
+		c = '-';
+		export_flag = false;
+		if (ft_all_isalpha(com[i]) == 1)
+			printf("export: '%s' :not a valid identifier\n", com[i]);
+		else
 		{
-			export_flag = false;
-			if (ft_all_isalpha(com[i]) == 1)
-				printf("export: '%s' :not a valid identifier\n", com[i]);
-			else
-			{
-				if (com[i][ft_strlen(com[i]) - 1] == '=')
-				{
-					export_flag = true;
-				}
-				export = ft_split(com[i], '=');
-				size = ft_strlen(export[0]);
-				if (export[0][size - 1] == '+')
-				{
-					c = '+';
-					str = malloc(sizeof(char) * size);
-					j = 0;
-					while (export[0][j] != '+')
-					{
-						str[j] = export[0][j];
-						j++;
-					}
-					str[j] = '\0';
-					free(export[0]);
-					export[0] = str;
-				}
-				set_env_after_export(list, export, c, export_flag);
-				free_array(export);
-			}
-			i++;
+			if (com[i][ft_strlen(com[i]) - 1] == '=')
+				export_flag = true;
+			export = ft_split(com[i], '=');
+			if (export[0][ft_strlen(export[0]) - 1] == '+')
+				export[0] = fill_var(export[0], &c);
+			set_env_after_export(list, export, c, export_flag);
+			free_array(export);
 		}
+		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 10:06:27 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:13:50 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,24 @@ void	ft_ft_close(int *fd)
 		free(fd);
 }
 
-int	*ft_open(t_slist *list)
+int *print_open_error(int *fd, char *str)
+{
+	ft_ft_close(fd);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putchar_fd('\n', 2);
+	return (NULL);
+}
+
+int	*ft_open(t_slist *list, int size, int j)
 {
 	int	*fd;
-	int	j;
-	int	size;
 
 	size = get_files_num(list);
 	fd = malloc((size + 1) * (sizeof(int)));
 	fd[size] = -11;
-	j = 0;
 	while (list)
 	{
 		if (list->token == Infile)
@@ -60,15 +68,7 @@ int	*ft_open(t_slist *list)
 		else if (list->token == AppendFile)
 			fd[j] = open(list->cmd, O_WRONLY | O_CREAT | O_APPEND, 0666);
 		if (fd[j] == -1)
-		{
-			ft_ft_close(fd);
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(list->cmd, 2);
-			ft_putstr_fd(": ", 2);
-			ft_putstr_fd(strerror(errno), 2);
-			ft_putchar_fd('\n', 2);
-			return (NULL);
-		}
+			print_open_error(fd, list->cmd);
 		if (list->token == Infile)
 			dup2(fd[j], STDIN_FILENO);
 		else if (list->token == OutFile || list->token == AppendFile)
@@ -88,14 +88,14 @@ int	hand_the_redirectionin(t_command *lst)
 	fileout = NULL;
 	if (lst->infile != NULL)
 	{
-		filein = ft_open(lst->infile);
+		filein = ft_open(lst->infile, 0, 0);
 		if (!filein)
 			return (1);
 	}
 	if (lst->outfile)
 	{
 		if (lst->outfile)
-			fileout = ft_open(lst->outfile);
+			fileout = ft_open(lst->outfile, 0, 0);
 		if (!fileout)
 			return (1);
 	}

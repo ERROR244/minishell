@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 17:00:02 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:35:27 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,14 @@ void	get_list_done(t_cmds *head, t_cmds *list, char **command, bool flag)
 	}
 }
 
-void	last_update_in_the_list(t_cmds *head, t_cmds *list, int size, char **command)
+void	last_update_in_the_list(t_cmds *head, t_cmds *list, char **command)
 {
+	int size;
+
 	while (head)
 	{
 		list = head;
+		size = get_cmd_size(list);
 		if (size == 0)
 		{
 			list->data->flag = false;
@@ -66,7 +69,7 @@ void	last_update_in_the_list(t_cmds *head, t_cmds *list, int size, char **comman
 		}
 		else
 		{
-			command = malloc(sizeof(char *) * (size + 3));
+			command = malloc(sizeof(char *) * (size + 1));
 			get_command_done(list, list, command, true);
 		}
 		get_list_done(list, list, command, true);
@@ -103,7 +106,7 @@ void	parsing(t_data *data, t_cmds *lst, char **cmds, int i)
 	remove_quotes(lst);
 	if (g_signal.ret == 0 && g_signal.sig != -1)
 	{
-		last_update_in_the_list(lst, lst, get_cmd_size(lst), NULL);
+		last_update_in_the_list(lst, lst, NULL);
 		commands = get_commands(lst);
 		data->list = commands;
 		g_signal.ret = executing(data);

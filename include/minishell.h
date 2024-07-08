@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 16:34:52 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:03:16 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,14 @@ struct s_data
     t_command   *list;
 };
 
+typedef struct s_line
+{
+    char    *line;
+    int		i;
+	int		k;
+	int		pos;
+	int     size;
+}   t_line;
 
 
 // lst
@@ -163,7 +171,7 @@ char        *grep_variable_name(char *line, int i, int j, int k);
 char        **ft_split_str(char *s1);
 char    	*expand_variable(char *str, t_data *data);
 char        **get_vars(char *cmd);
-char        *get_final_line(char **lines, char **vars, char *cmd, char *line);
+char        *get_final_line(char **lines, char **vars, char *cmd, t_line *line_data);
 int         dollar_is_in(char *str);
 int         count_vars(char *s1);
 bool        check_ex(char *str, int size);
@@ -213,10 +221,10 @@ char        **linked_list_to_array(t_env *list);
 
 t_env       *unset_env(t_env *list, char **com, t_data *data);
 void        exit_myminishell(char **com, int flag);
-char       	*join(char const *s1, char const *s2);
+// char       	*join(char const *s1, char const *s2);
 char        *get_my_path(t_env  *list, char **com, bool flag, int i);
-void        export(t_env *list, char **com);
-void        printmyexport(t_env *list);
+void        export(t_env *list, char **com, char c, int i);
+int        printmyexport(t_env *list);
 int         lenofmyenv(char **env);
 void        exiterror(void);
 t_env       *copieenv(char **env);
@@ -253,8 +261,7 @@ int is_numeric(char *str);
 int get_2d_size(char **vars, char **lines);
 bool	check_eq(char *str);
 void	set_env_if_plus(t_env *index, char *export);
-
-
+int	how_many_dollar_in(char *str);
 
 //  after the norm
 void    set_env_after_export(t_env *list, char **export, char c, bool export_flag);
