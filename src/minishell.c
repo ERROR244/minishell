@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 14:34:13 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:33:50 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	main(int ac, char **av, char **env)
 		else if (check_quotation(data.line) != -1)
 		{
 			add_history(data.line);
-			parsing(&data);
+			parsing(&data, NULL, NULL, -1);
 		}
 		free(data.line);
 		free_array(data.env);

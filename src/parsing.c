@@ -6,17 +6,28 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 19:49:48 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:00:02 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	get_list_done(t_cmds *list, char **command, bool flag, char **name)
+void	getlist(t_cmds **list)
 {
-	t_cmds	*head;
+	char **name;
 
-	head = list;
+	if ((*list)->token == Cmd)
+		free_array((*list)->cmd);
+	else
+	{
+		name = get_name((*list)->cmd[0]);
+		free_array((*list)->cmd);
+		(*list)->cmd = name;
+	}
+}
+
+void	get_list_done(t_cmds *head, t_cmds *list, char **command, bool flag)
+{
 	while (list)
 	{
 		if (list->token == Pipe)
@@ -28,20 +39,7 @@ void	get_list_done(t_cmds *list, char **command, bool flag, char **name)
 			flag = false;
 		}
 		else
-		{
-			if (list->token == Cmd)
-			{
-				free_array(list->cmd);
-				list->cmd = NULL;
-			}
-			else
-			{
-				name = get_name(list->cmd[0]);
-				free_array(list->cmd);
-				list->cmd = NULL;
-				list->cmd = name;
-			}
-		}
+			getlist(&list);
 		if (!list->next)
 			break ;
 		list = list->next;
@@ -54,18 +52,11 @@ void	get_list_done(t_cmds *list, char **command, bool flag, char **name)
 	}
 }
 
-void	last_update_in_the_list(t_cmds *list)
+void	last_update_in_the_list(t_cmds *head, t_cmds *list, int size, char **command)
 {
-	t_cmds	*head;
-	char	**command;
-	int		size;
-
-	head = list;
-	command = NULL;
 	while (head)
 	{
 		list = head;
-		size = get_cmd_size(list);
 		if (size == 0)
 		{
 			list->data->flag = false;
@@ -75,10 +66,10 @@ void	last_update_in_the_list(t_cmds *list)
 		}
 		else
 		{
-			command = malloc(sizeof(char *) * (size + 1));
+			command = malloc(sizeof(char *) * (size + 3));
 			get_command_done(list, list, command, true);
 		}
-		get_list_done(list, command, true, NULL);
+		get_list_done(list, list, command, true);
 		while (list && list->token != Pipe)
 			list = list->next;
 		if (!list)
@@ -87,18 +78,18 @@ void	last_update_in_the_list(t_cmds *list)
 	}
 }
 
-void	parsing(t_data *data)
+char **get_cmds_done(t_data *data, char **cmds)
 {
-	t_command	*commands;
-	t_cmds		*lst;
-	char		**cmds;
-	int			i;
-
-	i = -1;
-	lst = NULL;
-	data->flag = true;
 	data->line = check_tabs(data->line, 0, 0, data);
 	cmds = ft_split_msh(data->line);
+	return (cmds);
+}
+
+void	parsing(t_data *data, t_cmds *lst, char **cmds, int i)
+{
+	t_command	*commands;
+
+	cmds = get_cmds_done(data, cmds);
 	while (cmds[++i])
 	{
 		if (cmdcheck(cmds[i]) == 0)
@@ -109,11 +100,10 @@ void	parsing(t_data *data)
 	data->lst = lst;
 	data->cmds = cmds;
 	g_signal.ret = errors_managment(data, 0);
-	data->lst = lst;
 	remove_quotes(lst);
 	if (g_signal.ret == 0 && g_signal.sig != -1)
 	{
-		last_update_in_the_list(lst);
+		last_update_in_the_list(lst, lst, get_cmd_size(lst), NULL);
 		commands = get_commands(lst);
 		data->list = commands;
 		g_signal.ret = executing(data);

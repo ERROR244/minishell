@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:19 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:55:17 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:11:57 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,44 +67,49 @@ char	**array_copy(char **str)
 	return (ptr);
 }
 
+void	fill_in_commands(t_cmds **lst, t_command	**command, t_slist **infile, t_slist **outfile)
+{
+	if ((*lst)->cmd && ((*lst)->token == Cmd || (*lst)->token == Non))
+				(*command)->cmd = array_copy((*lst)->cmd);
+	else if ((*lst)->cmd && (*lst)->token == Infile)
+	{
+		if (!(*infile))
+			(*infile) = node_new((*infile), (*lst)->cmd[0], (*lst)->token);
+		else
+		{
+			(*infile)->next = node_new((*infile), (*lst)->cmd[0], (*lst)->token);
+			(*infile) = (*infile)->next;
+		}
+	}
+	else if ((*lst)->cmd[0] && ((*lst)->token == OutFile
+			|| (*lst)->token == AppendFile))
+	{
+		if (!(*outfile))
+			(*outfile) = node_new((*outfile), (*lst)->cmd[0], (*lst)->token);
+		else
+		{
+			(*outfile)->next = node_new((*outfile), (*lst)->cmd[0], (*lst)->token);
+			(*outfile) = (*outfile)->next;
+		}
+	}
+}
+
 t_command	*get_commands(t_cmds *lst)
 {
 	t_command	*command;
-	t_command	*tmp;
+	t_command	*head;
 	t_slist		*infile;
 	t_slist		*outfile;
 
 	command = get_command(lst);
-	tmp = command;
+	head = command;
 	while (command && lst)
 	{
 		infile = NULL;
 		outfile = NULL;
 		while (lst && lst->token != Pipe)
 		{
-			if (lst->cmd && (lst->token == Cmd || lst->token == Non))
-				command->cmd = array_copy(lst->cmd);
-			else if (lst->cmd && lst->token == Infile)
-			{
-				if (!infile)
-					infile = node_new(infile, lst->cmd[0], lst->token);
-				else
-				{
-					infile->next = node_new(infile, lst->cmd[0], lst->token);
-					infile = infile->next;
-				}
-			}
-			else if (lst->cmd[0] && (lst->token == OutFile
-					|| lst->token == AppendFile))
-			{
-				if (!outfile)
-					outfile = node_new(outfile, lst->cmd[0], lst->token);
-				else
-				{
-					outfile->next = node_new(outfile, lst->cmd[0], lst->token);
-					outfile = outfile->next;
-				}
-			}
+			fill_in_commands(&lst, &command, &infile, &outfile);
 			lst = lst->next;
 		}
 		command->infile = get_head(infile);
@@ -113,6 +118,6 @@ t_command	*get_commands(t_cmds *lst)
 			lst = lst->next;
 		command = command->next;
 	}
-	command = tmp;
+	command = head;
 	return (command);
 }

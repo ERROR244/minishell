@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 10:01:19 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:59:03 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	get_command_done(t_cmds *list, t_cmds *head, char **command, bool flag)
 		command[i] = ft_strdup(list->cmd[i]);
 		i++;
 	}
+	command[i] = NULL;
 	while (head)
 	{
 		if (head->token == Pipe)
@@ -104,5 +105,5 @@ void	get_command_done(t_cmds *list, t_cmds *head, char **command, bool flag)
 		}
 		head = head->next;
 	}
-	command[i] = NULL;
+	printf("%d \n", i);
 }

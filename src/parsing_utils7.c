@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 18:05:31 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:52:30 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,39 +43,40 @@ static void	ft_free(char **ptr, int i)
 	free(ptr);
 }
 
-static char	**split(char *s1, int i, char **ptr)
+char *get_word(char *s1)
 {
-	char	*start;
-	bool	flag;
+	bool flag;
 
+	while (*s1)
+	{
+		flag = check_next(s1);
+		if (*s1 == 39 && flag == true)
+		{
+			s1++;
+			while (*s1 != 39)
+				s1++;
+		}
+		else if (flag == false && s1[1] == '$')
+			s1++;
+		if ((*s1 == '$' && ft_isalnum(s1[1]) == 0) || *s1 == 39)
+			s1++;
+		else if (*s1 == '$')
+			break ;
+		if (!*s1)
+			break ;
+		s1++;
+	}
+	return (s1);
+}
+
+static char	**split(char *s1, int i, char **ptr, char *start)
+{
 	while (s1 && *s1)
 	{
 		if (*s1 != '$' || ft_isalnum(s1[1]) == 0)
 		{
 			start = s1;
-			while (*s1)
-			{
-				flag = check_next(s1);
-				if (*s1 == 39 && flag == true)
-				{
-					s1++;
-					while (*s1 != 39)
-					{
-						s1++;
-					}
-				}
-				else if (flag == false && s1[1] == '$')
-				{
-					s1++;
-				}
-				if ((*s1 == '$' && ft_isalnum(s1[1]) == 0) || *s1 == 39)
-					s1++;
-				else if (*s1 == '$')
-					break ;
-				if (!*s1)
-					break ;
-				s1++;
-			}
+			s1 = get_word(s1);
 			ptr[i] = dup_size(start, s1 - start);
 			if (ptr[i] == NULL)
 			{
@@ -91,12 +92,6 @@ static char	**split(char *s1, int i, char **ptr)
 				s1++;
 			if ((*s1 >= '0' && *s1 <= '9') || (s1[-1] == '$' && *s1 == '?') || *s1 == '_')
 				s1++;
-			// int i = 1;
-			// while (s1[i] && ft_isalpha(s1[i]) == 1)
-			// 	s1++;
-			// if ((s1[i] >= '0' && s1[i] <= '9') || (s1[i - 1] == '$' && s1[i] == '?') || s1[i] == '_')
-			// 	s1++;
-			// s1 += i;
 		}
 	}
 	ptr[i] = NULL;
@@ -118,5 +113,5 @@ char	**ft_split_str(char *s1)
 	{
 		return (NULL);
 	}
-	return (split(s1, 0, ptr));
+	return (split(s1, 0, ptr, NULL));
 }

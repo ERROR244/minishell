@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 15:38:08 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:34:52 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,10 +136,10 @@ void	    free_array(char **array);
 char	    *rm_spaces(char *str);
 void        get_list(char **cmd, int size, t_cmds **lst, t_data *data);
 void        init_tokens(t_cmds *cmds, int size, t_cmds *lst);
-void        parsing(t_data *data);
+void        parsing(t_data *data, t_cmds *lst, char **cmds, int i);
 char	    *get_cmd(char *cmd);
 int		    errors_managment(t_data *data, int flag);
-int		    check_file(t_cmds *cmds);
+// int		    check_file(t_cmds *cmds);
 // int		    check_if_NULL(char *str);
 int		    check_for_pipe(t_cmds *cmds);
 int         cmdcheck(char *str);

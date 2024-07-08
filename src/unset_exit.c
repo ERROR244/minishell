@@ -6,32 +6,35 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 13:25:55 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:05:23 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	exit_from_child(char **com)
+{
+	if (com[1] == NULL)
+		exit(0);
+	else if (is_numeric(com[1]) != 0)
+		exit(2);
+	else if (com[1] && com[2])
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+	else
+	{
+		i = ft_atoi(com[1]);
+		g_signal.ret = i;
+		exit(i);
+	}
+	return ;
+}
 
 void	exit_myminishell(char **com, int flag)
 {
 	int	i;
 
 	if (flag != 0)
-	{
-		if (com[1] == NULL)
-			exit(0);
-		else if (is_numeric(com[1]) != 0)
-			exit(2);
-		else if (com[1] && com[2])
-			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		else
-		{
-			i = ft_atoi(com[1]);
-			g_signal.ret = i;
-			exit(i);
-		}
-		return ;
-	}
+		exit_from_child(com);
 	if (com[1] == NULL)
 	{
 		printf("exit\n");
@@ -55,40 +58,11 @@ void	exit_myminishell(char **com, int flag)
 	}
 }
 
-char	*join(char const *s1, char const *s2)
-{
-	size_t	i;
-	size_t	len1;
-	size_t	len2;
-	char	*concatenated;
-	size_t	j;
-
-	i = 0;
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	concatenated = (char *)malloc((len1 + len2) * sizeof(char) + 1);
-	if (concatenated == NULL)
-		return (NULL);
-	while (len1 > i)
-	{
-		concatenated[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j])
-		concatenated[i++] = s2[j++];
-	concatenated[len1 + len2] = '\0';
-	return (concatenated);
-}
-
 char	*get_my_path(t_env *list, char **com, bool flag, int i)
 {
 	char	**str;
 	char	*path1;
 	char	*mypath;
-	char	*joiner;
 	char	*command_path;
 
 	if (com[0][0] == '/' || com[0][0] == '.')
@@ -97,14 +71,9 @@ char	*get_my_path(t_env *list, char **com, bool flag, int i)
 	if (!path1)
 		return (NULL);
 	str = ft_split(path1, ':');
-	if (!str)
-		return (NULL);
-	mypath = NULL;
 	while (str[i])
 	{
-		joiner = join(str[i], "/");
-		command_path = ft_strjoin(joiner, com[0]);
-		free(joiner);
+		command_path = ft_strjoin(str[i], "/", com[0]);
 		if (access(command_path, X_OK) == 0)
 		{
 			mypath = command_path;
@@ -114,7 +83,5 @@ char	*get_my_path(t_env *list, char **com, bool flag, int i)
 		i++;
 	}
 	free_array(str);
-	if (!mypath)
-		return (NULL);
 	return (mypath);
 }
