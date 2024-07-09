@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 14:19:38 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:39:38 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	set_env_if_plus(t_env *index, char *export)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = index->var_name;
 	if (tmp[ft_strlen(tmp) - 1] != '=' && check_eq(tmp) == true)

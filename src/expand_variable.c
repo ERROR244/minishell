@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:21:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 18:32:49 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:31:40 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,6 @@ bool	check_ex(char *str, int size)
 	if (flag % 2 == 0)
 		return (true);
 	return (false);
-}
-
-int	array_size(char **var)
-{
-	int i;
-
-	i = 0;
-	while (var[i])
-		i++;
-	return (i);
 }
 
 char	**get_vars_content(char **var, char **env, char *str, int i)

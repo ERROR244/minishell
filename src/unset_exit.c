@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 18:16:36 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:39:23 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exit_from_child(char **com)
 {
-	int i;
+	int	i;
 
 	if (com[1] == NULL)
 		exit(0);
@@ -63,9 +63,10 @@ char	*get_my_path(t_env *list, char **com, bool flag, int i)
 {
 	char	**str;
 	char	*path1;
-	char	*mypath = NULL;
+	char	*mypath;
 	char	*command_path;
 
+	mypath = NULL;
 	if (com[0][0] == '/' || com[0][0] == '.')
 		return (ft_strdup(com[0]));
 	path1 = findmyvar(list, list, "PATH", flag);

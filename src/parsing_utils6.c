@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:47:27 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 15:42:57 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:40:47 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*grep_variable_name(char *line, int i, int j, int k)
 	return (str);
 }
 
-char *in_var(char *s1, int *in_word)
+char	*in_var(char *s1, int *in_word)
 {
 	s1++;
 	if (*s1 == '?')
@@ -68,7 +68,8 @@ int	count_vars(char *s1)
 		else if (in_word == 0)
 		{
 			count++;
-			while (*s1 && (*s1 != '$' || ft_isalnum(s1[0]) == 1 || *s1 == '?' || !s1[1]))
+			while (*s1 && (*s1 != '$' || ft_isalnum(s1[0]) == 1
+					|| *s1 == '?' || !s1[1]))
 			{
 				if (s1[0] == '$' && s1[1] == '$')
 					s1++;

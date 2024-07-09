@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 17:39:39 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/05/25 16:47:07 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:27:48 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,16 @@ static void	ft_free(char **ptr, int i)
 
 char const	*get_index(char const *s, char c)
 {
-	char tmp;
+	char	tmp;
 
 	while (*s && ((*s != c)))
 	{
 		if (*s == 39 || *s == 34)
 		{
 			tmp = *s;
-			while (++s && *s != tmp) {}
+			while (++s && *s != tmp)
+			{
+			}
 		}
 		s++;
 	}

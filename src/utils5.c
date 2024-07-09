@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 18:36:04 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:36:22 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ char	*get_content(char **env, char *str)
 
 int	fill_in(char *line, char *ptr, int pos)
 {
-	int i;
-	int tpos;
+	int	i;
+	int	tpos;
 
 	i = 0;
 	tpos = pos;
@@ -69,7 +69,8 @@ char	*get_final_line(char **lines, char **vars, char *cmd, t_line *l_data)
 	{
 		if (cmd[l_data->size] != '$' && lines[l_data->k])
 		{
-			l_data->pos = fill_in(l_data->line, lines[l_data->k++], l_data->pos);
+			l_data->pos = fill_in(l_data->line, lines[l_data->k++],
+					l_data->pos);
 			while (cmd[l_data->size] && cmd[l_data->size] != '$')
 				l_data->size++;
 		}

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 18:05:34 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:30:40 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@ int	get_command_in_one_char(char **str)
 	return (c);
 }
 
-void	execute_command_part_one(char **com, t_command *command, t_data *data, char *path)
+void	execute_command_part_one(char **com, t_command *command, t_data *data,
+		char *path)
 {
-	int red;
+	int	red;
 
 	red = 0;
 	signal(SIGINT, SIG_DFL);
@@ -76,9 +77,10 @@ void	execute_command_part_two(t_command *command, t_data *data)
 	}
 }
 
-void	execute_command_part_three(char **com, t_command *command, t_data *data, char *path)
+void	execute_command_part_three(char **com, t_command *command, t_data *data,
+		char *path)
 {
-	struct stat stats;
+	struct stat	stats;
 	int			cmd;
 
 	cmd = get_command_in_one_char(com);
@@ -125,7 +127,7 @@ int	execute_command(t_env *list, t_command *command, t_data *data, int index)
 	{
 		execute_command_part_one(command->cmd, command, data, path);
 		execute_command_part_two(command, data);
-		execute_command_part_three(command->cmd, command,  data, path);
+		execute_command_part_three(command->cmd, command, data, path);
 		exit(0);
 	}
 	free(path);

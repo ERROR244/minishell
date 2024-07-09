@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 15:23:22 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:28:42 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	print_error(int k, char *str)
 
 void	check_quot_and_filename(bool *flag, char **filename, char *str)
 {
-	static int i;
-	char	*tmp1;
+	static int	i;
+	char		*tmp1;
 
 	if (check_quot(str) != 0)
 		*flag = false;

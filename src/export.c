@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 19:04:45 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:41:36 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,35 +30,6 @@ char	**sortexport(char **arr, int n)
 		i++;
 	}
 	return (arr);
-}
-
-char	**linked_list_to_array(t_env *list)
-{
-	char	**array;
-	t_env	*current;
-	int		count;
-	int		i;
-
-	i = 0;
-	count = count_nodes(list);
-	array = (char **)malloc((count + 1) * sizeof(char *));
-	if (array == NULL)
-		exit(EXIT_FAILURE);
-	current = list;
-	while (i < count)
-	{
-		array[i] = ft_strdup(current->var_name);
-		if (array[i] == NULL)
-		{
-			perror("strdup");
-			free_array(array);
-			return (NULL);
-		}
-		current = current->next;
-		i++;
-	}
-	array[i] = NULL;
-	return (array);
 }
 
 int	printmyexport(t_env *list)
@@ -103,8 +74,8 @@ int	ft_all_isalpha(char *str)
 
 char	*fill_var(char *var, char *c)
 {
-	int j;
-	char *str;
+	char	*str;
+	int		j;
 
 	*c = '+';
 	str = malloc(sizeof(char) * ft_strlen(var));

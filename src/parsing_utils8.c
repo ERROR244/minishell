@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:19 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 16:11:57 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:36:43 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,19 @@ char	**array_copy(char **str)
 	return (ptr);
 }
 
-void	fill_in_commands(t_cmds **lst, t_command	**command, t_slist **infile, t_slist **outfile)
+void	fill_in_commands(t_cmds **lst, t_command **command, t_slist **infile,
+		t_slist **outfile)
 {
 	if ((*lst)->cmd && ((*lst)->token == Cmd || (*lst)->token == Non))
-				(*command)->cmd = array_copy((*lst)->cmd);
+		(*command)->cmd = array_copy((*lst)->cmd);
 	else if ((*lst)->cmd && (*lst)->token == Infile)
 	{
 		if (!(*infile))
 			(*infile) = node_new((*infile), (*lst)->cmd[0], (*lst)->token);
 		else
 		{
-			(*infile)->next = node_new((*infile), (*lst)->cmd[0], (*lst)->token);
+			(*infile)->next = node_new((*infile), (*lst)->cmd[0],
+					(*lst)->token);
 			(*infile) = (*infile)->next;
 		}
 	}
@@ -88,7 +90,8 @@ void	fill_in_commands(t_cmds **lst, t_command	**command, t_slist **infile, t_sli
 			(*outfile) = node_new((*outfile), (*lst)->cmd[0], (*lst)->token);
 		else
 		{
-			(*outfile)->next = node_new((*outfile), (*lst)->cmd[0], (*lst)->token);
+			(*outfile)->next = node_new((*outfile), (*lst)->cmd[0],
+					(*lst)->token);
 			(*outfile) = (*outfile)->next;
 		}
 	}

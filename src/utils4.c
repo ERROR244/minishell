@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 18:13:50 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:34:51 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_ft_close(int *fd)
 		free(fd);
 }
 
-int *print_open_error(int *fd, char *str)
+int	*print_open_error(int *fd, char *str)
 {
 	ft_ft_close(fd);
 	ft_putstr_fd("minishell: ", 2);

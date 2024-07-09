@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 17:35:27 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:40:16 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	getlist(t_cmds **list)
 {
-	char **name;
+	char	**name;
 
 	if ((*list)->token == Cmd)
 		free_array((*list)->cmd);
@@ -54,7 +54,7 @@ void	get_list_done(t_cmds *head, t_cmds *list, char **command, bool flag)
 
 void	last_update_in_the_list(t_cmds *head, t_cmds *list, char **command)
 {
-	int size;
+	int	size;
 
 	while (head)
 	{
@@ -81,7 +81,7 @@ void	last_update_in_the_list(t_cmds *head, t_cmds *list, char **command)
 	}
 }
 
-char **get_cmds_done(t_data *data, char **cmds)
+char	**get_cmds_done(t_data *data, char **cmds)
 {
 	data->line = check_tabs(data->line, 0, 0, data);
 	cmds = ft_split_msh(data->line);

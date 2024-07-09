@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 14:19:35 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:31:06 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	set_env_after_export(t_env *list, char **export, char c,
 			bool export_flag)
 {
 	t_env	*index;
-	
+
 	index = findmyindex(list, export[0]);
 	if (index)
 	{
