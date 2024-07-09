@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 10:08:22 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:35:11 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ char	*get_final_line(char **lines, char **vars, char *cmd, t_line *data)
 	init_line_data(data, lines, vars, &cmd);
 	while (cmd[data->size])
 	{
-		if (cmd[data->size] != '$' && lines[data->k])
+		if ((cmd[data->size] != '$' || cmd[data->size + 1] != '$')
+			&& lines[data->k])
 		{
 			data->pos = fill_in(data->line, lines[data->k++], data->pos);
 			while (cmd[data->size] && cmd[data->size] != '$')

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 09:41:49 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:18:53 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ void	execute_command_part_three(char **com, t_command *command, t_data *data,
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(com[0], 2);
 		ft_putstr_fd(": ", 2);
-		if (stat(path, &stats) == 0)
-			ft_putstr_fd("Is a directory", 2);
+		stat(path, &stats);
+		if (S_ISDIR(stats.st_mode))
+			ft_putendle("Is a directory", 2);
 		else
-			ft_putstr_fd(strerror(errno), 2);
-		ft_putstr_fd("\n", 2);
+			ft_putendle(strerror(errno), 2);
 		senv_clear(&data->list_env);
 		free_array(data->env);
 		exit(-1);

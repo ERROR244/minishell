@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:37:35 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 08:31:06 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:19:47 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	change_mydir(t_env *list, char *path)
 	char	buffer[PATH_MAX];
 
 	cur = findmyvar(list, list, "PWD", false);
+	if (path[0] == '\0')
+		return ;
 	if (chdir(path) != 0)
 		perror("cd");
 	else
