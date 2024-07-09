@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 08:34:51 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 09:45:43 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	*ft_open(t_slist *list, int size, int j)
 		else if (list->token == AppendFile)
 			fd[j] = open(list->cmd, O_WRONLY | O_CREAT | O_APPEND, 0666);
 		if (fd[j] == -1)
-			print_open_error(fd, list->cmd);
+			return (print_open_error(fd, list->cmd));
 		if (list->token == Infile)
 			dup2(fd[j], STDIN_FILENO);
 		else if (list->token == OutFile || list->token == AppendFile)

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 08:39:38 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 09:49:52 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	errors_managment(t_data *data, int i)
 
 	curr = data->lst;
 	head = curr;
+	i = heredoc(head, head, i);
 	while (curr && i == 0)
 	{
 		if (curr->token == Pipe)
@@ -84,7 +85,7 @@ int	errors_managment(t_data *data, int i)
 			i = check_for_append_heredoc(curr);
 		curr = curr->next;
 	}
-	return (heredoc(head, head, i));
+	return (i);
 }
 
 int	cmdcheck(char *str)

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:47:27 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 08:40:47 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 10:10:58 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ char	*grep_variable_name(char *line, int i, int j, int k)
 	j = ++i;
 	if (line[i] && line[i] == '?')
 		return (ft_strdup("?"));
-	else if (line[i] && line[i] == '_')
-		return (ft_strdup("_"));
 	while (line[i] && ft_isalnum(line[i]) == 1)
 		i++;
 	k = i - j;

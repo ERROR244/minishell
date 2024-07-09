@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 09:32:59 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 10:08:22 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,31 +85,30 @@ void	init_line_data(t_line *line_data, char **lines, char **vars, char **cmd)
 	cmd_check(cmd);
 }
 
-char	*get_final_line(char **lines, char **vars, char *cmd, t_line *l_data)
+char	*get_final_line(char **lines, char **vars, char *cmd, t_line *data)
 {
-	init_line_data(l_data, lines, vars, &cmd);
-	while (cmd[l_data->size])
+	init_line_data(data, lines, vars, &cmd);
+	while (cmd[data->size])
 	{
-		if (cmd[l_data->size] != '$' && lines[l_data->k])
+		if (cmd[data->size] != '$' && lines[data->k])
 		{
-			l_data->pos = fill_in(l_data->line, lines[l_data->k++],
-					l_data->pos);
-			while (cmd[l_data->size] && cmd[l_data->size] != '$')
-				l_data->size++;
+			data->pos = fill_in(data->line, lines[data->k++], data->pos);
+			while (cmd[data->size] && cmd[data->size] != '$')
+				data->size++;
 		}
-		if (cmd[l_data->size] == '$' && vars[l_data->i])
+		if (cmd[data->size] == '$' && vars[data->i] && vars[data->i][0] != '\0')
 		{
-			l_data->pos = fill_in(l_data->line, vars[l_data->i++], l_data->pos);
-			if (cmd[l_data->size + 1] == '?')
-				l_data->size += 2;
+			data->pos = fill_in(data->line, vars[data->i++], data->pos);
+			data->size++;
+			if (cmd[data->size] == '?')
+				data->size++;
 			else
-			{
-				l_data->size++;
-				while (cmd[l_data->size] && ft_isalnum(cmd[l_data->size]) == 1)
-					l_data->size++;
-			}
+				while (cmd[data->size] && ft_isalnum(cmd[data->size]) == 1)
+					data->size++;
 		}
+		else if (cmd[data->size])
+			data->size++;
 	}
-	l_data->line[l_data->pos] = '\0';
-	return (l_data->line);
+	data->line[data->pos] = '\0';
+	return (data->line);
 }

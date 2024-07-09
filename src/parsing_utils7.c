@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 09:19:06 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 10:14:45 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*dup_size(char *s, size_t n)
 	return (dup);
 }
 
-static void	ft_free(char **ptr, int i)
+static char	**ft_free(char **ptr, int i)
 {
 	int	j;
 
@@ -41,6 +41,7 @@ static void	ft_free(char **ptr, int i)
 	while (j < i)
 		free(ptr[j++]);
 	free(ptr);
+	return (NULL);
 }
 
 char	*get_word(char *s1)
@@ -79,19 +80,18 @@ static char	**split(char *s1, int i, char **ptr, char *start)
 			s1 = get_word(s1);
 			ptr[i++] = dup_size(start, s1 - start);
 			if (ptr[i - 1] == NULL)
-			{
-				ft_free(ptr, i - 1);
-				return (NULL);
-			}
+				return (ft_free(ptr, i - 1));
 		}
 		else
 		{
 			s1++;
 			while (*s1 && ft_isalpha(*s1) == 1)
 				s1++;
-			if ((*s1 >= '0' && *s1 <= '9') || (s1[-1] == '$' && *s1 == '?')
-				|| *s1 == '_')
+			if ((*s1 >= '0' && *s1 <= '9') || (s1[-1] == '$' && *s1 == '?'))
 				s1++;
+			if (*s1 == '_')
+				while (ft_isalnum(*s1) == 1)
+					s1++;
 		}
 	}
 	ptr[i] = NULL;
