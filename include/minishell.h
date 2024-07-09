@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 08:46:15 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 09:21:19 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,6 +259,7 @@ int						get_2d_size(char **vars, char **lines);
 bool					check_eq(char *str);
 void					set_env_if_plus(t_env *index, char *export);
 int						how_many_dollar_in(char *str);
+bool                    check_next_for_both(char *str);
 
 //  after the norm
 void					set_env_after_export(t_env *list, char **export, char c,

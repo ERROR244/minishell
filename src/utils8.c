@@ -6,11 +6,33 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 08:41:42 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 09:27:19 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+bool	check_next_for_both(char *str)
+{
+	int	i;
+	int	flag1;
+	int	flag2;
+
+	i = 0;
+	flag1 = 0;
+	flag2 = 0;
+	while (str[i])
+	{
+		if (str[i] == 34)
+			flag1++;
+		if (str[i] == 39)
+			flag2++;
+		i++;
+	}
+	if ((flag1 != 0 && flag1 % 2 == 0) || (flag2 != 0 && flag2 % 2 == 0))
+		return (true);
+	return (false);
+}
 
 int	get_2d_size(char **vars, char **lines)
 {
