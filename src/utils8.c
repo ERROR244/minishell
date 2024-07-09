@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 09:27:19 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 09:32:25 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,20 @@ char	**linked_list_to_array(t_env *list)
 	}
 	array[i] = NULL;
 	return (array);
+}
+
+bool	check_back_for_heredoc(char *str, int index)
+{
+	if (index < 0 || !str[index])
+		return (false);
+	index--;
+	while (index >= 0 && str[index] == ' ')
+		index--;
+	if (index >= 1 && str[index] == '<')
+	{
+		index--;
+		if (index >= 0 && str[index] == '<')
+			return (true);
+	}
+	return (false);
 }

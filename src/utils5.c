@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 09:14:57 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 09:32:59 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	fill_in(char *line, char *ptr, int pos)
 
 void	cmd_check(char **cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while ((*cmd)[i])
@@ -112,20 +112,4 @@ char	*get_final_line(char **lines, char **vars, char *cmd, t_line *l_data)
 	}
 	l_data->line[l_data->pos] = '\0';
 	return (l_data->line);
-}
-
-bool	check_back_for_heredoc(char *str, int index)
-{
-	if (index < 0 || !str[index])
-		return (false);
-	index--;
-	while (index >= 0 && str[index] == ' ')
-		index--;
-	if (index >= 1 && str[index] == '<')
-	{
-		index--;
-		if (index >= 0 && str[index] == '<')
-			return (true);
-	}
-	return (false);
 }
