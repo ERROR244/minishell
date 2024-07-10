@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 18:43:08 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/10 12:13:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ bool	change_underscore(t_env *head, t_command *command)
 	int		i;
 
 	i = 0;
+	if (!command->cmd)
+		return (false);
 	while (command->cmd[i])
 		i++;
 	str = command->cmd[--i];

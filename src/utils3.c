@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 14:18:53 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/10 12:18:25 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@ int	get_command_in_one_char(char **str)
 	int	c;
 
 	c = 0;
-	if (ft_strcmp(str[0], "cd") == 0)
+	if (str && ft_strcmp(str[0], "cd") == 0)
 		c = 1;
-	else if (ft_strcmp(str[0], "pwd") == 0)
+	else if (str && ft_strcmp(str[0], "pwd") == 0)
 		c = 2;
-	else if (ft_strcmp(str[0], "env") == 0 && str[1] == NULL)
+	else if (str && ft_strcmp(str[0], "env") == 0 && str[1] == NULL)
 		c = 3;
-	else if (ft_strcmp(str[0], "export") == 0)
+	else if (str && ft_strcmp(str[0], "export") == 0)
 		c = 4;
-	else if (ft_strcmp(str[0], "unset") == 0)
+	else if (str && ft_strcmp(str[0], "unset") == 0)
 		c = 5;
-	else if (ft_strcmp(str[0], "exit") == 0)
+	else if (str && ft_strcmp(str[0], "exit") == 0)
 		c = 6;
-	else if (ft_strcmp(str[0], "echo") == 0)
+	else if (str && ft_strcmp(str[0], "echo") == 0)
 		c = 7;
 	return (c);
 }
@@ -44,11 +44,11 @@ void	execute_command_part_one(char **com, t_command *command, t_data *data,
 	free(data->line);
 	if (command->infile || command->outfile)
 		red = hand_the_redirectionin(command);
-	if (red == 1)
+	if (red == 1 || command->cmd[0][0] == '\0')
 	{
 		senv_clear(&data->list_env);
 		free_array(data->env);
-		exit(1);
+		exit(red);
 	}
 	else if (path == NULL && get_command_in_one_char(com) == 0)
 	{
@@ -112,8 +112,12 @@ int	execute_command(t_env *list, t_command *command, t_data *data, int index)
 	char	*path;
 
 	if (!command->cmd)
-		return (-1);
-	if (command->cmd[0][0] == '\0')
+	{
+		command->cmd = malloc(sizeof(char *) * 2);
+		command->cmd[0] = ft_strdup("");
+		command->cmd[1] = NULL;
+	}
+	else if (command->cmd[0][0] == '\0')
 	{
 		if (data->flag != true)
 			return (0);

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:19 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 13:35:41 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/10 12:01:19 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	**array_copy(char **str)
 void	fill_in_commands(t_cmds **lst, t_command **command, t_slist **infile,
 		t_slist **outfile)
 {
-	if ((*lst)->cmd && ((*lst)->token == Cmd || (*lst)->token == Non))
+	if ((*lst)->cmd && ((*lst)->token == Cmd))
 		(*command)->cmd = array_copy((*lst)->cmd);
 	else if ((*lst)->cmd && (*lst)->token == Infile)
 	{
@@ -83,7 +83,7 @@ void	fill_in_commands(t_cmds **lst, t_command **command, t_slist **infile,
 			(*infile) = (*infile)->next;
 		}
 	}
-	else if ((*lst)->cmd[0] && ((*lst)->token == OutFile
+	else if ((*lst)->cmd && ((*lst)->token == OutFile
 			|| (*lst)->token == AppendFile))
 	{
 		if (!(*outfile))
@@ -95,6 +95,7 @@ void	fill_in_commands(t_cmds **lst, t_command **command, t_slist **infile,
 			(*outfile) = (*outfile)->next;
 		}
 	}
+	
 }
 
 t_command	*get_commands(t_cmds *lst)
@@ -112,13 +113,19 @@ t_command	*get_commands(t_cmds *lst)
 		outfile = NULL;
 		while (lst && lst->token != Pipe)
 		{
+			// if (lst->token == OutFile)
+				// printf("1\n");
 			fill_in_commands(&lst, &command, &infile, &outfile);
 			lst = lst->next;
 		}
 		command->infile = get_head(infile);
 		command->outfile = get_head(outfile);
+		// printlist(command->infile);
+		// printlist(command->outfile);
 		if (lst)
 			lst = lst->next;
+		// else
+		// 	printf("HERE\n");
 		command = command->next;
 	}
 	command = head;

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 14:35:11 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/10 10:15:54 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,27 +53,30 @@ int	fill_in(char *line, char *ptr, int pos)
 	return (tpos);
 }
 
-void	cmd_check(char **cmd)
-{
-	int	i;
+// void	cmd_check(char **cmd)
+// {
+// 	int	i;
 
-	i = 0;
-	while ((*cmd)[i])
-	{
-		if ((*cmd)[i] == 39)
-		{
-			i++;
-			while ((*cmd)[i] && (*cmd)[i] != 39)
-			{
-				if ((*cmd)[i] == '$')
-					(*cmd)[i] = '1';
-				i++;
-			}
-		}
-		else
-			i++;
-	}
-}
+// 	i = 0;
+// 	while ((*cmd)[i])
+// 	{
+// 		if ((*cmd)[i] == 39)
+// 		{
+// 			i++;
+// 			while ((*cmd)[i] && (*cmd)[i] != 39)
+// 			{
+// 				if ((*cmd)[i] == '$')
+// 				{
+// 					(*cmd)[i] = '1';
+// 					printf("HERE\n");
+// 				}
+// 				i++;
+// 			}
+// 		}
+// 		else
+// 			i++;
+// 	}
+// }
 
 void	init_line_data(t_line *line_data, char **lines, char **vars, char **cmd)
 {
@@ -82,7 +85,8 @@ void	init_line_data(t_line *line_data, char **lines, char **vars, char **cmd)
 	line_data->size = 0;
 	line_data->pos = 0;
 	line_data->line = malloc(sizeof(char) * (get_2d_size(vars, lines) + 1));
-	cmd_check(cmd);
+	// cmd_check(cmd);
+	(void)cmd;
 }
 
 char	*get_final_line(char **lines, char **vars, char *cmd, t_line *data)
