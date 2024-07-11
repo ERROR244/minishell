@@ -6,13 +6,13 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/11 09:45:48 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/11 09:47:39 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int check_double(char *cmd, int i)
+int	check_double(char *cmd, int i)
 {
 	while (++i && cmd[i])
 	{
