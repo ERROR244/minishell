@@ -6,13 +6,13 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/11 08:49:34 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:09:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	getlist(t_cmds **list)
+void	get_flags(t_cmds **list)
 {
 	char	**name;
 
@@ -38,8 +38,8 @@ void	get_list_done(t_cmds *head, t_cmds *list, char **command, bool flag)
 			list->cmd = command;
 			flag = false;
 		}
-		else
-			getlist(&list);
+		else if (list->token == Cmd || list->token == Non)
+			get_flags(&list);
 		if (!list->next)
 			break ;
 		list = list->next;
@@ -52,9 +52,34 @@ void	get_list_done(t_cmds *head, t_cmds *list, char **command, bool flag)
 	}
 }
 
+// void	get_list(char **cmd, int size, t_cmds **lst, t_data *data)
+// {
+// 	t_cmds	*node;
+// 	t_cmds	*curr;
+// 	int		i;
+
+// 	i = 0;
+// 	if (cmd[0] == NULL)
+// 	{
+// 		*lst = lstnew("\n", *lst, NULL);
+// 		return ;
+// 	}
+// 	*lst = lstnew(cmd[i++], *lst, NULL);
+// 	(*lst)->data = data;
+// 	while (i < size)
+// 	{
+// 		node = lstnew(cmd[i], *lst, NULL);
+// 		node->data = data;
+// 		curr = lstlast(*lst);
+// 		curr->next = node;
+// 		i++;
+// 	}
+// }
+
 void	last_update_in_the_list(t_cmds *head, t_cmds *list, char **command)
 {
 	int	size;
+	t_cmds *tmp;
 
 	while (head)
 	{
@@ -79,6 +104,28 @@ void	last_update_in_the_list(t_cmds *head, t_cmds *list, char **command)
 			break ;
 		head = list->next;
 	}
+	tmp = head;
+	while (tmp)
+	{
+		if (tmp->token == Cmd)
+		{
+			printf("Cmd--->	");
+			print_array(tmp->cmd);
+		}
+		else if (tmp->token == Infile)
+		{
+			printf("infile--->	");
+			print_array(tmp->cmd);
+		}
+		else if (tmp->token == OutFile)
+		{
+			printf("outfile--->	");
+			print_array(tmp->cmd);
+		}
+		else
+			printf("-------------------\n");
+		tmp = tmp->next;
+	}
 }
 
 char	**get_cmds_done(t_data *data, char **cmds)
@@ -99,19 +146,68 @@ void	parsing(t_data *data, t_cmds *lst, char **cmds, int i)
 			cmds[i] = rm_spaces(cmds[i]);
 	}
 	get_list(cmds, i, &lst, data);
+
+
 	init_tokens(lst, 0, lst);
 	data->lst = lst;
 	data->cmds = cmds;
 	g_signal.ret = errors_managment(data, 0);
 	remove_quotes(lst);
+	t_cmds *tmp;
+
+	tmp = lst;
+	while (tmp)
+	{
+		if (tmp->token == Cmd)
+		{
+			printf("Cmd--->	");
+			print_array(tmp->cmd);
+		}
+		else if (tmp->token == Infile)
+		{
+			printf("infile--->	");
+			print_array(tmp->cmd);
+		}
+		else if (tmp->token == OutFile)
+		{
+			printf("outfile--->	");
+			print_array(tmp->cmd);
+		}
+		else
+			printf("-------------------\n");
+		tmp = tmp->next;
+	}
+	printf("***************************************************\n");
 	if (g_signal.ret == 0 && g_signal.sig != -1)
 	{
 		last_update_in_the_list(lst, lst, NULL);
-		commands = get_commands(lst);
-		data->list = commands;
-		g_signal.ret = executing(data);
-		commands_clear(&commands);
-		ft_clear(data);
+		tmp = lst;
+		while (tmp)
+		{
+			if (tmp->token == Cmd)
+			{
+				printf("Cmd--->	");
+				print_array(tmp->cmd);
+			}
+			else if (tmp->token == Infile)
+			{
+				printf("infile--->	");
+				print_array(tmp->cmd);
+			}
+			else if (tmp->token == OutFile)
+			{
+				printf("outfile--->	");
+				print_array(tmp->cmd);
+			}
+			else
+				printf("-------------------\n");
+			tmp = tmp->next;
+		}
+	// 	commands = get_commands(lst);
+	// 	data->list = commands;
+	// 	g_signal.ret = executing(data);
+	// 	commands_clear(&commands);
+	// 	ft_clear(data);
 	}
 	else
 		ft_clear(data);

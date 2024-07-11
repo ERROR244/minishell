@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 14:18:53 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:04:19 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	get_command_in_one_char(char **str)
 	int	c;
 
 	c = 0;
+	if (!str || !*str)
+		return (c);
 	if (ft_strcmp(str[0], "cd") == 0)
 		c = 1;
 	else if (ft_strcmp(str[0], "pwd") == 0)
@@ -113,10 +115,8 @@ int	execute_command(t_env *list, t_command *command, t_data *data, int index)
 
 	if (!command->cmd)
 		return (-1);
-	if (command->cmd[0][0] == '\0')
+	if (command->cmd[0][0] == '\0' && !command->infile && !command->outfile)
 	{
-		if (data->flag != true)
-			return (0);
 		ft_putstr_fd("minishell: command '' not found\n", 2);
 		return (127);
 	}
@@ -127,7 +127,8 @@ int	execute_command(t_env *list, t_command *command, t_data *data, int index)
 	{
 		execute_command_part_one(command->cmd, command, data, path);
 		execute_command_part_two(command, data);
-		execute_command_part_three(command->cmd, command, data, path);
+		if (command->cmd[0][0] != '\0')
+			execute_command_part_three(command->cmd, command, data, path);
 		exit(0);
 	}
 	free(path);
