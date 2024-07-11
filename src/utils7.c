@@ -6,11 +6,24 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 10:04:58 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/11 09:45:48 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int check_double(char *cmd, int i)
+{
+	while (++i && cmd[i])
+	{
+		if (cmd[i] == 34)
+		{
+			i++;
+			break ;
+		}
+	}
+	return (i);
+}
 
 void	ft_close(int fd, char *str)
 {

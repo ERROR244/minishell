@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 18:15:44 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/11 09:26:41 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@ int	how_many_dollar_in(char *str)
 	k = 0;
 	while (str && str[i])
 	{
-		if (str[i] == 39 && check_ex(str, i) == true)
+		if (str[i] && str[i] == 39 && check_ex(str, i) == true)
 		{
 			i++;
-			while (str[i] != 39)
+			while (str[i] && str[i] != 39)
 				i++;
 		}
-		else if (str[i] == '$' && str[i + 1] != '$')
+		else if (str[i] && str[i + 1] && str[i] == '$' && str[i + 1] != '$')
 		{
 			k++;
 			i++;
 		}
-		else if (str[i] == '$' && str[i + 1] == '$')
+		else if (str[i] && str[i + 1] && str[i] == '$' && str[i + 1] == '$')
 			i++;
 		if (str[i])
 			i++;

@@ -6,19 +6,9 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/10 12:07:16 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/11 08:49:34 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-char Gstr[100][100] = { "Cmd", "AppendFile",						//
-							"HereDocDel", "Infile",					//
-							"OutFile", "Operation",					//
-							"NonOperation", "Input",				//
-							"Output", "Append",						//
-							"HereDoc", "Pipe", 						//
-							"Non" };		   						//
-
 
 #include "../include/minishell.h"
 
@@ -36,7 +26,7 @@ void	getlist(t_cmds **list)
 	}
 }
 
-void	get_list_done(t_cmds *list, char **command, bool flag)
+void	get_list_done(t_cmds *head, t_cmds *list, char **command, bool flag)
 {
 	while (list)
 	{
@@ -53,6 +43,12 @@ void	get_list_done(t_cmds *list, char **command, bool flag)
 		if (!list->next)
 			break ;
 		list = list->next;
+	}
+	if (flag == true)
+	{
+		list->next = lstnew(NULL, head, command);
+		list = list->next;
+		list->data = head->data;
 	}
 }
 
@@ -76,7 +72,7 @@ void	last_update_in_the_list(t_cmds *head, t_cmds *list, char **command)
 			command = malloc(sizeof(char *) * (size + 1));
 			get_command_done(list, list, command, true);
 		}
-		get_list_done(list, command, true);
+		get_list_done(list, list, command, true);
 		while (list && list->token != Pipe)
 			list = list->next;
 		if (!list)

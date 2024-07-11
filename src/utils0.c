@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/10 11:56:27 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:56:16 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_cmds	*find_cmd(t_cmds *list)
 	{
 		if (list->token == Pipe)
 			break ;
-		if (list->token == Cmd || list->token == Non)
+		if (list->token == Cmd)
 			return (list);
 		list = list->next;
 	}
