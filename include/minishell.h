@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/11 09:46:05 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:03:25 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ typedef struct s_line
 	int					pos;
 	int					size;
 }						t_line;
-
 // lst
 t_cmds					*lstlast(t_cmds *lst);
 void					lstclear(t_cmds **lst);
@@ -266,6 +265,7 @@ void					set_env_after_export(t_env *list, char **export, char c,
 void					set_env_after_cd(t_env *list, char *key, char *value);
 char					*findmyvar(t_env *list, t_env *head, char *va,
 							bool flag);
+char					**array_copy(char **str);
 // void 	handlersignals();
 
 // void        set_myenv(t_env *list, char *key, char *value, char c,

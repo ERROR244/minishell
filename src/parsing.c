@@ -6,80 +6,105 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/11 12:12:34 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/11 15:31:17 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	get_flags(t_cmds **list)
+t_cmds *copy_node(char **cmd, t_token token, bool flag)
 {
-	char	**name;
-
-	if ((*list)->token == Cmd)
-		free_array((*list)->cmd);
-	else
-	{
-		name = get_name((*list)->cmd[0]);
-		free_array((*list)->cmd);
-		(*list)->cmd = name;
-	}
-}
-
-void	get_list_done(t_cmds *head, t_cmds *list, char **command, bool flag)
-{
-	while (list)
-	{
-		if (list->token == Pipe)
-			break ;
-		else if ((list->token == Cmd || list->token == Non) && flag == true)
-		{
-			free_array(list->cmd);
-			list->cmd = command;
-			flag = false;
-		}
-		else if (list->token == Cmd || list->token == Non)
-			get_flags(&list);
-		if (!list->next)
-			break ;
-		list = list->next;
-	}
+    t_cmds *new_node;
+	
+	new_node = (t_cmds *)malloc(sizeof(t_cmds));
 	if (flag == true)
-	{
-		list->next = lstnew(NULL, head, command);
-		list = list->next;
-		list->data = head->data;
-	}
+	    new_node->cmd = array_copy(cmd);
+	else
+	    new_node->cmd = get_name(cmd[0]);
+    new_node->token = token;
+    new_node->next = NULL;
+    new_node->prev = NULL;
+    return (new_node);
 }
 
-// void	get_list(char **cmd, int size, t_cmds **lst, t_data *data)
-// {
-// 	t_cmds	*node;
-// 	t_cmds	*curr;
-// 	int		i;
+t_cmds *copy_list(t_cmds *lst, char **command)
+{
+	t_cmds *new_node;
+	t_cmds *new_head;
+	t_cmds *head;
+    t_cmds *new_tail;
+    t_cmds *current;
+	int i = 0;
+	
+    if (!lst)
+		return (NULL);
 
-// 	i = 0;
-// 	if (cmd[0] == NULL)
-// 	{
-// 		*lst = lstnew("\n", *lst, NULL);
-// 		return ;
-// 	}
-// 	*lst = lstnew(cmd[i++], *lst, NULL);
-// 	(*lst)->data = data;
-// 	while (i < size)
-// 	{
-// 		node = lstnew(cmd[i], *lst, NULL);
-// 		node->data = data;
-// 		curr = lstlast(*lst);
-// 		curr->next = node;
-// 		i++;
-// 	}
-// }
+    new_tail = NULL;
+	new_head = NULL;
+    current = lst;
+	head = copy_node(command, Cmd, true);
+    while (current)
+	{
+		if (current->token == Pipe)
+			break ;
+        else if (current->token != Cmd || i == 0)
+		{
+			if (current->token == Cmd && i == 0)
+			{
+				i = 1;
+            	new_node = head;
+			}
+			else
+            	new_node = copy_node(current->cmd, current->token, false);
 
-void	last_update_in_the_list(t_cmds *head, t_cmds *list, char **command)
+            
+            if (!new_head)
+                new_head = new_node;
+            else
+			{
+                new_tail->next = new_node;
+                new_node->prev = new_tail;
+            }
+			new_tail = new_node;
+        }
+        current = current->next;
+    }
+	if (i == 0)
+	{
+		head->next = new_head;
+		new_head->prev = head;
+		return (head);
+	}
+    return (new_head);
+}
+
+t_cmds *merge_lists(t_cmds *list1, t_cmds *list2) 
+{
+    t_cmds *current;
+    t_cmds *pipe;
+
+    if (!list1)
+		return (list2);
+    if (!list2)
+		return (list1);
+
+	pipe = copy_node(get_name("|"), Pipe, true);
+    current = list1;
+    while (current->next) 
+        	current = current->next;
+    current->next = pipe;
+	pipe->prev = current;
+	pipe->next = list2;
+    list2->prev = pipe;
+    return (list1);
+}
+
+
+t_cmds	*last_update_in_the_list(t_cmds *head, t_cmds *list, char **command)
 {
 	int	size;
-	t_cmds *tmp;
+	t_cmds *new_head;
+	t_cmds *new_head_tmp = NULL;
 
 	while (head)
 	{
@@ -97,35 +122,23 @@ void	last_update_in_the_list(t_cmds *head, t_cmds *list, char **command)
 			command = malloc(sizeof(char *) * (size + 1));
 			get_command_done(list, list, command, true);
 		}
-		get_list_done(list, list, command, true);
+		new_head = copy_list(list, command);
+		if (new_head_tmp)
+			new_head = merge_lists(new_head_tmp, new_head);
 		while (list && list->token != Pipe)
 			list = list->next;
+		new_head_tmp = new_head;
 		if (!list)
 			break ;
 		head = list->next;
 	}
-	tmp = head;
-	while (tmp)
+	while (new_head)
 	{
-		if (tmp->token == Cmd)
-		{
-			printf("Cmd--->	");
-			print_array(tmp->cmd);
-		}
-		else if (tmp->token == Infile)
-		{
-			printf("infile--->	");
-			print_array(tmp->cmd);
-		}
-		else if (tmp->token == OutFile)
-		{
-			printf("outfile--->	");
-			print_array(tmp->cmd);
-		}
-		else
-			printf("-------------------\n");
-		tmp = tmp->next;
+		if (!new_head->prev)
+			break;
+		new_head = new_head->prev;
 	}
+	return (new_head);
 }
 
 char	**get_cmds_done(t_data *data, char **cmds)
@@ -153,61 +166,16 @@ void	parsing(t_data *data, t_cmds *lst, char **cmds, int i)
 	data->cmds = cmds;
 	g_signal.ret = errors_managment(data, 0);
 	remove_quotes(lst);
-	t_cmds *tmp;
-
-	tmp = lst;
-	while (tmp)
-	{
-		if (tmp->token == Cmd)
-		{
-			printf("Cmd--->	");
-			print_array(tmp->cmd);
-		}
-		else if (tmp->token == Infile)
-		{
-			printf("infile--->	");
-			print_array(tmp->cmd);
-		}
-		else if (tmp->token == OutFile)
-		{
-			printf("outfile--->	");
-			print_array(tmp->cmd);
-		}
-		else
-			printf("-------------------\n");
-		tmp = tmp->next;
-	}
-	printf("***************************************************\n");
 	if (g_signal.ret == 0 && g_signal.sig != -1)
 	{
-		last_update_in_the_list(lst, lst, NULL);
-		tmp = lst;
-		while (tmp)
-		{
-			if (tmp->token == Cmd)
-			{
-				printf("Cmd--->	");
-				print_array(tmp->cmd);
-			}
-			else if (tmp->token == Infile)
-			{
-				printf("infile--->	");
-				print_array(tmp->cmd);
-			}
-			else if (tmp->token == OutFile)
-			{
-				printf("outfile--->	");
-				print_array(tmp->cmd);
-			}
-			else
-				printf("-------------------\n");
-			tmp = tmp->next;
-		}
-	// 	commands = get_commands(lst);
-	// 	data->list = commands;
-	// 	g_signal.ret = executing(data);
-	// 	commands_clear(&commands);
-	// 	ft_clear(data);
+		lst = last_update_in_the_list(lst, lst, NULL);
+		// lstclear(&lst);
+		data->lst = lst;
+		commands = get_commands(lst);
+		data->list = commands;
+		g_signal.ret = executing(data);
+		commands_clear(&commands);
+		ft_clear(data);
 	}
 	else
 		ft_clear(data);
