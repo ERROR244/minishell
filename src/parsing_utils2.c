@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 23:48:23 by error01           #+#    #+#             */
-/*   Updated: 2024/07/08 15:32:09 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:08:07 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,17 @@
 
 void	free_array(char **array)
 {
-	char	**ptr;
+	int	i;
 
-	ptr = array;
-	if (!ptr)
+	i = 0;
+	if (!array)
 		return ;
-	while (*ptr)
+	while (array[i])
 	{
-		free(*ptr);
-		ptr++;
+		free(array[i]);
+		i++;
 	}
 	free(array);
-	array = NULL;
 }
 
 int	check_for_in_out_put(t_cmds *cmds)

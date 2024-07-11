@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/11 15:31:17 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:10:42 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,9 +169,10 @@ void	parsing(t_data *data, t_cmds *lst, char **cmds, int i)
 	if (g_signal.ret == 0 && g_signal.sig != -1)
 	{
 		lst = last_update_in_the_list(lst, lst, NULL);
-		// lstclear(&lst);
+		lstclear(&data->lst);
 		data->lst = lst;
 		commands = get_commands(lst);
+		data->lst = lst;
 		data->list = commands;
 		g_signal.ret = executing(data);
 		commands_clear(&commands);

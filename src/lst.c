@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 11:09:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/11 15:29:10 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:01:01 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ void	lstclear(t_cmds **lst)
 	while (curr1->next != NULL)
 	{
 		curr2 = curr1->next;
+		free_array(curr1->cmd);
 		free(curr1);
 		curr1 = curr2;
 	}
+	free_array(curr1->cmd);
 	free(curr1);
 	*lst = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/11 09:47:39 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:11:04 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,6 @@ void	ft_dup2(int fd, int std)
 
 void	ft_clear(t_data *data)
 {
-	t_cmds	*cur;
-
-	cur = data->lst;
-	while (cur)
-	{
-		free_array(cur->cmd);
-		cur = cur->next;
-	}
 	lstclear(&data->lst);
 	free_array(data->cmds);
 }
