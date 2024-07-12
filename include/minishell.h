@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 12:24:17 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 14:33:47 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,5 +253,6 @@ t_cmds					*copy_list(t_cmds *curr, char **command, int i);
 t_cmds					*merge_lists(t_cmds *list1, t_cmds *list2);
 char					**get_key_and_value(char *str, char **ptr, int i,
 							int j);
+void					ft_puterror_fd(char *str1, char *str2);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:43:54 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 14:38:12 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ size_t	get_size(char *str)
 	k = 0;
 	while (str[i])
 	{
-		if (str[i] == 39 || str[i] == 34)
+		if ((str[i] == 39 && str[i + 1] != 39)
+			|| (str[i] == 34 && str[i + 1] != 34))
 		{
 			tmp = str[i];
 			i++;
@@ -30,42 +31,46 @@ size_t	get_size(char *str)
 				i++;
 			k += 2;
 		}
+		else if ((str[i] == 39 && str[i + 1] == 39)
+			|| (str[i] == 34 && str[i + 1] == 34))
+			i++;
 		i++;
 	}
 	return (i - k);
 }
 
-char	*get_string(char *str, size_t i, size_t k, size_t size)
+char	*get_string(char *s, size_t i, size_t k, size_t size)
 {
 	char	*ptr;
 	char	tmp;
 
-	if (size == ft_strlen(str))
-		return (str);
+	if (size == ft_strlen(s))
+		return (s);
 	ptr = malloc(sizeof(char) * (size + 1));
 	while (k < size)
 	{
-		while (str[i] == 39 || str[i] == 34)
+		while ((s[i] == 39 && s[i + 1] != 39) || (s[i] == 34 && s[i + 1] != 34))
 		{
-			tmp = str[i++];
-			while (str[i] != tmp)
-			{
-				ptr[k++] = str[i++];
-			}
+			tmp = s[i++];
+			while (s[i] != tmp)
+				ptr[k++] = s[i++];
 			i++;
 		}
 		if (k == size)
 			break ;
-		ptr[k++] = str[i++];
+		if ((s[i] == 39 && s[i + 1] == 39)
+			|| (s[i] == 34 && s[i + 1] == 34))
+			ptr[k++] = s[i++];
+		ptr[k++] = s[i++];
 	}
 	ptr[k] = '\0';
-	free(str);
+	free(s);
 	return (ptr);
 }
 
 void	remove_quotes(t_cmds *lst)
 {
-	int	i;
+	int		i;
 
 	while (lst)
 	{
@@ -73,8 +78,10 @@ void	remove_quotes(t_cmds *lst)
 		while (lst->cmd[i])
 		{
 			if (lst->cmd[i] != NULL)
+			{
 				lst->cmd[i] = get_string(lst->cmd[i], 0, 0,
 						get_size(lst->cmd[i]));
+			}
 			i++;
 		}
 		lst = lst->next;

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 08:42:56 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 14:34:11 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,11 @@ void	execute_command_part_one(char **com, t_command *command, t_data *data,
 	else if (path == NULL && get_command_in_one_char(com) == 0)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(com[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
+		if (((com[0][0] == 39 && com[0][1] == 39) || (com[0][0] == 34
+				&& com[0][1] == 34)) && com[0][2] == '\0')
+			ft_putstr_fd("'': command not found\n", 2);
+		else
+			ft_puterror_fd(com[0], ": command not found\n");
 		senv_clear(&data->list_env);
 		free_array(data->env);
 		exit(127);
@@ -105,8 +108,6 @@ void	execute_command_part_three(char **com, t_command *command, t_data *data,
 	}
 	else
 		run_builtins(cmd, command, data, 1);
-	senv_clear(&data->list_env);
-	free_array(data->env);
 }
 
 int	execute_command(t_env *list, t_command *command, t_data *data, int index)
@@ -116,10 +117,7 @@ int	execute_command(t_env *list, t_command *command, t_data *data, int index)
 	if (!command->cmd)
 		return (-1);
 	if (command->cmd[0][0] == '\0' && !command->infile && !command->outfile)
-	{
-		ft_putstr_fd("minishell: command '' not found\n", 2);
-		return (127);
-	}
+		return (0);
 	path = get_my_path(list, command->cmd, data->path_flag, 0);
 	signal(SIGINT, SIG_IGN);
 	data->pid[index] = ft_fork();
@@ -129,6 +127,8 @@ int	execute_command(t_env *list, t_command *command, t_data *data, int index)
 		execute_command_part_two(command, data);
 		if (command->cmd[0][0] != '\0')
 			execute_command_part_three(command->cmd, command, data, path);
+		senv_clear(&data->list_env);
+		free_array(data->env);
 		exit(0);
 	}
 	free(path);
