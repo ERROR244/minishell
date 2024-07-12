@@ -6,27 +6,24 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 12:25:26 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 18:57:31 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-bool	change_underscore(t_env *head, t_command *command)
+bool	change_underscore(t_data *data, t_command *command, char *str, int i)
 {
 	t_env	*index;
-	char	*str;
-	int		i;
 
 	if (!command->cmd || !command->cmd[0])
 		return (false);
-	i = 0;
 	while (command->cmd[i])
 		i++;
 	str = command->cmd[--i];
 	if (!str || *str == '\n')
 		return (false);
-	index = findmyindex(head, "_");
+	index = findmyindex(data->list_env, "_");
 	if (index)
 	{
 		free(index->var_name);
@@ -34,9 +31,12 @@ bool	change_underscore(t_env *head, t_command *command)
 	}
 	else
 	{
-		index = env_new(head, ft_strjoin("_=", str));
-		head = env_last(head);
-		head->next = index;
+		index = env_new(data->list_env, ft_strjoin("_=", str));
+		data->list_env = env_last(data->list_env);
+		if (data->list_env)
+			data->list_env->next = index;
+		else
+			data->list_env = index;
 	}
 	return (true);
 }
@@ -55,7 +55,7 @@ int	run_builtins(int c, t_command *command, t_data *data, int flag)
 	else if (c == 4)
 		export(list, command->cmd, '-', 1);
 	else if (c == 5)
-		list = unset_env(list, command->cmd, data);
+		data->list_env = unset_env(list, command->cmd, data);
 	else if (c == 6)
 		exit_myminishell(command->cmd, flag);
 	else if (c == 7)
@@ -125,13 +125,13 @@ int	executing(t_data *data)
 	if (!list || (list->cmd && list->cmd[0][0] == '\n'))
 		return (2);
 	if (!list->next)
-		flag = change_underscore(data->list_env, list);
+		flag = change_underscore(data, list, NULL, 0);
 	if (builtins != 0 && !list->next)
 		only_builtins(data, list, builtins);
 	else
 		with_pipe(data, list);
 	if (flag == true)
-		change_underscore(data->list_env, list);
+		change_underscore(data, list, NULL, 0);
 	g_signal.ret_exit = g_signal.ret;
 	return (g_signal.ret);
 }
