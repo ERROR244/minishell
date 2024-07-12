@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:19 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/11 15:18:26 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 10:25:18 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,32 +67,31 @@ char	**array_copy(char **str)
 	return (ptr);
 }
 
-void	fill_in_commands(t_cmds **lst, t_command **command, t_slist **infile,
+void	fill_in_commands(t_cmds **cl, t_command **command, t_slist **infile,
 		t_slist **outfile)
 {
-	if ((*lst)->cmd && ((*lst)->token == Cmd || (*lst)->token == Non))
-		(*command)->cmd = array_copy((*lst)->cmd);
-	else if ((*lst)->cmd && (*lst)->token == Infile)
+	if ((*cl)->cmd && !(*command)->cmd && ((*cl)->token == Cmd
+			|| (*cl)->token == Non))
+		(*command)->cmd = array_copy((*cl)->cmd);
+	else if ((*cl)->cmd && (*cl)->token == Infile)
 	{
 		if (!(*infile))
-			(*infile) = node_new((*infile), (*lst)->cmd[0], (*lst)->token);
+			(*infile) = node_new(*infile, (*cl)->cmd[0], (*cl)->token);
 		else
 		{
-			(*infile)->next = node_new((*infile), (*lst)->cmd[0],
-					(*lst)->token);
-			(*infile) = (*infile)->next;
+			(*infile)->next = node_new(*infile, (*cl)->cmd[0], (*cl)->token);
+			*infile = (*infile)->next;
 		}
 	}
-	else if ((*lst)->cmd[0] && ((*lst)->token == OutFile
-			|| (*lst)->token == AppendFile))
+	else if ((*cl)->cmd[0] && ((*cl)->token == OutFile
+			|| (*cl)->token == AppendFile))
 	{
 		if (!(*outfile))
-			(*outfile) = node_new((*outfile), (*lst)->cmd[0], (*lst)->token);
+			(*outfile) = node_new(*outfile, (*cl)->cmd[0], (*cl)->token);
 		else
 		{
-			(*outfile)->next = node_new((*outfile), (*lst)->cmd[0],
-					(*lst)->token);
-			(*outfile) = (*outfile)->next;
+			(*outfile)->next = node_new(*outfile, (*cl)->cmd[0], (*cl)->token);
+			*outfile = (*outfile)->next;
 		}
 	}
 }

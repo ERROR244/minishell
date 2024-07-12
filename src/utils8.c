@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 09:32:25 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 10:02:48 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ bool	check_next_for_both(char *str)
 		i++;
 	}
 	if ((flag1 != 0 && flag1 % 2 == 0) || (flag2 != 0 && flag2 % 2 == 0))
+		return (true);
+	if (flag1 == 0 && flag2 == 0)
 		return (true);
 	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/11 13:03:25 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:16:52 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,23 +140,20 @@ char					*rm_spaces(char *str);
 void					get_list(char **cmd, int size, t_cmds **lst,
 							t_data *data);
 void					init_tokens(t_cmds *cmds, int size, t_cmds *lst);
-void					parsing(t_data *data, t_cmds *lst, char **cmds, int i);
+void					parsing(t_data *data, t_cmds *lst, t_command *commands,
+							int i);
 char					*get_cmd(char *cmd);
 int						errors_managment(t_data *data, int flag);
-// int			 check_file(t_cmds *cmds);
-// int			 check_if_NULL(char *str);
 int						check_for_pipe(t_cmds *cmds);
 int						cmdcheck(char *str);
 int						errormsg(char *str);
 int						errormsg_v1(char *str);
 void					printsignalsc(int signal);
 int						errormsg_v2(char *str);
-// void		 close_used_files(t_data *data);
 int						is_spaces(char *str);
 void					non_token(t_cmds *lst);
 int						check_for_in_out_put(t_cmds *cmds);
 int						check_for_append_heredoc(t_cmds *cmds);
-// int         check_access(t_cmds *curr);
 int						errormsg(char *str);
 int						check_quotation(char *str);
 int						count_words(char const *s, int count, int in_word);
@@ -173,7 +170,6 @@ int						dollar_is_in(char *str);
 int						count_vars(char *s1);
 bool					check_ex(char *str, int size);
 char					*check_tabs(char *str, int i, int j, t_data *data);
-// void     ft_free(char **ptr, int i);
 char const				*get_position(char const *s);
 size_t					get_size(char *str);
 char					*get_string(char *str, size_t i, size_t k, size_t size);
@@ -214,7 +210,6 @@ char					**linked_list_to_array(t_env *list);
 
 t_env					*unset_env(t_env *list, char **com, t_data *data);
 void					exit_myminishell(char **com, int flag);
-// char       	*join(char const *s1, char const *s2);
 char					*get_my_path(t_env *list, char **com, bool flag, int i);
 void					export(t_env *list, char **com, char c, int i);
 int						printmyexport(t_env *list);
@@ -227,7 +222,6 @@ t_env					*findmyindex(t_env *list, char *va);
 void					change_mydir(t_env *list, char *path);
 int						morethan2arg(char **com);
 void					mypwd(t_env *env);
-// void        ft_putendexp(char *str, int fd);
 
 // utils
 
@@ -266,9 +260,11 @@ void					set_env_after_cd(t_env *list, char *key, char *value);
 char					*findmyvar(t_env *list, t_env *head, char *va,
 							bool flag);
 char					**array_copy(char **str);
-// void 	handlersignals();
+t_cmds					*copy_node(char **cmd, t_token token, bool flag);
+t_cmds					*copy_single_node(t_cmds *curr, int *i);
+t_cmds					*add_head_to_new_list(t_cmds *head, t_cmds *new_head);
+t_cmds					*copy_list(t_cmds *curr, char **command, int i);
+t_cmds					*merge_lists(t_cmds *list1, t_cmds *list2) ;
 
-// void        set_myenv(t_env *list, char *key, char *value, char c,
-	// bool export_flag);
 
 #endif
