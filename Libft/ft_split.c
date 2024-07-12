@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 17:39:39 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 08:27:48 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:29:28 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static int	count(char const *s, char c)
 	in_word = 0;
 	while (s && *s)
 	{
-		if (*s == c)
+		if (*s == c || *s == '	')
 			in_word = 0;
 		else
 		{
-			if (in_word == 0 && *s != c)
+			if (in_word == 0 && (*s != c && *s != '	'))
 			{
 				count++;
 				in_word = 1;
@@ -51,7 +51,7 @@ char const	*get_index(char const *s, char c)
 {
 	char	tmp;
 
-	while (*s && ((*s != c)))
+	while (*s && ((*s != c && *s != '	')))
 	{
 		if (*s == 39 || *s == 34)
 		{
@@ -71,7 +71,7 @@ static char	**split(char const *s, char c, int i, char **ptr)
 
 	while (*s)
 	{
-		if (*s != c)
+		if (*s != c && *s != '	')
 		{
 			start = s;
 			s = get_index(s, c);

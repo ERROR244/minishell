@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:21:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 10:03:05 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:42:43 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,28 +115,10 @@ char	*expand_variable(char *str, t_data *data)
 	return (line);
 }
 
-char	*check_tabs(char *str, int i, int j, t_data *data)
+char	*check_expand(char *str, t_data *data)
 {
 	char	*new_str;
-	int		input_len;
 
-	input_len = ft_strlen(str);
-	new_str = (char *)malloc(input_len + 1);
-	if (new_str == NULL)
-		return (NULL);
-	i = 0;
-	while (j < input_len)
-	{
-		if (str[i] == '\t' && check_next_for_both(str + i) == true)
-		{
-			new_str[j++] = ' ';
-			i++;
-		}
-		else
-			new_str[j++] = str[i++];
-	}
-	new_str[j] = '\0';
-	free(str);
-	new_str = expand_variable(new_str, data);
+	new_str = expand_variable(str, data);
 	return (new_str);
 }

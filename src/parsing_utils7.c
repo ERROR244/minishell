@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/11 09:33:55 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 16:33:12 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,27 +48,27 @@ char	*get_word(char *s1)
 {
 	while (*s1)
 	{
+		if (s1[0] == '$' && s1[1] && ft_isalnum(s1[1]) == 0)
+			s1++;
 		if (*s1 == 34)
 		{
 			s1++;
 			while (*s1 && *s1 != 34)
 			{
-				if (*s1 == '$')
+				if (*s1 == '$' && s1[1] != '$')
 					return (s1);
+				else
+					while (*s1 == '$' && s1[1])
+						s1++;
 				s1++;
 			}
 		}
-		else if (*s1 == 39)
-		{
+		else if (*s1 == '$' && s1[1] && s1[1] != '$')
+			break ;
+		else
+			s1 = increment_s1(s1);
+		if (*s1)
 			s1++;
-			while (*s1 && *s1 != 39)
-				s1++;
-		}
-		else if (*s1 == '$')
-			break ;
-		if (!*s1)
-			break ;
-		s1++;
 	}
 	return (s1);
 }

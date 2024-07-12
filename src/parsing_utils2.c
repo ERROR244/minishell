@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 23:48:23 by error01           #+#    #+#             */
-/*   Updated: 2024/07/12 09:59:42 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:36:48 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,9 @@ char	*rm_spaces(char *str)
 	while (str[i++])
 		l++;
 	i--;
-	while (--i != 0 && (str[i] == ' ' || str[i] == '	'))
+	while (str[i] == ' ' || str[i] == '	')
 	{
+		i--;
 		l--;
 	}
 	ptr = malloc(sizeof(char) * (l - k + 1));

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 11:18:39 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:42:34 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_cmds	*last_update_in_the_list(t_cmds *head, t_cmds *list,
 
 char	**get_cmds_done(t_data *data, char **cmds)
 {
-	data->line = check_tabs(data->line, 0, 0, data);
+	data->line = check_expand(data->line, data);
 	cmds = ft_split_msh(data->line);
 	return (cmds);
 }

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 14:33:47 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 16:33:29 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ char					*get_final_line(char **lines, char **vars, char *cmd,
 int						dollar_is_in(char *str);
 int						count_vars(char *s1);
 bool					check_ex(char *str, int size);
-char					*check_tabs(char *str, int i, int j, t_data *data);
+char					*check_expand(char *str, t_data *data);
 char const				*get_position(char const *s);
 size_t					get_size(char *str);
 char					*get_string(char *str, size_t i, size_t k, size_t size);
@@ -254,5 +254,7 @@ t_cmds					*merge_lists(t_cmds *list1, t_cmds *list2);
 char					**get_key_and_value(char *str, char **ptr, int i,
 							int j);
 void					ft_puterror_fd(char *str1, char *str2);
+void					print_value(char *str);
+char					*increment_s1(char *s1);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 12:24:59 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:51:48 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char	**get_vars(char *cmd)
 			while (cmd[j] && cmd[j] != 39)
 				j++;
 		}
-		if (cmd[j] == '$' && cmd[j + 1] != '$')
+		if (cmd[j] == '$' && cmd[j + 1] && cmd[j + 1] != '$')
 			var[k++] = grep_variable_name(cmd + j, 0, 0, 0);
 		else if (cmd[j] == '$' && cmd[j + 1] == '$')
 			j++;

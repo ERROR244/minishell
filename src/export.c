@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 12:09:19 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:41:01 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,8 @@ int	printmyexport(t_env *list)
 			i++;
 		else
 		{
-			ft_putstr_fd("declare -x ", 1);
-			ft_putstr_fd(ptr[i], 1);
-			ft_putchar_fd('\n', 1);
+			printf("declare -x ");
+			print_value(ptr[i]);
 			i++;
 		}
 	}
@@ -65,8 +64,12 @@ int	ft_all_isalpha(char *str)
 
 	i = 0;
 	while (str[i] && (ft_isalpha(str[i]) == 1 || str[i] == '_'
-			|| str[i] == '+'))
+			|| str[i] == '+' || str[i] == '	'))
+	{
+		if (str[i] == '	')
+			str[i] = '	';
 		i++;
+	}
 	if ((str[i] == '=' && i != 0) || str[i] == '\0')
 		return (0);
 	return (1);
