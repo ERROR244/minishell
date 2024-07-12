@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 11:16:52 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:12:37 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,12 +127,9 @@ typedef struct s_line
 	int					pos;
 	int					size;
 }						t_line;
-// lst
 t_cmds					*lstlast(t_cmds *lst);
 void					lstclear(t_cmds **lst);
 t_cmds					*lstnew(char *cmd, t_cmds *stack, char **str);
-
-// parsing
 void					signal_handler(void);
 char					*ft_strjoin3(char const *s1, char c, char const *s2);
 void					free_array(char **array);
@@ -173,12 +170,10 @@ char					*check_tabs(char *str, int i, int j, t_data *data);
 char const				*get_position(char const *s);
 size_t					get_size(char *str);
 char					*get_string(char *str, size_t i, size_t k, size_t size);
-
 int						run_builtins(int c, t_command *command, t_data *data,
 							int flag);
 int						hand_the_redirectionin(t_command *lst);
 void					ft_handle_sigint(int sig);
-
 t_slist					*nodes_last(t_slist *lst);
 t_command				*command_last(t_command *lst);
 t_command				*command_new(t_command *lst);
@@ -186,19 +181,13 @@ t_command				*get_command(t_cmds *lst);
 t_command				*get_commands(t_cmds *lst);
 void					commands_clear(t_command **lst);
 void					ft_clear(t_data *data);
-
-// tmp
 void					print_array(char **str);
 void					printlist(void *tmp);
 int						ft_fork(void);
 void					ft_close(int fd, char *str);
-
-// executing
 int						executing(t_data *data);
 void					my_cd(t_env *list, char **com);
 void					ft_echo(char **com, bool flag, int i);
-
-// tools
 void					exiterror(void);
 bool					check_n_flag(char *str);
 t_env					*env_new(t_env *lst, char *str);
@@ -207,7 +196,6 @@ char					**linked_list_to_array(t_env *list);
 char					**sortexport(char **arr, int n);
 void					senv_clear(t_env **lst);
 char					**linked_list_to_array(t_env *list);
-
 t_env					*unset_env(t_env *list, char **com, t_data *data);
 void					exit_myminishell(char **com, int flag);
 char					*get_my_path(t_env *list, char **com, bool flag, int i);
@@ -222,9 +210,6 @@ t_env					*findmyindex(t_env *list, char *va);
 void					change_mydir(t_env *list, char *path);
 int						morethan2arg(char **com);
 void					mypwd(t_env *env);
-
-// utils
-
 int						array_size(char **var);
 void					swap(char **s1, char **s2);
 int						count_nodes(t_env *list);
@@ -264,7 +249,8 @@ t_cmds					*copy_node(char **cmd, t_token token, bool flag);
 t_cmds					*copy_single_node(t_cmds *curr, int *i);
 t_cmds					*add_head_to_new_list(t_cmds *head, t_cmds *new_head);
 t_cmds					*copy_list(t_cmds *curr, char **command, int i);
-t_cmds					*merge_lists(t_cmds *list1, t_cmds *list2) ;
-
+t_cmds					*merge_lists(t_cmds *list1, t_cmds *list2);
+char					**get_key_and_value(char *str, char **ptr, int i,
+							int j);
 
 #endif

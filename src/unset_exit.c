@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/11 09:27:19 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:10:12 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,30 @@ char	**get_vars(char *cmd)
 	}
 	var[k] = NULL;
 	return (var);
+}
+
+char	**get_key_and_value(char *str, char **ptr, int i, int j)
+{
+	while (str[i])
+	{
+		if (str[i] == '=')
+			j++;
+		i++;
+	}
+	if (j == 0)
+		return (get_name(str));
+	else
+		ptr = malloc(sizeof(char *) * 3);
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	ptr[0] = malloc(sizeof(char ) * (i + 1));
+	j = -1;
+	while (++j < i)
+		ptr[0][j] = str[j];
+	ptr[0][j] = '\0';
+	i++;
+	ptr[1] = ft_strdup(str + i);
+	ptr[2] = NULL;
+	return (ptr);
 }
