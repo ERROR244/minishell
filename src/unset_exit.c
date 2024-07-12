@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:41:13 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 12:10:12 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:24:59 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	exit_from_child(char **com)
 	int	i;
 
 	if (com[1] == NULL)
-		exit(0);
+		exit(g_signal.ret_exit);
 	else if (is_numeric(com[1]) != 0)
 		exit(2);
 	else if (com[1] && com[2])
@@ -39,7 +39,7 @@ void	exit_myminishell(char **com, int flag)
 	else if (com[1] == NULL)
 	{
 		printf("exit\n");
-		exit(0);
+		exit(g_signal.ret_exit);
 	}
 	else if (is_numeric(com[1]) != 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/11 12:12:45 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:25:26 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,6 @@ int	executing(t_data *data)
 		with_pipe(data, list);
 	if (flag == true)
 		change_underscore(data->list_env, list);
+	g_signal.ret_exit = g_signal.ret;
 	return (g_signal.ret);
 }

@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 12:12:37 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:24:17 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_data	t_data;
 typedef struct s_signal
 {
 	int					ret;
+	int					ret_exit;
 	int					pipef;
 	int					sig;
 	bool				flag_heredoc;
