@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:40:02 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/07 09:57:14 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/13 09:34:39 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,14 @@ t_env	*unset_env(t_env *list, char **com, t_data *data)
 	index = NULL;
 	while (com[i])
 	{
-		if (data->path_flag == true && ft_strcmp(com[i], "PATH") == 0)
-			data->path_flag = false;
-		index = findmyindex(list, com[i]);
-		if (index)
-			list = remove_node(list, index);
+		if (is_it_inside(com[i]) == false)
+		{
+			if (data->path_flag == true && ft_strcmp(com[i], "PATH") == 0)
+				data->path_flag = false;
+			index = findmyindex(list, com[i]);
+			if (index)
+				list = remove_node(list, index);
+		}
 		i++;
 	}
 	return (list);

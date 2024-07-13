@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 14:54:43 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/13 09:22:35 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,14 @@ int	ft_strcmp_for_heredoc(char *s1, char *s2)
 	return (k);
 }
 
-int	heredoc(t_cmds	*head, t_cmds	*curr, int i)
+int	heredoc(t_cmds	*head, t_cmds	*curr, int i, int heredoc_num)
 {
-	int		heredoc_num;
-
-	heredoc_num = 0;
 	while (curr)
 	{
 		if (heredoc_num > 16)
-		{
-			ft_putstr_fd("minishell: maximum here-document count exceeded\n",
-				2);
+			ft_putstr_fd("minishell: maximum here-doc count exceeded\n", 2);
+		if (heredoc_num > 16)
 			exit(2);
-		}
 		if (curr->token == HereDoc)
 			heredoc_num++;
 		curr = curr->next;
@@ -61,7 +56,15 @@ int	heredoc(t_cmds	*head, t_cmds	*curr, int i)
 	while (head && i != 130)
 	{
 		if (head->token == HereDocDel)
+		{
+			if (ft_strcmp(head->cmd[0], "\'\'") == 0
+				|| ft_strcmp(head->cmd[0], "\"\"") == 0)
+			{
+				free(head->cmd[0]);
+				head->cmd[0] = ft_strdup("");
+			}
 			i = open_heredoc(head, 0, 0, true);
+		}
 		head = head->next;
 	}
 	return (i);
@@ -74,7 +77,7 @@ int	errors_managment(t_data *data, int i)
 
 	curr = data->lst;
 	head = curr;
-	i = heredoc(head, head, i);
+	i = heredoc(head, head, i, 0);
 	while (curr && i == 0)
 	{
 		if (curr->token == Pipe)

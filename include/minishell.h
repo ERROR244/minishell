@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:38:08 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 18:53:36 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/13 09:36:16 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,5 +256,6 @@ char					**get_key_and_value(char *str, char **ptr, int i,
 void					ft_puterror_fd(char *str1, char *str2);
 void					print_value(char *str);
 char					*increment_s1(char *s1);
+bool					is_it_inside(char *str);
 
 #endif

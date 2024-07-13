@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:38:01 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/09 08:28:42 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/13 09:12:05 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,8 @@ int	open_heredoc(t_cmds *cmds, int pid, int status, bool flag)
 	g_signal.ff = 0;
 	dup2(fd0, 0);
 	close(fd0);
-	free_array(cmds->cmd);
-	cmds->cmd = malloc(sizeof(char *) * 2);
+	free(cmds->cmd[0]);
 	cmds->cmd[0] = line;
-	cmds->cmd[1] = NULL;
 	cmds->prev->token = Input;
 	cmds->token = Infile;
 	if (status != 0)

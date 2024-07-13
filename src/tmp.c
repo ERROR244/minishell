@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:31:09 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 16:33:20 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/13 09:38:23 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,6 @@ void	print_array(char **str)
 		str++;
 	}
 	printf(":\n");
-}
-
-void	printlist(void *tmp)
-{
-	t_slist	*list;
-
-	list = tmp;
-	while (list)
-	{
-		list = list->next;
-	}
 }
 
 void	ft_puterror_fd(char *str1, char *str2)
@@ -77,4 +66,15 @@ char	*increment_s1(char *s1)
 		while (*s1 == '$' && s1[1])
 			s1++;
 	return (s1);
+}
+
+bool	is_it_inside(char *str)
+{
+	while (str && *str)
+	{
+		if (*str == '=')
+			return (true);
+		str++;
+	}
+	return (false);
 }
