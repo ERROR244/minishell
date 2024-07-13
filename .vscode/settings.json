@@ -2,7 +2,8 @@
     "files.associations": {
         "*.c": "c",
         "minishell.h": "c",
-        "libft.h": "c"
+        "libft.h": "c",
+        "readline.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

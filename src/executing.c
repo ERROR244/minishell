@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 11:03:16 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 18:57:31 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/13 11:50:43 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ void	with_pipe(t_data *data, t_command *list)
 	{
 		if (list->next)
 		{
-			g_signal.pipef = 1;
 			if (pipe(data->fd) == -1)
 				break ;
 		}

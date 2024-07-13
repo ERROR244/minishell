@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/08 16:33:50 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/13 11:50:28 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	data_init(char **av, t_data *data, char **env)
 {
 	(void)av;
 	g_signal.ret = 0;
-	g_signal.flag_heredoc = false;
 	data->path_flag = false;
 	g_signal.ff = 0;
 	if (!env[0])

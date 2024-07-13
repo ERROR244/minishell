@@ -6,7 +6,7 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:57:54 by ksohail-          #+#    #+#             */
-/*   Updated: 2024/07/12 14:38:12 by ksohail-         ###   ########.fr       */
+/*   Updated: 2024/07/13 12:05:44 by ksohail-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ size_t	get_size(char *str)
 	k = 0;
 	while (str[i])
 	{
-		if ((str[i] == 39 && str[i + 1] != 39)
-			|| (str[i] == 34 && str[i + 1] != 34))
+		if ((str[i] == 39 && str[i + 1] && str[i + 1] != 39)
+			|| (str[i] == 34 && str[i + 1] && str[i + 1] != 34))
 		{
 			tmp = str[i];
 			i++;
-			while (str[i] != tmp)
+			while (str[i] && str[i + 1] && str[i] != tmp)
 				i++;
 			k += 2;
 		}
@@ -44,15 +44,14 @@ char	*get_string(char *s, size_t i, size_t k, size_t size)
 	char	*ptr;
 	char	tmp;
 
-	if (size == ft_strlen(s))
-		return (s);
 	ptr = malloc(sizeof(char) * (size + 1));
 	while (k < size)
 	{
-		while ((s[i] == 39 && s[i + 1] != 39) || (s[i] == 34 && s[i + 1] != 34))
+		while ((s[i] == 39 && s[i + 1] && s[i + 1] != 39)
+			|| (s[i] == 34 && s[i + 1] && s[i + 1] != 34))
 		{
 			tmp = s[i++];
-			while (s[i] != tmp)
+			while (s[i] && s[i + 1] && s[i] != tmp)
 				ptr[k++] = s[i++];
 			i++;
 		}
@@ -77,7 +76,8 @@ void	remove_quotes(t_cmds *lst)
 		i = 0;
 		while (lst->cmd[i])
 		{
-			if (lst->cmd[i] != NULL)
+			if (lst->cmd[i] != NULL
+				&& get_size(lst->cmd[i]) != ft_strlen(lst->cmd[i]))
 			{
 				lst->cmd[i] = get_string(lst->cmd[i], 0, 0,
 						get_size(lst->cmd[i]));
