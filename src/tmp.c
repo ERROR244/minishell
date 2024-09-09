@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// this is just a tmp file
-
 #include "../include/minishell.h"
 
 void	print_array(char **str)

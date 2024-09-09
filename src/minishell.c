@@ -6,37 +6,12 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:11:49 by ksohail-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/05/05 05:16:37 by ksohail-         ###   ########.fr       */
-=======
 /*   Updated: 2024/07/13 11:50:28 by ksohail-         ###   ########.fr       */
->>>>>>> a7ef12afb3c0a0018eb894a6d98a9b954967380c
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-<<<<<<< HEAD
-int main(int ac, char **av, char **env)
-{
-    t_data data;
-
-	if (ac != 1)
-		return (1);
-	(void)av;
-	(void)env;
-    while (1)
-    {
-		data.line = readline("minishell$ ");
-		if (data.line == NULL)
-			break;
-		add_history(data.line);
-		parsing(&data);
-		free(data.line);
-    }
-	printf("\n");
-    return (0);
-=======
 t_signal	g_signal;
 
 int	data_init(char **av, t_data *data, char **env)
@@ -78,5 +53,4 @@ int	main(int ac, char **av, char **env)
 	senv_clear(&data.list_env);
 	ft_putstr_fd("exit\n", 2);
 	return (0);
->>>>>>> a7ef12afb3c0a0018eb894a6d98a9b954967380c
 }
