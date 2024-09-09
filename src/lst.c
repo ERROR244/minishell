@@ -6,12 +6,17 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 11:09:54 by ksohail-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/05/04 18:53:09 by ksohail-         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/12 09:54:14 by ksohail-         ###   ########.fr       */
+>>>>>>> a7ef12afb3c0a0018eb894a6d98a9b954967380c
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+<<<<<<< HEAD
 char *get_cmd(char *cmd)
 {
 	char *tmp;
@@ -79,6 +84,30 @@ t_cmds	*lstnew(char *cmd, t_cmds *lst)
 		n_node->prev = last_node;
 	}
 	return (n_node);
+=======
+void	commands_clear(t_command **lst)
+{
+	t_command	*curr1;
+	t_command	*curr2;
+
+	if (lst == NULL || *lst == NULL)
+		return ;
+	curr1 = *lst;
+	while (curr1->next != NULL)
+	{
+		curr2 = curr1->next;
+		free_array(curr1->cmd);
+		slist_clear(&curr1->infile);
+		slist_clear(&curr1->outfile);
+		free(curr1);
+		curr1 = curr2;
+	}
+	free_array(curr1->cmd);
+	slist_clear(&curr1->infile);
+	slist_clear(&curr1->outfile);
+	free(curr1);
+	*lst = NULL;
+>>>>>>> a7ef12afb3c0a0018eb894a6d98a9b954967380c
 }
 
 void	lstclear(t_cmds **lst)
@@ -92,9 +121,17 @@ void	lstclear(t_cmds **lst)
 	while (curr1->next != NULL)
 	{
 		curr2 = curr1->next;
+<<<<<<< HEAD
 		free(curr1);
 		curr1 = curr2;
 	}
+=======
+		free_array(curr1->cmd);
+		free(curr1);
+		curr1 = curr2;
+	}
+	free_array(curr1->cmd);
+>>>>>>> a7ef12afb3c0a0018eb894a6d98a9b954967380c
 	free(curr1);
 	*lst = NULL;
 }
@@ -109,3 +146,28 @@ t_cmds	*lstlast(t_cmds *lst)
 	}
 	return (lst);
 }
+<<<<<<< HEAD
+=======
+
+t_command	*command_last(t_command *lst)
+{
+	if (lst == NULL)
+		return (lst);
+	while (lst->next)
+	{
+		lst = lst->next;
+	}
+	return (lst);
+}
+
+t_slist	*nodes_last(t_slist *lst)
+{
+	if (lst == NULL)
+		return (lst);
+	while (lst->next)
+	{
+		lst = lst->next;
+	}
+	return (lst);
+}
+>>>>>>> a7ef12afb3c0a0018eb894a6d98a9b954967380c
