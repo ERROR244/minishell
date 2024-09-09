@@ -6,7 +6,11 @@
 /*   By: ksohail- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 11:39:24 by ksohail-          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2024/05/04 17:40:49 by ksohail-         ###   ########.fr       */
+=======
 /*   Updated: 2024/05/21 14:35:16 by ksohail-         ###   ########.fr       */
+>>>>>>> a7ef12afb3c0a0018eb894a6d98a9b954967380c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +81,10 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlen(const char *s);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+<<<<<<< HEAD
+=======
 int		ft_strcmp(char *s1, char *s2);
+>>>>>>> a7ef12afb3c0a0018eb894a6d98a9b954967380c
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strtrim(char const *s1, char const *set);

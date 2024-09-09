@@ -6,7 +6,11 @@
 #    By: error01 <error01@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/01 14:29:42 by ksohail-          #+#    #+#              #
+<<<<<<< HEAD
+#    Updated: 2024/03/11 17:45:14 by error01          ###   ########.fr        #
+=======
 #    Updated: 2024/05/24 17:16:53 by ksohail-         ###   ########.fr        #
+>>>>>>> a7ef12afb3c0a0018eb894a6d98a9b954967380c
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +57,18 @@ SRC = ft_lstadd_back_bonus.c\
 				ft_striteri.c\
 				ft_strmapi.c\
 				ft_substr.c\
+<<<<<<< HEAD
+				get_next_line.c\
+				get_next_line_utils.c\
+				ft_printf.c\
+				print_ch.c\
+				print_i_d.c\
+				print_p.c\
+				print_str.c\
+				print_u.c\
+				print_x.c
+=======
+>>>>>>> a7ef12afb3c0a0018eb894a6d98a9b954967380c
 
 CC = cc
 
@@ -64,12 +80,30 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
+<<<<<<< HEAD
+$(NAME): run_script $(OBJ)
+	@printf "\033[0;32m\nCompilation completed :-)\033[0m\n"
+	@printf "\033[0;32mBuilding MyLib"
+	@for i in 1 2 3; do \
+        sleep 0.5; \
+        printf "."; \
+    done
+	@printf "\n"
+=======
 $(NAME):	$(OBJ)
+>>>>>>> a7ef12afb3c0a0018eb894a6d98a9b954967380c
 	@ar rcs $(NAME) $(OBJ)
 
 %.o:	%.c
 	$(CC) $(CFLAGS) -c $^ -o $@
+<<<<<<< HEAD
+	
+run_script:
+	@./script.sh
+	
+=======
 
+>>>>>>> a7ef12afb3c0a0018eb894a6d98a9b954967380c
 clean:
 	@rm -f $(OBJ)
 fclean: clean
