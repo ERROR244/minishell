@@ -14,13 +14,13 @@
 
 int	ft_atoi(const char *nptr)
 {
+	int	res;
 	int	i;
 	int	sign;
-	int	res;
 
 	i = 0;
-	sign = 1;
 	res = 0;
+	sign = 1;
 	while ((nptr[i] >= 9 && nptr[i] <= 13) || nptr[i] == 32)
 		i++;
 	if (nptr[i] == '+' || nptr[i] == '-')

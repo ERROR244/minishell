@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 t_signal	g_signal;
 
@@ -50,7 +50,7 @@ int	main(int ac, char **av, char **env)
 	}
 	if (data.env)
 		free_array(data.env);
-	senv_clear(&data.list_env);
+	lst_env_clear(&data.list_env);
 	ft_putstr_fd("exit\n", 2);
 	return (0);
 }

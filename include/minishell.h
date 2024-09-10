@@ -126,7 +126,11 @@ typedef struct s_line
 	int					pos;
 	int					size;
 }						t_line;
+
+
 t_cmds					*lstlast(t_cmds *lst);
+t_slist					*get_head(t_slist *list);
+void					fill_in_commands(t_cmds **cl, t_command **command, t_slist **infile, t_slist **outfile);
 void					lstclear(t_cmds **lst);
 t_cmds					*lstnew(char *cmd, t_cmds *stack, char **str);
 void					signal_handler(void);
@@ -138,19 +142,17 @@ void					get_list(char **cmd, int size, t_cmds **lst,
 void					init_tokens(t_cmds *cmds, int size, t_cmds *lst);
 void					parsing(t_data *data, t_cmds *lst, t_command *commands,
 							int i);
-char					*get_cmd(char *cmd);
 int						errors_managment(t_data *data, int flag);
 int						check_for_pipe(t_cmds *cmds);
 int						cmdcheck(char *str);
-int						errormsg(char *str);
-int						errormsg_v1(char *str);
-void					printsignalsc(int signal);
-int						errormsg_v2(char *str);
+int						error_msg_v1(char *str);
+void					print_signals_c(int signal);
+int						error_msg_v2(char *str);
 int						is_spaces(char *str);
 void					non_token(t_cmds *lst);
 int						check_for_in_out_put(t_cmds *cmds);
 int						check_for_append_heredoc(t_cmds *cmds);
-int						errormsg(char *str);
+int						error_msg(char *str);
 int						check_quotation(char *str);
 int						count_words(char const *s, int count, int in_word);
 char					*ndup(const char *s, size_t n);
@@ -181,34 +183,32 @@ t_command				*get_commands(t_cmds *lst);
 void					commands_clear(t_command **lst);
 void					ft_clear(t_data *data);
 void					print_array(char **str);
-void					printlist(void *tmp);
 int						ft_fork(void);
 void					ft_close(int fd, char *str);
 int						executing(t_data *data);
 void					my_cd(t_env *list, char **com);
 void					ft_echo(char **com, bool flag, int i);
-void					exiterror(void);
+void					exit_error(void);
 bool					check_n_flag(char *str);
 t_env					*env_new(t_env *lst, char *str);
 t_env					*env_last(t_env *lst);
 char					**linked_list_to_array(t_env *list);
-char					**sortexport(char **arr, int n);
-void					senv_clear(t_env **lst);
+char					**sort_export(char **arr, int n);
+void					lst_env_clear(t_env **lst);
 char					**linked_list_to_array(t_env *list);
 t_env					*unset_env(t_env *list, char **com, t_data *data);
 void					exit_myminishell(char **com, int flag);
 char					*get_my_path(t_env *list, char **com, bool flag, int i);
 void					export(t_env *list, char **com, char c, int i);
 int						printmyexport(t_env *list);
-int						lenofmyenv(char **env);
-void					exiterror(void);
+void					exit_error(void);
 t_env					*copieenv(char **env);
 void					ft_putendle(char *str, int fd);
 void					printmyenv(t_env *list);
-t_env					*findmyindex(t_env *list, char *va);
-void					change_mydir(t_env *list, char *path);
-int						morethan2arg(char **com);
-void					mypwd(t_env *env);
+t_env					*find_env_var_index(t_env *list, char *va);
+void					change_my_dir(t_env *list, char *path);
+int						more_then_two_arg(char **com);
+void					my_pwd(t_env *env);
 int						array_size(char **var);
 void					swap(char **s1, char **s2);
 int						count_nodes(t_env *list);
@@ -241,7 +241,7 @@ int						check_double(char *cmd, int i);
 void					set_env_after_export(t_env *list, char **export, char c,
 							bool export_flag);
 void					set_env_after_cd(t_env *list, char *key, char *value);
-char					*findmyvar(t_env *list, t_env *head, char *va,
+char					*find_env_var(t_env *list, t_env *head, char *va,
 							bool flag);
 char					**array_copy(char **str);
 t_cmds					*copy_node(char **cmd, t_token token, bool flag);

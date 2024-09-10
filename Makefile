@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -ggdb3 -g3 -fsanitize=address -fno-omit-frame-pointer#-w  #-v
+CFLAGS = -Wall -Wextra -Werror -I./include
 
 SRCS = 	Libft/ft_split.c\
 		Libft/ft_putstr_fd.c\
@@ -22,39 +22,38 @@ SRCS = 	Libft/ft_split.c\
 		Libft/ft_itoa.c\
 		Libft/ft_atoi.c\
 		src/minishell.c\
-		src/parsing.c\
-		src/parsing_utils1.c\
-		src/parsing_utils2.c\
-		src/parsing_utils3.c\
-		src/parsing_utils4.c\
-		src/parsing_utils5.c\
-		src/parsing_utils6.c\
-		src/parsing_utils7.c\
-		src/parsing_utils8.c\
-		src/handlingsignals.c\
-		src/utils0.c\
-		src/utils1.c\
-		src/utils2.c\
-		src/utils3.c\
-		src/utils4.c\
-		src/utils5.c\
-		src/utils6.c\
-		src/utils7.c\
-		src/utils8.c\
-		src/utils9.c\
-		src/cd.c\
-		src/lst.c\
-		src/tmp.c\
-		src/env.c\
-		src/pwd.c\
-		src/echo.c\
-		src/export.c\
-		src/errors0.c\
-		src/errors1.c\
-		src/executing.c\
-		src/unset_exit.c\
-		src/open_heredoc.c\
-		src/expand_variable.c
+		src/parsing/expand_variable.c\
+		src/parsing/open_heredoc.c\
+		src/parsing/parsing_change_cmd_to_list.c\
+		src/parsing/parsing_change_list_to_command_list.c\
+		src/parsing/parsing_expand_vars.c\
+		src/parsing/parsing_fill_in_commands_list.c\
+		src/parsing/parsing_init_tokens.c\
+		src/parsing/parsing_redirections_errors.c\
+		src/parsing/parsing_split_with_redirections_pipe.c\
+		src/parsing/parsing_split_with_words.c\
+		src/parsing/parsing.c\
+		src/parsing/update_command_list.c\
+		src/lists/linked_list_handling_functions.c\
+		src/signals/handlingsignals.c\
+		src/executing/executing.c\
+		src/executing/execute_command.c\
+		src/executing/files_handeling.c\
+		src/executing/wait_for_processes_and_print_errors_utils.c\
+		src/errors_and_utils/env_and_expand_utils.c\
+		src/errors_and_utils/errors_managment_and_heardoc.c\
+		src/errors_and_utils/expand_utils.c\
+		src/errors_and_utils/heredoc_and_lists_utils.c\
+		src/errors_and_utils/lists_utils.c\
+		src/errors_and_utils/some_printing_functions.c\
+		src/errors_and_utils/wrapper_function.c\
+		src/errors_and_utils/check_pipe_and_quotes_errors.c\
+		src/builtins/cd.c\
+		src/builtins/env.c\
+		src/builtins/pwd.c\
+		src/builtins/echo.c\
+		src/builtins/export.c\
+		src/builtins/unset_exit.c\
 
 OBJ = $(SRCS:.c=.o)
 
