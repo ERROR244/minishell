@@ -65,10 +65,10 @@ char	**get_file_name(char *str)
 
 	size = 0;
 	i = 0;
-	ptr = malloc(sizeof(char *) * (3));
+	ptr = ft_malloc(sizeof(char *) * (3), g_signal.node);
 	while (str[size] && str[size] != ' ' && str[size] != '	')
 		size++;
-	ptr[0] = malloc(sizeof(char) * (size + 1));
+	ptr[0] = ft_malloc(sizeof(char) * (size + 1), g_signal.node);
 	ft_strlcpy(ptr[0], str, size + 1);
 	if (!str[size])
 	{
@@ -78,7 +78,7 @@ char	**get_file_name(char *str)
 	i = 0;
 	while (str[i])
 		i++;
-	ptr[1] = malloc(sizeof(char) * (i - size + 1));
+	ptr[1] = ft_malloc(sizeof(char) * (i - size + 1), g_signal.node);
 	ft_strlcpy(ptr[1], str + size, ft_strlen(str + size) + 1);
 	ptr[2] = NULL;
 	return (ptr);
@@ -104,7 +104,7 @@ char	*rm_spaces(char *str)
 		i--;
 		l--;
 	}
-	ptr = malloc(sizeof(char) * (l - k + 1));
+	ptr = ft_malloc(sizeof(char) * (l - k + 1), g_signal.node);
 	i = 0;
 	while (k < l)
 		ptr[i++] = str[k++];

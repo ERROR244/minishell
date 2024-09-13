@@ -50,7 +50,7 @@ void	execute_command_part_one(char **com, t_command *command, t_data *data,
 	{
 		lst_env_clear(&data->list_env);
 		free_array(data->env);
-		exit(1);
+		ft_exit(1);
 	}
 	else if (path == NULL && get_command_in_one_char(com) == 0)
 	{
@@ -62,7 +62,7 @@ void	execute_command_part_one(char **com, t_command *command, t_data *data,
 			ft_puterror_fd(com[0], ": command not found\n");
 		lst_env_clear(&data->list_env);
 		free_array(data->env);
-		exit(127);
+		ft_exit(127);
 	}
 }
 
@@ -104,7 +104,7 @@ void	execute_command_part_three(char **com, t_command *command, t_data *data,
 			ft_putendle(strerror(errno), 2);
 		lst_env_clear(&data->list_env);
 		free_array(data->env);
-		exit(-1);
+		ft_exit(-1);
 	}
 	else
 		run_builtins(cmd, command, data, 1);
@@ -129,7 +129,7 @@ int	execute_command(t_env *list, t_command *command, t_data *data, int index)
 			execute_command_part_three(command->cmd, command, data, path);
 		lst_env_clear(&data->list_env);
 		free_array(data->env);
-		exit(0);
+		ft_exit(0);
 	}
 	free(path);
 	if (data->pid[index] < 0)

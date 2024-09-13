@@ -22,7 +22,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	len = ft_strlen(s);
 	if (*s == '\0')
 		return (ft_strdup(""));
-	ptr = (char *)malloc((len + 1) * sizeof(char));
+	ptr = (char *)ft_malloc((len + 1) * sizeof(char), g_signal.node);
 	if (ptr == NULL)
 		return (NULL);
 	ptr[len] = '\0';

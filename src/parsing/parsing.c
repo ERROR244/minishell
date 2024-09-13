@@ -16,7 +16,7 @@ char	**get_name(char *str)
 {
 	char	**name;
 
-	name = malloc(sizeof(char *) * 2);
+	name = ft_malloc(sizeof(char *) * 2, g_signal.node);
 	name[0] = ft_strdup(str);
 	name[1] = NULL;
 	return (name);
@@ -34,7 +34,7 @@ t_cmds	*last_update_in_the_list(t_cmds *head, t_cmds *list,
 			command = get_name("");
 		else
 		{
-			command = malloc(sizeof(char *) * (get_cmd_size(list) + 1));
+			command = ft_malloc(sizeof(char *) * (get_cmd_size(list) + 1), g_signal.node);
 			get_command_done(list, list, command, true);
 		}
 		new_head = copy_list(list, command, 0);

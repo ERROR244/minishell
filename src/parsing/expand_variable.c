@@ -38,7 +38,7 @@ char	**get_vars_content(char **var, char **env, char *str, int i)
 	int		k;
 
 	k = 0;
-	vars = malloc(sizeof(char *) * (array_size(var) + 1));
+	vars = ft_malloc(sizeof(char *) * (array_size(var) + 1), g_signal.node);
 	while (var[i])
 	{
 		while (str[k] && str[k] != '$')
@@ -73,7 +73,7 @@ char	*join_vars(char **vars)
 	j = 0;
 	while (vars[i])
 		size += ft_strlen(vars[i++]);
-	line = malloc(sizeof(char) * (size + 1));
+	line = ft_malloc(sizeof(char) * (size + 1), g_signal.node);
 	i = 0;
 	size = 0;
 	while (vars[i])

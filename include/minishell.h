@@ -13,7 +13,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../Libft/libft.h"
+# include "libft.h"
 # include <dirent.h>
 # include <errno.h>
 # include <limits.h>
@@ -37,7 +37,7 @@ typedef struct s_signal
 	int					ret_exit;
 	int					sig;
 	int					ff;
-
+	Node				*node;
 }						t_signal;
 
 extern t_signal			g_signal;

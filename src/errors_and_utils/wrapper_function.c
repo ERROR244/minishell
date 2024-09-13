@@ -40,7 +40,7 @@ int	ft_fork(void)
 
 	n = fork();
 	if (n == -1)
-		exit(1);
+		ft_exit(1);
 	return (n);
 }
 
@@ -50,7 +50,7 @@ void	ft_dup2(int fd, int std)
 
 	n = dup2(fd, std);
 	if (n == -1)
-		exit(1);
+		ft_exit(1);
 }
 
 void	ft_clear(t_data *data)

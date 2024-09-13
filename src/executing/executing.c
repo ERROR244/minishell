@@ -87,7 +87,7 @@ void	only_builtins(t_data *data, t_command *list, int builtins)
 void	with_pipe(t_data *data, t_command *list)
 {
 	data->k = 0;
-	data->pid = malloc(sizeof(int) * (get_command_size(list)));
+	data->pid = ft_malloc(sizeof(int) * (get_command_size(list)), g_signal.node);
 	data->fd_in = STDIN_FILENO;
 	while (list)
 	{

@@ -70,9 +70,9 @@ char	**linked_list_to_array(t_env *list)
 
 	i = 0;
 	count = count_nodes(list);
-	array = (char **)malloc((count + 1) * sizeof(char *));
+	array = (char **)ft_malloc((count + 1) * sizeof(char *), g_signal.node);
 	if (array == NULL)
-		exit(EXIT_FAILURE);
+		ft_exit(EXIT_FAILURE);
 	current = list;
 	while (i < count)
 	{

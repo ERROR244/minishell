@@ -64,7 +64,7 @@ char	**creat_myenv(void)
 	char	**ptr;
 	char	buffer[PATH_MAX];
 
-	ptr = (char **)malloc((4) * sizeof(char *));
+	ptr = (char **)ft_malloc((4) * sizeof(char *), g_signal.node);
 	if (!ptr)
 		exit_error();
 	ptr[0] = ft_strjoin("PWD=", getcwd(buffer, PATH_MAX));

@@ -19,7 +19,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 
 	if (size != 0 && nmemb > ((size_t) -1 / size))
 		return (NULL);
-	ptr = (void *)malloc(nmemb * size);
+	ptr = (void *)ft_malloc(nmemb * size, g_signal.node);
 	if (ptr == NULL)
 		return (NULL);
 	else

@@ -17,7 +17,7 @@ t_slist	*node_new(t_slist *lst, char *str, t_token token)
 	t_slist	*n_node;
 	t_slist	*last_node;
 
-	n_node = (t_slist *)malloc(sizeof(struct s_slist));
+	n_node = (t_slist *)ft_malloc(sizeof(struct s_slist), g_signal.node);
 	if (n_node == NULL)
 		return (NULL);
 	n_node->cmd = str;
@@ -56,7 +56,7 @@ char	**array_copy(char **str)
 		return (NULL);
 	while (str[i])
 		i++;
-	ptr = malloc(sizeof(char *) * (i + 1));
+	ptr = ft_malloc(sizeof(char *) * (i + 1), g_signal.node);
 	i = 0;
 	while (str[i])
 	{

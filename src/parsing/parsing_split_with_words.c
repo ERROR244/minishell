@@ -19,7 +19,7 @@ static char	*dup_size(char *s, size_t n)
 
 	if (!s)
 		return (NULL);
-	dup = (char *)malloc((n + 1) * sizeof(char));
+	dup = (char *)ft_malloc((n + 1) * sizeof(char), g_signal.node);
 	if (dup != NULL)
 	{
 		i = 0;
@@ -125,7 +125,7 @@ char	**ft_split_str(char *s1)
 	word_count = count_vars(s1);
 	if (word_count == 0)
 		return (NULL);
-	ptr = malloc((word_count + 2) * sizeof(char *));
+	ptr = ft_malloc((word_count + 2) * sizeof(char *), g_signal.node);
 	if (ptr == NULL)
 	{
 		return (NULL);

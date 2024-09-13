@@ -21,6 +21,7 @@ SRCS = 	Libft/ft_split.c\
 		Libft/ft_strchr.c\
 		Libft/ft_itoa.c\
 		Libft/ft_atoi.c\
+		Libft/GC.c\
 		src/minishell.c\
 		src/parsing/expand_variable.c\
 		src/parsing/open_heredoc.c\
@@ -77,5 +78,9 @@ fclean :
 		@$(RM) $(OBJ) $(NAME)
 
 re : fclean all
+
+leak: all
+	valgrind --leak-check=full \
+	--show-leak-kinds=all --track-fds=all --trace-children=yes ./$(NAME)
 
 .SECONDARY : ${OBJ}

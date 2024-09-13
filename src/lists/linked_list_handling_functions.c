@@ -94,7 +94,7 @@ t_cmds	*lstnew(char *cmd, t_cmds *lst, char **str)
 	t_cmds	*n_node;
 	t_cmds	*last_node;
 
-	n_node = (t_cmds *)malloc(sizeof(struct s_cmds));
+	n_node = (t_cmds *)ft_malloc(sizeof(struct s_cmds), g_signal.node);
 	if (n_node == NULL)
 		return (NULL);
 	if (cmd)
@@ -158,7 +158,7 @@ t_command	*command_new(t_command *lst)
 	t_command	*n_node;
 	t_command	*last_node;
 
-	n_node = (t_command *)malloc(sizeof(struct s_command));
+	n_node = (t_command *)ft_malloc(sizeof(struct s_command), g_signal.node);
 	if (n_node == NULL)
 		return (NULL);
 	n_node->cmd = NULL;

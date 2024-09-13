@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
 
 static int	count(char const *s, char c)
 {
@@ -98,7 +97,7 @@ char	**ft_split(char const *s, char c)
 	if (s == NULL)
 		return (NULL);
 	word_count = count(s, c);
-	ptr = malloc((word_count + 1) * sizeof(char *));
+	ptr = ft_malloc((word_count + 1) * sizeof(char *), g_signal.node);
 	if (ptr == NULL)
 	{
 		return (NULL);

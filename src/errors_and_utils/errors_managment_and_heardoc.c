@@ -36,7 +36,7 @@ int	heredoc(t_cmds	*head, t_cmds	*curr, int i, int heredoc_num)
 		if (heredoc_num > 16)
 			ft_putstr_fd("minishell: maximum here-doc count exceeded\n", 2);
 		if (heredoc_num > 16)
-			exit(2);
+			ft_exit(2);
 		if (curr->token == HereDoc)
 			heredoc_num++;
 		curr = curr->next;

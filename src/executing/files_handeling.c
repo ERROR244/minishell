@@ -57,7 +57,7 @@ int	*ft_open(t_slist *list, int size, int j)
 	int	*fd;
 
 	size = get_files_num(list);
-	fd = malloc((size + 1) * (sizeof(int)));
+	fd = ft_malloc((size + 1) * (sizeof(int)), g_signal.node);
 	fd[size] = -11;
 	while (list)
 	{

@@ -55,7 +55,7 @@ char	*ft_itoa(int n)
 		n /= 10;
 		x++;
 	}
-	ptr = (char *)malloc((x + 1) * sizeof(char));
+	ptr = (char *)ft_malloc((x + 1) * sizeof(char), g_signal.node);
 	if (ptr == NULL)
 		return (NULL);
 	ptr[x] = '\0';

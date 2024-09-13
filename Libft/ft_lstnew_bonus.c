@@ -16,7 +16,7 @@ t_list	*ft_lstnew(void *content)
 {
 	t_list	*n_node;
 
-	n_node = (t_list *)malloc(sizeof(struct s_list));
+	n_node = (t_list *)ft_malloc(sizeof(struct s_list), g_signal.node);
 	if (n_node == NULL)
 		return (NULL);
 	n_node->content = content;

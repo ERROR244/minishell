@@ -88,7 +88,7 @@ void	init_line_data(t_line *line_data, char **lines, char **vars, char *cmd)
 	line_data->k = 0;
 	line_data->size = 0;
 	line_data->pos = 0;
-	line_data->line = malloc(sizeof(char) * (get_2d_size(vars, lines) + 1));
+	line_data->line = ft_malloc(sizeof(char) * (get_2d_size(vars, lines) + 1), g_signal.node);
 	cmd_check(cmd);
 }
 

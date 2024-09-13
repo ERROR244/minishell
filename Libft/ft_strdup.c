@@ -22,7 +22,7 @@ char	*ft_strdup(const char *s)
 	len = ft_strlen(s);
 	i = 0;
 	k = 0;
-	ptr = (char *)malloc((len + 1) * sizeof(char));
+	ptr = (char *)ft_malloc((len + 1) * sizeof(char), g_signal.node);
 	if (ptr == NULL)
 		return (NULL);
 	while (i < len)

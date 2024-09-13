@@ -22,7 +22,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	if (start >= ft_strlen(s))
 	{
-		ptr = (char *)malloc(1 * sizeof(char));
+		ptr = (char *)ft_malloc(1 * sizeof(char), g_signal.node);
 		if (ptr == NULL)
 			return (NULL);
 		*ptr = '\0';
@@ -30,7 +30,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	if (len > ft_strlen(s) - start)
 		len = ft_strlen(s) - start;
-	ptr = (char *)malloc((len + 1) * sizeof(char));
+	ptr = (char *)ft_malloc((len + 1) * sizeof(char), g_signal.node);
 	if (ptr == NULL)
 		return (NULL);
 	while (s[start] && i < len)

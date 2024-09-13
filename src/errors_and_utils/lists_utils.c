@@ -16,7 +16,7 @@ t_cmds	*copy_node(char **cmd, t_token token, bool flag)
 {
 	t_cmds	*new_node;
 
-	new_node = (t_cmds *)malloc(sizeof(t_cmds));
+	new_node = (t_cmds *)ft_malloc(sizeof(t_cmds), g_signal.node);
 	if (flag == true)
 		new_node->cmd = cmd;
 	else

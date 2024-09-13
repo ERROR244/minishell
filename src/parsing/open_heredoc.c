@@ -16,7 +16,7 @@ void	signal_herd(int pid)
 {
 	(void)pid;
 	printf("\n");
-	exit(130);
+	ft_exit(130);
 }
 
 int	print_error(int k, char *str)
@@ -70,7 +70,7 @@ void	child(char *line, t_cmds *cmds, bool flag)
 		line = readline(">");
 	}
 	close(fd);
-	exit(0);
+	ft_exit(0);
 }
 
 int	open_heredoc(t_cmds *cmds, int pid, int status, bool flag)

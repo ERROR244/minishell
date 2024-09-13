@@ -134,7 +134,7 @@ char	*ndup(const char *s, size_t n)
 
 	if (!s)
 		return (NULL);
-	dup = (char *)malloc((n + 1) * sizeof(char));
+	dup = (char *)ft_malloc((n + 1) * sizeof(char), g_signal.node);
 	if (dup != NULL)
 	{
 		i = 0;
@@ -156,7 +156,7 @@ char	**ft_split_msh(char const *s)
 	if (s == NULL)
 		return (NULL);
 	word_count = count_words(s, 0, 0) - inside(s);
-	ptr = malloc((word_count + 1) * sizeof(char *));
+	ptr = ft_malloc((word_count + 1) * sizeof(char *), g_signal.node);
 	if (ptr == NULL)
 	{
 		return (NULL);

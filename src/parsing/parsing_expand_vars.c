@@ -26,7 +26,7 @@ char	*grep_variable_name(char *line, int i, int j, int k)
 	while (line[i] && ft_isalnum(line[i]) == 1)
 		i++;
 	k = i - j;
-	str = malloc(sizeof(char) * (k + 1));
+	str = ft_malloc(sizeof(char) * (k + 1), g_signal.node);
 	if (!str)
 		return (NULL);
 	while (l < k)

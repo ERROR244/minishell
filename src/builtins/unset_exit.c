@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+void ft_exit(int e)
+{
+	deleteList(g_signal.node);
+	exit(e);
+}
+
 int	is_exitnumeric(char *str)
 {
 	while (*str)
@@ -30,13 +36,13 @@ void	exit_from_child(char **com)
 
 	size = ft_strlen(com[1]);
 	if (com[1] == NULL)
-		exit(g_signal.ret_exit);
+		ft_exit(g_signal.ret_exit);
 	else if (is_exitnumeric(com[1]) != 0 || size > 19 || (size == 19 && com[1][18] > '7'))
 	{
 		printf("minishell: ");
 		printf(com[1], 2);
 		printf(": numeric argument required\n");
-		exit(2);
+		ft_exit(2);
 	}
 	else if (com[1] && com[2])
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
@@ -44,7 +50,7 @@ void	exit_from_child(char **com)
 	{
 		i = ft_atoi(com[1]);
 		g_signal.ret = i;
-		exit((int)i);
+		ft_exit((int)i);
 	}
 }
 
@@ -59,14 +65,14 @@ void	exit_myminishell(char **com, int flag)
 	else if (com[1] == NULL)
 	{
 		printf("exit\n");
-		exit(g_signal.ret_exit);
+		ft_exit(g_signal.ret_exit);
 	}
 	else if (is_exitnumeric(com[1]) != 0 || size > 19 || (size == 19 && com[1][18] > '7'))
 	{
 		printf("minishell: ");
 		printf(com[1], 2);
 		printf(": numeric argument required\n");
-		exit(2);
+		ft_exit(2);
 	}
 	else if (com[1] && com[2])
 		printf("minishell: exit: too many arguments\n");
@@ -75,7 +81,7 @@ void	exit_myminishell(char **com, int flag)
 		i = ft_atoi(com[1]);
 		printf("exit\n");
 		g_signal.ret = i;
-		exit((int)i);
+		ft_exit((int)i);
 	}
 }
 

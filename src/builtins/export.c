@@ -90,7 +90,7 @@ char	*fill_var(char *var, char *c)
 	int		j;
 
 	*c = '+';
-	str = malloc(sizeof(char) * ft_strlen(var));
+	str = ft_malloc(sizeof(char) * ft_strlen(var), g_signal.node);
 	j = -1;
 	while (++j >= 0 && var[j] != '+')
 		str[j] = var[j];

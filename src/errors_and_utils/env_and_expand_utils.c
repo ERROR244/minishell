@@ -66,7 +66,7 @@ char	*ft_strjoin3(char const *s1, char c, char const *s2)
 		return (ft_strdup((char *)s1));
 	if (s1 == NULL && s2 == NULL)
 		return (NULL);
-	ptr = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 2) * sizeof(char));
+	ptr = (char *)ft_malloc((ft_strlen(s1) + ft_strlen(s2) + 2) * sizeof(char), g_signal.node);
 	if (ptr == 0)
 		return (0);
 	i = 0;

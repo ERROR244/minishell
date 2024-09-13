@@ -17,7 +17,7 @@ t_env	*env_new(t_env *lst, char *str)
 	t_env	*n_node;
 	t_env	*last_node;
 
-	n_node = (t_env *)malloc(sizeof(struct s_env));
+	n_node = (t_env *)ft_malloc(sizeof(struct s_env), g_signal.node);
 	if (n_node == NULL)
 		return (NULL);
 	n_node->var_name = str;

@@ -73,7 +73,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	l = 0;
 	if (a < 0)
 		a = 0;
-	ptr = (char *)malloc((a + 1) * sizeof(char));
+	ptr = (char *)ft_malloc((a + 1) * sizeof(char), g_signal.node);
 	if (ptr == NULL)
 		return (NULL);
 	while (l < a)

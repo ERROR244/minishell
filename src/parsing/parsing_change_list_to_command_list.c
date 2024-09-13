@@ -44,7 +44,7 @@ char	*get_string(char *s, size_t i, size_t k, size_t size)
 	char	*ptr;
 	char	tmp;
 
-	ptr = malloc(sizeof(char) * (size + 1));
+	ptr = ft_malloc(sizeof(char) * (size + 1), g_signal.node);
 	while (k < size)
 	{
 		while ((s[i] == '\'' && s[i + 1] && s[i + 1] != '\'')
