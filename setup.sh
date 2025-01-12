@@ -2,7 +2,6 @@
 
 # Update and upgrade the system
 sudo apt update && sudo apt upgrade -y
-
 # Install zsh, git, wget, and curl
 sudo apt install -y zsh git wget curl vim
 
@@ -27,10 +26,5 @@ echo "Your SSH public key is:"
 cat ~/.ssh/id_ed25519.pub
 echo "Add this key to your GitHub account: https://github.com/settings/keys"
 
-# Add user 'nano' to the sudo group
-sudo usermod -aG sudo nano
-
-# Set zsh as the default shell for the current user
-chsh -s $(which zsh)
 
 echo "Installation and setup complete!"
